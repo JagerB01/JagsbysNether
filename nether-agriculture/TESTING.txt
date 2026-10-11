@@ -1,0 +1,44 @@
+Nether Agriculture v0.1.0 — First Bedrock Test Build
+
+1. Import Nether_Agriculture_v0.1.0.mcaddon into Bedrock 1.21.100 or newer.
+   Activate both the Behavior and Resource packs on a disposable world.
+   Enable cheats for the starter-kit command. Beta APIs are not required.
+   If import or scripts fail, capture the Content Log errors.
+
+2. Enter the Nether and run:
+   /scriptevent jagsby_nether:kit
+
+3. Make a small soul-soil bed and safely contain lava beside it at soil height.
+   Hoe the top of the soul soil. Farmland within four horizontal blocks of lava
+   should become heated and show the heated texture. Lava below the soil does
+   not count. Soil without nearby lava should eventually revert to soul soil.
+
+4. Plant Rye Seeds, Polyps and Murky Seeds on the farmland; plant Scarberries
+   on soul soil, netherrack or nylium. Check sprites, selection boxes and names.
+   Plants cannot be placed outside the Nether with their planting items.
+
+5. Try ordinary bone meal (no growth) and Wither Bone Meal (crop advancement).
+   Switch to survival to check fertilizer consumption and hoe durability.
+   Break mature Rye and Polyps and verify the harvested items. Ripe Scarberry
+   bushes should yield berries when interacted with, then regrow from stage one.
+
+6. Leave a clear space next to a mature gourd stem with Nether ground below it.
+   Wait for fruit, break it, and confirm the stem can fruit again. It must not
+   replace an existing block. Shear a gourd to get a carved gourd and four seeds.
+
+7. Test recipes and food in survival. Three Rye craft Rye Bread; three Blistered
+   Rye craft Blistered Rye Bread. Scarberries + glass bottle craft a Scarberry
+   Bottle. A Polyp should cook into a Baked Polyp. A gourd + redstone + egg make
+   Murky Pie. Check fire resistance from Blistered Rye Bread and glass bottle
+   return/Wither removal from Scarberry Bottle.
+
+8. Optional: inspect the rare Blistered Rye crop without waiting for mutation:
+   /setblock ~ ~ ~ jagsby_nether:blistered_rye_crop
+   Run this above Soul Soil Farmland in the Nether, then break the crop.
+
+9. Reload the world and confirm pack activation and scripts still work. If
+   testing with Nether Settlements, activate its pack too; this first crop port
+   does not replace settlement farms or automatically populate them with crops.
+
+Natural crop patches, bush contact damage, farmland trampling/scorching, custom
+tools, custom brewing and End content are not included in this first test build.

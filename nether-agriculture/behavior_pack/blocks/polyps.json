@@ -1,0 +1,182 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:block": {
+    "description": {
+      "identifier": "jagsby_nether:polyps",
+      "menu_category": {
+        "category": "none"
+      },
+      "states": {
+        "jagsby_nether:age": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      }
+    },
+    "components": {
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 0
+      },
+      "minecraft:collision_box": false,
+      "minecraft:selection_box": {
+        "origin": [
+          -7,
+          0,
+          -7
+        ],
+        "size": [
+          14,
+          16,
+          14
+        ]
+      },
+      "minecraft:geometry": "geometry.jagsby_nether.crop",
+      "minecraft:light_dampening": 0,
+      "minecraft:placement_filter": {
+        "conditions": [
+          {
+            "allowed_faces": [
+              "up"
+            ],
+            "block_filter": [
+              "jagsby_nether:soul_soil_farmland"
+            ]
+          }
+        ]
+      },
+      "jagsby_nether:crop": {},
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "jagsby_nether_polyps_stage0",
+          "render_method": "alpha_test",
+          "ambient_occlusion": false,
+          "face_dimming": false
+        }
+      },
+      "minecraft:loot": "loot_tables/blocks/polyps_0.json"
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_polyps_stage0",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/polyps_0.json"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_polyps_stage0",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/polyps_1.json"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_polyps_stage1",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/polyps_2.json"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_polyps_stage1",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/polyps_3.json"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_polyps_stage2",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/polyps_4.json"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 5",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_polyps_stage2",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/polyps_5.json"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 6",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_polyps_stage3",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/polyps_6.json"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 7",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_polyps_stage3",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/polyps_7.json"
+        }
+      }
+    ]
+  }
+}

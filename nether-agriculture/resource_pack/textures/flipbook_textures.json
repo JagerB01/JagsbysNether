@@ -1,0 +1,12 @@
+[
+  {
+    "flipbook_texture": "textures/blocks/soul_soil_farmland_heated_animated",
+    "atlas_tile": "jagsby_nether_soul_soil_farmland_heated",
+    "ticks_per_frame": 8,
+    "frames": [
+      0,
+      1,
+      2
+    ]
+  }
+]

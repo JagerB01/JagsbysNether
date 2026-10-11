@@ -1,0 +1,10 @@
+{
+  "name": "jagsby-nether-agriculture",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --import ./tests/register-mock.mjs --test tests/*.test.mjs",
+    "build": "python3 tools/build.py"
+  }
+}

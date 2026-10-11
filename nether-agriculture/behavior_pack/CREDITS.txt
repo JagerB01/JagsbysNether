@@ -1,0 +1,8 @@
+Original mod: SuitedLlama's Agriculture Progression 1.0.1 for Java 1.16.4.
+Author: SuitedLlama
+Creator homepage (from supplied JAR): https://twitter.com/SuitedLlama
+Bedrock adaptation: Jagsby's Nether Agriculture, v0.1.0, personal test build.
+Crop artwork copied from the user-supplied JAR; mechanics adapted for Bedrock.
+The JAR's fabric.mod.json declares CC BY-NC-SA 3.0, while its bundled LICENSE_agriculture-progression contains CC0 1.0. Both declarations are preserved here. Public redistribution terms have not been resolved.
+CC BY-NC-SA 3.0: https://creativecommons.org/licenses/by-nc-sa/3.0/
+Input SHA-256: 39797b4427e07141f2d2513058c2ba4ece973d3c40df04d604c634c83bf8908a

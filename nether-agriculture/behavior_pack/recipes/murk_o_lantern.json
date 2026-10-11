@@ -1,0 +1,26 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "jagsby_nether:murk_o_lantern"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "result": {
+      "item": "jagsby_nether:murk_o_lantern"
+    },
+    "pattern": [
+      "A",
+      "B"
+    ],
+    "key": {
+      "A": {
+        "item": "jagsby_nether:carved_murky_gourd"
+      },
+      "B": {
+        "item": "minecraft:soul_torch"
+      }
+    }
+  }
+}

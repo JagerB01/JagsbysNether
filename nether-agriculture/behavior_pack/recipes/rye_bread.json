@@ -1,0 +1,22 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "jagsby_nether:rye_bread"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "result": {
+      "item": "jagsby_nether:rye_bread"
+    },
+    "pattern": [
+      "###"
+    ],
+    "key": {
+      "#": {
+        "item": "jagsby_nether:rye"
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:block": {
+    "description": {
+      "identifier": "jagsby_nether:blistered_rye_crop",
+      "menu_category": {
+        "category": "none"
+      }
+    },
+    "components": {
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 0
+      },
+      "minecraft:collision_box": false,
+      "minecraft:selection_box": {
+        "origin": [
+          -7,
+          0,
+          -7
+        ],
+        "size": [
+          14,
+          16,
+          14
+        ]
+      },
+      "minecraft:geometry": "geometry.jagsby_nether.crop",
+      "minecraft:light_dampening": 0,
+      "minecraft:placement_filter": {
+        "conditions": [
+          {
+            "allowed_faces": [
+              "up"
+            ],
+            "block_filter": [
+              "jagsby_nether:soul_soil_farmland"
+            ]
+          }
+        ]
+      },
+      "jagsby_nether:crop": {},
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "jagsby_nether_blistered_rye",
+          "render_method": "alpha_test",
+          "ambient_occlusion": false,
+          "face_dimming": false
+        }
+      },
+      "minecraft:loot": "loot_tables/blocks/blistered_rye_crop.json",
+      "minecraft:light_emission": 2
+    }
+  }
+}

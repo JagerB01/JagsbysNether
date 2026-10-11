@@ -1,0 +1,95 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:block": {
+    "description": {
+      "identifier": "jagsby_nether:murk_o_lantern",
+      "menu_category": {
+        "category": "nature"
+      },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": [
+            "minecraft:cardinal_direction"
+          ],
+          "y_rotation_offset": 180
+        }
+      }
+    },
+    "components": {
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.5
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 1
+      },
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:light_dampening": 15,
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "jagsby_nether_murky_gourd_side",
+          "render_method": "opaque",
+          "ambient_occlusion": true,
+          "face_dimming": true
+        },
+        "up": {
+          "texture": "jagsby_nether_murky_gourd_top",
+          "render_method": "opaque",
+          "ambient_occlusion": true,
+          "face_dimming": true
+        },
+        "down": {
+          "texture": "jagsby_nether_murky_gourd_top",
+          "render_method": "opaque",
+          "ambient_occlusion": true,
+          "face_dimming": true
+        },
+        "north": {
+          "texture": "jagsby_nether_murk_o_lantern",
+          "render_method": "opaque",
+          "ambient_occlusion": true,
+          "face_dimming": true
+        }
+      },
+      "minecraft:loot": "loot_tables/blocks/murk_o_lantern.json",
+      "minecraft:light_emission": 10
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              270,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

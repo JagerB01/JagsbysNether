@@ -1,0 +1,214 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:block": {
+    "description": {
+      "identifier": "jagsby_nether:murky_gourd_stem",
+      "menu_category": {
+        "category": "none"
+      },
+      "states": {
+        "jagsby_nether:age": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "jagsby_nether:attached": [
+          false,
+          true
+        ],
+        "jagsby_nether:facing": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "components": {
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 0
+      },
+      "minecraft:collision_box": false,
+      "minecraft:selection_box": {
+        "origin": [
+          -7,
+          0,
+          -7
+        ],
+        "size": [
+          14,
+          16,
+          14
+        ]
+      },
+      "minecraft:geometry": "geometry.jagsby_nether.stem_0",
+      "minecraft:light_dampening": 0,
+      "minecraft:placement_filter": {
+        "conditions": [
+          {
+            "allowed_faces": [
+              "up"
+            ],
+            "block_filter": [
+              "jagsby_nether:soul_soil_farmland"
+            ]
+          }
+        ]
+      },
+      "jagsby_nether:crop": {},
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "jagsby_nether_murky_gourd_stem",
+          "render_method": "alpha_test",
+          "ambient_occlusion": false,
+          "face_dimming": false
+        }
+      },
+      "minecraft:loot": "loot_tables/blocks/murky_gourd_stem_0.json"
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_murky_gourd_stem",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/murky_gourd_stem_0.json",
+          "minecraft:geometry": "geometry.jagsby_nether.stem_0"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_murky_gourd_stem",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/murky_gourd_stem_1.json",
+          "minecraft:geometry": "geometry.jagsby_nether.stem_1"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_murky_gourd_stem",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/murky_gourd_stem_2.json",
+          "minecraft:geometry": "geometry.jagsby_nether.stem_2"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_murky_gourd_stem",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/murky_gourd_stem_3.json",
+          "minecraft:geometry": "geometry.jagsby_nether.stem_3"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_murky_gourd_stem",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/murky_gourd_stem_4.json",
+          "minecraft:geometry": "geometry.jagsby_nether.stem_4"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 5",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_murky_gourd_stem",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/murky_gourd_stem_5.json",
+          "minecraft:geometry": "geometry.jagsby_nether.stem_5"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 6",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_murky_gourd_stem",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/murky_gourd_stem_6.json",
+          "minecraft:geometry": "geometry.jagsby_nether.stem_6"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:age') == 7",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_murky_gourd_stem",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          },
+          "minecraft:loot": "loot_tables/blocks/murky_gourd_stem_7.json",
+          "minecraft:geometry": "geometry.jagsby_nether.stem_7"
+        }
+      },
+      {
+        "condition": "q.block_state('jagsby_nether:attached')",
+        "components": {
+          "minecraft:geometry": "geometry.jagsby_nether.crop",
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_attached_murky_gourd_stem",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      }
+    ]
+  }
+}

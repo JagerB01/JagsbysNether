@@ -1,0 +1,13 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_furnace": {
+    "description": {
+      "identifier": "jagsby_nether:baked_polyp_furnace"
+    },
+    "tags": [
+      "furnace"
+    ],
+    "input": "jagsby_nether:polyp",
+    "output": "jagsby_nether:baked_polyp"
+  }
+}

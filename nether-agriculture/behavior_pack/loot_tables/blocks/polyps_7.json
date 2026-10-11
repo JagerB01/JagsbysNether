@@ -1,0 +1,37 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "jagsby_nether:polyp",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 5
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "jagsby_nether:wither_polyp",
+          "conditions": [
+            {
+              "condition": "random_chance",
+              "chance": 0.02
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

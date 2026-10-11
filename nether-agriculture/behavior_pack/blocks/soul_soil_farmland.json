@@ -1,0 +1,87 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:block": {
+    "description": {
+      "identifier": "jagsby_nether:soul_soil_farmland",
+      "menu_category": {
+        "category": "nature"
+      },
+      "states": {
+        "jagsby_nether:heated": [
+          false,
+          true
+        ]
+      }
+    },
+    "components": {
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.5
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 1
+      },
+      "minecraft:geometry": "geometry.jagsby_nether.farmland",
+      "minecraft:light_dampening": 15,
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "soul_soil",
+          "render_method": "opaque"
+        },
+        "up": {
+          "texture": "jagsby_nether_soul_soil_farmland",
+          "render_method": "opaque",
+          "ambient_occlusion": true,
+          "face_dimming": true
+        }
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          15,
+          16
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          15,
+          16
+        ]
+      },
+      "minecraft:loot": "loot_tables/blocks/soul_soil_farmland.json",
+      "jagsby_nether:farmland": {}
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('jagsby_nether:heated')",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_nether_soul_soil_farmland_heated_side",
+              "render_method": "opaque",
+              "ambient_occlusion": true,
+              "face_dimming": true
+            },
+            "up": {
+              "texture": "jagsby_nether_soul_soil_farmland_heated",
+              "render_method": "opaque",
+              "ambient_occlusion": true,
+              "face_dimming": true
+            }
+          },
+          "minecraft:light_emission": 3
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:item": {
+    "description": {
+      "identifier": "jagsby_nether:blistered_rye",
+      "menu_category": {
+        "category": "nature"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "item.jagsby_nether:blistered_rye.name"
+      },
+      "minecraft:icon": {
+        "textures": {
+          "default": "jagsby_nether_blistered_rye"
+        }
+      },
+      "minecraft:max_stack_size": 64
+    }
+  }
+}

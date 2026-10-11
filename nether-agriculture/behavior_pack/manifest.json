@@ -1,0 +1,54 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Nether Agriculture v0.1.0 Behavior",
+    "description": "Nether crops port of SuitedLlama's Agriculture Progression. Personal test build.",
+    "uuid": "b6b38645-b8b3-5d7b-98d0-18a78ea42226",
+    "version": [
+      0,
+      1,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      21,
+      100
+    ]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "f03eac93-1e87-5310-ba85-8e5f46b5ebf7",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "07862fce-e859-5b08-86b7-41b7f8ec9962",
+      "version": [
+        0,
+        1,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "694d991b-f87e-5432-b239-f1e03fb73608",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.0.0"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:block": {
+    "description": {
+      "identifier": "jagsby_nether:rye_block",
+      "menu_category": {
+        "category": "nature"
+      }
+    },
+    "components": {
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.5
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 1
+      },
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:light_dampening": 15,
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "jagsby_nether_rye_block_side",
+          "render_method": "opaque",
+          "ambient_occlusion": true,
+          "face_dimming": true
+        },
+        "up": {
+          "texture": "jagsby_nether_rye_block_top",
+          "render_method": "opaque",
+          "ambient_occlusion": true,
+          "face_dimming": true
+        },
+        "down": {
+          "texture": "jagsby_nether_rye_block_top",
+          "render_method": "opaque",
+          "ambient_occlusion": true,
+          "face_dimming": true
+        }
+      },
+      "minecraft:loot": "loot_tables/blocks/rye_block.json"
+    }
+  }
+}

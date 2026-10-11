@@ -1,0 +1,48 @@
+{
+  "resource_pack_name": "jagsby_nether_agriculture",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "jagsby_nether_rye_seeds": {
+      "textures": "textures/items/rye_seeds"
+    },
+    "jagsby_nether_rye": {
+      "textures": "textures/items/rye"
+    },
+    "jagsby_nether_blistered_rye": {
+      "textures": "textures/items/blistered_rye"
+    },
+    "jagsby_nether_rye_bread": {
+      "textures": "textures/items/rye_bread"
+    },
+    "jagsby_nether_blistered_rye_bread": {
+      "textures": "textures/items/blistered_rye_bread"
+    },
+    "jagsby_nether_scarberries": {
+      "textures": "textures/items/scarberries"
+    },
+    "jagsby_nether_scarberry_bottle": {
+      "textures": "textures/items/scarberry_bottle"
+    },
+    "jagsby_nether_polyp": {
+      "textures": "textures/items/polyp"
+    },
+    "jagsby_nether_baked_polyp": {
+      "textures": "textures/items/baked_polyp"
+    },
+    "jagsby_nether_wither_polyp": {
+      "textures": "textures/items/wither_polyp"
+    },
+    "jagsby_nether_murky_seeds": {
+      "textures": "textures/items/murky_seeds"
+    },
+    "jagsby_nether_murky_pie": {
+      "textures": "textures/items/murky_pie"
+    },
+    "jagsby_nether_wither_bone": {
+      "textures": "textures/items/wither_bone"
+    },
+    "jagsby_nether_wither_bone_meal": {
+      "textures": "textures/items/wither_bone_meal"
+    }
+  }
+}

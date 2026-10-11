@@ -1,0 +1,27 @@
+## Original names and artwork: SuitedLlama, Agriculture Progression.
+item.jagsby_nether:rye_seeds.name=Rye Seeds
+item.jagsby_nether:rye.name=Rye
+item.jagsby_nether:blistered_rye.name=Blistered Rye
+item.jagsby_nether:rye_bread.name=Rye Bread
+item.jagsby_nether:blistered_rye_bread.name=Blistered Rye Bread
+item.jagsby_nether:scarberries.name=Scarberries
+item.jagsby_nether:scarberry_bottle.name=Scarberry Bottle
+item.jagsby_nether:polyp.name=Polyp
+item.jagsby_nether:baked_polyp.name=Baked Polyp
+item.jagsby_nether:wither_polyp.name=Wither Polyp
+item.jagsby_nether:murky_seeds.name=Murky Seeds
+item.jagsby_nether:murky_pie.name=Murky Pie
+item.jagsby_nether:wither_bone.name=Wither Bone
+item.jagsby_nether:wither_bone_meal.name=Wither Bone Meal
+tile.jagsby_nether:murky_gourd.name=Murky Gourd
+tile.jagsby_nether:rye_block.name=Rye Bale
+tile.jagsby_nether:blistered_rye_block.name=Blistered Rye Bale
+tile.jagsby_nether:wither_bone_block.name=Wither Bone Block
+tile.jagsby_nether:carved_murky_gourd.name=Carved Murky Gourd
+tile.jagsby_nether:murk_o_lantern.name=Murk O' Lantern
+tile.jagsby_nether:soul_soil_farmland.name=Soul Soil Farmland
+tile.jagsby_nether:rye_crop.name=Rye
+tile.jagsby_nether:polyps.name=Polyps
+tile.jagsby_nether:scarberry_bush.name=Scarberry Bush
+tile.jagsby_nether:murky_gourd_stem.name=Murky Gourd Stem
+tile.jagsby_nether:blistered_rye_crop.name=Blistered Rye

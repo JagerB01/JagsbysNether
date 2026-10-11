@@ -1,0 +1,32 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:item": {
+    "description": {
+      "identifier": "jagsby_nether:baked_polyp",
+      "menu_category": {
+        "category": "nature"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "item.jagsby_nether:baked_polyp.name"
+      },
+      "minecraft:icon": {
+        "textures": {
+          "default": "jagsby_nether_baked_polyp"
+        }
+      },
+      "minecraft:max_stack_size": 64,
+      "minecraft:food": {
+        "nutrition": 6,
+        "saturation_modifier": 0.6,
+        "can_always_eat": false
+      },
+      "minecraft:use_modifiers": {
+        "use_duration": 1.6,
+        "movement_modifier": 0.35
+      },
+      "minecraft:use_animation": "eat"
+    }
+  }
+}

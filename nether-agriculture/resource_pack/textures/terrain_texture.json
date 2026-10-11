@@ -1,0 +1,104 @@
+{
+  "resource_pack_name": "jagsby_nether_agriculture",
+  "texture_name": "atlas.terrain",
+  "padding": 8,
+  "num_mip_levels": 4,
+  "texture_data": {
+    "jagsby_nether_soul_soil_farmland": {
+      "textures": "textures/blocks/soul_soil_farmland"
+    },
+    "jagsby_nether_soul_soil_farmland_heated": {
+      "textures": "textures/blocks/soul_soil_farmland_heated"
+    },
+    "jagsby_nether_soul_soil_farmland_heated_side": {
+      "textures": "textures/blocks/soul_soil_farmland_heated_side"
+    },
+    "jagsby_nether_blistered_rye": {
+      "textures": "textures/blocks/blistered_rye"
+    },
+    "jagsby_nether_rye_block_top": {
+      "textures": "textures/blocks/rye_block_top"
+    },
+    "jagsby_nether_rye_block_side": {
+      "textures": "textures/blocks/rye_block_side"
+    },
+    "jagsby_nether_blistered_rye_block_top": {
+      "textures": "textures/blocks/blistered_rye_block_top"
+    },
+    "jagsby_nether_blistered_rye_block_side": {
+      "textures": "textures/blocks/blistered_rye_block_side"
+    },
+    "jagsby_nether_murky_gourd_top": {
+      "textures": "textures/blocks/murky_gourd_top"
+    },
+    "jagsby_nether_murky_gourd_side": {
+      "textures": "textures/blocks/murky_gourd_side"
+    },
+    "jagsby_nether_murky_gourd_stem": {
+      "textures": "textures/blocks/murky_gourd_stem"
+    },
+    "jagsby_nether_attached_murky_gourd_stem": {
+      "textures": "textures/blocks/attached_murky_gourd_stem"
+    },
+    "jagsby_nether_carved_murky_gourd": {
+      "textures": "textures/blocks/carved_murky_gourd"
+    },
+    "jagsby_nether_murk_o_lantern": {
+      "textures": "textures/blocks/murk_o_lantern"
+    },
+    "jagsby_nether_wither_bone_block_top": {
+      "textures": "textures/blocks/wither_bone_block_top"
+    },
+    "jagsby_nether_wither_bone_block_side": {
+      "textures": "textures/blocks/wither_bone_block_side"
+    },
+    "jagsby_nether_rye_stage0": {
+      "textures": "textures/blocks/rye_stage0"
+    },
+    "jagsby_nether_rye_stage1": {
+      "textures": "textures/blocks/rye_stage1"
+    },
+    "jagsby_nether_rye_stage2": {
+      "textures": "textures/blocks/rye_stage2"
+    },
+    "jagsby_nether_rye_stage3": {
+      "textures": "textures/blocks/rye_stage3"
+    },
+    "jagsby_nether_rye_stage4": {
+      "textures": "textures/blocks/rye_stage4"
+    },
+    "jagsby_nether_rye_stage5": {
+      "textures": "textures/blocks/rye_stage5"
+    },
+    "jagsby_nether_rye_stage6": {
+      "textures": "textures/blocks/rye_stage6"
+    },
+    "jagsby_nether_rye_stage7": {
+      "textures": "textures/blocks/rye_stage7"
+    },
+    "jagsby_nether_polyps_stage0": {
+      "textures": "textures/blocks/polyps_stage0"
+    },
+    "jagsby_nether_polyps_stage1": {
+      "textures": "textures/blocks/polyps_stage1"
+    },
+    "jagsby_nether_polyps_stage2": {
+      "textures": "textures/blocks/polyps_stage2"
+    },
+    "jagsby_nether_polyps_stage3": {
+      "textures": "textures/blocks/polyps_stage3"
+    },
+    "jagsby_nether_scarberry_bush_stage0": {
+      "textures": "textures/blocks/scarberry_bush_stage0"
+    },
+    "jagsby_nether_scarberry_bush_stage1": {
+      "textures": "textures/blocks/scarberry_bush_stage1"
+    },
+    "jagsby_nether_scarberry_bush_stage2": {
+      "textures": "textures/blocks/scarberry_bush_stage2"
+    },
+    "jagsby_nether_scarberry_bush_stage3": {
+      "textures": "textures/blocks/scarberry_bush_stage3"
+    }
+  }
+}
