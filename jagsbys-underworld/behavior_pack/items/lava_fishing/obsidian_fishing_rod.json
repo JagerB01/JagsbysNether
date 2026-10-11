@@ -4,8 +4,7 @@
     "description": {
       "identifier": "jagsby_nether:obsidian_fishing_rod",
       "menu_category": {
-        "category": "equipment",
-        "group": "itemGroup.name.fishingRod"
+        "category": "equipment"
       }
     },
     "components": {
@@ -42,16 +41,11 @@
         ]
       },
       "minecraft:use_modifiers": {
-        "use_duration": 0.0,
+        "use_duration": 0.05,
         "movement_modifier": 1.0
       },
-      "minecraft:use_animation": "none",
-      "jagsby_nether:lava_fishing_rod": {},
-      "minecraft:tags": {
-        "tags": [
-          "minecraft:is_tool"
-        ]
-      }
+      "minecraft:use_animation": "bow",
+      "jagsby_nether:lava_fishing_rod": {}
     }
   }
 }

@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.5 playtest build
+# Lava fishing — v0.2.6 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -80,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.5 and confirm both pack versions and the Content Log.
+1. Import v0.2.6 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -106,11 +106,11 @@ The original fish loot tables and rod recipe are included under
 `behavior_pack/docs/lava_fishing/source_data/`. Fishing code, assets and the full
 AGPLv3 license are bundled and attributed. Other subsystem licenses are retained.
 
-## v0.2.5 revision and AdvancedFishing reference
+## v0.2.6 revision and AdvancedFishing reference
 
 The displaced custom held-rod model and pose animations have been removed.
-The rod uses the ordinary flat held-item renderer with the same tool flag and
-instant use behavior as the user-supplied AdvancedFishing rod. Its icon is the user-supplied replacement PNG. No attachment, custom hand translation or custom hand scale is used.
+The rod uses the ordinary flat held-item renderer with the tool flag and short use duration from the previously working rod
+definition. Its icon is the user-supplied replacement PNG. No attachment, custom hand translation or custom hand scale is used.
 
 AdvancedFishing by Renderphoenix and devsuki was inspected for its native-physics
 cast, surface anchor and curved world-space particle-line approach. This build
@@ -131,3 +131,12 @@ XP and durability retain the existing Java-derived rules. The original rod/cast
 textures are present, but the custom item icon remains static. Held orientation,
 particle-line continuity, cast feel and client sound still require a gameplay
 check; automated tests cannot establish those visual results.
+
+## v0.2.6 rod-definition rollback
+
+The rod item definition is restored to its previously loading v0.2.2 form:
+no added menu group or tags, a 0.05-second use duration and the working bow
+use-animation value. This rollback removes the item-level changes from the
+older AdvancedFishing reference while retaining its physics-cast approach.
+The supplied PNG, vanilla bobber, particle line, fish pools and pack-only outer
+archive are retained. Check the live Content Log to confirm item loading.
