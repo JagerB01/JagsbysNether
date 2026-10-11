@@ -1,0 +1,29 @@
+Nether Settlements v0.8.24 - Center Palette
+
+Replace v0.8.23 with this pack. Applies to newly generated settlements only;
+existing village floors are not automatically changed.
+
+Completes the netherrack-to-basalt replacement in meeting areas stored under
+houses/meeting_point_*, which the previous town_centers-only update missed.
+Original, sanitized terrain, Crimson, Warped, and retained ruined templates
+are updated. Native jigsaw floor final states and catalog floor metadata match.
+
+The surface material selector now assigns 20% smooth basalt and 80% basalt,
+up from 10% smooth basalt. Roads and center/meeting-area floors use the same
+coordinate hash; small individual pieces can vary from the overall percentage.
+Other materials, geometry, doors, connectors, layout RNG and village spacing
+are unchanged. Invisible names for piglin defenders are retained.
+
+Validated 46 center/meeting templates (46 changed): removed 629 missed netherrack cells; {'minecraft:basalt': 1773, 'minecraft:smooth_basalt': 456}; 46 native floor marker final states.
+Additional checks: all structure geometry/non-palette blocks preserved,
+NBT read/write round trips, catalog/pool asset resolution, JavaScript syntax,
+road distribution and material-hash agreement. A 262,144-coordinate road
+sample measured 19.87% smooth basalt; 128 catalog assets and 8 pools resolve.
+No live Bedrock run available.
+
+Generate NEW villages to test both themes:
+/scriptevent nether_settlements:test crimson
+/scriptevent nether_settlements:test warped
+Inspect fountains and all meeting-area variants, plus connecting roads.
+Expect no netherrack in their authored floors, and more smooth basalt.
+Natural netherrack outside the structures is unaffected.
