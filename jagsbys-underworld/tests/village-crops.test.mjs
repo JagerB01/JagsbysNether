@@ -24,7 +24,7 @@ const origin={x:100,z:200},baseY=64;
 function position(site,rotation){const [x,z]=rotate(site[0],site[2],piece.size,rotation);return {x:origin.x+x,y:baseY+site[1],z:origin.z+z};}
 test('native filters map crimson/wastes to Sorgum, warped/soul valleys to Polyps',()=>{
  const entity=JSON.parse(readFileSync(new URL('../behavior_pack/entities/crop_biome_probe.json',import.meta.url)))['minecraft:entity'];
- const mappings=entity.events['jagsby_nether:classify'].sequence.map(e=>[e.filters.any_of.map(f=>{assert.equal(f.test,'is_biome');return f.value;}),e.set_property['jagsby_nether:village_crop']]);
+ const mappings=entity.events['jagsby_nether:classify'].sequence.map(e=>[e.filters.any_of.map(f=>{assert.equal(f.test,'has_biome_tag');return f.value;}),e.set_property['jagsby_nether:village_crop']]);
  assert.deepEqual(mappings,[[['crimson_forest','nether_wastes'],1],[['warped_forest','soulsand_valley'],2]]);
  assert.equal(entity.description.properties['jagsby_nether:village_crop'].default,0);
 });

@@ -60,8 +60,28 @@ test('rod breaks at 256 damage and Creative/Unbreaking preserve durability',()=>
 test('water, blocked lava and spectators cannot cast',()=>{
  for(const which of ['water','blocked','spectator']){const f=fixture({mode:which==='spectator'?'Spectator':'Survival'}),c=createAnglingController();if(which==='water')f.lava.typeId='minecraft:water';if(which==='blocked')f.dim.getBlock=()=>({typeId:'minecraft:stone',isAir:false});assert.equal(c.use(f.player,0),false);assert.equal(f.dim.entities.length,0);}
 });
-test('undefined biome classification fails closed',()=>{
- const f=fixture(),c=createAnglingController();f.bobber.getProperty=()=>undefined;c.use(f.player,0);c.update([f.player],12);c.update([f.player],14);assert.equal(c.sessions.size,0);assert.equal(f.caught.length,0);
+test('delayed classification is retried, and missing biome data keeps common fish catchable',()=>{
+ const f=fixture(),c=createAnglingController({rng:()=>0});f.bobber.getProperty=()=>undefined;
+ c.use(f.player,0);c.update([f.player],12);c.update([f.player],14);
+ assert.equal(c.sessions.get(f.player.id).state,'classifying');
+ c.update([f.player],52);assert.equal(c.sessions.get(f.player.id).state,'waiting');
+ assert.equal(c.sessions.get(f.player.id).biome,1);
+ c.update([f.player],152);c.update([f.player],172);c.use(f.player,173);
+ assert.equal(f.caught.length,1);
+});
+test('late native biome properties select the correct pool without removing the bobber',()=>{
+ const f=fixture(),c=createAnglingController();let biome=0;f.bobber.getProperty=()=>biome;
+ c.use(f.player,0);c.update([f.player],12);c.update([f.player],14);biome=4;c.update([f.player],20);
+ assert.equal(c.sessions.get(f.player.id).biome,4);assert.equal(f.bobber.removed,0);
+});
+test('failed line synchronization does not stop fishing or remove the bobber',()=>{
+ const f=fixture(),c=createAnglingController({rng:()=>0});f.bobber.setProperty=()=>{throw Error('Visual property unavailable');};
+ bite(c,f);assert.equal(f.bobber.removed,0);c.use(f.player,135);assert.equal(f.caught.length,1);
+});
+test('cast and wait feedback remains visible before the bite',()=>{
+ const f=fixture(),c=createAnglingController({rng:()=>0}),messages=[];f.player.onScreenDisplay.setActionBar=m=>messages.push(m);
+ c.use(f.player,0);c.update([f.player],12);c.update([f.player],14);c.update([f.player],40);
+ assert(messages.some(m=>m.startsWith('Cast!')));assert(messages.some(m=>m.includes('waiting for a bite')));
 });
 test('fish food preserves native durations and scoped custom effects expire',()=>{
  const f=fixture();applyFishFood(f.player,'jagsby_nether:obsidian_sword_fish',100);applyFishFood(f.player,'jagsby_nether:flame_squat_lobster',100);
@@ -91,4 +111,26 @@ test('a level forward cast arcs down into lava below the crosshair',()=>{
 test('casting cannot pass through a solid wall or fish in water',()=>{
  const f=fixture();f.dim.getBlock=p=>p.z>=2?{typeId:'minecraft:stone',isAir:false}:{typeId:'minecraft:air',isAir:true};assert.equal(findLavaTarget(f.player),undefined);
  f.dim.getBlock=p=>p.y<=31?{typeId:'minecraft:water',isAir:false}:{typeId:'minecraft:air',isAir:true};assert.equal(findLavaTarget(f.player),undefined);
+});
+
+test('bobber and held rod use complete local render resources',()=>{
+ const controllers=json('../resource_pack/render_controllers/lava_fishing.render_controllers.json').render_controllers;
+ const client=json('../resource_pack/entity/lava_fishing/lava_bobber.entity.json')['minecraft:client_entity'].description;
+ for(const name of client.render_controllers)assert(controllers[name]);
+ const components=json('../behavior_pack/entities/lava_fishing/lava_bobber.json')['minecraft:entity'].components;
+ assert('minecraft:fire_immune' in components);assert.equal(components['minecraft:health'].value,1);
+ const held=json('../resource_pack/attachables/obsidian_fishing_rod.json')['minecraft:attachable'].description;
+ assert.equal(held.identifier,ROD);for(const name of held.render_controllers)assert(controllers[name]);
+ const geometry=json('../resource_pack/models/entity/lava_fishing/obsidian_fishing_rod.geo.json')['minecraft:geometry'][0];
+ assert.equal(geometry.description.identifier,held.geometry.default);
+ assert(geometry.bones[0].binding.includes('item_slot_to_bone_name'));
+ assert(geometry.bones[0].cubes.some(c=>c.origin[1]>10));
+});
+
+test('Nether biome classification uses native tags rather than the limited is_biome presets',()=>{
+ const entity=json('../behavior_pack/entities/lava_fishing/lava_bobber.json')['minecraft:entity'];
+ const wastes=entity.events['jagsby_nether:classify'].sequence.find(e=>e.set_property['jagsby_nether:fishing_biome']===1);
+ assert(wastes.filters.any_of.some(f=>f.test==='has_biome_tag'&&f.value==='nether_wastes'));
+ for(const entry of entity.events['jagsby_nether:classify'].sequence)for(const filter of entry.filters.any_of)assert.equal(filter.test,'has_biome_tag');
+ assert.equal(entity.components['minecraft:damage_sensor'].triggers[0].deals_damage,'no');
 });

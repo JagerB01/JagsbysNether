@@ -13,7 +13,7 @@
         "default": "geometry.jagsby_lava_bobber"
       },
       "render_controllers": [
-        "controller.render.default"
+        "controller.render.jagsby_lava_bobber"
       ],
       "animations": {
         "line": "animation.jagsby_lava_bobber.line"

@@ -18,28 +18,28 @@
         "jagsby_nether:line_length": {
           "type": "float",
           "range": [
-            0,
-            40
+            0.0,
+            40.0
           ],
-          "default": 0,
+          "default": 0.0,
           "client_sync": true
         },
         "jagsby_nether:line_yaw": {
           "type": "float",
           "range": [
-            -180,
-            180
+            -180.0,
+            180.0
           ],
-          "default": 0,
+          "default": 0.0,
           "client_sync": true
         },
         "jagsby_nether:line_pitch": {
           "type": "float",
           "range": [
-            -90,
-            90
+            -90.0,
+            90.0
           ],
-          "default": 0,
+          "default": 0.0,
           "client_sync": true
         }
       }
@@ -57,10 +57,16 @@
         "triggers": [
           {
             "cause": "all",
-            "deals_damage": false
+            "deals_damage": "no"
           }
         ]
-      }
+      },
+      "minecraft:health": {
+        "value": 1,
+        "max": 1
+      },
+      "minecraft:fire_immune": {},
+      "minecraft:persistent": {}
     },
     "component_groups": {
       "cleanup": {
@@ -91,7 +97,7 @@
             "filters": {
               "any_of": [
                 {
-                  "test": "is_biome",
+                  "test": "has_biome_tag",
                   "value": "nether_wastes"
                 }
               ]
@@ -104,11 +110,11 @@
             "filters": {
               "any_of": [
                 {
-                  "test": "is_biome",
+                  "test": "has_biome_tag",
                   "value": "crimson_forest"
                 },
                 {
-                  "test": "is_biome",
+                  "test": "has_biome_tag",
                   "value": "warped_forest"
                 }
               ]
@@ -121,7 +127,7 @@
             "filters": {
               "any_of": [
                 {
-                  "test": "is_biome",
+                  "test": "has_biome_tag",
                   "value": "soulsand_valley"
                 }
               ]
@@ -134,7 +140,7 @@
             "filters": {
               "any_of": [
                 {
-                  "test": "is_biome",
+                  "test": "has_biome_tag",
                   "value": "basalt_deltas"
                 }
               ]

@@ -141,6 +141,17 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
             assert c["minecraft:block_placer"]["block"] in blocks
         if "minecraft:food" in c:
             assert "minecraft:use_modifiers" in c
+    # Bedrock preserves JSON integer/float token types when loading actor properties.
+    # An integer default on a float rejects the entire property component.
+    bobber = load(BP / "entities/lava_fishing/lava_bobber.json")["minecraft:entity"]
+    for name, prop in bobber["description"]["properties"].items():
+        if prop["type"] == "float":
+            assert isinstance(prop["default"], float), f"Float property needs a decimal default: {name}"
+            assert all(isinstance(n, float) for n in prop["range"]), name
+    assert bobber["components"]["minecraft:damage_sensor"]["triggers"][0]["deals_damage"] == "no"
+    for entity in [bobber, load(BP / "entities/crop_biome_probe.json")["minecraft:entity"]]:
+        for event in entity["events"]["jagsby_nether:classify"]["sequence"]:
+            assert all(f["test"] == "has_biome_tag" for f in event["filters"]["any_of"])
     def references(value):
         if isinstance(value, dict):
             for key, child in value.items():

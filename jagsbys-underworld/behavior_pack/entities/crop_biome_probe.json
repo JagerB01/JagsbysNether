@@ -54,11 +54,11 @@
             "filters": {
               "any_of": [
                 {
-                  "test": "is_biome",
+                  "test": "has_biome_tag",
                   "value": "crimson_forest"
                 },
                 {
-                  "test": "is_biome",
+                  "test": "has_biome_tag",
                   "value": "nether_wastes"
                 }
               ]
@@ -71,11 +71,11 @@
             "filters": {
               "any_of": [
                 {
-                  "test": "is_biome",
+                  "test": "has_biome_tag",
                   "value": "warped_forest"
                 },
                 {
-                  "test": "is_biome",
+                  "test": "has_biome_tag",
                   "value": "soulsand_valley"
                 }
               ]

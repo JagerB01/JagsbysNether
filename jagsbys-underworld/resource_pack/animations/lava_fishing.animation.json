@@ -17,6 +17,24 @@
           ]
         }
       }
+    },
+    "animation.jagsby_obsidian_fishing_rod.hold": {
+      "loop": true,
+      "bones": {
+        "rod": {
+          "position": [
+            "context.is_first_person ? -1 : 0",
+            "context.is_first_person ? -2 : 0",
+            "context.is_first_person ? 1 : 0"
+          ],
+          "rotation": [
+            0,
+            "context.is_first_person ? -90 : 0",
+            "context.is_first_person ? 25 : 0"
+          ],
+          "scale": 0.8
+        }
+      }
     }
   }
 }

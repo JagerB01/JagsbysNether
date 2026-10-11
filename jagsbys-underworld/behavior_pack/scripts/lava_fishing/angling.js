@@ -33,7 +33,7 @@ export function findLavaTarget(player){
   if(isLava(block)){
    const location={x:Math.floor(position.x),y:Math.floor(position.y),z:Math.floor(position.z)};
    if(!read(player.dimension,{...location,y:location.y+1})?.isAir)return {stop:true};
-   return {stop:true,hit:{block:location,target:{x:position.x,y:location.y+0.9,z:position.z}}};
+   return {stop:true,hit:{block:location,target:{x:position.x,y:location.y+1.05,z:position.z}}};
   }
   return {stop:!block.isAir && !['minecraft:crimson_roots','minecraft:warped_roots','minecraft:nether_sprouts'].includes(block.typeId)};
  };
@@ -89,6 +89,7 @@ export function createAnglingController({rng=Math.random}={}){
   const start=player.getHeadLocation();
   const bobber=player.dimension.spawnEntity('jagsby_nether:lava_bobber',start);
   sessions.set(player.id,{bobber,rodId,slot:equipment.slot,dimensionId:player.dimension.id,start,target,visual:start,block,state:'casting',startTick:tick,lastUse:tick,lure:level(equipment.item,'lure')});
+  player.onScreenDisplay?.setActionBar('Cast! Waiting for a bite…');
   cue(player,'random.bow',start);return true;
  }
  function update(players,tick){
@@ -103,23 +104,32 @@ export function createAnglingController({rng=Math.random}={}){
     if(s.state==='casting'){
      const t=Math.min(1,(tick-s.startTick)/12);
      s.visual={x:s.start.x+(s.target.x-s.start.x)*t,y:s.start.y+(s.target.y-s.start.y)*t+Math.sin(t*Math.PI)*1.5,z:s.start.z+(s.target.z-s.start.z)*t};
-     s.bobber.teleport(s.visual);
-     if(t===1){s.bobber.triggerEvent('jagsby_nether:classify');s.state='classifying';s.deadline=tick+2;}
+     s.bobber.teleport(s.visual,{rotation:{x:0,y:0}});
+     if(t===1){try{s.bobber.triggerEvent('jagsby_nether:classify');}catch(error){console.warn(`[Underworld lava fishing] Biome query failed: ${error}`);}s.state='classifying';s.deadline=tick+2;s.classifyTimeout=tick+40;}
     }else if(s.state==='classifying' && tick>=s.deadline){
-     s.biome=s.bobber.getProperty('jagsby_nether:fishing_biome');
-     if(![0,1,2,3,4].includes(s.biome) || (s.dimensionId==='minecraft:nether' && s.biome===0))throw Error('Unable to classify fishing biome');
+     try{s.biome=s.bobber.getProperty('jagsby_nether:fishing_biome');}catch{s.biome=undefined;}
+     if(![0,1,2,3,4].includes(s.biome) || (s.dimensionId==='minecraft:nether' && s.biome===0)){
+      if(tick<s.classifyTimeout)continue;
+      // Biome filters can lag or be unavailable in custom biomes. Preserve
+      // the cast, using only the common fish pool until classification works.
+      s.biome=s.dimensionId==='minecraft:nether'?1:0;
+      console.warn('[Underworld lava fishing] Biome unavailable; using common fish pool.');
+     }
      s.state='waiting';s.deadline=tick+Math.max(20,range(rng,100,600)-s.lure*100);
     }else if(s.state==='waiting' && tick>=s.deadline){s.state='approaching';s.deadline=tick+range(rng,20,80);
     }else if(s.state==='approaching'){
      if(tick%5===0)particle(player.dimension,'minecraft:lava_particle',s.target);
      if(tick>=s.deadline){s.state='bite';s.deadline=tick+range(rng,20,40);cue(player,'random.splash',s.target);particle(player.dimension,'minecraft:lava_particle',s.target);player.onScreenDisplay?.setActionBar('Bite! Reel in!');}
     }else if(s.state==='bite' && tick>=s.deadline){s.state='waiting';s.deadline=tick+Math.max(20,range(rng,100,600)-s.lure*100);}
-    if(!['casting','classifying'].includes(s.state)){s.visual={...s.target,y:s.target.y+(s.state==='bite'?-0.18:Math.sin(tick/5)*0.04)};s.bobber.teleport(s.visual);}
+    if(!['casting','classifying'].includes(s.state)){s.visual={...s.target,y:s.target.y+(s.state==='bite'?-0.18:Math.sin(tick/5)*0.04)};s.bobber.teleport(s.visual,{rotation:{x:0,y:0}});}
+    if(tick%40===0 && ['classifying','waiting','approaching'].includes(s.state))player.onScreenDisplay?.setActionBar('Lava fishing: waiting for a bite…');
+    try{
     const hand=player.getHeadLocation(),dx=hand.x-s.visual.x,dy=hand.y-0.4-s.visual.y,dz=hand.z-s.visual.z;
     s.bobber.setProperty('jagsby_nether:line_length',Math.min(40,Math.hypot(dx,dy,dz)));
     s.bobber.setProperty('jagsby_nether:line_yaw',Math.atan2(dx,dz)*180/Math.PI);
     s.bobber.setProperty('jagsby_nether:line_pitch',-Math.atan2(dy,Math.hypot(dx,dz))*180/Math.PI);
-   }catch(error){console.warn(`[Underworld lava fishing] ${error}`);cancel(id);}
+    }catch(error){if(!s.lineWarning){console.warn(`[Underworld lava fishing] Line update failed: ${error}`);s.lineWarning=true;}}
+   }catch(error){console.warn(`[Underworld lava fishing] ${error}`);player?.onScreenDisplay?.setActionBar('Fishing stopped. Check the Content Log for the error.');cancel(id);}
   }
  }
  return {use,update,cancel,sessions};

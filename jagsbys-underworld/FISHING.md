@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.1 playtest build
+# Lava fishing — v0.2.2 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -78,7 +78,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.1 and confirm both pack versions and the Content Log.
+1. Import v0.2.2 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -101,3 +101,23 @@ Original assets are byte-for-byte copies from `lavafishing-26.1.2-1.3.1-all.jar`
 The original fish loot tables and rod recipe are included under
 `behavior_pack/docs/lava_fishing/source_data/`. Fishing code, assets and the full
 AGPLv3 license are bundled and attributed. Other subsystem licenses are retained.
+
+## v0.2.2 visual and session corrections
+
+The bobber has its own render controller, explicit health and lava immunity,
+and a larger body and line. It floats above the lava surface and dips on a bite.
+The rod has a hand-bound model with separate first-person and third-person
+transforms; the original inventory artwork is unchanged. Cast and waiting
+messages accompany the visual cues. Rendering-property failures no longer
+remove the bobber. Float line properties use decimal JSON defaults and ranges, and damage immunity
+uses the current string schema. Biome detection uses native `has_biome_tag`
+filters, including `nether_wastes`, instead of the restricted `is_biome` presets.
+The same biome-filter correction applies to the village crop probe.
+Delayed biome classification is retried for two seconds;
+if unavailable, fishing continues with the common Nether fish pool.
+
+Live verification: check rod orientation in inventory, first-person and
+third-person views; cast and verify the bobber and line remain until reeling.
+Wait for “Bite! Reel in!” and use again to catch a fish. Verify biome-specific
+catches in each vanilla Nether biome and inspect the Content Log if the
+common-pool fallback warning appears.
