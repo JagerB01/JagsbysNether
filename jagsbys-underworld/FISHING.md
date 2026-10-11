@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.10 playtest build
+# Lava fishing — v0.2.11 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -80,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.10 and confirm both pack versions and the Content Log.
+1. Import v0.2.11 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -172,3 +172,20 @@ Minecraft, since mocked tests cannot establish native item-renderer motion.
 Successful catches spawn one fire-resistant fish item above the bobber and
 launch it toward the player with the vanilla-style distance-scaled impulse.
 Items use normal world pickup, including when the inventory is full.
+
+## v0.2.11 fishing enchantments
+
+The rod retains the native fishing_rod enchantment slot (enchantability 9).
+Lure I–III subtract five seconds per level from each waiting phase, with a
+one-second minimum. Unbreaking I–III use the native durability chance.
+Catch XP now spawns as one to six native XP orbs instead of directly crediting
+the player, allowing native Mending to select and repair eligible equipment.
+Luck of the Sea remains accepted without changing fish weights: its vanilla
+fish/junk/treasure role is reserved for the planned junk and treasure pools.
+Curse of Vanishing is left to native death/drop handling.
+
+Automated checks cover Lure waits, Unbreaking level forwarding and catch orb
+spawning. In-game verification is still required for anvil/table acceptance,
+actual Mending repair and Curse of Vanishing on death (keepInventory false).
+Hold a damaged Mending rod when collecting catch XP; other eligible Mending
+equipment may receive the repair instead, as in vanilla.

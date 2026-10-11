@@ -82,7 +82,9 @@ export function createAnglingController({rng=Math.random}={}){
      const chance=durability?.getDamageChance(level(equipment.item,'unbreaking')) ?? 100;
      if(durability && rng()*100<chance){durability.damage++;equipment.container.setItem(equipment.slot,durability.damage>=durability.maxDurability?undefined:equipment.item);}
     }
-    player.addExperience(range(rng,1,6));
+    // Native XP pickup lets Minecraft handle Mending and XP distribution.
+    const xp=range(rng,1,6);
+    for(let orb=0;orb<xp;orb++)player.dimension.spawnEntity('minecraft:xp_orb',{...player.location,y:player.location.y+0.5});
     cue(player,'liquid.lavapop',player.location,{volume:0.9,pitch:1.2});
     cue(player,'random.fizz',player.location,{volume:0.35,pitch:1.6});
    }
