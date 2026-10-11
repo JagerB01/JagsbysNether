@@ -1,0 +1,36 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:block": {
+    "description": {
+      "identifier": "jagsby_nether:tillable_soul_soil",
+      "menu_category": {
+        "category": "none"
+      }
+    },
+    "components": {
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.5
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 1
+      },
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "soul_soil",
+          "render_method": "opaque"
+        }
+      },
+      "minecraft:light_dampening": 15,
+      "minecraft:loot": "loot_tables/blocks/soul_soil_farmland.json",
+      "jagsby_nether:tillable_soil": {},
+      "minecraft:tick": {
+        "interval_range": [
+          10,
+          10
+        ],
+        "looping": true
+      }
+    }
+  }
+}

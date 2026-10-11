@@ -3,6 +3,8 @@ export const NS = 'jagsby_nether';
 export const AGE = `${NS}:age`;
 export const HEATED = `${NS}:heated`;
 export const HEAT_LEVEL = `${NS}:heat_level`;
+export const IDLE_STEPS = `${NS}:idle_steps`;
+export const EMPTY_FARMLAND_STEPS = 15;
 export const ATTACHED = `${NS}:attached`;
 export const FACING = `${NS}:facing`;
 export const FARMLAND = `${NS}:soul_soil_farmland`;
@@ -39,14 +41,28 @@ export function hasHeat(block) {
   return false;
 }
 export function updateFarmland(block, nearbyHeat = hasHeat(block)) {
+  const above = offset(block, 0, 1, 0);
+  // Never count an unreadable cell as an empty plot. Any plant/block above
+  // protects the soil, including crops from other packs and mature stems.
+  if (!above) return;
   let level = block.permutation.getState(HEAT_LEVEL) ?? 0;
   // Previously heated farmland restores its full heat when upgrading old worlds.
   if (level === 0 && block.permutation.getState(HEATED)) level = 7;
   if (nearbyHeat) level = Math.min(7, level + 1);
   else if (level > 0) level--;
+  // Lava-protected and still-cooling plots never count down. Start only once
+  // fully cold and empty, and reset immediately when occupied or reheated.
+  const idle = above.isAir && !nearbyHeat && level === 0 ?
+    (block.permutation.getState(IDLE_STEPS) ?? 0) + 1 : 0;
+  if (idle >= EMPTY_FARMLAND_STEPS) {
+    block.setType('minecraft:soul_soil');
+    return;
+  }
   const heated = level === 7;
-  if (level === block.permutation.getState(HEAT_LEVEL) && heated === block.permutation.getState(HEATED)) return;
-  block.setPermutation(block.permutation.withState(HEAT_LEVEL, level).withState(HEATED, heated));
+  if (level === block.permutation.getState(HEAT_LEVEL) &&
+      heated === block.permutation.getState(HEATED) && idle === (block.permutation.getState(IDLE_STEPS) ?? 0)) return;
+  block.setPermutation(block.permutation.withState(HEAT_LEVEL, level)
+    .withState(HEATED, heated).withState(IDLE_STEPS, idle));
 }
 export function canGrow(block) {
   if (!isNether(block)) return false;

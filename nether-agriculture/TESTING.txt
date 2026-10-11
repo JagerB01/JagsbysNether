@@ -1,10 +1,10 @@
-Nether Agriculture v0.1.5 — First Bedrock Test Build
+Nether Agriculture v0.1.6 — First Bedrock Test Build
 
-1. Import Nether_Agriculture_v0.1.5.mcaddon into Bedrock 1.21.100 or newer.
+1. Import Nether_Agriculture_v0.1.6.mcaddon into Bedrock 1.21.100 or newer.
    Activate both the Behavior and Resource packs on a disposable world.
    Enable cheats for the starter-kit command. Beta APIs are not required.
    If import or scripts fail, capture the Content Log errors.
-   Replace the previous packs with v0.1.5; activate both updated packs.
+   Replace the previous packs with v0.1.6; activate both updated packs.
 
 2. Enter the Nether and run:
    /scriptevent jagsby_nether:kit
@@ -12,9 +12,11 @@ Nether Agriculture v0.1.5 — First Bedrock Test Build
 3. Make a small soul-soil bed and safely contain lava beside it at soil height.
    Hoe the top of the soul soil. Farmland within four horizontal blocks of lava
    should START DRY and take about fourteen seconds to show the heated texture. Lava below the soil does
-   not count. Soil without lava should remain farmland permanently.
+   not count. Planted soil without lava should remain farmland; an empty, fully cooled plot
+   should revert after about thirty seconds. Empty soil near lava stays tilled.
    Place and walk on farmland: both should use soul-soil sounds. Tilling should
-   play the normal hoe-tilling sound. Vanilla-hoe arm motion is still unresolved.
+   play the normal hoe-tilling sound. Aim at the top with a vanilla hoe, pause
+   briefly, then use it to check the new native tilling motion in both camera views.
 
 4. Plant Sorgum Seeds, Polyps and Grollet Seeds on the farmland; plant Scarberries
    on soul soil, netherrack or nylium. Check sprites, selection boxes and names.
@@ -54,7 +56,7 @@ tools, custom brewing and End content are not included in this first test build.
 
 10. Check names in creative inventory, item tooltips, crafting results and bales.
     Expect Sorgum, Sorgum Seeds/Bread/Bale and Blistered Sorgum variants;
-    Grollet, Grollet Seeds/Pie/Stem, Carved Grollet and Grollet Lantern.
+    Grollet, Grollet Seeds/Pie/Stem, Carved Grollet and Grol-o’-Lantern.
     In an upgraded test world, old items and planted crops should still exist
     and work with the updated names. Save/reload and verify them again.
 
@@ -64,7 +66,8 @@ tools, custom brewing and End content are not included in this first test build.
     naturally; fully
     heated soil should grow faster on average, not block growth on dry soil.
     Using fertilizer on a mature crop should not consume it or play effects.
-    Remove lava and check gradual cooling; the soil must remain tilled.
+    Remove lava and check gradual cooling. Planted soil stays tilled; an empty
+    plot starts its thirty-second reversion countdown only after fully cooling.
     Previously heated farmland in an upgraded world should retain its heat.
 
 12. Inspect Sorgum, Polyps, Scarberries and Grollet stems from several angles
@@ -76,11 +79,26 @@ tools, custom brewing and End content are not included in this first test build.
     Dry growth is three times slower on average, so use several crops rather
     than judging a single plant. /gamerule randomTickSpeed 100 can speed this up
     in a test world; restore the Bedrock default of 1 afterward. Confirm Grollet
-    can produce fruit without lava. Harvest everything and wait: dry soil must
-    remain tilled even without plants. Save/reload and recheck these plots.
+    can produce fruit without lava. Harvest everything and wait thirty seconds:
+    fully dry empty soil should revert; plots with a crop or nearby lava should
+    remain tilled. Save/reload and recheck the planted and lava-heated plots.
 
-14. The previous scripted arm-animation attempts did not work on the reported
-    26.52 client and have been removed. Fertilizer now uses the native crop
-    interaction callback; check its motion in first-person and third-person,
-    survival and creative, sneaking and holding use. Tilling with vanilla hoes
-    still has no confirmed arm-motion fix. Check normal mining and attacking too.
+14. Fertilizer arm motion was confirmed in game after the native interaction fix.
+    Tilling now uses that route too. With a vanilla hoe, aim at the top of soul
+    soil briefly and use it: check arm/held-item motion in first-person and
+    third-person, survival and creative. Test slow clicks and fast clicks while
+    moving across a row; a click before preparation may use the old fallback.
+    In survival, a successful till should use one durability point (Unbreaking
+    may prevent that); creative should not damage the hoe. Looking at soil alone
+    must not till it, consume anything or play a sound. Look away, switch items,
+    leave/rejoin and break the soil: normal soul-soil appearance, sounds and
+    drops should remain. If two players test together, they should both be able
+    to aim at the same block without flickering or duplicated tool damage.
+
+15. Keep an EMPTY plot beside lava for at least a minute: it must stay farmland.
+    Make an empty plot without lava: it should return to soul soil after about
+    thirty seconds. Plant a crop or add lava just before expiry: the countdown
+    must reset. Remove lava from an empty heated plot: wait for it to cool, then
+    about thirty more seconds. Verify all four crops, mature Grollet stems and
+    Blistered Sorgum protect dry farmland. Check Grol-o’-Lantern in inventory,
+    tooltips and crafting results; existing lanterns should keep working.

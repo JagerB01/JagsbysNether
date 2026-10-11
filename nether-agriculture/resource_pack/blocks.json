@@ -39,5 +39,8 @@
   },
   "jagsby_nether:blistered_rye_crop": {
     "sound": "grass"
+  },
+  "jagsby_nether:tillable_soul_soil": {
+    "sound": "soul_soil"
   }
 }

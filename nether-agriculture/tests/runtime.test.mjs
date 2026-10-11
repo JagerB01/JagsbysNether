@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {components, startup, flush, world, system, ItemStack} from './mock-server.mjs';
 import {worldFixture, playerFixture} from './fixtures.mjs';
 import {NS, AGE, HEATED, HEAT_LEVEL, FARMLAND} from '../behavior_pack/scripts/crops.js';
+import {TILLABLE_SOIL, updateTillingTargets} from '../behavior_pack/scripts/tilling.js';
 import '../behavior_pack/scripts/main.js';
 startup();
 const id = name => `${NS}:${name}`;
@@ -15,8 +16,8 @@ function interact(block, player, held) {
   }
   return event;
 }
-test('registers both custom block components', () => {
-  assert.deepEqual([...components.keys()].sort(), [id('crop'),id('farmland')]);
+test('registers farming and native tilling block components', () => {
+  assert.deepEqual([...components.keys()].sort(), [id('crop'),id('farmland'),id('tillable_soil')]);
 });
 test('crop placement cancels outside the Nether', () => {
   const event = {dimension: {id: 'minecraft:overworld'}, cancel: false};
@@ -115,4 +116,48 @@ test('native fertilizer callback respects adventure mode and missing players', (
   assert.equal(crop.permutation.getState(AGE), 0);
   assert.equal(slots.get(0).amount, 2);
   assert.equal(dimension.sounds.length, 0);
+});
+
+test('prepared soul soil uses native tilling callback once, with survival durability', () => {
+  const {put, dimension} = worldFixture(); const soil = put('minecraft:soul_soil');
+  const tool = new ItemStack('minecraft:iron_hoe');
+  const durability = {damage: 0, maxDurability: 250};
+  tool.getComponent = name => name === 'minecraft:durability' ? durability : undefined;
+  const {player} = playerFixture(dimension, {held: tool});
+  player.getBlockFromViewDirection = () => ({block: soil, face: 'Up'});
+  updateTillingTargets([player]); assert.equal(soil.typeId, TILLABLE_SOIL);
+  const event = interact(soil, player, tool); assert.equal(event.cancel, false);
+  components.get(id('tillable_soil')).onPlayerInteract({block: soil, player, face: 'Up'});
+  flush(); assert.equal(soil.typeId, FARMLAND); assert.equal(durability.damage, 1);
+  assert.equal(dimension.sounds.length, 1); assert.equal(dimension.sounds[0].name, 'use.gravel');
+  updateTillingTargets([]); assert.equal(soil.typeId, FARMLAND);
+});
+test('a target prepared between the click and deferred fallback can still be tilled', () => {
+  const {put, dimension} = worldFixture(); const soil = put('minecraft:soul_soil');
+  const tool = new ItemStack('minecraft:iron_hoe'); const {player} = playerFixture(dimension, {held: tool});
+  interact(soil, player, tool);
+  player.getBlockFromViewDirection = () => ({block: soil, face: 'Up'});
+  updateTillingTargets([player]); flush(); assert.equal(soil.typeId, FARMLAND);
+  assert.equal(dimension.sounds.length, 1); updateTillingTargets([]);
+});
+test('native tilling rejects the side face, blocked top and changed held item', () => {
+  const {put, dimension} = worldFixture(); const soil = put(TILLABLE_SOIL);
+  const tool = new ItemStack('minecraft:iron_hoe'); const {player, slots} = playerFixture(dimension, {held: tool});
+  const component = components.get(id('tillable_soil'));
+  component.onPlayerInteract({block: soil, player, face: 'North'});
+  assert.equal(soil.typeId, TILLABLE_SOIL);
+  const above = put('minecraft:stone', {x: 0, y: 65, z: 0});
+  component.onPlayerInteract({block: soil, player, face: 'Up'});
+  assert.equal(soil.typeId, TILLABLE_SOIL); above.setType('minecraft:air');
+  slots.set(0, new ItemStack('minecraft:stick'));
+  component.onPlayerInteract({block: soil, player, face: 'Up'});
+  assert.equal(soil.typeId, TILLABLE_SOIL); assert.equal(dimension.sounds.length, 0);
+});
+
+test('prepared target still tills if its native callback is skipped', () => {
+  const {put, dimension} = worldFixture(); const soil = put(TILLABLE_SOIL);
+  const tool = new ItemStack('minecraft:iron_hoe'); const {player} = playerFixture(dimension, {held: tool});
+  player.isSneaking = true;
+  interact(soil, player, tool); flush();
+  assert.equal(soil.typeId, FARMLAND); assert.equal(dimension.sounds.length, 1);
 });

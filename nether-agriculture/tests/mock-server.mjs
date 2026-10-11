@@ -11,11 +11,13 @@ export class ItemStack {
 }
 export const components = new Map();
 export const world = {
+  getAllPlayers() { return []; },
   beforeEvents: {playerInteractWithBlock: signal()},
   afterEvents: {playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
 };
 const pending = [];
 export const system = {
+  runInterval() { return 1; },
   beforeEvents: {startup: signal()},
   afterEvents: {scriptEventReceive: signal()},
   run(callback) { pending.push(callback); },

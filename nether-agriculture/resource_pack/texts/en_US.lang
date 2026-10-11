@@ -18,10 +18,12 @@ tile.jagsby_nether:rye_block.name=Sorgum Bale
 tile.jagsby_nether:blistered_rye_block.name=Blistered Sorgum Bale
 tile.jagsby_nether:wither_bone_block.name=Wither Bone Block
 tile.jagsby_nether:carved_murky_gourd.name=Carved Grollet
-tile.jagsby_nether:murk_o_lantern.name=Grollet Lantern
+tile.jagsby_nether:murk_o_lantern.name=Grol-o’-Lantern
 tile.jagsby_nether:soul_soil_farmland.name=Soul Soil Farmland
 tile.jagsby_nether:rye_crop.name=Sorgum
 tile.jagsby_nether:polyps.name=Polyps
 tile.jagsby_nether:scarberry_bush.name=Scarberry Bush
 tile.jagsby_nether:murky_gourd_stem.name=Grollet Stem
 tile.jagsby_nether:blistered_rye_crop.name=Blistered Sorgum
+
+tile.jagsby_nether:tillable_soul_soil.name=Soul Soil

@@ -1,16 +1,16 @@
 # Nether Agriculture — Bedrock crop port
 
-Personal test build v0.1.5, separate from Nether Settlements. Based on the Nether
+Personal test build v0.1.6, separate from Nether Settlements. Based on the Nether
 farming content in SuitedLlama's Agriculture Progression 1.0.1 for Java 1.16.4.
 The original crop and item textures are included. End crops are excluded.
 
 ## Import and test
 
-Import `../downloads/Nether_Agriculture_v0.1.5.mcaddon` into **Minecraft Bedrock
+Import `../downloads/Nether_Agriculture_v0.1.6.mcaddon` into **Minecraft Bedrock
 1.21.100 or newer**. Enable **Nether Agriculture Behavior** and **Nether Agriculture
 Resources** on a disposable world with cheats enabled. Both packs are required.
 The script uses stable `@minecraft/server` 2.0.0; Beta APIs are not required.
-Replace the previous version with v0.1.5 and ensure both updated packs are active.
+Replace the previous version with v0.1.6 and ensure both updated packs are active.
 The pack has its own namespace and does not replace vanilla entity definitions,
 loot tables, or the Nether Settlements pack.
 
@@ -28,8 +28,9 @@ for the gameplay checklist.
 ## Farming
 
 - Use a vanilla hoe on the top of soul soil in the Nether to make Soul Soil
-  Farmland. Dry farmland stays tilled without lava, including after crops are
-  harvested. Removing lava cools the plot but never turns it back into soul soil.
+  Farmland. Planted farmland stays tilled without lava. Empty plots with no lava
+  revert to soul soil after about thirty loaded seconds once fully cooled. Lava
+  protects empty plots too. Planting or adding lava resets the empty-plot timer.
 - Plant Sorgum Seeds, Polyps, or Grollet Seeds on dry or heated farmland. Dry and
   warming plots grow naturally at one third of the fully heated rate. Scarberry
   bushes keep their original lava-independent rate. All crops remain Nether-only.
@@ -55,19 +56,19 @@ for the gameplay checklist.
 - Mature Grollet stems produce a gourd in an empty adjacent space with
   Nether ground underneath. Leave room around them. Removing the fruit lets
   the stem produce another. Use shears on a gourd for a carved gourd and four
-  seeds; craft the carved gourd with a soul torch for a Grollet Lantern.
+  seeds; craft the carved gourd with a soul torch for a Grol-o’-Lantern.
 
 ## Survival acquisition and recipes
 
 Breaking Nether sprouts in survival retains their vanilla drops and adds the
 original seed chances: 12.5% for Sorgum Seeds, otherwise a further 12.5% roll for
 Grollet Seeds. Crimson roots have a 12.5% Scarberry drop, and warped roots a 12.5%
-Polyp drop. These two acquisition drops substitute for the Java mod's natural
-crop patches in this initial build. Wither skeletons add one to two Wither Bones.
+Polyp drop. These two acquisition drops substitute for the Java mod's piglin
+bartering rewards in this initial build. Wither skeletons add one to two Wither Bones.
 One Wither Bone crafts into three Wither Bone Meal.
 
 Original recipes are included for Sorgum Bread, Blistered Sorgum Bread, Scarberry
-Bottles, Grollet Pie (gourd + redstone + egg), gourd seeds, Grollet Lanterns,
+Bottles, Grollet Pie (gourd + redstone + egg), gourd seeds, Grol-o’-Lanterns,
 Sorgum bales, and Wither Bone Blocks. Polyps cook in furnaces, smokers, and campfires.
 All crafting recipes are unlocked from the start. Disable the recipe book's
 craftable-only filter to see recipes when ingredients are missing.
@@ -143,3 +144,21 @@ removed after in-game tests reported no motion. Fertilizer arm motion requires
 another live check; vanilla-hoe tilling motion remains unresolved. The current
 stable and preview Script APIs have no direct arm-swing method. No player or
 vanilla hoe definitions are overridden.
+
+Version 0.1.6 restores empty-plot reversion only when fully cold and without
+nearby lava. After fifteen two-second ticks the plot becomes soul soil; planting
+or reheating resets its timer. Occupied plots, including crops from other packs,
+remain protected. Empty lava-heated and lava-warming plots never revert.
+The lantern display name is now Grol-o’-Lantern; its internal identifier and
+recipe are unchanged.
+
+Tilling now prepares the single soul-soil block a hoe-wielding player aims at as
+an identical-looking native-interactable block. Its `onPlayerInteract` handler
+uses the same native interaction route as the fertilizer fix confirmed in game.
+Looking away or switching tools restores vanilla soul soil; a native block tick
+also restores orphaned targets after reload. Existing vanilla hoes are supported
+and no player or vanilla item definitions are overridden. Very fast clicks that
+arrive before the target is prepared, or uses that skip the native callback,
+retain the deferred tilling fallback, whose
+arm motion is not guaranteed. Test the new tilling route on 26.52 before treating
+first-person/third-person animation as confirmed.

@@ -1,4 +1,4 @@
-import {AGE, ATTACHED, FACING, HEATED, HEAT_LEVEL} from '../behavior_pack/scripts/crops.js';
+import {AGE, ATTACHED, FACING, HEATED, HEAT_LEVEL, IDLE_STEPS} from '../behavior_pack/scripts/crops.js';
 export class Permutation {
   constructor(id, states = {}) { this.type = {id}; this.states = {...states}; }
   getState(name) { return this.states[name]; }
@@ -23,7 +23,7 @@ export function worldFixture(dimensionId = 'minecraft:nether') {
       get isAir() { return this.typeId === 'minecraft:air'; },
       setPermutation(value) { this.permutation = value; this.writes++; },
       setType(value) { this.permutation = new Permutation(value, {
-        [AGE]: 0, [ATTACHED]: false, [FACING]: 0, [HEATED]: false, [HEAT_LEVEL]: 0}); },
+        [AGE]: 0, [ATTACHED]: false, [FACING]: 0, [HEATED]: false, [HEAT_LEVEL]: 0, [IDLE_STEPS]: 0}); },
     };
     blocks.set(key(location), block);
     return block;

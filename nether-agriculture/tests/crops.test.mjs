@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {NS, AGE, HEATED, HEAT_LEVEL, ATTACHED, FACING, FARMLAND, hasHeat, updateFarmland,
+import {NS, AGE, HEATED, HEAT_LEVEL, IDLE_STEPS, EMPTY_FARMLAND_STEPS, ATTACHED, FACING, FARMLAND, hasHeat, updateFarmland,
   randomTick, fertilize, pickBerries} from '../behavior_pack/scripts/crops.js';
 import {worldFixture, rng} from './fixtures.mjs';
 const id = name => `${NS}:${name}`;
@@ -179,4 +179,52 @@ test('dry stage-six Sorgum grows normally without blistering', () => {
   const {crop, soil} = farm('rye_crop', 6); soil.setType(FARMLAND);
   randomTick(crop, rng(0));
   assert.equal(crop.typeId, id('rye_crop')); assert.equal(crop.permutation.getState(AGE), 7);
+});
+
+test('empty cold farmland waits fifteen scheduled ticks before reverting', () => {
+  const {soil, crop} = farm(); soil.setType(FARMLAND); crop.setType('minecraft:air');
+  for (let i = 1; i < EMPTY_FARMLAND_STEPS; i++) {
+    updateFarmland(soil, false);
+    assert.equal(soil.typeId, FARMLAND); assert.equal(soil.permutation.getState(IDLE_STEPS), i);
+  }
+  updateFarmland(soil, false); assert.equal(soil.typeId, 'minecraft:soul_soil');
+});
+test('planting before expiry resets the empty-plot countdown', () => {
+  const {soil, crop} = farm(); soil.setType(FARMLAND); crop.setType('minecraft:air');
+  for (let i = 0; i < 14; i++) updateFarmland(soil, false);
+  crop.setType(id('rye_crop')); updateFarmland(soil, false);
+  assert.equal(soil.permutation.getState(IDLE_STEPS), 0);
+  for (let i = 0; i < 30; i++) updateFarmland(soil, false);
+  assert.equal(soil.typeId, FARMLAND);
+  crop.setType('minecraft:air'); updateFarmland(soil, false);
+  assert.equal(soil.permutation.getState(IDLE_STEPS), 1);
+});
+test('empty lava-heated farmland never reverts, including while warming', () => {
+  const {soil, crop, put} = farm(); soil.setType(FARMLAND); crop.setType('minecraft:air');
+  put('minecraft:lava', {x: 1, y: 64, z: 0});
+  for (let i = 0; i < 50; i++) updateFarmland(soil);
+  assert.equal(soil.typeId, FARMLAND); assert.equal(soil.permutation.getState(HEATED), true);
+  assert.equal(soil.permutation.getState(IDLE_STEPS), 0);
+});
+test('lava returns before empty-plot expiry and resets the countdown', () => {
+  const {soil, crop} = farm(); soil.setType(FARMLAND); crop.setType('minecraft:air');
+  for (let i = 0; i < 14; i++) updateFarmland(soil, false);
+  updateFarmland(soil, true);
+  assert.equal(soil.typeId, FARMLAND); assert.equal(soil.permutation.getState(IDLE_STEPS), 0);
+});
+test('empty heated plots finish cooling before starting reversion countdown', () => {
+  const {soil, crop} = farm(); crop.setType('minecraft:air');
+  for (let i = 0; i < 6; i++) {
+    updateFarmland(soil, false); assert.equal(soil.permutation.getState(IDLE_STEPS), 0);
+  }
+  updateFarmland(soil, false);
+  assert.equal(soil.permutation.getState(HEAT_LEVEL), 0);
+  assert.equal(soil.permutation.getState(IDLE_STEPS), 1);
+});
+test('unloaded crop cell pauses rather than advancing the empty-plot timer', () => {
+  const {soil, dimension} = farm(); soil.setType(FARMLAND);
+  soil.setPermutation(soil.permutation.withState(IDLE_STEPS, 14));
+  dimension.unloaded = new Set(['0,65,0']);
+  updateFarmland(soil, false); assert.equal(soil.typeId, FARMLAND);
+  assert.equal(soil.permutation.getState(IDLE_STEPS), 14);
 });

@@ -1,6 +1,7 @@
 import {world, system, ItemStack, GameMode} from '@minecraft/server';
 import {NS, AGE, CROPS, FARMLAND, read, offset, updateFarmland,
   randomTick, fertilize, pickBerries} from './crops.js';
+import {TILLABLE_SOIL, isVanillaHoe, updateTillingTargets, restoreUnusedTillingTarget} from './tilling.js';
 
 const id = name => `${NS}:${name}`;
 function guard(action) {
@@ -33,6 +34,16 @@ function damageTool(player, slot, stack) {
   if (durability.damage + 1 >= durability.maxDurability) inventory(player).setItem(slot);
   else { durability.damage++; inventory(player).setItem(slot, stack); }
 }
+function tillSoil(block, player, face) {
+  if (!player || !editable(player) || face !== 'Up' ||
+      player.dimension.id !== block.dimension.id || block.dimension.id !== 'minecraft:nether' ||
+      !['minecraft:soul_soil', TILLABLE_SOIL].includes(block.typeId) || !offset(block, 0, 1, 0)?.isAir) return;
+  const slot = player.selectedSlotIndex, stack = inventory(player)?.getItem(slot);
+  if (!isVanillaHoe(stack?.typeId)) return;
+  block.setType(FARMLAND);
+  damageTool(player, slot, stack);
+  farmingFeedback(block);
+}
 function farmingFeedback(block, fertilizer = false) {
   // These effects run only after the farming action succeeds.
   const location = {x: block.location.x + 0.5, y: block.location.y + 0.5, z: block.location.z + 0.5};
@@ -40,7 +51,13 @@ function farmingFeedback(block, fertilizer = false) {
   if (fertilizer) guard(() => block.dimension.spawnParticle('minecraft:crop_growth_emitter', location));
 }
 
+system.runInterval(() => guard(() => updateTillingTargets(world.getAllPlayers())), 1);
+
 system.beforeEvents.startup.subscribe(({blockComponentRegistry}) => {
+  blockComponentRegistry.registerCustomComponent(id('tillable_soil'), {
+    onPlayerInteract({block, player, face}) { guard(() => tillSoil(block, player, face)); },
+    onTick({block}) { guard(() => restoreUnusedTillingTarget(block)); },
+  });
   blockComponentRegistry.registerCustomComponent(id('crop'), {
     beforeOnPlayerPlace(event) {
       if (event.dimension.id !== 'minecraft:nether') event.cancel = true;
@@ -57,8 +74,7 @@ system.beforeEvents.startup.subscribe(({blockComponentRegistry}) => {
     }); },
   });
   blockComponentRegistry.registerCustomComponent(id('farmland'), {
-    // Newly placed/tiled farmland uses its dry default. Seven two-second steps
-    // warm it fully; cooling also happens gradually after lava is removed.
+    // Two-second ticks warm/cool the soil and revert cold, empty plots after 30 seconds.
     onTick({block}) { guard(() => updateFarmland(block)); },
   });
 });
@@ -67,8 +83,10 @@ system.beforeEvents.startup.subscribe(({blockComponentRegistry}) => {
 world.beforeEvents.playerInteractWithBlock.subscribe(event => {
   const {block, player, itemStack} = event;
   const type = block.typeId, held = itemStack?.typeId;
-  const hoe = held?.startsWith('minecraft:') && held.endsWith('_hoe');
-  const till = type === 'minecraft:soul_soil' && hoe && event.blockFace === 'Up';
+  const hoe = isVanillaHoe(held);
+  // Leave native interaction uncancelled. The deferred fallback does nothing
+  // if its native callback has already tilled the block.
+  const till = ['minecraft:soul_soil', TILLABLE_SOIL].includes(type) && hoe && event.blockFace === 'Up';
   // Let the crop's native onPlayerInteract handle fertilizer, including ripe bushes.
   if (CROPS[type] && held === id('wither_bone_meal')) return;
   const harvest = !player.isSneaking && type === id('scarberry_bush') && block.permutation.getState(AGE) >= 2;
@@ -80,16 +98,16 @@ world.beforeEvents.playerInteractWithBlock.subscribe(event => {
   const dimension = block.dimension, location = {...block.location}, slot = player.selectedSlotIndex;
   system.run(() => guard(() => {
     const target = read(dimension, location), stack = inventory(player)?.getItem(slot);
-    if (!editable(player) || target?.typeId !== type || player.dimension.id !== dimension.id ||
+    if (!editable(player) || !target ||
+        (target.typeId !== type && !(till && ['minecraft:soul_soil', TILLABLE_SOIL].includes(target.typeId))) ||
+        player.dimension.id !== dimension.id ||
         player.selectedSlotIndex !== slot || stack?.typeId !== held) return;
     if (till) {
       if (dimension.id !== 'minecraft:nether') {
         player.sendMessage('Soul Soil Farmland needs the Nether.'); return;
       }
-      if (!offset(target, 0, 1, 0)?.isAir) return;
-      target.setType(FARMLAND);
-      damageTool(player, slot, stack);
-      farmingFeedback(target);
+      // Fallback for a click before preparation or a skipped native callback.
+      tillSoil(target, player, 'Up');
     } else if (harvest) {
       const count = pickBerries(target);
       if (count) drop(target, id('scarberries'), count);
@@ -109,7 +127,7 @@ world.afterEvents.playerBreakBlock.subscribe(({block, brokenBlockPermutation, pl
     if (Math.random() < 0.125) drop(block, id('rye_seeds'));
     else if (Math.random() < 0.125) drop(block, id('murky_seeds'));
   }
-  // Starter acquisition substitutes for the Java mod's natural crop patches.
+  // Root drops substitute for the Java mod's piglin-bartering acquisition.
   if (type === 'minecraft:crimson_roots' && Math.random() < 0.125) drop(block, id('scarberries'));
   if (type === 'minecraft:warped_roots' && Math.random() < 0.125) drop(block, id('polyp'));
 }));
@@ -140,4 +158,4 @@ system.afterEvents.scriptEventReceive.subscribe(({id: eventId, sourceEntity}) =>
   player.sendMessage('Nether Agriculture kit received. Till soul soil in the Nether. Nearby lava speeds up growth.');
 }));
 
-console.warn('[Nether Agriculture] v0.1.5 loaded. Starter kit: /scriptevent jagsby_nether:kit');
+console.warn('[Nether Agriculture] v0.1.6 loaded. Starter kit: /scriptevent jagsby_nether:kit');

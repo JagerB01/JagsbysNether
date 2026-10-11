@@ -37,7 +37,7 @@ def main():
         for texture in atlas.values():
             assert (RP / (texture["textures"] + ".png")).is_file(), texture
     geometry = {g["description"]["identifier"] for g in load(RP / "models/blocks/nether_agriculture.geo.json")["minecraft:geometry"]}
-    registered = {"jagsby_nether:crop", "jagsby_nether:farmland"}
+    registered = {"jagsby_nether:crop", "jagsby_nether:farmland", "jagsby_nether:tillable_soil"}
     identifiers = set()
     blocks = {}
     for path in (BP / "blocks").glob("*.json"):
@@ -87,6 +87,7 @@ def main():
     assert load(RP / "blocks.json")["jagsby_nether:soul_soil_farmland"]["sound"] == "soul_soil"
     farmland = blocks["jagsby_nether:soul_soil_farmland"]
     assert farmland["description"]["states"]["jagsby_nether:heat_level"] == list(range(8))
+    assert farmland["description"]["states"]["jagsby_nether:idle_steps"] == list(range(16))
     assert farmland["components"]["minecraft:tick"] == {"interval_range": [40, 40], "looping": True}
     for g in load(RP / "models/blocks/nether_agriculture.geo.json")["minecraft:geometry"]:
         if g["description"]["identifier"] == "geometry.jagsby_nether.farmland":
