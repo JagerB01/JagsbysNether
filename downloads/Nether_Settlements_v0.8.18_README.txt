@@ -1,0 +1,19 @@
+Nether Settlements v0.8.18 - Distant Village Search
+
+Replace the previous Nether Settlements pack.
+Natural village search uses grid points 96-128 horizontal blocks from each Nether player, searching across neighboring 192-block regions. Each point can still compare local centers within 12 blocks, and selected centers must be at least 96 blocks from all Nether players.
+Natural placement checks the entire footprint of every selected building, road, and center against a 32-block horizontal clearance around every Nether player. The check runs before commitment and during placement. A player approaching can interrupt placement; already placed pieces are not rolled back, and the center remains last.
+Search points with unloaded terrain are skipped without force-loading chunks or consuming their cooldown. Partially loaded/blocked layouts can still fail and retry later. Low simulation/loading distances can limit available distant sites; generation does not fall back to placing next to players.
+Minimum distance between recorded village centers is reduced from 384 to 256 blocks. This is minimum separation, not a promised interval. Standalone one-house sites still have no village exclusion radius.
+Completed region markers correspond to the region of the searched site, rather than the player's region.
+Removed all 24 obsolete preassembled village structures and their 24 feature definitions; any references in weighted feature lists are pruned. Individual terrain-aware building templates remain intact.
+The 52 additional building templates, 0/1-house placement rules, roads, camps, and outposts are retained. Existing villages are not moved or removed. Existing explored terrain remains eligible under this scripted system.
+Manual test commands continue to operate at the player's requested location, bypassing automatic player-distance restrictions:
+/scriptevent nether_settlements:test crimson
+/scriptevent nether_settlements:test warped
+Finder:
+/scriptevent nether_settlements:find village
+/scriptevent nether_settlements:find nearest
+Potential finder coordinates remain exploration guides, not confirmed villages. To trigger distant searches, explore the surrounding area rather than waiting directly on the candidate coordinate.
+
+Validation: 41 automated geometry and mocked Bedrock runtime tests passed, including multi-region distant candidates, clearance for buildings and block writes, cancellation on player approach, unloaded-point handling, 256-block spacing boundary, and retained village/building behavior. All feature/structure references validated after removal. Live Minecraft gameplay verification remains outstanding.
