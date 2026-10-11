@@ -4,6 +4,7 @@ import struct
 import subprocess
 import uuid
 from pathlib import Path
+from structure_crops import strip_wart
 
 ROOT = Path(__file__).resolve().parents[1]
 BP, RP = ROOT / ".build/behavior_pack", ROOT / ".build/resource_pack"
@@ -14,6 +15,13 @@ def load(path):
 
 
 def main():
+    structure_count = 0
+    for path in (BP / 'structures').rglob('*.mcstructure'):
+        sanitized, wart = strip_wart(path.read_bytes())
+        assert not wart and sanitized == path.read_bytes(), f'Nether wart remains: {path}'
+        structure_count += 1
+    assert structure_count > 0
+    print(f'Checked {structure_count} structure palettes: no nether wart')
     json_files = list(BP.rglob("*.json")) + list(RP.rglob("*.json"))
     for path in json_files:
         load(path)
@@ -22,10 +30,11 @@ def main():
     assert len(set(uuids)) == len(uuids)
     for value in uuids:
         uuid.UUID(value)
+    version = load(ROOT / "behavior_pack/manifest.json")["header"]["version"]
     for manifest in manifests:
-        assert manifest["header"]["version"] == [0, 1, 0]
-        assert manifest["header"]["name"].startswith("Jagsby's Underworld v0.1.0")
-        assert all(m["version"] == [0, 1, 0] for m in manifest["modules"])
+        assert manifest["header"]["version"] == version
+        assert manifest["header"]["name"].startswith("Jagsby's Underworld v" + ".".join(map(str, version)))
+        assert all(m["version"] == version for m in manifest["modules"])
     scripts = [m for m in manifests[0]["modules"] if m["type"] == "script"]
     assert len(scripts) == 1 and scripts[0]["entry"] == "scripts/main.js"
     assert (BP / "pack_icon.png").read_bytes() == (RP / "pack_icon.png").read_bytes()

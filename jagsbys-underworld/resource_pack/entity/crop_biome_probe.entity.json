@@ -1,0 +1,20 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "jagsby_nether:crop_biome_probe",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/steve"
+      },
+      "geometry": {
+        "default": "geometry.jagsby_nether.crop_biome_probe"
+      },
+      "render_controllers": [
+        "controller.render.default"
+      ]
+    }
+  }
+}

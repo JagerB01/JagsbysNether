@@ -7,6 +7,7 @@ import struct
 import subprocess
 import zipfile
 from pathlib import Path
+from structure_crops import strip_wart
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parent
@@ -58,6 +59,8 @@ def main():
         (BUILD / directory).mkdir(parents=True)
     combined = {}
     expected = {}
+    crop_sites = {}
+    changed_structures = set()
     for label, source in [('agriculture', agriculture), ('settlements', settlements)]:
         for name, content in source.items():
             if name in ('manifest.json', 'pack_icon.png'):
@@ -68,12 +71,20 @@ def main():
                 # Keep all provenance/license/history files, without root-name collisions.
                 name = f'docs/{label}/' + name
             assert name not in combined, f'Asset collision: {name}'
-            combined[name] = content
             expected[name] = content
+            if name.endswith('.mcstructure'):
+                content, positions = strip_wart(content)
+                if positions:
+                    changed_structures.add(name)
+                    namespace, identifier = name.removeprefix('structures/').removesuffix('.mcstructure').split('/', 1)
+                    crop_sites[f'{namespace}:{identifier}'] = positions
+            combined[name] = content
     for name, content in combined.items():
         path = BUILD / 'behavior_pack' / name
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(content)
+    (BUILD / 'behavior_pack/scripts/settlements/crop_sites.js').write_text(
+        'export const cropSites = ' + json.dumps(crop_sites, separators=(',', ':')) + ';\n')
     for name, content in resources.items():
         if name in ('manifest.json', 'pack_icon.png'):
             continue
@@ -87,7 +98,16 @@ def main():
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(path.read_bytes())
         (BUILD / directory / 'pack_icon.png').write_bytes(icon)
+    # Intentional population/generation overrides and wart-only structure edits.
+    overrides = {'scripts/settlements/population.js', 'scripts/settlements/main.js'}
     for name, content in expected.items():
+        if name in overrides:
+            assert (BUILD / 'behavior_pack' / name).read_bytes() == (ROOT / 'behavior_pack' / name).read_bytes()
+            continue
+        if name in changed_structures:
+            rebuilt, _ = strip_wart(content)
+            assert (BUILD / 'behavior_pack' / name).read_bytes() == rebuilt, name
+            continue
         assert (BUILD / 'behavior_pack' / name).read_bytes() == content, name
     (BUILD / 'behavior_pack/CREDITS.txt').write_bytes((ROOT / 'CREDITS.txt').read_bytes())
     (BUILD / 'resource_pack/CREDITS.txt').write_bytes((ROOT / 'CREDITS.txt').read_bytes())
@@ -110,8 +130,8 @@ def main():
     for suffix in ('BP', 'RP'):
         pack = files(check[f'Jagsbys_Underworld_{suffix}.mcpack'])
         assert pack['pack_icon.png'] == icon
-        assert json.loads(pack['manifest.json'])['header']['version'] == [0, 1, 0]
-    print(f'Preserved all {len(expected)} original behavior assets/scripts byte-for-byte; built {output} ({output.stat().st_size:,} bytes)')
+        assert json.loads(pack['manifest.json'])['header']['version'] == version
+    print(f'Preserved all {len(expected)-len(overrides)-len(changed_structures)} original behavior assets/scripts byte-for-byte (population/generation overridden; wart removed from {len(changed_structures)} structures); built {output} ({output.stat().st_size:,} bytes)')
     if placeholder:
         print('LOCAL VERIFICATION ONLY: user cover PNG still required; no release download was produced.')
 

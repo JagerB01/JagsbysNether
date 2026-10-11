@@ -1,7 +1,7 @@
-Jagsby's Underworld v0.1.0 — combined test build
+Jagsby's Underworld v0.1.1 — combined test build
 
-1. Import Jagsbys_Underworld_v0.1.0.mcaddon. Confirm both pack-selection entries
-   show the supplied Jagsby's Underworld artwork and the v0.1.0 name/version.
+1. Import Jagsbys_Underworld_v0.1.1.mcaddon. Confirm both pack-selection entries
+   show the supplied Jagsby's Underworld artwork and the v0.1.1 name/version.
    Activate both Behavior and Resources. Use a new test world on Bedrock 26.52,
    with cheats enabled. Disable the separate Nether Settlements and Agriculture
    packs to prevent duplicate script execution. Beta APIs are not required.
@@ -19,21 +19,32 @@ Jagsby's Underworld v0.1.0 — combined test build
 4. Generate a new Crimson village in a clear test area:
    /scriptevent nether_settlements:test crimson
    Check center/meeting floors and roads use basalt with more smooth basalt,
-   structures connect correctly, and piglin defenders have no visible names.
+   structures connect correctly, and each residential house has one villager and no piglin defenders.
    Move to another clear area and repeat with:
    /scriptevent nether_settlements:test warped
    Use /scriptevent nether_settlements:find village to check the new village index.
 
 5. Plant and harvest the new crops close to a village. Both subsystems should
    keep working without doubled mobs, kits, sounds, item use or generation jobs.
-   Villages retain their existing farm contents; crop-farm integration is not
-   part of this merge.
+   Former wart beds should now contain Sorgum or Polyps on soul soil farmland.
 
 6. Check Sorgum Bread, Grollet Pie and Grol-o’-Lantern names/recipes. Test food
-   effects in survival. Save/reload and confirm crops, defenders, village lookup
+   effects in survival. Save/reload and confirm crops, villagers, village lookup
    and both packs still work. Check the Content Log for script or asset errors.
 
 7. Existing-world upgrade testing is optional and should use a copy. Original
    crop/item identifiers are retained, but village records from the old behavior
    pack UUID do not transfer automatically to this new combined pack. A fresh
-   world avoids that unverified migration behavior during v0.1.0 testing.
+   world avoids that unverified migration behavior during v0.1.1 testing.
+
+8. Repeat generation with Conquest & Commerce behavior and resource packs
+   enabled, then disabled. Check native villagers without it and its matching
+   Nether-biome variants with it. Centers and amenities should add no residents.
+
+9. Generate villages in crimson forest and Nether wastes (Sorgum), and warped
+   forest and soul sand valley (Polyps). Verify former wart positions use soul
+   soil farmland, grow and can be harvested. Force the opposite village style
+   to confirm actual biome still selects the crop. Check rotated farms and
+   biome boundaries. In basalt deltas, standalone houses and abandoned camps,
+   former wart spots should be empty. Keep nether-wart building blocks intact.
+   No visible biome probes should appear or remain; check the Content Log.

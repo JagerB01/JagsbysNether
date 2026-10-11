@@ -1,0 +1,91 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "jagsby_nether:crop_biome_probe",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "properties": {
+        "jagsby_nether:village_crop": {
+          "type": "int",
+          "range": [
+            0,
+            2
+          ],
+          "default": 0,
+          "client_sync": false
+        }
+      }
+    },
+    "components": {
+      "minecraft:collision_box": {
+        "width": 0,
+        "height": 0
+      },
+      "minecraft:physics": {
+        "has_collision": false,
+        "has_gravity": false
+      },
+      "minecraft:timer": {
+        "time": 10,
+        "looping": false,
+        "time_down_event": {
+          "event": "jagsby_nether:cleanup",
+          "target": "self"
+        }
+      }
+    },
+    "component_groups": {
+      "cleanup": {
+        "minecraft:instant_despawn": {}
+      }
+    },
+    "events": {
+      "jagsby_nether:cleanup": {
+        "add": {
+          "component_groups": [
+            "cleanup"
+          ]
+        }
+      },
+      "jagsby_nether:classify": {
+        "sequence": [
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "is_biome",
+                  "value": "crimson_forest"
+                },
+                {
+                  "test": "is_biome",
+                  "value": "nether_wastes"
+                }
+              ]
+            },
+            "set_property": {
+              "jagsby_nether:village_crop": 1
+            }
+          },
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "is_biome",
+                  "value": "warped_forest"
+                },
+                {
+                  "test": "is_biome",
+                  "value": "soulsand_valley"
+                }
+              ]
+            },
+            "set_property": {
+              "jagsby_nether:village_crop": 2
+            }
+          }
+        ]
+      }
+    }
+  }
+}

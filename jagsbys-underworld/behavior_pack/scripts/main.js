@@ -3,4 +3,4 @@
 import './settlements/main.js';
 import './agriculture/main.js';
 
-console.warn("[Jagsby's Underworld] v0.1.0 loaded.");
+console.warn("[Jagsby's Underworld] v0.1.1 loaded.");
