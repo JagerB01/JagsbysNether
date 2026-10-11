@@ -19,7 +19,7 @@ export const world = {
   getDynamicPropertyIds() { return [...properties.keys()]; },
   getAllPlayers() { return []; },
   beforeEvents: {playerInteractWithBlock: signal()},
-  afterEvents: {playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
+  afterEvents: {itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
 };
 const pending = [];
 export const intervals = [], jobs = [];

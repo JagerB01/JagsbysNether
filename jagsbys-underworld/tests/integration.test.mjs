@@ -40,3 +40,17 @@ test('fishing kit gives exactly one rod and nine fish without a crop kit or gene
  assert.equal(gifts.length,10);assert.equal(gifts[0].typeId,'jagsby_nether:obsidian_fishing_rod');
  assert.equal(new Set(gifts.map(item=>item.typeId)).size,10);assert.equal(jobs.length,before);
 });
+
+test('instant rod global and component use events launch once and ignore other items',()=>{
+ const props=new Map(),rod={typeId:'jagsby_nether:obsidian_fishing_rod',getDynamicProperty:k=>props.get(k),setDynamicProperty:(k,v)=>props.set(k,v),getComponent:()=>undefined};
+ let launches=0,impulses=0,removed=0;
+ const bobber={applyImpulse(){impulses++;},remove(){removed++;}};
+ const dimension={id:'minecraft:nether',spawnEntity(type){assert.equal(type,'jagsby_nether:lava_bobber');launches++;return bobber;},playSound(){}};
+ const player={id:'instant-fishing-test',typeId:'minecraft:player',selectedSlotIndex:0,location:{x:0,y:32,z:0},dimension,getGameMode:()=> 'Survival',getComponent:()=>({container:{getItem:()=>rod,setItem(){}}}),getHeadLocation:()=>({x:0,y:33.6,z:0}),getViewDirection:()=>({x:0,y:0,z:1})};
+ world.afterEvents.itemUse.emit({source:player,itemStack:rod});
+ itemComponents.get('jagsby_nether:lava_fishing_rod').onUse({source:player});
+ itemComponents.get('jagsby_nether:lava_fishing_rod').onUseOn({source:player});
+ assert.equal(launches,1);assert.equal(impulses,1);assert.equal(removed,0);
+ world.afterEvents.itemUse.emit({source:player,itemStack:{typeId:'minecraft:stick'}});assert.equal(removed,0);
+ world.afterEvents.playerLeave.emit({playerId:player.id});assert.equal(removed,1);
+});

@@ -3,8 +3,11 @@ import {system,world,ItemStack} from '@minecraft/server';
 import {createAnglingController,ROD,FISH} from './angling.js';
 import {applyFishFood,updateFishEffects} from './fish.js';
 const controller=createAnglingController();
+const use=({source})=>{try{controller.use(source,system.currentTick);}catch(error){controller.cancel(source?.id);console.warn(`[Underworld lava fishing] Cast/reel failed: ${error}`);}};
+// AdvancedFishing uses the global item-use event for its instant-use rod.
+// Keep that path too; the controller deduplicates it against component callbacks.
+world.afterEvents.itemUse.subscribe(event=>{if(event.itemStack?.typeId===ROD)use(event);});
 system.beforeEvents.startup.subscribe(({itemComponentRegistry})=>{
- const use=({source})=>{try{controller.use(source,system.currentTick);}catch(error){controller.cancel(source?.id);console.warn(`[Underworld lava fishing] Cast/reel failed: ${error}`);}};
  itemComponentRegistry.registerCustomComponent('jagsby_nether:lava_fishing_rod',{onUse:use,onUseOn:use});
 });
 system.runInterval(()=>{
