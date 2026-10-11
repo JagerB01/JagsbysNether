@@ -1,0 +1,15 @@
+Nether Settlements v0.8.20 - Eligible Terrain Surveys
+
+Replace the previous Nether Settlements pack.
+Before surveying ground, headroom, or slope, reject site samples inside the 256-block radius of a recorded village center, inside a completed region, under a retry cooldown, or directly over a player.
+Completed-region eligibility is cached once per region per survey. Recorded village locations are read once at the start of the survey, as in v0.8.19.
+The accessible-area traversal uses Dimension.isChunkLoaded when available. Ineligible chunks then require no block reads; the script performs only chunk-connectivity checks. Engines without that method use one block read per visited chunk as an accessibility probe, never a floor/headroom scan for an excluded candidate.
+Traversing excluded chunks remains necessary to discover eligible loaded ground beyond them. Skipping connectivity entirely would wrongly stop searches when a player stands near an existing village.
+The 256-block rule applies to proposed centers. A valid center just outside the boundary can still survey supporting terrain or building footprints extending inside it. Those limited boundary samples are intentional.
+Terrain quality remains the ranking criterion, with no spawn-distance band or preference for farther sites. Layout rules, 52 extra templates, standalone houses, camp/outpost rarity, and removal of obsolete preassembled villages are retained.
+
+/scriptevent nether_settlements:find village
+/scriptevent nether_settlements:test crimson
+/scriptevent nether_settlements:test warped
+
+Validation: 44 automated geometry and mocked Bedrock runtime checks passed. New checks verify zero terrain reads in excluded chunks with the chunk-loading API, one-read fallback probing, cached completed-region eligibility, and traversal across excluded zones to eligible terrain. Live Realm performance remains unmeasured.
