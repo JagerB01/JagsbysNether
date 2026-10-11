@@ -1,0 +1,13 @@
+Jagsby's Underworld v0.1.0 — combined personal test build.
+
+Village subsystem: Jagsby's Nether Settlements v0.8.24, including its original
+structures, source notices and license. The complete original release notes
+and LICENSE.txt are retained under behavior_pack/docs/settlements/.
+
+Agriculture subsystem: Jagsby's Nether Agriculture v0.1.6, adapted from
+SuitedLlama's Agriculture Progression 1.0.1 for Java 1.16.4. Original crop/item
+textures and license notices are retained. Original credits and license text
+are under behavior_pack/docs/agriculture/ and in the resource pack.
+
+Cover artwork: supplied by JagerB01 for the combined pack-selection icons.
+Standalone releases remain separately available in the repository.

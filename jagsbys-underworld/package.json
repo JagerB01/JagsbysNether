@@ -1,0 +1,10 @@
+{
+  "name": "jagsbys-underworld",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "python3 tools/build.py",
+    "test": "node --import ./tests/register-mock.mjs --test tests/*.test.mjs"
+  }
+}

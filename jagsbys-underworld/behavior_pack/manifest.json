@@ -1,0 +1,54 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Jagsby's Underworld v0.1.0 Behavior",
+    "description": "Nether villages, piglin defenders, and Nether crops. Combined test build.",
+    "uuid": "174ec47b-0dbf-5e50-abe7-ca5c0023348a",
+    "version": [
+      0,
+      1,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      21,
+      100
+    ]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "7169c2a2-2e88-5716-a616-30acde8075c4",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "b213f3c3-4a02-51d8-b35a-9e14e945639f",
+      "version": [
+        0,
+        1,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "b4249cc4-f8b3-509a-b401-93e665cef571",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.0.0"
+    }
+  ]
+}
