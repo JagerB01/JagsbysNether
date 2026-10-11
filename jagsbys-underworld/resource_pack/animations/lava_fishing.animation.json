@@ -67,7 +67,7 @@
         "rod": {
           "rotation": [
             0,
-            "context.is_first_person ? 0.0 : 180.0",
+            "context.is_first_person ? 45.0 : 90.0",
             0
           ]
         }
