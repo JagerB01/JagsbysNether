@@ -1,0 +1,17 @@
+Nether Settlements v0.8.23 - Piglin Defenders
+
+Replace v0.8.22 with this version.
+After a settlement's selected structures finish placing, spawn one vanilla piglin per enclosed building, stable, and small/large Nether wart farm. Pens, meeting areas, accessory plots, roads, and the center itself do not receive an ordinary piglin.
+Spawn one additional vanilla piglin brute near a placed village center if there are at least five buildings OR at least five farms, counted separately. Four buildings plus one farm does not trigger a brute. A standalone house receives one piglin, with no brute.
+Spawn spaces are checked against placed structure blocks for safe solid footing and two-block headroom. Farms use clear walking surfaces instead of lava or crop blocks. If a valid position cannot be found, or the engine rejects entity spawning, that defender is skipped and the reason logged.
+Defenders are spawned once as part of generation, tagged nether_settlements:defender, and named Piglin/Piglin Brute to prevent natural despawning. They do not respawn after defeat. Vanilla entity behavior remains in place, including ordinary piglins' gold-armour behavior; no Conquest and Commerce settlement-state integration or vanilla entity-definition overrides are added.
+This version affects newly generated settlements only. Existing villages do not gain mobs or have their floors changed automatically.
+
+Netherrack center-floor blocks now use the road palette: mostly basalt, with roughly 10% smooth basalt selected by the same coordinate-hash material function. Original and sanitized center templates, including retained inactive ruined variants, are updated. Floor jigsaw marker final states are also corrected. Other center materials, decorations, and geometry are preserved.
+Village spacing remains 200 blocks; accessible-terrain searching, eligibility caching, building variety, and gate alignment are retained.
+
+/scriptevent nether_settlements:test crimson
+/scriptevent nether_settlements:test warped
+/scriptevent nether_settlements:find village
+
+Validation: 52 automated geometry, population, and mocked Bedrock runtime checks passed. All 60 eligible building/farm templates have safe spawn space in all four rotations. Population rules verify five-of-either thresholds, one brute near the center, exact counts after complete structure placement, and one piglin for a standalone house. Center NBT validation confirms 1,600 netherrack floor blocks replaced across 32 center templates (1,426 basalt and 174 smooth basalt), plus 38 native marker final-state updates. Live Realm and Conquest and Commerce compatibility verification remains outstanding.
