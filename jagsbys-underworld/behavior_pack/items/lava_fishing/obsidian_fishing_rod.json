@@ -1,0 +1,51 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:item": {
+    "description": {
+      "identifier": "jagsby_nether:obsidian_fishing_rod",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "item.jagsby_nether:obsidian_fishing_rod.name"
+      },
+      "minecraft:icon": {
+        "textures": {
+          "default": "jagsby_lava_obsidian_fishing_rod"
+        }
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:fire_resistant": {
+        "value": true
+      },
+      "minecraft:hand_equipped": true,
+      "minecraft:allow_off_hand": false,
+      "minecraft:interact_button": "Fish",
+      "minecraft:durability": {
+        "max_durability": 256
+      },
+      "minecraft:enchantable": {
+        "slot": "fishing_rod",
+        "value": 9
+      },
+      "minecraft:repairable": {
+        "repair_items": [
+          {
+            "items": [
+              "minecraft:obsidian"
+            ],
+            "repair_amount": 64
+          }
+        ]
+      },
+      "minecraft:use_modifiers": {
+        "use_duration": 0.05,
+        "movement_modifier": 1.0
+      },
+      "minecraft:use_animation": "bow",
+      "jagsby_nether:lava_fishing_rod": {}
+    }
+  }
+}

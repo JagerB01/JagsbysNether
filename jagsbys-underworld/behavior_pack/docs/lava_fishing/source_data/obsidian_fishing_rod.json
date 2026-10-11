@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "i": "#c:obsidians",
+    "s": "#c:strings",
+    "t": "minecraft:stick"
+  },
+  "pattern": [
+    "  i",
+    " is",
+    "t s"
+  ],
+  "result": {
+    "id": "lavafishing:obsidian_fishing_rod"
+  }
+}

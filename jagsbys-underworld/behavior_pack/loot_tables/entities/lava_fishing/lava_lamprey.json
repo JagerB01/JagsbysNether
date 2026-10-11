@@ -1,0 +1,14 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "jagsby_nether:lava_lamprey",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

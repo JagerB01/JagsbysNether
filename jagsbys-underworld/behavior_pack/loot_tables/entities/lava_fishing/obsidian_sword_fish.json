@@ -1,0 +1,14 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "jagsby_nether:obsidian_sword_fish",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

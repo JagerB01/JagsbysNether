@@ -10,6 +10,7 @@ export class ItemStack {
   getComponent() { return undefined; }
 }
 export const components = new Map();
+export const itemComponents = new Map();
 const properties = new Map();
 export const world = {
   getPlayers() { return []; },
@@ -18,12 +19,13 @@ export const world = {
   getDynamicPropertyIds() { return [...properties.keys()]; },
   getAllPlayers() { return []; },
   beforeEvents: {playerInteractWithBlock: signal()},
-  afterEvents: {playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
+  afterEvents: {playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
 };
 const pending = [];
 export const intervals = [], jobs = [];
 export const StructureRotation = {None: "None", Rotate90: "Rotate90", Rotate180: "Rotate180", Rotate270: "Rotate270"};
 export const system = {
+  currentTick: 0,
   runInterval(callback, ticks) { intervals.push({callback, ticks}); return intervals.length; },
   runJob(job) { jobs.push(job); return jobs.length; },
   beforeEvents: {startup: signal()},
@@ -32,7 +34,7 @@ export const system = {
 };
 export function flush() { while (pending.length) pending.shift()(); }
 export function startup() {
-  system.beforeEvents.startup.emit({blockComponentRegistry: {
+  system.beforeEvents.startup.emit({itemComponentRegistry: {registerCustomComponent(name,value){if(itemComponents.has(name))throw Error(`Duplicate item component: ${name}`);itemComponents.set(name,value);}}, blockComponentRegistry: {
     registerCustomComponent(name, value) {
       if (components.has(name)) throw new Error(`Duplicate component: ${name}`);
       components.set(name, value);

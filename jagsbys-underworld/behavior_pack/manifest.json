@@ -1,13 +1,13 @@
 {
   "format_version": 2,
   "header": {
-    "name": "Jagsby's Underworld v0.1.1 Behavior",
-    "description": "Nether villages with native villagers and biome-selected farmland crops. Combined test build.",
+    "name": "Jagsby's Underworld v0.2.0 Behavior",
+    "description": "Nether villages, biome-selected crops, native villagers and scoped lava fishing.",
     "uuid": "174ec47b-0dbf-5e50-abe7-ca5c0023348a",
     "version": [
       0,
-      1,
-      1
+      2,
+      0
     ],
     "min_engine_version": [
       1,
@@ -21,8 +21,8 @@
       "uuid": "7169c2a2-2e88-5716-a616-30acde8075c4",
       "version": [
         0,
-        1,
-        1
+        2,
+        0
       ]
     },
     {
@@ -31,8 +31,8 @@
       "uuid": "b213f3c3-4a02-51d8-b35a-9e14e945639f",
       "version": [
         0,
-        1,
-        1
+        2,
+        0
       ],
       "entry": "scripts/main.js"
     }
@@ -42,8 +42,8 @@
       "uuid": "b4249cc4-f8b3-509a-b401-93e665cef571",
       "version": [
         0,
-        1,
-        1
+        2,
+        0
       ]
     },
     {

@@ -1,0 +1,112 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "jagsby_nether:scaly_foot_snail",
+      "is_spawnable": true,
+      "is_summonable": true
+    },
+    "component_groups": {
+      "swimming": {
+        "minecraft:physics": {
+          "has_gravity": false,
+          "has_collision": true
+        }
+      },
+      "land": {
+        "minecraft:physics": {
+          "has_gravity": true,
+          "has_collision": true
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "jagsby_lava_fish",
+          "mob",
+          "jagsby_lava_amphibious"
+        ]
+      },
+      "minecraft:health": {
+        "value": 3,
+        "max": 3
+      },
+      "minecraft:collision_box": {
+        "width": 0.5,
+        "height": 0.3
+      },
+      "minecraft:physics": {
+        "has_gravity": true,
+        "has_collision": true
+      },
+      "minecraft:pushable": {
+        "is_pushable": true,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "lava",
+            "deals_damage": false
+          },
+          {
+            "cause": "fire",
+            "deals_damage": false
+          },
+          {
+            "cause": "fire_tick",
+            "deals_damage": false
+          }
+        ]
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/entities/lava_fishing/scaly_foot_snail.json"
+      },
+      "minecraft:movement": {
+        "value": 0.08
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:navigation.walk": {
+        "can_walk": true,
+        "can_path_over_lava": true
+      },
+      "minecraft:behavior.random_stroll": {
+        "priority": 4,
+        "speed_multiplier": 1.0
+      },
+      "minecraft:despawn": {
+        "despawn_from_distance": {
+          "min_distance": 40,
+          "max_distance": 64
+        }
+      }
+    },
+    "events": {
+      "jagsby_nether:swimming": {
+        "remove": {
+          "component_groups": [
+            "land"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "swimming"
+          ]
+        }
+      },
+      "jagsby_nether:land": {
+        "remove": {
+          "component_groups": [
+            "swimming"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "land"
+          ]
+        }
+      }
+    }
+  }
+}

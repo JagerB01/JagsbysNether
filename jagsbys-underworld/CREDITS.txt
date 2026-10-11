@@ -1,4 +1,4 @@
-Jagsby's Underworld v0.1.1 — combined personal test build.
+Jagsby's Underworld v0.2.0 — combined personal test build.
 
 Village subsystem: Jagsby's Nether Settlements v0.8.24, including its original
 structures, source notices and license. The complete original release notes
@@ -11,3 +11,9 @@ are under behavior_pack/docs/agriculture/ and in the resource pack.
 
 Cover artwork: supplied by JagerB01 for the combined pack-selection icons.
 Standalone releases remain separately available in the repository.
+
+Lava Fishing v1.3.1: TeamSunset/Sunset (teddyxlandlee, Wei, Karth, Kun,
+chen114514). Original rod/fish textures and fish geometries from the user-supplied
+JAR. Fishing adaptation and these assets use AGPLv3; the full license and
+source metadata are bundled in docs/lava_fishing/. Existing subsystem licenses
+remain unchanged. Upstream: https://github.com/TeamSunset/lavafishing

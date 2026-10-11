@@ -1,14 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {components, startup, world, system, intervals, jobs} from './mock-server.mjs';
+import {components, itemComponents, startup, world, system, intervals, jobs} from './mock-server.mjs';
 import {worldFixture, playerFixture} from './fixtures.mjs';
 import {RECORD_PREFIX} from '../.build/behavior_pack/scripts/settlements/navigation.js';
 import '../.build/behavior_pack/scripts/main.js';
 startup();
 
-test('one combined entry registers crop components and both subsystem schedules exactly once', () => {
+test('one combined entry registers crop components and all subsystem schedules exactly once', () => {
   assert.deepEqual([...components.keys()].sort(), ['jagsby_nether:crop', 'jagsby_nether:farmland', 'jagsby_nether:tillable_soil']);
-  assert.deepEqual(intervals.map(i => i.ticks).sort((a,b) => a-b), [1,100]);
+  assert.deepEqual(intervals.map(i => i.ticks).sort((a,b) => a-b), [1,1,100]);
+  assert.deepEqual([...itemComponents.keys()], ['jagsby_nether:lava_fishing_rod']);
   for (const {callback} of intervals) assert.doesNotThrow(callback);
 });
 test('agriculture starter command is handled once without scheduling a village', () => {
@@ -31,4 +32,11 @@ test('village lookup and crop kit coexist on the same player', () => {
   assert(messages.some(m => m.includes('Nearest recorded warped village')));
   system.afterEvents.scriptEventReceive.emit({id:'jagsby_nether:kit', message:'', sourceEntity:player});
   assert.equal(gifts.length, 10);
+});
+
+test('fishing kit gives exactly one rod and nine fish without a crop kit or generation job',()=>{
+ const {dimension}=worldFixture();const {player,gifts}=playerFixture(dimension);const before=jobs.length;
+ system.afterEvents.scriptEventReceive.emit({id:'jagsby_nether:fishing_kit',sourceEntity:player});
+ assert.equal(gifts.length,10);assert.equal(gifts[0].typeId,'jagsby_nether:obsidian_fishing_rod');
+ assert.equal(new Set(gifts.map(item=>item.typeId)).size,10);assert.equal(jobs.length,before);
 });

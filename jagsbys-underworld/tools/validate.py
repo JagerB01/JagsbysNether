@@ -1,5 +1,6 @@
 """Check pack references and compatibility contracts before producing a download."""
 import json
+import hashlib
 import struct
 import subprocess
 import uuid
@@ -66,6 +67,40 @@ for (let x=-128;x<128;x++) for (let z=-128;z<128;z++) {
 assert(smooth/65536 > 0.19 && smooth/65536 < 0.21);
 console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object.keys(pools).length} pools and 20% material selection`);
 """], cwd=ROOT, check=True)
+    # Validate the entire scoped fishing asset set and its client references.
+    metadata = load(ROOT / 'LAVA_FISHING_SOURCE.json')
+    for source, expected_hash in metadata['assets_sha256'].items():
+        name = Path(source).name
+        if '/textures/item/' in source:
+            target = RP / 'textures/items/lava_fishing' / name
+        elif '/textures/entity/' in source:
+            target = RP / 'textures/entity/lava_fishing' / name
+        elif '/geo/' in source:
+            target = RP / 'models/entity/lava_fishing' / name
+        else:
+            name = 'nether_fish.json' if '/nether/' in source else 'lava_fish.json' if '/lava/' in source else name
+            target = BP / 'docs/lava_fishing/source_data' / name
+        assert hashlib.sha256(target.read_bytes()).hexdigest() == expected_hash, target
+    geometries = {g['description']['identifier'] for p in (RP / 'models').rglob('*.json')
+                  for g in load(p).get('minecraft:geometry', [])}
+    for path in (RP / 'entity/lava_fishing').glob('*.json'):
+        client = load(path)['minecraft:client_entity']['description']
+        assert (BP / 'entities/lava_fishing' / (path.name.replace('.entity.json', '.json'))).is_file()
+        assert all(identifier in geometries for identifier in client['geometry'].values()), path
+        assert all((RP / (texture + '.png')).is_file() for texture in client['textures'].values()), path
+    fish_ids = {'flame_squat_lobster', 'obsidian_sword_fish', 'steam_flying_fish', 'agni_fish',
+                'arowana_fish', 'quartz_fish', 'scaly_foot_snail', 'yeti_crab', 'lava_lamprey'}
+    fishing_items = {p.stem for p in (BP / 'items/lava_fishing').glob('*.json')}
+    assert fishing_items == fish_ids | {'obsidian_fishing_rod'}
+    rod = load(BP / 'items/lava_fishing/obsidian_fishing_rod.json')['minecraft:item']['components']
+    assert rod['minecraft:durability']['max_durability'] == 256
+    assert rod['minecraft:max_stack_size'] == 1
+    assert 'jagsby_nether:lava_fishing_rod' in rod
+    for fish in fish_ids:
+        assert (BP / f'entities/lava_fishing/{fish}.json').is_file()
+        assert load(BP / f'loot_tables/entities/lava_fishing/{fish}.json')['pools'][0]['entries'][0]['name'] == 'jagsby_nether:' + fish
+    print(f'Validated {len(metadata["assets_sha256"])} exact Java fishing assets/data files, nine fish and one rod')
+
     terrain = load(RP / "textures/terrain_texture.json")["texture_data"]
     icons = load(RP / "textures/item_texture.json")["texture_data"]
     for atlas in [terrain, icons]:
@@ -92,7 +127,7 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
                 assert group["minecraft:geometry"] in geometry | {"minecraft:geometry.full_block"}
             for material in group.get("minecraft:material_instances", {}).values():
                 assert material["texture"] in terrain or material["texture"] == "soul_soil", material
-    for path in (BP / "items").glob("*.json"):
+    for path in (BP / "items").rglob("*.json"):
         item = load(path)["minecraft:item"]
         name = item["description"]["identifier"]
         assert name not in identifiers
@@ -112,7 +147,7 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
         elif isinstance(value, list):
             for child in value:
                 references(child)
-    recipes = list((BP / "recipes").glob("*.json"))
+    recipes = list((BP / "recipes").rglob("*.json"))
     for path in recipes:
         recipe = load(path)
         for kind in ("minecraft:recipe_shaped", "minecraft:recipe_shapeless"):

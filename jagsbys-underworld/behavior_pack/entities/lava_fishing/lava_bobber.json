@@ -1,0 +1,175 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "jagsby_nether:lava_bobber",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "properties": {
+        "jagsby_nether:fishing_biome": {
+          "type": "int",
+          "range": [
+            0,
+            4
+          ],
+          "default": 0,
+          "client_sync": false
+        },
+        "jagsby_nether:line_length": {
+          "type": "float",
+          "range": [
+            0,
+            40
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "jagsby_nether:line_yaw": {
+          "type": "float",
+          "range": [
+            -180,
+            180
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "jagsby_nether:line_pitch": {
+          "type": "float",
+          "range": [
+            -90,
+            90
+          ],
+          "default": 0,
+          "client_sync": true
+        }
+      }
+    },
+    "components": {
+      "minecraft:collision_box": {
+        "width": 0.1,
+        "height": 0.1
+      },
+      "minecraft:physics": {
+        "has_gravity": false,
+        "has_collision": false
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "all",
+            "deals_damage": false
+          }
+        ]
+      }
+    },
+    "component_groups": {
+      "cleanup": {
+        "minecraft:instant_despawn": {}
+      },
+      "active_timer": {
+        "minecraft:timer": {
+          "time": 90,
+          "looping": false,
+          "time_down_event": {
+            "event": "jagsby_nether:cleanup",
+            "target": "self"
+          }
+        }
+      }
+    },
+    "events": {
+      "jagsby_nether:cleanup": {
+        "add": {
+          "component_groups": [
+            "cleanup"
+          ]
+        }
+      },
+      "jagsby_nether:classify": {
+        "sequence": [
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "is_biome",
+                  "value": "nether_wastes"
+                }
+              ]
+            },
+            "set_property": {
+              "jagsby_nether:fishing_biome": 1
+            }
+          },
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "is_biome",
+                  "value": "crimson_forest"
+                },
+                {
+                  "test": "is_biome",
+                  "value": "warped_forest"
+                }
+              ]
+            },
+            "set_property": {
+              "jagsby_nether:fishing_biome": 2
+            }
+          },
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "is_biome",
+                  "value": "soulsand_valley"
+                }
+              ]
+            },
+            "set_property": {
+              "jagsby_nether:fishing_biome": 3
+            }
+          },
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "is_biome",
+                  "value": "basalt_deltas"
+                }
+              ]
+            },
+            "set_property": {
+              "jagsby_nether:fishing_biome": 4
+            }
+          }
+        ]
+      },
+      "minecraft:entity_spawned": {
+        "add": {
+          "component_groups": [
+            "active_timer"
+          ]
+        }
+      },
+      "jagsby_nether:keep_alive": {
+        "sequence": [
+          {
+            "remove": {
+              "component_groups": [
+                "active_timer"
+              ]
+            }
+          },
+          {
+            "add": {
+              "component_groups": [
+                "active_timer"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

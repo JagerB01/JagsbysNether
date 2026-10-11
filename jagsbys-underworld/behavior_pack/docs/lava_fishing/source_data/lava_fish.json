@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:fishing",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "lavafishing:flame_squat_lobster",
+          "weight": 34
+        },
+        {
+          "type": "minecraft:item",
+          "name": "lavafishing:obsidian_sword_fish",
+          "weight": 33
+        },
+        {
+          "type": "minecraft:item",
+          "name": "lavafishing:arowana_fish",
+          "weight": 33
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "lavafishing:gameplay/fishing/lava/fish"
+}

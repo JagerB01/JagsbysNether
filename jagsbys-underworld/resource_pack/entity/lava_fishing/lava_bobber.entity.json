@@ -1,0 +1,28 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "jagsby_nether:lava_bobber",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/items/lava_fishing/obsidian_fishing_rod"
+      },
+      "geometry": {
+        "default": "geometry.jagsby_lava_bobber"
+      },
+      "render_controllers": [
+        "controller.render.default"
+      ],
+      "animations": {
+        "line": "animation.jagsby_lava_bobber.line"
+      },
+      "scripts": {
+        "animate": [
+          "line"
+        ]
+      }
+    }
+  }
+}

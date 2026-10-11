@@ -1,0 +1,79 @@
+{
+  "type": "minecraft:fishing",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "lavafishing:gameplay/fishing/lava/fish",
+          "weight": 30
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:location_check",
+              "predicate": {
+                "biomes": "minecraft:soul_sand_valley"
+              }
+            }
+          ],
+          "name": "lavafishing:steam_flying_fish",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:location_check",
+              "predicate": {
+                "biomes": "#c:is_nether_forest"
+              }
+            }
+          ],
+          "name": "lavafishing:agni_fish",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:location_check",
+              "predicate": {
+                "biomes": "minecraft:basalt_deltas"
+              }
+            }
+          ],
+          "name": "lavafishing:scaly_foot_snail",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:location_check",
+              "predicate": {
+                "biomes": "minecraft:basalt_deltas"
+              }
+            }
+          ],
+          "name": "lavafishing:yeti_crab",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:item",
+          "name": "lavafishing:lava_lamprey",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:item",
+          "name": "lavafishing:quartz_fish",
+          "weight": 12
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "lavafishing:gameplay/fishing/nether/fish"
+}

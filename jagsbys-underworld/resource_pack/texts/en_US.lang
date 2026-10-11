@@ -1,0 +1,58 @@
+## Original names and artwork: SuitedLlama, Agriculture Progression.
+item.jagsby_nether:rye_seeds.name=Sorgum Seeds
+item.jagsby_nether:rye.name=Sorgum
+item.jagsby_nether:blistered_rye.name=Blistered Sorgum
+item.jagsby_nether:rye_bread.name=Sorgum Bread
+item.jagsby_nether:blistered_rye_bread.name=Blistered Sorgum Bread
+item.jagsby_nether:scarberries.name=Scarberries
+item.jagsby_nether:scarberry_bottle.name=Scarberry Bottle
+item.jagsby_nether:polyp.name=Polyp
+item.jagsby_nether:baked_polyp.name=Baked Polyp
+item.jagsby_nether:wither_polyp.name=Wither Polyp
+item.jagsby_nether:murky_seeds.name=Grollet Seeds
+item.jagsby_nether:murky_pie.name=Grollet Pie
+item.jagsby_nether:wither_bone.name=Wither Bone
+item.jagsby_nether:wither_bone_meal.name=Wither Bone Meal
+tile.jagsby_nether:murky_gourd.name=Grollet
+tile.jagsby_nether:rye_block.name=Sorgum Bale
+tile.jagsby_nether:blistered_rye_block.name=Blistered Sorgum Bale
+tile.jagsby_nether:wither_bone_block.name=Wither Bone Block
+tile.jagsby_nether:carved_murky_gourd.name=Carved Grollet
+tile.jagsby_nether:murk_o_lantern.name=Grol-o’-Lantern
+tile.jagsby_nether:soul_soil_farmland.name=Soul Soil Farmland
+tile.jagsby_nether:rye_crop.name=Sorgum
+tile.jagsby_nether:polyps.name=Polyps
+tile.jagsby_nether:scarberry_bush.name=Scarberry Bush
+tile.jagsby_nether:murky_gourd_stem.name=Grollet Stem
+tile.jagsby_nether:blistered_rye_crop.name=Blistered Sorgum
+
+tile.jagsby_nether:tillable_soul_soil.name=Soul Soil
+
+item.jagsby_nether:obsidian_fishing_rod.name=Obsidian Fishing Rod
+
+item.jagsby_nether:flame_squat_lobster.name=Flame Squat Lobster
+
+item.jagsby_nether:obsidian_sword_fish.name=Obsidian Sword Fish
+
+item.jagsby_nether:steam_flying_fish.name=Steam Flying Fish
+
+item.jagsby_nether:agni_fish.name=Agni Fish
+
+item.jagsby_nether:arowana_fish.name=Arowana Fish
+
+item.jagsby_nether:quartz_fish.name=Quartz Fish
+
+item.jagsby_nether:scaly_foot_snail.name=Scaly Foot Snail
+
+item.jagsby_nether:yeti_crab.name=Yeti Crab
+
+item.jagsby_nether:lava_lamprey.name=Lava Lamprey
+entity.jagsby_nether:flame_squat_lobster.name=Flame Squat Lobster
+entity.jagsby_nether:obsidian_sword_fish.name=Obsidian Sword Fish
+entity.jagsby_nether:steam_flying_fish.name=Steam Flying Fish
+entity.jagsby_nether:agni_fish.name=Agni Fish
+entity.jagsby_nether:arowana_fish.name=Arowana Fish
+entity.jagsby_nether:quartz_fish.name=Quartz Fish
+entity.jagsby_nether:scaly_foot_snail.name=Scaly Foot Snail
+entity.jagsby_nether:yeti_crab.name=Yeti Crab
+entity.jagsby_nether:lava_lamprey.name=Lava Lamprey
