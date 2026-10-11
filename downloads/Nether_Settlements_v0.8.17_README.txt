@@ -1,0 +1,35 @@
+Nether Settlements v0.8.17 - Village Building Variety
+
+Replace the previous Nether Settlements pack.
+Adds all 52 unused normal crimson/warped roadside building designs to native and scripted house pools: 36 templates per style, up from 10.
+Includes Nether wart farms, animal pens, stables, profession buildings, libraries, temples, larger houses, meeting areas, and an accessory plot.
+Each added design has a sanitized runtime copy. Jigsaw markers are replaced by their intended blocks; Bedrock stair/fence-gate states are applied, vertical markers resolved, and entrance alignment checked.
+At least two enclosed building templates establish a village before outdoor amenities are considered. Farms, pens, stables, accessory plots, and meeting areas do not count toward the center requirement. These amenities count toward the existing overall building budget so layouts remain bounded.
+Zero fitting buildings place nothing. One enclosed building places only that building with no roads or center and no village registry/spacing entry.
+Existing villages are not retroactively expanded.
+
+Kept out of natural house pools:
+- Old preassembled village layouts: duplicate the terrain-aware village assembler and can create huge floating compounds.
+- Zombie variants: deliberately different ruined/abandoned style; need a separate ruined settlement policy.
+- Entity-only mob/piglin templates: spawning helpers, not buildings; need controlled population rules.
+- Loose lamps, decorations, street terminators, and outpost foundation/cage/target/fossil pieces: require dedicated attachment and terrain rules, not random house placement. Existing tower/tent/camp generation remains unchanged.
+
+Four custom prototypes are included for command testing only, not natural generation. Structure names must be quoted and use the pack namespace:
+/structure load "nether_prototypes:crimson_cottage" ~ ~-1 ~5
+/structure load "nether_prototypes:warped_porch_house" ~ ~-1 ~5
+/structure load "nether_prototypes:open_forge" ~ ~-1 ~5
+/structure load "nether_prototypes:basalt_lodge" ~ ~-1 ~5
+Stand on flat ground with at least 15 blocks of headroom and a clear 14-block area in positive Z. Move between tests. These commands overwrite blocks in the template footprint.
+The older prototype pack also works with these corrected commands; its files are unchanged.
+
+Inspect a sanitized existing farm:
+/structure load "nether_settlements:terrain/villages/crimson/houses/small_farm_1" ~ ~-1 ~5
+Other style: replace crimson with warped. Larger farm: replace small_farm_1 with large_farm_1.
+
+Terrain-aware village test, in the Nether:
+/scriptevent nether_settlements:test crimson
+/scriptevent nether_settlements:test warped
+Village finder:
+/scriptevent nether_settlements:find village
+
+Validation: 35 automated geometry and mocked Bedrock runtime checks passed. All 52 new runtime copies passed supported-block-ID/index/jigsaw-removal validation and flat-floor planning in four rotations. Random-seed runtime sampling placed farms, amenities, and profession buildings alongside enclosed buildings. Live Minecraft gameplay verification remains outstanding.
