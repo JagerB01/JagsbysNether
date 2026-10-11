@@ -106,7 +106,7 @@ export function createAnglingController({rng=Math.random}={}){
       try{s.bobber.triggerEvent('jagsby_nether:classify');}catch(error){console.warn(`[Underworld lava fishing] Biome query failed: ${error}`);}
       s.state='classifying';s.deadline=tick+2;s.classifyTimeout=tick+40;
       cue(player,'random.splash',s.target,{volume:0.25,pitch:0.6+Math.random()*0.8});
-      particle(player.dimension,'minecraft:water_splash_particle',s.target);
+      particle(player.dimension,'minecraft:lava_particle',{...s.target,y:s.target.y+0.12});
      }else if(s.bobber.isOnGround){s.state='grounded';}
     }else if(s.state==='classifying' && tick>=s.deadline){
      try{s.biome=s.bobber.getProperty('jagsby_nether:fishing_biome');}catch{s.biome=undefined;}
@@ -117,15 +117,19 @@ export function createAnglingController({rng=Math.random}={}){
      if(s.biome!==undefined){s.state='waiting';s.deadline=tick+Math.max(20,range(rng,100,600)-s.lure*100);}
     }else if(s.state==='waiting' && tick>=s.deadline){s.state='approaching';s.approachStart=tick;s.deadline=tick+range(rng,20,80);s.approachAngle=Math.random()*Math.PI*2;
     }else if(s.state==='approaching'){
-     if(tick%4===0){
-      const radius=2*(s.deadline-tick)/Math.max(1,s.deadline-s.approachStart);
-      particle(player.dimension,'minecraft:water_wake_particle',{x:s.target.x+Math.cos(s.approachAngle)*radius,y:s.target.y,z:s.target.z+Math.sin(s.approachAngle)*radius});
+     if(tick%2===0 && tick<s.deadline){
+      const radius=2*Math.max(0,s.deadline-tick)/Math.max(1,s.deadline-s.approachStart);
+      particle(player.dimension,'minecraft:lava_particle',{x:s.target.x+Math.cos(s.approachAngle)*radius,y:s.target.y+0.12,z:s.target.z+Math.sin(s.approachAngle)*radius});
      }
-     if(tick>=s.deadline){s.state='bite';s.biteStart=tick;s.deadline=tick+range(rng,20,40);cue(player,'random.splash',s.target,{volume:0.25,pitch:0.6+Math.random()*0.8});particle(player.dimension,'minecraft:water_splash_particle',s.target);}
+     if(tick>=s.deadline){s.state='bite';s.biteStart=tick;s.deadline=tick+range(rng,20,40);cue(player,'random.splash',s.target,{volume:0.25,pitch:0.6+Math.random()*0.8});
+      for(let spark=0;spark<12;spark++){
+       const angle=spark*Math.PI/6,radius=spark%2===0?0.08:0.18;
+       particle(player.dimension,'minecraft:lava_particle',{x:s.target.x+Math.cos(angle)*radius,y:s.target.y+0.12,z:s.target.z+Math.sin(angle)*radius});
+      }}
     }else if(s.state==='bite' && tick>=s.deadline){s.state='waiting';s.deadline=tick+Math.max(20,range(rng,100,600)-s.lure*100);}
     if(!sessions.has(id))continue;
     if(['classifying','waiting','approaching','bite'].includes(s.state)){
-     const dip=s.state==='bite'?0.22+Math.sin((tick-s.biteStart)*0.8)*0.025:Math.sin(tick/8)*0.025;
+     const dip=s.state==='bite'?0.32+Math.sin((tick-s.biteStart)*0.8)*0.025:Math.sin(tick/8)*0.025;
      s.visual={...s.target,y:s.target.y-dip};
     }
     if(['classifying','waiting','approaching','bite'].includes(s.state)){s.bobber.clearVelocity();s.bobber.teleport(s.visual,{rotation:{x:0,y:0}});}

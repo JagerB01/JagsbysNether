@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.6 playtest build
+# Lava fishing — v0.2.7 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -80,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.6 and confirm both pack versions and the Content Log.
+1. Import v0.2.7 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -140,3 +140,10 @@ use-animation value. This rollback removes the item-level changes from the
 older AdvancedFishing reference while retaining its physics-cast approach.
 The supplied PNG, vanilla bobber, particle line, fish pools and pack-only outer
 archive are retained. Check the live Content Log to confirm item loading.
+
+## v0.2.7 lava bite cues
+
+The approaching fish leaves a trail of vanilla lava sparks instead of water
+bubbles. Arrival triggers a twelve-spark plume above the lava and a deeper
+bobber dip. Cast landing also uses a lava spark. Sounds, rod artwork, casting
+physics and catch rules are unchanged. Verify these visuals in Minecraft.
