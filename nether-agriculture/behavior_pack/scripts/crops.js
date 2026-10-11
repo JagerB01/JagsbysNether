@@ -94,8 +94,9 @@ export function fertilize(block, rng = Math.random) {
   if (!crop || !isNether(block)) return false;
   if (block.typeId !== `${NS}:scarberry_bush`) {
     const soil = offset(block, 0, -1, 0);
-    // Fertilizer must not bypass the farmland's warming period.
-    if (soil?.typeId !== FARMLAND || soil.permutation.getState(HEATED) !== true || !hasHeat(soil)) return false;
+    // Fertilizer advances the crop independently of natural-growth heating.
+    // It never changes the soil's heat level.
+    if (soil?.typeId !== FARMLAND) return false;
   }
   const age = block.permutation.getState(AGE);
   if (age >= crop.max) return false;

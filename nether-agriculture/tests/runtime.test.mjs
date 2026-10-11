@@ -21,7 +21,7 @@ test('hoe interaction creates dry farmland, then scheduled ticks warm it', () =>
   const {put, dimension} = worldFixture(); const soil = put('minecraft:soul_soil');
   put('minecraft:lava', {x: 1, y: 64, z: 0});
   const tool = new ItemStack('minecraft:iron_hoe'); const {player, animations} = playerFixture(dimension, {held: tool});
-  const event = interact(soil, player, tool); assert.equal(event.cancel, true);
+  const event = interact(soil, player, tool); assert.equal(event.cancel, false);
   assert.equal(soil.typeId, 'minecraft:soul_soil'); flush();
   assert.equal(soil.typeId, FARMLAND); assert.equal(soil.permutation.getState(HEATED), false);
   assert.equal(soil.permutation.getState(HEAT_LEVEL), 0);
@@ -41,18 +41,18 @@ test('adventure mode cannot till or consume fertilizer', () => {
   const tool = new ItemStack('minecraft:iron_hoe'); const {player} = playerFixture(dimension, {mode:'Adventure', held:tool});
   assert.equal(interact(soil, player, tool).cancel, false); flush(); assert.equal(soil.typeId, 'minecraft:soul_soil');
 });
-test('survival fertilizer consumes one item only after successful growth', () => {
-  const {put, dimension} = worldFixture(); put(FARMLAND, undefined, {[HEATED]:true, [HEAT_LEVEL]:7}); put('minecraft:lava', {x: 1, y: 64, z: 0});
+test('survival fertilizer on dry farmland consumes one item after successful growth', () => {
+  const {put, dimension} = worldFixture(); put(FARMLAND);
   const crop = put(id('polyps'), {x: 0, y: 65, z: 0}, {[AGE]: 0});
   const stack = new ItemStack(id('wither_bone_meal'), 2); const {player, slots} = playerFixture(dimension,{held:stack});
-  interact(crop, player, stack); flush(); assert.equal(slots.get(0).amount, 1);
+  assert.equal(interact(crop, player, stack).cancel, false); flush(); assert.equal(slots.get(0).amount, 1);
   assert(crop.permutation.getState(AGE) >= 2);
   assert.equal(dimension.sounds[0].name, 'item.bone_meal.use');
   assert.equal(dimension.particles[0].name, 'minecraft:crop_growth_emitter');
 });
-test('fertilizer is retained when growth is blocked', () => {
+test('fertilizer is retained on a mature crop', () => {
   const {put, dimension} = worldFixture(); put(FARMLAND);
-  const crop = put(id('polyps'), {x: 0, y: 65, z: 0}, {[AGE]: 0});
+  const crop = put(id('polyps'), {x: 0, y: 65, z: 0}, {[AGE]: 7});
   const stack = new ItemStack(id('wither_bone_meal'), 2); const {player, slots} = playerFixture(dimension,{held:stack});
   interact(crop, player, stack); flush(); assert.equal(slots.get(0).amount, 2);
   assert.equal(dimension.sounds.length, 0);
@@ -88,4 +88,15 @@ test('Blistered Rye Bread grants sixteen minutes of fire resistance', () => {
   const {dimension} = worldFixture(); const {player,effects} = playerFixture(dimension);
   world.afterEvents.itemCompleteUse.emit({source:player,itemStack:new ItemStack(id('blistered_rye_bread'))});
   assert.equal(effects.get('fire_resistance'), 19200);
+});
+
+test('fertilizing a ripe berry bush grows it instead of harvesting it', () => {
+  const {put, dimension} = worldFixture();
+  const bush = put(id('scarberry_bush'), undefined, {[AGE]: 2});
+  const stack = new ItemStack(id('wither_bone_meal'), 2);
+  const {player, slots} = playerFixture(dimension, {held: stack});
+  assert.equal(interact(bush, player, stack).cancel, false); flush();
+  assert.equal(bush.permutation.getState(AGE), 3);
+  assert.equal(slots.get(0).amount, 1);
+  assert.equal(dimension.drops.length, 0);
 });

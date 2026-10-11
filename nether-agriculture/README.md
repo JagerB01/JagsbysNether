@@ -1,16 +1,16 @@
 # Nether Agriculture — Bedrock crop port
 
-Personal test build v0.1.3, separate from Nether Settlements. Based on the Nether
+Personal test build v0.1.4, separate from Nether Settlements. Based on the Nether
 farming content in SuitedLlama's Agriculture Progression 1.0.1 for Java 1.16.4.
 The original crop and item textures are included. End crops are excluded.
 
 ## Import and test
 
-Import `../downloads/Nether_Agriculture_v0.1.3.mcaddon` into **Minecraft Bedrock
+Import `../downloads/Nether_Agriculture_v0.1.4.mcaddon` into **Minecraft Bedrock
 1.21.100 or newer**. Enable **Nether Agriculture Behavior** and **Nether Agriculture
 Resources** on a disposable world with cheats enabled. Both packs are required.
 The script uses stable `@minecraft/server` 2.0.0; Beta APIs are not required.
-Replace the previous version with v0.1.3 and ensure both updated packs are active.
+Replace the previous version with v0.1.4 and ensure both updated packs are active.
 The pack has its own namespace and does not replace vanilla entity definitions,
 loot tables, or the Nether Settlements pack.
 
@@ -31,7 +31,8 @@ for the gameplay checklist.
   Lava must be within four blocks horizontally, at the farmland's height or one
   block above it. Water and lava below the soil do not heat it. New farmland starts dry and warms in seven two-second steps, becoming fully
   heated after about fourteen seconds near lava while loaded. Only fully heated
-  farmland glows and supports crop growth/fertilizer. Removing lava cools it
+  farmland glows and supports natural crop growth. Wither Bone Meal also works
+  on dry and warming farmland. Removing lava cools it
   gradually; after cooling completely it returns to soul soil. Bone meal cannot
   instantly heat a newly tilled plot. Already-heated blocks from older versions
   retain their heat when upgrading.
@@ -121,3 +122,10 @@ faces into very thin planes to address visual flicker, and animates both the
 arm and first-person held-item bone for tilling/fertilizer. The animation no
 longer uses an explicit stop expression that could terminate it prematurely.
 These visual changes require another in-game check in both camera views.
+
+Version 0.1.4 allows Wither Bone Meal on dry/warming farmland without changing
+its heat level. Natural growth still requires fully heated soil. Farming
+interactions are no longer cancelled, and the swing animation also drives the
+native player attack-time variable. Arm/held-item motion is experimental and
+requires first-person and third-person testing on Bedrock 26.52; previous
+bone-only animation attempts did not work in the reported game tests.

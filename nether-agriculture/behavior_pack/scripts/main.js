@@ -67,7 +67,9 @@ world.beforeEvents.playerInteractWithBlock.subscribe(event => {
   const harvest = !player.isSneaking && type === id('scarberry_bush') && block.permutation.getState(AGE) >= 2;
   const carve = type === id('murky_gourd') && held === 'minecraft:shears';
   if (!(till || feed || harvest || carve) || !editable(player)) return;
-  event.cancel = true;
+  // Neither a vanilla hoe on soul soil nor this custom fertilizer has a
+  // competing vanilla action. Let those interactions reach the client normally.
+  if ((harvest && !feed) || carve) event.cancel = true;
   if (!event.isFirstEvent) return;
   const dimension = block.dimension, location = {...block.location}, slot = player.selectedSlotIndex;
   system.run(() => guard(() => {
@@ -135,4 +137,4 @@ system.afterEvents.scriptEventReceive.subscribe(({id: eventId, sourceEntity}) =>
   player.sendMessage('Nether Agriculture kit received. Till soul soil within four blocks of lava in the Nether.');
 }));
 
-console.warn('[Nether Agriculture] v0.1.3 loaded. Starter kit: /scriptevent jagsby_nether:kit');
+console.warn('[Nether Agriculture] v0.1.4 loaded. Starter kit: /scriptevent jagsby_nether:kit');

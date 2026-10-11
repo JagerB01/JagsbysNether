@@ -46,9 +46,12 @@ test('fertilizer does not instantly heat warming farmland', () => {
   const {soil, crop, put} = farm(); soil.setType(FARMLAND);
   put('minecraft:lava', {x: 1, y: 64, z: 0});
   updateFarmland(soil);
-  assert.equal(fertilize(crop), false);
+  assert.equal(fertilize(crop, rng(0)), true);
   assert.equal(soil.permutation.getState(HEAT_LEVEL), 1);
-  assert.equal(crop.permutation.getState(AGE), 0);
+  assert.equal(soil.permutation.getState(HEATED), false);
+  assert.equal(crop.permutation.getState(AGE), 2);
+  randomTick(crop, rng(0));
+  assert.equal(crop.permutation.getState(AGE), 2);
 });
 test('heated farmland from an old world upgrades without cooling', () => {
   const {soil} = farm(); soil.setPermutation(soil.permutation.withState(HEAT_LEVEL, 0));
@@ -105,8 +108,20 @@ test('fertilizer advances two to five stages with a maturity cap', () => {
   assert.equal(fertilize(crop, rng(0.99)), true); assert.equal(crop.permutation.getState(AGE), 7);
   assert.equal(fertilize(crop), false);
 });
-test('fertilizer refuses unheated farmland', () => {
-  const {crop} = farm(); assert.equal(fertilize(crop), false); assert.equal(crop.permutation.getState(AGE), 0);
+for (const name of ['rye_crop', 'polyps', 'murky_gourd_stem']) {
+  test(`${name} accepts fertilizer on dry farmland without lava`, () => {
+    const {crop, soil} = farm(name); soil.setType(FARMLAND);
+    assert.equal(fertilize(crop, rng(0)), true);
+    assert.equal(crop.permutation.getState(AGE), 2);
+    assert.equal(soil.permutation.getState(HEAT_LEVEL), 0);
+    assert.equal(soil.permutation.getState(HEATED), false);
+    randomTick(crop, rng(0));
+    assert.equal(crop.permutation.getState(AGE), 2);
+  });
+}
+test('fertilizer refuses unsupported soil', () => {
+  const {crop, soil} = farm(); soil.setType('minecraft:soul_soil');
+  assert.equal(fertilize(crop), false); assert.equal(crop.permutation.getState(AGE), 0);
 });
 test('scarberry fertilizer advances one stage', () => {
   const {crop} = farm('scarberry_bush', 1); assert.equal(fertilize(crop), true);

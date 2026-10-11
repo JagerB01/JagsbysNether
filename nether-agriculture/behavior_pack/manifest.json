@@ -1,13 +1,13 @@
 {
   "format_version": 2,
   "header": {
-    "name": "Nether Agriculture v0.1.3 Behavior",
+    "name": "Nether Agriculture v0.1.4 Behavior",
     "description": "Nether crops port of SuitedLlama's Agriculture Progression. Personal test build.",
     "uuid": "b6b38645-b8b3-5d7b-98d0-18a78ea42226",
     "version": [
       0,
       1,
-      3
+      4
     ],
     "min_engine_version": [
       1,
@@ -22,7 +22,7 @@
       "version": [
         0,
         1,
-        3
+        4
       ]
     },
     {
@@ -32,7 +32,7 @@
       "version": [
         0,
         1,
-        3
+        4
       ],
       "entry": "scripts/main.js"
     }
@@ -43,7 +43,7 @@
       "version": [
         0,
         1,
-        3
+        4
       ]
     },
     {
