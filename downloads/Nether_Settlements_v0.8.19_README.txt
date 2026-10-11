@@ -1,0 +1,18 @@
+Nether Settlements v0.8.19 - Accessible Terrain Search
+
+Replace the previous Nether Settlements pack.
+Removes the 96-128-block search band and the 32-block player exclusion distance. Terrain quality, not player distance, determines site ranking.
+The script discovers accessible chunks by starting in each Nether player's chunk and probing adjacent chunks, continuing through accessible neighbors until the loaded boundary is reached. It does not assume a Realm simulation/render distance, force-load chunks, or scan arbitrary distant saved chunks. Isolated loaded areas disconnected from all player-seeded components are not discovered.
+Each accessible chunk supplies an initial center sample. Suitable samples are ranked by usable ground, headroom, and slope. The eight highest-ranked available samples per pass receive detailed connected-floor surveys and layout planning; failed attempts get temporary cooldowns, letting other candidates rise in subsequent passes.
+This is a practical sampled terrain search, not an exhaustive layout simulation at every block. Work yields across game ticks. More accessible terrain means longer surveys.
+Natural placement avoids a footprint directly over any Nether player (one-block horizontal body clearance). It does not prefer distant terrain or enforce a minimum spawn-distance band. Consequently, a good nearby site can generate near you, as requested. Placement checks repeat during writes; interruptions can leave already placed pieces without a center.
+Minimum distance between recorded villages remains 256 blocks. Zero-house sites place nothing. One enclosed building places only that building, with no roads/center or village spacing entry. Two or more enclosed buildings establish a village; farms and outdoor amenities do not count toward that minimum.
+All 52 additional roadside templates, Nether wart farms, prototypes, rarity settings, and removal of the 24 old preassembled villages are retained. Existing explored terrain remains eligible under this scripted generation system.
+
+/scriptevent nether_settlements:find village
+/scriptevent nether_settlements:find nearest
+Finder potential-site coordinates mark an unchecked region, not an exact generation target or a confirmed village.
+/scriptevent nether_settlements:test crimson
+/scriptevent nether_settlements:test warped
+
+Validation: 40 automated geometry and mocked Bedrock runtime tests passed. These verify generation inside a 64-block accessible area, scanning beyond 128 blocks when terrain is accessible, nearby high-quality terrain outranking distant low-quality terrain, discovery around multiple players, no writes in wholly inaccessible terrain, and retained house/layout/spacing behavior. This tests adaptation to access boundaries, not live Realms performance or access range; live Minecraft verification remains outstanding.
