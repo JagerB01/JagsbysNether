@@ -87,6 +87,16 @@ def main():
     assert load(RP / "blocks.json")["jagsby_nether:soul_soil_farmland"]["sound"] == "soul_soil"
     animations = load(RP / "animations/farming.animation.json")["animations"]
     assert "animation.jagsby_nether.farm_swing" in animations
+    assert {"rightarm", "rightitem"} <= set(animations["animation.jagsby_nether.farm_swing"]["bones"])
+    farmland = blocks["jagsby_nether:soul_soil_farmland"]
+    assert farmland["description"]["states"]["jagsby_nether:heat_level"] == list(range(8))
+    assert farmland["components"]["minecraft:tick"] == {"interval_range": [40, 40], "looping": True}
+    for g in load(RP / "models/blocks/nether_agriculture.geo.json")["minecraft:geometry"]:
+        if g["description"]["identifier"] == "geometry.jagsby_nether.farmland":
+            continue
+        for bone in g["bones"]:
+            for cube in bone.get("cubes", []):
+                assert cube["size"][2] > 0, "Coplanar front/back crop faces can flicker"
     for path in recipes + list((BP / "loot_tables").rglob("*.json")):
         references(load(path))
     assert set(load(RP / "blocks.json")) - {"format_version"} == set(blocks)

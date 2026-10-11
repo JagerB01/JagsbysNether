@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {NS, AGE, HEATED, ATTACHED, FACING, FARMLAND, hasHeat, updateFarmland,
+import {NS, AGE, HEATED, HEAT_LEVEL, ATTACHED, FACING, FARMLAND, hasHeat, updateFarmland,
   randomTick, fertilize, pickBerries} from '../behavior_pack/scripts/crops.js';
 import {worldFixture, rng} from './fixtures.mjs';
 const id = name => `${NS}:${name}`;
 function farm(name = 'rye_crop', age = 0, dimension = 'minecraft:nether') {
   const world = worldFixture(dimension);
-  const soil = world.put(FARMLAND, {x: 0, y: 64, z: 0}, {[HEATED]: true});
+  const soil = world.put(FARMLAND, {x: 0, y: 64, z: 0}, {[HEATED]: true, [HEAT_LEVEL]: 7});
   const crop = world.put(id(name), {x: 0, y: 65, z: 0}, {[AGE]: age, [ATTACHED]: false, [FACING]: 0});
   return {...world, soil, crop};
 }
@@ -25,10 +25,36 @@ test('unloaded heat cells are safe', () => {
   const {soil, dimension} = farm(); dimension.unloaded = new Set(['-4,64,-4']);
   assert.equal(hasHeat(soil), false);
 });
-test('heated soil cools then reverts after removal of lava', () => {
+test('heated soil cools in seven steps then reverts after removal of lava', () => {
   const {soil} = farm(); updateFarmland(soil);
   assert.equal(soil.permutation.getState(HEATED), false);
+  assert.equal(soil.permutation.getState(HEAT_LEVEL), 6);
+  for (let i = 0; i < 6; i++) updateFarmland(soil);
+  assert.equal(soil.permutation.getState(HEAT_LEVEL), 0);
+  assert.equal(soil.typeId, FARMLAND);
   updateFarmland(soil); assert.equal(soil.typeId, 'minecraft:soul_soil');
+});
+test('new farmland warms gradually through all seven stages', () => {
+  const {soil} = farm(); soil.setType(FARMLAND);
+  for (let level = 1; level <= 7; level++) {
+    updateFarmland(soil, true);
+    assert.equal(soil.permutation.getState(HEAT_LEVEL), level);
+    assert.equal(soil.permutation.getState(HEATED), level === 7);
+  }
+});
+test('fertilizer does not instantly heat warming farmland', () => {
+  const {soil, crop, put} = farm(); soil.setType(FARMLAND);
+  put('minecraft:lava', {x: 1, y: 64, z: 0});
+  updateFarmland(soil);
+  assert.equal(fertilize(crop), false);
+  assert.equal(soil.permutation.getState(HEAT_LEVEL), 1);
+  assert.equal(crop.permutation.getState(AGE), 0);
+});
+test('heated farmland from an old world upgrades without cooling', () => {
+  const {soil} = farm(); soil.setPermutation(soil.permutation.withState(HEAT_LEVEL, 0));
+  updateFarmland(soil, true);
+  assert.equal(soil.permutation.getState(HEAT_LEVEL), 7);
+  assert.equal(soil.permutation.getState(HEATED), true);
 });
 test('lava keeps farmland heated', () => {
   const {soil, put} = farm(); put('minecraft:flowing_lava', {x: 1, y: 64, z: 0});

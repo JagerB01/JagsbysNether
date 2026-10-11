@@ -2,6 +2,7 @@
 export const NS = 'jagsby_nether';
 export const AGE = `${NS}:age`;
 export const HEATED = `${NS}:heated`;
+export const HEAT_LEVEL = `${NS}:heat_level`;
 export const ATTACHED = `${NS}:attached`;
 export const FACING = `${NS}:facing`;
 export const FARMLAND = `${NS}:soul_soil_farmland`;
@@ -37,14 +38,16 @@ export function hasHeat(block) {
   }
   return false;
 }
-export function updateFarmland(block) {
-  if (hasHeat(block)) {
-    setState(block, HEATED, true);
-  } else if (block.permutation.getState(HEATED)) {
-    setState(block, HEATED, false);
-  } else {
-    block.setType('minecraft:soul_soil');
-  }
+export function updateFarmland(block, nearbyHeat = hasHeat(block)) {
+  let level = block.permutation.getState(HEAT_LEVEL) ?? 0;
+  // Previously heated farmland restores its full heat when upgrading old worlds.
+  if (level === 0 && block.permutation.getState(HEATED)) level = 7;
+  if (nearbyHeat) level = Math.min(7, level + 1);
+  else if (level > 0) level--;
+  else { block.setType('minecraft:soul_soil'); return; }
+  const heated = level === 7;
+  if (level === block.permutation.getState(HEAT_LEVEL) && heated === block.permutation.getState(HEATED)) return;
+  block.setPermutation(block.permutation.withState(HEAT_LEVEL, level).withState(HEATED, heated));
 }
 export function canGrow(block) {
   if (!isNether(block)) return false;
@@ -91,8 +94,8 @@ export function fertilize(block, rng = Math.random) {
   if (!crop || !isNether(block)) return false;
   if (block.typeId !== `${NS}:scarberry_bush`) {
     const soil = offset(block, 0, -1, 0);
-    if (soil?.typeId !== FARMLAND || !hasHeat(soil)) return false;
-    setState(soil, HEATED, true);
+    // Fertilizer must not bypass the farmland's warming period.
+    if (soil?.typeId !== FARMLAND || soil.permutation.getState(HEATED) !== true || !hasHeat(soil)) return false;
   }
   const age = block.permutation.getState(AGE);
   if (age >= crop.max) return false;

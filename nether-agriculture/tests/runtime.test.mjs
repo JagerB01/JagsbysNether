@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {components, startup, flush, world, system, ItemStack} from './mock-server.mjs';
 import {worldFixture, playerFixture} from './fixtures.mjs';
-import {NS, AGE, HEATED, FARMLAND} from '../behavior_pack/scripts/crops.js';
+import {NS, AGE, HEATED, HEAT_LEVEL, FARMLAND} from '../behavior_pack/scripts/crops.js';
 import '../behavior_pack/scripts/main.js';
 startup();
 const id = name => `${NS}:${name}`;
@@ -17,13 +17,16 @@ test('crop placement cancels outside the Nether', () => {
   const event = {dimension: {id: 'minecraft:overworld'}, cancel: false};
   components.get(id('crop')).beforeOnPlayerPlace(event); assert.equal(event.cancel, true);
 });
-test('hoe interaction tills soul soil and initializes heat after deferred execution', () => {
+test('hoe interaction creates dry farmland, then scheduled ticks warm it', () => {
   const {put, dimension} = worldFixture(); const soil = put('minecraft:soul_soil');
   put('minecraft:lava', {x: 1, y: 64, z: 0});
   const tool = new ItemStack('minecraft:iron_hoe'); const {player, animations} = playerFixture(dimension, {held: tool});
   const event = interact(soil, player, tool); assert.equal(event.cancel, true);
   assert.equal(soil.typeId, 'minecraft:soul_soil'); flush();
-  assert.equal(soil.typeId, FARMLAND); assert.equal(soil.permutation.getState(HEATED), true);
+  assert.equal(soil.typeId, FARMLAND); assert.equal(soil.permutation.getState(HEATED), false);
+  assert.equal(soil.permutation.getState(HEAT_LEVEL), 0);
+  for (let i = 0; i < 7; i++) components.get(id('farmland')).onTick({block:soil});
+  assert.equal(soil.permutation.getState(HEATED), true);
   assert.equal(dimension.sounds[0].name, 'use.gravel');
   assert.equal(animations[0].name, 'animation.jagsby_nether.farm_swing');
 });
@@ -39,7 +42,7 @@ test('adventure mode cannot till or consume fertilizer', () => {
   assert.equal(interact(soil, player, tool).cancel, false); flush(); assert.equal(soil.typeId, 'minecraft:soul_soil');
 });
 test('survival fertilizer consumes one item only after successful growth', () => {
-  const {put, dimension} = worldFixture(); put(FARMLAND); put('minecraft:lava', {x: 1, y: 64, z: 0});
+  const {put, dimension} = worldFixture(); put(FARMLAND, undefined, {[HEATED]:true, [HEAT_LEVEL]:7}); put('minecraft:lava', {x: 1, y: 64, z: 0});
   const crop = put(id('polyps'), {x: 0, y: 65, z: 0}, {[AGE]: 0});
   const stack = new ItemStack(id('wither_bone_meal'), 2); const {player, slots} = playerFixture(dimension,{held:stack});
   interact(crop, player, stack); flush(); assert.equal(slots.get(0).amount, 1);

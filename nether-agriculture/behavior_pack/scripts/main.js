@@ -1,5 +1,5 @@
 import {world, system, ItemStack, GameMode} from '@minecraft/server';
-import {NS, AGE, CROPS, FARMLAND, HEATED, read, offset, setState, hasHeat, updateFarmland,
+import {NS, AGE, CROPS, FARMLAND, read, offset, updateFarmland,
   randomTick, fertilize, pickBerries} from './crops.js';
 
 const id = name => `${NS}:${name}`;
@@ -37,7 +37,7 @@ function farmingFeedback(player, block, fertilizer = false) {
   // These effects run only after the farming action succeeds.
   const location = {x: block.location.x + 0.5, y: block.location.y + 0.5, z: block.location.z + 0.5};
   guard(() => player.playAnimation('animation.jagsby_nether.farm_swing', {
-    blendOutTime: 0.05, stopExpression: 'q.anim_time >= 0.3',
+    blendOutTime: 0.05,
   }));
   guard(() => block.dimension.playSound(fertilizer ? 'item.bone_meal.use' : 'use.gravel', location));
   if (fertilizer) guard(() => block.dimension.spawnParticle('minecraft:crop_growth_emitter', location));
@@ -51,10 +51,9 @@ system.beforeEvents.startup.subscribe(({blockComponentRegistry}) => {
     onRandomTick({block}) { guard(() => randomTick(block)); },
   });
   blockComponentRegistry.registerCustomComponent(id('farmland'), {
-    onPlace({block}) { guard(() => {
-      setState(block, HEATED, hasHeat(block));
-    }); },
-    onRandomTick({block}) { guard(() => updateFarmland(block)); },
+    // Newly placed/tiled farmland uses its dry default. Seven two-second steps
+    // warm it fully; cooling also happens gradually after lava is removed.
+    onTick({block}) { guard(() => updateFarmland(block)); },
   });
 });
 
@@ -81,7 +80,6 @@ world.beforeEvents.playerInteractWithBlock.subscribe(event => {
       }
       if (!offset(target, 0, 1, 0)?.isAir) return;
       target.setType(FARMLAND);
-      setState(target, HEATED, hasHeat(target));
       damageTool(player, slot, stack);
       farmingFeedback(player, target);
     } else if (feed && fertilize(target)) {
@@ -137,4 +135,4 @@ system.afterEvents.scriptEventReceive.subscribe(({id: eventId, sourceEntity}) =>
   player.sendMessage('Nether Agriculture kit received. Till soul soil within four blocks of lava in the Nether.');
 }));
 
-console.warn('[Nether Agriculture] v0.1.2 loaded. Starter kit: /scriptevent jagsby_nether:kit');
+console.warn('[Nether Agriculture] v0.1.3 loaded. Starter kit: /scriptevent jagsby_nether:kit');

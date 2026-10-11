@@ -1,16 +1,16 @@
 # Nether Agriculture — Bedrock crop port
 
-Personal test build v0.1.2, separate from Nether Settlements. Based on the Nether
+Personal test build v0.1.3, separate from Nether Settlements. Based on the Nether
 farming content in SuitedLlama's Agriculture Progression 1.0.1 for Java 1.16.4.
 The original crop and item textures are included. End crops are excluded.
 
 ## Import and test
 
-Import `../downloads/Nether_Agriculture_v0.1.2.mcaddon` into **Minecraft Bedrock
+Import `../downloads/Nether_Agriculture_v0.1.3.mcaddon` into **Minecraft Bedrock
 1.21.100 or newer**. Enable **Nether Agriculture Behavior** and **Nether Agriculture
 Resources** on a disposable world with cheats enabled. Both packs are required.
 The script uses stable `@minecraft/server` 2.0.0; Beta APIs are not required.
-Replace the previous version with v0.1.2 and ensure both updated packs are active.
+Replace the previous version with v0.1.3 and ensure both updated packs are active.
 The pack has its own namespace and does not replace vanilla entity definitions,
 loot tables, or the Nether Settlements pack.
 
@@ -29,8 +29,12 @@ for the gameplay checklist.
 
 - Use a vanilla hoe on the top of soul soil to make Soul Soil Farmland.
   Lava must be within four blocks horizontally, at the farmland's height or one
-  block above it. Water and lava below the soil do not heat it. Heated farmland
-  glows faintly; unheated farmland eventually returns to soul soil.
+  block above it. Water and lava below the soil do not heat it. New farmland starts dry and warms in seven two-second steps, becoming fully
+  heated after about fourteen seconds near lava while loaded. Only fully heated
+  farmland glows and supports crop growth/fertilizer. Removing lava cools it
+  gradually; after cooling completely it returns to soul soil. Bone meal cannot
+  instantly heat a newly tilled plot. Already-heated blocks from older versions
+  retain their heat when upgrading.
 - Plant Sorgum Seeds, Polyps, or Grollet Seeds on Soul Soil Farmland. They only grow
   on heated farmland in the Nether. Sorgum and Polyps have eight stages; polyps
   use the original four texture stages. Wither Bone Meal advances two to five
@@ -111,3 +115,9 @@ Version 0.1.2 renames displayed Rye content to Sorgum and Murky Gourd content
 to Grollet (including seeds, bread, pie, bales, stems and decorations). Internal
 identifiers keep their original spelling so existing blocks, inventories and
 recipes continue working in worlds upgraded from v0.1.0 or v0.1.1.
+
+Version 0.1.3 adds delayed farmland heating/cooling, separates coplanar crop
+faces into very thin planes to address visual flicker, and animates both the
+arm and first-person held-item bone for tilling/fertilizer. The animation no
+longer uses an explicit stop expression that could terminate it prematurely.
+These visual changes require another in-game check in both camera views.

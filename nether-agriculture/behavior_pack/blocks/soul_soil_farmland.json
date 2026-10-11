@@ -10,6 +10,16 @@
         "jagsby_nether:heated": [
           false,
           true
+        ],
+        "jagsby_nether:heat_level": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
         ]
       }
     },
@@ -59,7 +69,14 @@
         ]
       },
       "minecraft:loot": "loot_tables/blocks/soul_soil_farmland.json",
-      "jagsby_nether:farmland": {}
+      "jagsby_nether:farmland": {},
+      "minecraft:tick": {
+        "interval_range": [
+          40,
+          40
+        ],
+        "looping": true
+      }
     },
     "permutations": [
       {
