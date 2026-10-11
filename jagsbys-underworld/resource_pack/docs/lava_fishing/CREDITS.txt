@@ -2,3 +2,8 @@ Lava Fishing 1.3.1 by TeamSunset/Sunset. Contributors: teddyxlandlee, Wei, Karth
 Original item textures from the user-supplied Java JAR. Fishing adaptation and these assets are distributed under AGPLv3; see LICENSE.txt.
 Upstream: https://github.com/TeamSunset/lavafishing
 Bedrock adaptation source: https://github.com/JagerB01/JagsbysNether/tree/lava-fishing-v0.2.0/jagsbys-underworld
+
+Vanilla bobber geometry/texture and sounds resolve from Minecraft's built-in resources.
+AdvancedFishing.mcaddon by Renderphoenix and devsuki was supplied by the user
+and inspected as a behavior reference: native-physics casts, surface anchoring
+and world-space particle lines. Its code, textures, fish and gear are not bundled.

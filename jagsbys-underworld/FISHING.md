@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.2 playtest build
+# Lava fishing — v0.2.3 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -22,8 +22,9 @@ For a test rod and one of each catch, run:
 ```
 
 Cast toward exposed lava within 32 blocks and use the rod to cast. The bobber travels
-in an arc and floats on the surface, with a modeled fishing line. Wait for it to
-dip, splash and display **Bite! Reel in!**, then use the rod again. The default
+in an arc and floats on the surface, with a curved black particle line running back to the rod tip. Wait for it to
+dip and splash, then use the rod again. No action-bar prompts accompany casting,
+waiting or bites. The default
 wait is 5–30 seconds plus a 1–4 second approach, followed by a 1–2 second catch
 window. Lure reduces the waiting phase. Missing a bite restarts the wait;
 reeling early gives nothing. A successful catch gives one fish, 1–6 XP and uses
@@ -64,8 +65,9 @@ All nine fish are inventory catch items only. There are no living fish entities,
 fish spawn eggs or natural fish spawning. The bobber is the only entity added
 for fishing and is needed to display casts, the line and bite cues.
 
-Bedrock cannot load the Java mod or its Aquaculture hooks. Casting checks lava blocks directly and supports a forward,
-falling arc and a custom bobber/line; it does not hook/pull entities. Weather and
+Bedrock cannot load the Java mod or its Aquaculture hooks. The cast uses native entity gravity and an impulse, followed by a lava-surface
+anchor. The bobber uses the built-in vanilla fishhook geometry and texture;
+the line uses a short-lived world-space particle curve. The controller does not hook/pull entities. Weather and
 open-sky speed modifiers are not reproduced. The original rod/cast textures are
 included, but the inventory icon does not switch while a cast is active.
 
@@ -78,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.2 and confirm both pack versions and the Content Log.
+1. Import v0.2.3 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -102,22 +104,29 @@ The original fish loot tables and rod recipe are included under
 `behavior_pack/docs/lava_fishing/source_data/`. Fishing code, assets and the full
 AGPLv3 license are bundled and attributed. Other subsystem licenses are retained.
 
-## v0.2.2 visual and session corrections
+## v0.2.3 revision and AdvancedFishing reference
 
-The bobber has its own render controller, explicit health and lava immunity,
-and a larger body and line. It floats above the lava surface and dips on a bite.
-The rod has a hand-bound model with separate first-person and third-person
-transforms; the original inventory artwork is unchanged. Cast and waiting
-messages accompany the visual cues. Rendering-property failures no longer
-remove the bobber. Float line properties use decimal JSON defaults and ranges, and damage immunity
-uses the current string schema. Biome detection uses native `has_biome_tag`
-filters, including `nether_wastes`, instead of the restricted `is_biome` presets.
-The same biome-filter correction applies to the village crop probe.
-Delayed biome classification is retried for two seconds;
-if unavailable, fishing continues with the common Nether fish pool.
+The displaced custom held-rod model and pose animations have been removed.
+The rod uses the ordinary flat held-item renderer with the same tool flag and
+instant use behavior as the user-supplied AdvancedFishing rod. Its icon remains
+original. No attachment, custom hand translation or custom hand scale is used.
 
-Live verification: check rod orientation in inventory, first-person and
-third-person views; cast and verify the bobber and line remain until reeling.
-Wait for “Bite! Reel in!” and use again to catch a fish. Verify biome-specific
-catches in each vanilla Nether biome and inspect the Content Log if the
-common-pool fallback warning appears.
+AdvancedFishing by Renderphoenix and devsuki was inspected for its native-physics
+cast, surface anchor and curved world-space particle-line approach. This build
+implements those techniques in the existing fishing controller. It does not
+bundle that add-on's code, textures, fish, gear, chum or loot tables.
+
+The old crosshair targeting and fixed-duration teleported cast arc are removed.
+A cast launches from in front of the player's head using a real entity impulse;
+collision and gravity come from Bedrock. On reaching exposed lava, the bobber
+settles on its surface and waits for a bite. The curved black line follows the
+rod tip and hook. Cast/retrieve sound uses the vanilla player throw sound and
+its volume/pitch range; landing and bites use the vanilla hook splash sound.
+Routine fishing has no action-bar messages.
+
+This is a scripted lava-fishing controller with vanilla visuals and cues, rather
+than a replacement for Bedrock's native water-fishing implementation. Catches,
+XP and durability retain the existing Java-derived rules. The original rod/cast
+textures are present, but the custom item icon remains static. Held orientation,
+particle-line continuity, cast feel and client sound still require a gameplay
+check; automated tests cannot establish those visual results.

@@ -1,19 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
-import {createAnglingController,findLavaTarget,catchFish,fishPool,FISH,ROD} from '../.build/behavior_pack/scripts/lava_fishing/angling.js';
+import {createAnglingController,linePoints,catchFish,fishPool,FISH,ROD} from '../.build/behavior_pack/scripts/lava_fishing/angling.js';
 import {applyFishFood,updateFishEffects} from '../.build/behavior_pack/scripts/lava_fishing/fish.js';
 const json=file=>JSON.parse(readFileSync(new URL(file,import.meta.url)));
 function fixture({dimension='minecraft:nether',biome=1,mode='Survival',damage=0,maxDurability=256,chance=100,lure=0}={}){
- const properties=new Map(),rodProperties=new Map(),caught=[],sounds=[],particles=[],positions=[],effects=[],fires=[],experience=[],damageTaken=[];
+ const properties=new Map(),rodProperties=new Map(),caught=[],sounds=[],particles=[],positions=[],impulses=[],messages=[],effects=[],fires=[],experience=[],damageTaken=[];
  const rod={typeId:ROD,getDynamicProperty:k=>rodProperties.get(k),setDynamicProperty:(k,v)=>rodProperties.set(k,v),getComponent(type){if(type==='minecraft:durability')return durability;if(type==='minecraft:enchantable')return {getEnchantment:name=>({level:name==='lure'?lure:0})};}};
  const durability={damage,maxDurability,getDamageChance:()=>chance};
  const inventory=new Map([[0,rod]]);const container={getItem:slot=>inventory.get(slot),setItem:(slot,value)=>inventory.set(slot,value),addItem:item=>{caught.push(item);return undefined;}};
  const lava={typeId:'minecraft:lava',isAir:false,location:{x:0,y:31,z:8},permutation:{getState:()=>0}};
- const bobber={isValid:true,removed:0,events:[],teleport:p=>positions.push(p),triggerEvent(event){this.events.push(event);},getProperty:()=>biome,setProperty(){},remove(){this.removed++;this.isValid=false;}};
- const dim={id:dimension,entities:[],getBlock(p){return p.y<=31?lava:{typeId:'minecraft:air',isAir:true};},spawnEntity(type,p){this.entities.push({type,p});return bobber;},playSound:(id,p)=>sounds.push({id,p}),spawnParticle:(id,p)=>particles.push({id,p}),spawnItem(item){caught.push(item);},getEntities:()=>[]};
- const player={id:'angler',typeId:'minecraft:player',selectedSlotIndex:0,location:{x:0,y:32,z:0},dimension:dim,getGameMode:()=>mode,getComponent:()=>({container}),getBlockFromViewDirection:options=>{assert.equal(options.includeLiquidBlocks,true);return {block:lava,faceLocation:{x:0.5,z:0.5}};},getHeadLocation:()=>({x:0,y:33.6,z:0}),getViewDirection:()=>({x:0,y:-0.3,z:Math.sqrt(0.91)}),addExperience:n=>experience.push(n),onScreenDisplay:{setActionBar:()=>{}},addEffect:(...args)=>effects.push(args),setOnFire:(...args)=>fires.push(args),setDynamicProperty:(k,v)=>properties.set(k,v),getDynamicProperty:k=>properties.get(k),applyDamage:(...args)=>damageTaken.push(args),getVelocity:()=>({y:-0.2}),teleport:p=>positions.push(p),applyImpulse:p=>positions.push(p)};
- return {player,dim,bobber,lava,inventory,rod,durability,caught,experience,effects,fires,properties,positions,damageTaken};
+ const bobber={location:{x:0,y:31.9,z:8},applyImpulse:v=>impulses.push(v),clearVelocity(){},isOnGround:false,isValid:true,removed:0,events:[],teleport(p){positions.push(p);this.location=p;},triggerEvent(event){this.events.push(event);},getProperty:()=>biome,setProperty(){},remove(){this.removed++;this.isValid=false;}};
+ const dim={id:dimension,entities:[],getBlock(p){return p.y<=31?lava:{typeId:'minecraft:air',isAir:true};},spawnEntity(type,p){this.entities.push({type,p});return bobber;},playSound:(id,p,options)=>sounds.push({id,p,options}),spawnParticle:(id,p)=>particles.push({id,p}),spawnItem(item){caught.push(item);},getEntities:()=>[]};
+ const player={id:'angler',typeId:'minecraft:player',selectedSlotIndex:0,location:{x:0,y:32,z:0},dimension:dim,getGameMode:()=>mode,getComponent:()=>({container}),getBlockFromViewDirection:options=>{assert.equal(options.includeLiquidBlocks,true);return {block:lava,faceLocation:{x:0.5,z:0.5}};},getHeadLocation:()=>({x:0,y:33.6,z:0}),getViewDirection:()=>({x:0,y:-0.3,z:Math.sqrt(0.91)}),addExperience:n=>experience.push(n),onScreenDisplay:{setActionBar:m=>messages.push(m)},addEffect:(...args)=>effects.push(args),setOnFire:(...args)=>fires.push(args),setDynamicProperty:(k,v)=>properties.set(k,v),getDynamicProperty:k=>properties.get(k),applyDamage:(...args)=>damageTaken.push(args),getVelocity:()=>({y:-0.2}),teleport:p=>positions.push(p),applyImpulse:p=>positions.push(p)};
+ return {player,dim,bobber,lava,inventory,rod,durability,caught,experience,effects,fires,properties,positions,impulses,messages,sounds,particles,damageTaken};
 }
 function bite(controller,f,start=0){assert.equal(controller.use(f.player,start),true);for(const tick of [start+12,start+14,start+114,start+134])controller.update([f.player],tick);assert.equal(controller.sessions.get(f.player.id).state,'bite');}
 test('uploaded Java loot tables and fishing-only scope determine the pools',()=>{
@@ -53,12 +53,16 @@ for(const [name,mutate,players] of [
  ['removing lava',f=>{f.lava.typeId='minecraft:air';}],
  ['disconnecting',()=>{},[]],
  ['losing the bobber',f=>{f.bobber.isValid=false;}],
-])test(`${name} cancels without loot`,()=>{const f=fixture(),c=createAnglingController();c.use(f.player,0);mutate(f);c.update(players??[f.player],5);assert.equal(c.sessions.size,0);assert.equal(f.caught.length,0);});
+])test(`${name} cancels without loot`,()=>{const f=fixture(),c=createAnglingController();c.use(f.player,0);c.update([f.player],12);c.update([f.player],14);mutate(f);c.update(players??[f.player],15);assert.equal(c.sessions.size,0);assert.equal(f.caught.length,0);});
 test('rod breaks at 256 damage and Creative/Unbreaking preserve durability',()=>{
  for(const settings of [{damage:255},{mode:'Creative'},{chance:0}]){const f=fixture(settings),c=createAnglingController({rng:()=>0});bite(c,f);c.use(f.player,135);assert.equal(f.caught.length,1);if(settings.damage===255)assert.equal(f.inventory.get(0),undefined);else assert.equal(f.durability.damage,0);}
 });
-test('water, blocked lava and spectators cannot cast',()=>{
- for(const which of ['water','blocked','spectator']){const f=fixture({mode:which==='spectator'?'Spectator':'Survival'}),c=createAnglingController();if(which==='water')f.lava.typeId='minecraft:water';if(which==='blocked')f.dim.getBlock=()=>({typeId:'minecraft:stone',isAir:false});assert.equal(c.use(f.player,0),false);assert.equal(f.dim.entities.length,0);}
+test('casting into air or water is allowed, but cannot yield lava fish; Spectators cannot cast',()=>{
+ for(const type of ['minecraft:water','minecraft:stone']){
+  const f=fixture(),c=createAnglingController();f.lava.typeId=type;
+  assert.equal(c.use(f.player,0),true);c.update([f.player],12);c.use(f.player,14);assert.equal(f.caught.length,0);
+ }
+ const f=fixture({mode:'Spectator'});assert.equal(createAnglingController().use(f.player,0),false);assert.equal(f.dim.entities.length,0);
 });
 test('delayed classification is retried, and missing biome data keeps common fish catchable',()=>{
  const f=fixture(),c=createAnglingController({rng:()=>0});f.bobber.getProperty=()=>undefined;
@@ -74,14 +78,14 @@ test('late native biome properties select the correct pool without removing the 
  c.use(f.player,0);c.update([f.player],12);c.update([f.player],14);biome=4;c.update([f.player],20);
  assert.equal(c.sessions.get(f.player.id).biome,4);assert.equal(f.bobber.removed,0);
 });
-test('failed line synchronization does not stop fishing or remove the bobber',()=>{
- const f=fixture(),c=createAnglingController({rng:()=>0});f.bobber.setProperty=()=>{throw Error('Visual property unavailable');};
+test('failed line particles do not stop fishing or remove the bobber',()=>{
+ const f=fixture(),c=createAnglingController({rng:()=>0});f.dim.spawnParticle=()=>{throw Error('Visual particle unavailable');};
  bite(c,f);assert.equal(f.bobber.removed,0);c.use(f.player,135);assert.equal(f.caught.length,1);
 });
-test('cast and wait feedback remains visible before the bite',()=>{
- const f=fixture(),c=createAnglingController({rng:()=>0}),messages=[];f.player.onScreenDisplay.setActionBar=m=>messages.push(m);
- c.use(f.player,0);c.update([f.player],12);c.update([f.player],14);c.update([f.player],40);
- assert(messages.some(m=>m.startsWith('Cast!')));assert(messages.some(m=>m.includes('waiting for a bite')));
+test('normal fishing uses bobber dips and splash cues without action-bar prompts',()=>{
+ const f=fixture(),c=createAnglingController({rng:()=>0});bite(c,f);
+ assert.equal(f.messages.length,0);assert(f.bobber.location.y<c.sessions.get(f.player.id).target.y-0.15);
+ assert(f.sounds.some(s=>s.id==='random.splash'));c.use(f.player,135);assert.equal(f.messages.length,0);
 });
 test('fish food preserves native durations and scoped custom effects expire',()=>{
  const f=fixture();applyFishFood(f.player,'jagsby_nether:obsidian_sword_fish',100);applyFishFood(f.player,'jagsby_nether:flame_squat_lobster',100);
@@ -100,31 +104,37 @@ test('fishing adds only catch items and the required bobber, with no living fish
  for(const name of FISH)assert.equal(json(`../behavior_pack/items/lava_fishing/${name}.json`)['minecraft:item'].description.identifier,`jagsby_nether:${name}`);
 });
 
-test('direct lava detection works when native liquid raycast misses',()=>{
- const f=fixture();f.player.getBlockFromViewDirection=()=>undefined;
- assert(findLavaTarget(f.player));const c=createAnglingController();assert(c.use(f.player,0));assert.equal(c.sessions.size,1);
+test('casting uses native entity impulse rather than a crosshair raycast or teleported arc',()=>{
+ const f=fixture();f.player.getBlockFromViewDirection=()=>{throw Error('Raycasts must not drive fishing');};
+ const c=createAnglingController();assert(c.use(f.player,0));assert.equal(f.impulses.length,1);
+ assert.equal(f.positions.length,0);assert(f.impulses[0].z>1);
+ assert.equal(f.dim.entities[0].type,'jagsby_nether:lava_bobber');
 });
-test('a level forward cast arcs down into lava below the crosshair',()=>{
- const f=fixture();f.player.getViewDirection=()=>({x:0,y:0,z:1});f.player.getBlockFromViewDirection=()=>undefined;
- const hit=findLavaTarget(f.player);assert(hit);assert.equal(hit.block.y,31);assert(hit.target.z>1&&hit.target.z<32);
+test('line connects the rod and bobber in world coordinates, sags, and is bounded',()=>{
+ const a={x:2,y:4,z:6},b={x:-3,y:2,z:-8},points=linePoints(a,b);
+ assert.deepEqual(points[0],a);assert(Math.hypot(points.at(-1).x-b.x,points.at(-1).y-b.y,points.at(-1).z-b.z)<1e-8);
+ const mid=points[Math.floor(points.length/2)];assert(mid.y<(a.y+b.y)/2);assert(points.length<=221);
+ for(const p of points)for(const n of Object.values(p))assert(Number.isFinite(n));
 });
-test('casting cannot pass through a solid wall or fish in water',()=>{
- const f=fixture();f.dim.getBlock=p=>p.z>=2?{typeId:'minecraft:stone',isAir:false}:{typeId:'minecraft:air',isAir:true};assert.equal(findLavaTarget(f.player),undefined);
- f.dim.getBlock=p=>p.y<=31?{typeId:'minecraft:water',isAir:false}:{typeId:'minecraft:air',isAir:true};assert.equal(findLavaTarget(f.player),undefined);
+test('steep native casts detect the crossed lava surface instead of sinking to the sampled depth',()=>{
+ const f=fixture(),c=createAnglingController();c.use(f.player,0);f.bobber.location={x:0,y:28,z:3};c.update([f.player],1);
+ assert.equal(c.sessions.get(f.player.id).state,'classifying');assert.equal(c.sessions.get(f.player.id).block.y,31);
+ assert(f.bobber.location.y>31.8);
 });
-
-test('bobber and held rod use complete local render resources',()=>{
+test('bobber uses the vanilla fishhook atlas and the rod has no custom held model',()=>{
  const controllers=json('../resource_pack/render_controllers/lava_fishing.render_controllers.json').render_controllers;
  const client=json('../resource_pack/entity/lava_fishing/lava_bobber.entity.json')['minecraft:client_entity'].description;
  for(const name of client.render_controllers)assert(controllers[name]);
- const components=json('../behavior_pack/entities/lava_fishing/lava_bobber.json')['minecraft:entity'].components;
- assert('minecraft:fire_immune' in components);assert.equal(components['minecraft:health'].value,1);
- const held=json('../resource_pack/attachables/obsidian_fishing_rod.json')['minecraft:attachable'].description;
- assert.equal(held.identifier,ROD);for(const name of held.render_controllers)assert(controllers[name]);
- const geometry=json('../resource_pack/models/entity/lava_fishing/obsidian_fishing_rod.geo.json')['minecraft:geometry'][0];
- assert.equal(geometry.description.identifier,held.geometry.default);
- assert(geometry.bones[0].binding.includes('item_slot_to_bone_name'));
- assert(geometry.bones[0].cubes.some(c=>c.origin[1]>10));
+ assert.equal(client.textures.default,'textures/entity/fishhook');assert.equal(client.geometry.default,'geometry.fishing_hook');
+ const bobber=json('../behavior_pack/entities/lava_fishing/lava_bobber.json')['minecraft:entity'];
+ assert('minecraft:fire_immune' in bobber.components);assert.equal(bobber.components['minecraft:physics'].has_gravity,true);
+ assert(!Object.keys(bobber.description.properties).some(k=>k.includes('line_')));
+ assert.throws(()=>readFileSync(new URL('../resource_pack/attachables/obsidian_fishing_rod.json',import.meta.url)));
+ const rod=json('../behavior_pack/items/lava_fishing/obsidian_fishing_rod.json')['minecraft:item'].components;
+ assert.equal(rod['minecraft:hand_equipped'],true);assert.equal(rod['minecraft:use_animation'],'none');
+ assert.equal(rod['minecraft:use_modifiers'].use_duration,0);
+ const particle=json('../resource_pack/particles/lava_fishing_line.particle.json').particle_effect;
+ assert.equal(particle.description.identifier,'jagsby_nether:fishing_line');
 });
 
 test('Nether biome classification uses native tags rather than the limited is_biome presets',()=>{
@@ -133,4 +143,11 @@ test('Nether biome classification uses native tags rather than the limited is_bi
  assert(wastes.filters.any_of.some(f=>f.test==='has_biome_tag'&&f.value==='nether_wastes'));
  for(const entry of entity.events['jagsby_nether:classify'].sequence)for(const filter of entry.filters.any_of)assert.equal(filter.test,'has_biome_tag');
  assert.equal(entity.components['minecraft:damage_sensor'].triggers[0].deals_damage,'no');
+});
+
+test('cast and retrieval use vanilla throwing sound settings, while bites use hook splash settings',()=>{
+ const f=fixture(),c=createAnglingController({rng:()=>0});bite(c,f);c.use(f.player,135);
+ const throws=f.sounds.filter(s=>s.id==='random.bow');assert.equal(throws.length,2);
+ for(const sound of throws){assert.equal(sound.options.volume,0.5);assert(sound.options.pitch>=0.33&&sound.options.pitch<=0.5);}
+ for(const sound of f.sounds.filter(s=>s.id==='random.splash'))assert.equal(sound.options.volume,0.25);
 });

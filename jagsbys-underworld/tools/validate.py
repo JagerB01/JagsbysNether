@@ -86,8 +86,8 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
     for path in (RP / 'entity/lava_fishing').glob('*.json'):
         client = load(path)['minecraft:client_entity']['description']
         assert (BP / 'entities/lava_fishing' / (path.name.replace('.entity.json', '.json'))).is_file()
-        assert all(identifier in geometries for identifier in client['geometry'].values()), path
-        assert all((RP / (texture + '.png')).is_file() for texture in client['textures'].values()), path
+        assert all(identifier == 'geometry.fishing_hook' or identifier in geometries for identifier in client['geometry'].values()), path
+        assert all(texture == 'textures/entity/fishhook' or (RP / (texture + '.png')).is_file() for texture in client['textures'].values()), path
     fish_ids = {'flame_squat_lobster', 'obsidian_sword_fish', 'steam_flying_fish', 'agni_fish',
                 'arowana_fish', 'quartz_fish', 'scaly_foot_snail', 'yeti_crab', 'lava_lamprey'}
     fishing_items = {p.stem for p in (BP / 'items/lava_fishing').glob('*.json')}

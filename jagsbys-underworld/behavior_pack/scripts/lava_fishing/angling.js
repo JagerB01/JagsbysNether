@@ -20,43 +20,43 @@ const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);
 const range=(rng,min,max)=>min+Math.floor(rng()*(max-min+1));
 function held(player){const container=player.getComponent('minecraft:inventory')?.container;const slot=player.selectedSlotIndex;return {container,slot,item:container?.getItem(slot)};}
 function level(item,name){return item?.getComponent('minecraft:enchantable')?.getEnchantment(name)?.level ?? 0;}
-function cue(player,sound,position){try{player.dimension.playSound(sound,position);}catch{/* Optional vanilla sound availability varies by game version. */}}
+function cue(player,sound,position,options){try{player.dimension.playSound(sound,position,options);}catch{/* Optional vanilla sound availability varies by game version. */}}
 function particle(dimension,id,position){try{dimension.spawnParticle(id,position);}catch{/* Effects never determine the catch result. */}}
 
-// Read liquid blocks directly: native block raycasts can miss passable lava.
-// A normal forward cast also falls into lava below the player's crosshair.
-export function findLavaTarget(player){
- const start=player.getHeadLocation(),view=player.getViewDirection();
- const inspect=position=>{
-  const block=read(player.dimension,position);
-  if(!block)return {stop:true};
-  if(isLava(block)){
-   const location={x:Math.floor(position.x),y:Math.floor(position.y),z:Math.floor(position.z)};
-   if(!read(player.dimension,{...location,y:location.y+1})?.isAir)return {stop:true};
-   return {stop:true,hit:{block:location,target:{x:position.x,y:location.y+1.05,z:position.z}}};
+// AdvancedFishing's working approach: native entity motion for the cast,
+// then a surface anchor. Sample the traveled path to catch steep casts too.
+function lavaContact(dimension,from,to){
+ const count=Math.max(1,Math.ceil(distance(from,to)*4));
+ for(let i=0;i<=count;i++){
+  const t=i/count,point={x:from.x+(to.x-from.x)*t,y:from.y+(to.y-from.y)*t,z:from.z+(to.z-from.z)*t};
+  for(const y of [point.y,point.y-0.25]){
+   const block={x:Math.floor(point.x),y:Math.floor(y),z:Math.floor(point.z)};
+   if(!isLava(read(dimension,block)))continue;
+   let surface=block.y;
+   for(let j=0;j<16 && isLava(read(dimension,{...block,y:surface+1}));j++)surface++;
+   if(!read(dimension,{...block,y:surface+1})?.isAir)continue;
+   return {block:{...block,y:surface},target:{x:point.x,y:surface+0.92,z:point.z}};
   }
-  return {stop:!block.isAir && !['minecraft:crimson_roots','minecraft:warped_roots','minecraft:nether_sprouts'].includes(block.typeId)};
- };
- for(let d=0.15;d<=32;d+=0.15){
-  const result=inspect({x:start.x+view.x*d,y:start.y+view.y*d,z:start.z+view.z*d});
-  if(result.hit)return result.hit;
-  if(result.stop)break;
- }
- const position={...start},velocity={x:view.x*1.2,y:view.y*1.2+0.18,z:view.z*1.2};
- for(let step=0;step<400;step++){
-  position.x+=velocity.x*0.15;position.y+=velocity.y*0.15;position.z+=velocity.z*0.15;velocity.y-=0.05*0.15;
-  if(distance(start,position)>32)break;
-  const result=inspect(position);
-  if(result.hit)return result.hit;
-  if(result.stop)break;
  }
  return undefined;
+}
+
+// Short-lived black particles avoid model-space yaw mistakes and float actor
+// properties. The curve is recomputed in world coordinates as the player moves.
+export function linePoints(start,end){
+ const length=distance(start,end),steps=Math.max(40,Math.min(220,Math.ceil(length/0.022)));
+ const sag=Math.min(0.65,length*0.048);
+ return Array.from({length:steps+1},(_,i)=>{
+  const t=i/steps;
+  return {x:start.x+(end.x-start.x)*t,y:start.y+(end.y-start.y)*t-Math.sin(t*Math.PI)*sag,z:start.z+(end.z-start.z)*t};
+ });
 }
 
 export function createAnglingController({rng=Math.random}={}){
  const sessions=new Map(),lastUses=new Map();let serial=0;
  function cancel(id){const session=sessions.get(id);if(!session)return;try{session.bobber.remove();}catch{/* Already unloaded/removed. */}sessions.delete(id);}
  function identity(item){return item.getDynamicProperty('jagsby_nether:rod_id');}
+ function throwSound(player){cue(player,'random.bow',player.location,{volume:0.5,pitch:0.33+Math.random()*0.17});}
  function use(player,tick){
   if(player?.typeId!=='minecraft:player' || player.getGameMode()==='Spectator')return false;
   const equipment=held(player);if(equipment.item?.typeId!==ROD)return false;
@@ -64,11 +64,9 @@ export function createAnglingController({rng=Math.random}={}){
   lastUses.set(player.id,tick);
   const active=sessions.get(player.id);
   if(active){
-   // onUse/onUseOn can both run for the same native interaction.
    if(active.slot!==equipment.slot || identity(equipment.item)!==active.rodId){cancel(player.id);return false;}
-   if(active.state==='bite' && tick<active.deadline && active.dimensionId===player.dimension.id && distance(player.location,active.target)<=32 && isLava(read(player.dimension,active.block))){
+   if(active.state==='bite' && tick<active.deadline && active.dimensionId===player.dimension.id && distance(player.location,active.visual)<=32 && isLava(read(player.dimension,active.block))){
     const id=catchFish(active.dimensionId,active.biome,rng);
-    // Inserting into the inventory avoids burning catches or losing them in lava.
     const remainder=equipment.container.addItem(new ItemStack(`jagsby_nether:${id}`,1));
     if(remainder)player.dimension.spawnItem(remainder,player.location);
     if(player.getGameMode()!=='Creative'){
@@ -77,20 +75,17 @@ export function createAnglingController({rng=Math.random}={}){
      if(durability && rng()*100<chance){durability.damage++;equipment.container.setItem(equipment.slot,durability.damage>=durability.maxDurability?undefined:equipment.item);}
     }
     player.addExperience(range(rng,1,6));
-    player.onScreenDisplay?.setActionBar(`Caught ${id.replaceAll('_',' ')}!`);
    }
-   cue(player,'random.bow',active.target);cancel(player.id);return true;
+   throwSound(player);cancel(player.id);return true;
   }
-  const hit=findLavaTarget(player);
-  if(!hit){player.onScreenDisplay?.setActionBar('Cast toward exposed lava within 32 blocks.');return false;}
-  const {block,target}=hit;
   let rodId=identity(equipment.item);
   if(!rodId){rodId=`${player.id}:${tick}:${serial++}`;equipment.item.setDynamicProperty('jagsby_nether:rod_id',rodId);equipment.container.setItem(equipment.slot,equipment.item);}
-  const start=player.getHeadLocation();
+  const head=player.getHeadLocation(),view=player.getViewDirection();
+  const start={x:head.x+view.x*0.9,y:head.y+view.y*0.9,z:head.z+view.z*0.9};
   const bobber=player.dimension.spawnEntity('jagsby_nether:lava_bobber',start);
-  sessions.set(player.id,{bobber,rodId,slot:equipment.slot,dimensionId:player.dimension.id,start,target,visual:start,block,state:'casting',startTick:tick,lastUse:tick,lure:level(equipment.item,'lure')});
-  player.onScreenDisplay?.setActionBar('Cast! Waiting for a bite…');
-  cue(player,'random.bow',start);return true;
+  try{bobber.applyImpulse({x:view.x*1.75,y:view.y*1.75+0.38,z:view.z*1.75});}catch(error){bobber.remove();throw error;}
+  sessions.set(player.id,{bobber,rodId,slot:equipment.slot,dimensionId:player.dimension.id,visual:start,state:'casting',startTick:tick,lastTick:tick,lure:level(equipment.item,'lure')});
+  throwSound(player);return true;
  }
  function update(players,tick){
   const online=new Map(players.map(player=>[player.id,player]));
@@ -99,37 +94,48 @@ export function createAnglingController({rng=Math.random}={}){
    const player=online.get(id);
    try{
     const equipment=player&&held(player);
-    if(!player || player.getGameMode()==='Spectator' || player.dimension.id!==s.dimensionId || equipment.slot!==s.slot || equipment.item?.typeId!==ROD || identity(equipment.item)!==s.rodId || distance(player.location,s.target)>32 || !s.bobber.isValid || !isLava(read(player.dimension,s.block))){cancel(id);continue;}
+    if(!player || player.getGameMode()==='Spectator' || player.dimension.id!==s.dimensionId || equipment.slot!==s.slot || equipment.item?.typeId!==ROD || identity(equipment.item)!==s.rodId || distance(player.location,s.visual)>32 || !s.bobber.isValid || (s.block && !isLava(read(player.dimension,s.block)))){cancel(id);continue;}
     if(tick%600===0)s.bobber.triggerEvent('jagsby_nether:keep_alive');
     if(s.state==='casting'){
-     const t=Math.min(1,(tick-s.startTick)/12);
-     s.visual={x:s.start.x+(s.target.x-s.start.x)*t,y:s.start.y+(s.target.y-s.start.y)*t+Math.sin(t*Math.PI)*1.5,z:s.start.z+(s.target.z-s.start.z)*t};
-     s.bobber.teleport(s.visual,{rotation:{x:0,y:0}});
-     if(t===1){try{s.bobber.triggerEvent('jagsby_nether:classify');}catch(error){console.warn(`[Underworld lava fishing] Biome query failed: ${error}`);}s.state='classifying';s.deadline=tick+2;s.classifyTimeout=tick+40;}
+     const current=s.bobber.location;
+     const hit=lavaContact(player.dimension,s.visual,current);
+     s.visual={...current};
+     if(hit){
+      s.block=hit.block;s.target=hit.target;s.visual={...hit.target};
+      s.bobber.clearVelocity();s.bobber.triggerEvent('jagsby_nether:float');
+      try{s.bobber.triggerEvent('jagsby_nether:classify');}catch(error){console.warn(`[Underworld lava fishing] Biome query failed: ${error}`);}
+      s.state='classifying';s.deadline=tick+2;s.classifyTimeout=tick+40;
+      cue(player,'random.splash',s.target,{volume:0.25,pitch:0.6+Math.random()*0.8});
+      particle(player.dimension,'minecraft:water_splash_particle',s.target);
+     }else if(s.bobber.isOnGround){s.state='grounded';}
     }else if(s.state==='classifying' && tick>=s.deadline){
      try{s.biome=s.bobber.getProperty('jagsby_nether:fishing_biome');}catch{s.biome=undefined;}
      if(![0,1,2,3,4].includes(s.biome) || (s.dimensionId==='minecraft:nether' && s.biome===0)){
-      if(tick<s.classifyTimeout)continue;
-      // Biome filters can lag or be unavailable in custom biomes. Preserve
-      // the cast, using only the common fish pool until classification works.
-      s.biome=s.dimensionId==='minecraft:nether'?1:0;
-      console.warn('[Underworld lava fishing] Biome unavailable; using common fish pool.');
+      if(tick>=s.classifyTimeout){s.biome=s.dimensionId==='minecraft:nether'?1:0;console.warn('[Underworld lava fishing] Biome unavailable; using common fish pool.');}
+      else s.biome=undefined;
      }
-     s.state='waiting';s.deadline=tick+Math.max(20,range(rng,100,600)-s.lure*100);
-    }else if(s.state==='waiting' && tick>=s.deadline){s.state='approaching';s.deadline=tick+range(rng,20,80);
+     if(s.biome!==undefined){s.state='waiting';s.deadline=tick+Math.max(20,range(rng,100,600)-s.lure*100);}
+    }else if(s.state==='waiting' && tick>=s.deadline){s.state='approaching';s.approachStart=tick;s.deadline=tick+range(rng,20,80);s.approachAngle=Math.random()*Math.PI*2;
     }else if(s.state==='approaching'){
-     if(tick%5===0)particle(player.dimension,'minecraft:lava_particle',s.target);
-     if(tick>=s.deadline){s.state='bite';s.deadline=tick+range(rng,20,40);cue(player,'random.splash',s.target);particle(player.dimension,'minecraft:lava_particle',s.target);player.onScreenDisplay?.setActionBar('Bite! Reel in!');}
+     if(tick%4===0){
+      const radius=2*(s.deadline-tick)/Math.max(1,s.deadline-s.approachStart);
+      particle(player.dimension,'minecraft:water_wake_particle',{x:s.target.x+Math.cos(s.approachAngle)*radius,y:s.target.y,z:s.target.z+Math.sin(s.approachAngle)*radius});
+     }
+     if(tick>=s.deadline){s.state='bite';s.biteStart=tick;s.deadline=tick+range(rng,20,40);cue(player,'random.splash',s.target,{volume:0.25,pitch:0.6+Math.random()*0.8});particle(player.dimension,'minecraft:water_splash_particle',s.target);}
     }else if(s.state==='bite' && tick>=s.deadline){s.state='waiting';s.deadline=tick+Math.max(20,range(rng,100,600)-s.lure*100);}
-    if(!['casting','classifying'].includes(s.state)){s.visual={...s.target,y:s.target.y+(s.state==='bite'?-0.18:Math.sin(tick/5)*0.04)};s.bobber.teleport(s.visual,{rotation:{x:0,y:0}});}
-    if(tick%40===0 && ['classifying','waiting','approaching'].includes(s.state))player.onScreenDisplay?.setActionBar('Lava fishing: waiting for a bite…');
+    if(!sessions.has(id))continue;
+    if(['classifying','waiting','approaching','bite'].includes(s.state)){
+     const dip=s.state==='bite'?0.22+Math.sin((tick-s.biteStart)*0.8)*0.025:Math.sin(tick/8)*0.025;
+     s.visual={...s.target,y:s.target.y-dip};
+    }
+    if(['classifying','waiting','approaching','bite'].includes(s.state)){s.bobber.clearVelocity();s.bobber.teleport(s.visual,{rotation:{x:0,y:0}});}
     try{
-    const hand=player.getHeadLocation(),dx=hand.x-s.visual.x,dy=hand.y-0.4-s.visual.y,dz=hand.z-s.visual.z;
-    s.bobber.setProperty('jagsby_nether:line_length',Math.min(40,Math.hypot(dx,dy,dz)));
-    s.bobber.setProperty('jagsby_nether:line_yaw',Math.atan2(dx,dz)*180/Math.PI);
-    s.bobber.setProperty('jagsby_nether:line_pitch',-Math.atan2(dy,Math.hypot(dx,dz))*180/Math.PI);
+     const head=player.getHeadLocation(),view=player.getViewDirection(),horizontal=Math.hypot(view.x,view.z)||1;
+     const tip={x:head.x-view.z/horizontal*0.35+view.x*0.52,y:head.y-0.04+view.y*0.36,z:head.z+view.x/horizontal*0.35+view.z*0.52};
+     const hook={...s.visual,y:s.visual.y+0.22};
+     for(const point of linePoints(tip,hook))particle(player.dimension,'jagsby_nether:fishing_line',point);
     }catch(error){if(!s.lineWarning){console.warn(`[Underworld lava fishing] Line update failed: ${error}`);s.lineWarning=true;}}
-   }catch(error){console.warn(`[Underworld lava fishing] ${error}`);player?.onScreenDisplay?.setActionBar('Fishing stopped. Check the Content Log for the error.');cancel(id);}
+   }catch(error){console.warn(`[Underworld lava fishing] ${error}`);cancel(id);}
   }
  }
  return {use,update,cancel,sessions};

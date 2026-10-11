@@ -7,22 +7,14 @@
         "default": "entity_alphatest"
       },
       "textures": {
-        "default": "textures/items/lava_fishing/obsidian_fishing_rod"
+        "default": "textures/entity/fishhook"
       },
       "geometry": {
-        "default": "geometry.jagsby_lava_bobber"
+        "default": "geometry.fishing_hook"
       },
       "render_controllers": [
         "controller.render.jagsby_lava_bobber"
-      ],
-      "animations": {
-        "line": "animation.jagsby_lava_bobber.line"
-      },
-      "scripts": {
-        "animate": [
-          "line"
-        ]
-      }
+      ]
     }
   }
 }

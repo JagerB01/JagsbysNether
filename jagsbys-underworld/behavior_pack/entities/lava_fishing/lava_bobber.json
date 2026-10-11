@@ -14,33 +14,6 @@
           ],
           "default": 0,
           "client_sync": false
-        },
-        "jagsby_nether:line_length": {
-          "type": "float",
-          "range": [
-            0.0,
-            40.0
-          ],
-          "default": 0.0,
-          "client_sync": true
-        },
-        "jagsby_nether:line_yaw": {
-          "type": "float",
-          "range": [
-            -180.0,
-            180.0
-          ],
-          "default": 0.0,
-          "client_sync": true
-        },
-        "jagsby_nether:line_pitch": {
-          "type": "float",
-          "range": [
-            -90.0,
-            90.0
-          ],
-          "default": 0.0,
-          "client_sync": true
         }
       }
     },
@@ -50,8 +23,8 @@
         "height": 0.1
       },
       "minecraft:physics": {
-        "has_gravity": false,
-        "has_collision": false
+        "has_gravity": true,
+        "has_collision": true
       },
       "minecraft:damage_sensor": {
         "triggers": [
@@ -66,7 +39,17 @@
         "max": 1
       },
       "minecraft:fire_immune": {},
-      "minecraft:persistent": {}
+      "minecraft:persistent": {},
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": false
+      },
+      "minecraft:type_family": {
+        "family": [
+          "inanimate",
+          "jagsby_lava_bobber"
+        ]
+      }
     },
     "component_groups": {
       "cleanup": {
@@ -80,6 +63,12 @@
             "event": "jagsby_nether:cleanup",
             "target": "self"
           }
+        }
+      },
+      "floating": {
+        "minecraft:physics": {
+          "has_gravity": false,
+          "has_collision": false
         }
       }
     },
@@ -175,6 +164,13 @@
             }
           }
         ]
+      },
+      "jagsby_nether:float": {
+        "add": {
+          "component_groups": [
+            "floating"
+          ]
+        }
       }
     }
   }

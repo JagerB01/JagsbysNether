@@ -11,18 +11,6 @@
       "textures": [
         "Texture.default"
       ]
-    },
-    "controller.render.jagsby_obsidian_fishing_rod": {
-      "geometry": "Geometry.default",
-      "materials": [
-        {
-          "*": "query.is_enchanted ? Material.enchanted : Material.default"
-        }
-      ],
-      "textures": [
-        "Texture.default",
-        "Texture.enchanted"
-      ]
     }
   }
 }
