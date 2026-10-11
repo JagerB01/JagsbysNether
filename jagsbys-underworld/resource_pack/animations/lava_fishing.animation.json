@@ -59,8 +59,7 @@
           }
         }
       },
-      "override_previous_animation": true,
-      "anim_time_update": "variable.attack_time = math.max(0.0, 1.0 - query.anim_time / 0.35); variable.first_person_item_rotation_factor = 1.0; variable.first_person_rotation_factor = math.sin((1.0 - variable.attack_time) * 180.0); return query.anim_time + query.delta_time;"
+      "override_previous_animation": true
     }
   }
 }

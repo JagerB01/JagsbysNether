@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.11 playtest build
+# Lava fishing — v0.2.12 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -80,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.11 and confirm both pack versions and the Content Log.
+1. Import v0.2.12 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -189,3 +189,15 @@ spawning. In-game verification is still required for anvil/table acceptance,
 actual Mending repair and Curse of Vanishing on death (keepInventory false).
 Hold a damaged Mending rod when collecting catch XP; other eligible Mending
 equipment may receive the repair instead, as in vanilla.
+
+## v0.2.12 first-person use and line attachment playtest
+
+Live feedback confirms thrown catches and third-person arm motion work.
+The remaining first-person motion candidate uses the native spear use
+animation for a short 0.3-second window instead of the 0.05-second bow use.
+The script-only attack-time variable override is removed; third-person
+rotation animation is retained. No attachable or held geometry is added.
+The line anchor moves 0.28 blocks lower and 0.20 blocks further to the rod
+side, with a smaller pitch offset, to bring it away from the face toward
+the held tip. Native first-person use and tip alignment require gameplay
+verification. Catch launching, XP orbs and sounds remain unchanged.

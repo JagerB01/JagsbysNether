@@ -131,8 +131,8 @@ test('bobber uses the vanilla fishhook atlas and the rod has no custom held mode
  assert(!Object.keys(bobber.description.properties).some(k=>k.includes('line_')));
  assert.throws(()=>readFileSync(new URL('../resource_pack/attachables/obsidian_fishing_rod.json',import.meta.url)));
  const rod=json('../behavior_pack/items/lava_fishing/obsidian_fishing_rod.json')['minecraft:item'].components;
- assert.equal(rod['minecraft:hand_equipped'],true);assert.equal(rod['minecraft:use_animation'],'bow');
- assert.equal(rod['minecraft:use_modifiers'].use_duration,0.05);
+ assert.equal(rod['minecraft:hand_equipped'],true);assert.equal(rod['minecraft:use_animation'],'spear');
+ assert.equal(rod['minecraft:use_modifiers'].use_duration,0.3);
  assert(!('minecraft:tags' in rod));
  const particle=json('../resource_pack/particles/lava_fishing_line.particle.json').particle_effect;
  assert.equal(particle.description.identifier,'jagsby_nether:fishing_line');

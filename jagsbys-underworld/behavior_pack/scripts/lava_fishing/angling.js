@@ -151,7 +151,7 @@ export function createAnglingController({rng=Math.random}={}){
     if(['classifying','waiting','approaching','bite'].includes(s.state)){s.bobber.clearVelocity();s.bobber.teleport(s.visual,{rotation:{x:0,y:0}});}
     try{
      const head=player.getHeadLocation(),view=player.getViewDirection(),horizontal=Math.hypot(view.x,view.z)||1;
-     const tip={x:head.x-view.z/horizontal*0.35+view.x*0.52,y:head.y-0.04+view.y*0.36,z:head.z+view.x/horizontal*0.35+view.z*0.52};
+     const tip={x:head.x-view.z/horizontal*0.55+view.x*0.6,y:head.y-0.32+view.y*0.2,z:head.z+view.x/horizontal*0.55+view.z*0.6};
      const hook={...s.visual,y:s.visual.y+0.22};
      for(const point of linePoints(tip,hook))particle(player.dimension,'jagsby_nether:fishing_line',point);
     }catch(error){if(!s.lineWarning){console.warn(`[Underworld lava fishing] Line update failed: ${error}`);s.lineWarning=true;}}
