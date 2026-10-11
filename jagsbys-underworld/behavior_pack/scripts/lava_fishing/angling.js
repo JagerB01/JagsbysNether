@@ -57,7 +57,7 @@ export function createAnglingController({rng=Math.random}={}){
  function cancel(id){const session=sessions.get(id);if(!session)return;try{session.bobber.remove();}catch{/* Already unloaded/removed. */}sessions.delete(id);}
  function identity(item){return item.getDynamicProperty('jagsby_nether:rod_id');}
  function swing(player){
-  try{player.playAnimation('animation.jagsby_nether.fishing_use',{blendOutTime:0.05});}
+  try{player.playAnimation('animation.jagsby_nether.fishing_use',{blendOutTime:0.05,controller:'jagsby_nether_fishing_use'});}
   catch(error){console.warn(`[Underworld lava fishing] Rod swing unavailable: ${error}`);}
  }
  function throwSound(player){cue(player,'random.bow',player.location,{volume:0.5,pitch:0.33+Math.random()*0.17});}
@@ -71,8 +71,12 @@ export function createAnglingController({rng=Math.random}={}){
    if(active.slot!==equipment.slot || identity(equipment.item)!==active.rodId){cancel(player.id);return false;}
    if(active.state==='bite' && tick<active.deadline && active.dimensionId===player.dimension.id && distance(player.location,active.visual)<=32 && isLava(read(player.dimension,active.block))){
     const id=catchFish(active.dimensionId,active.biome,rng);
-    const remainder=equipment.container.addItem(new ItemStack(`jagsby_nether:${id}`,1));
-    if(remainder)player.dimension.spawnItem(remainder,player.location);
+    const origin={...active.target,y:active.target.y+0.35};
+    const caught=player.dimension.spawnItem(new ItemStack(`jagsby_nether:${id}`,1),origin);
+    const delta={x:player.location.x-origin.x,y:player.location.y+0.5-origin.y,z:player.location.z-origin.z};
+    const travel=Math.hypot(delta.x,delta.y,delta.z);
+    caught.clearVelocity();
+    caught.applyImpulse({x:delta.x*0.1,y:delta.y*0.1+Math.sqrt(travel)*0.08,z:delta.z*0.1});
     if(player.getGameMode()!=='Creative'){
      const durability=equipment.item.getComponent('minecraft:durability');
      const chance=durability?.getDamageChance(level(equipment.item,'unbreaking')) ?? 100;

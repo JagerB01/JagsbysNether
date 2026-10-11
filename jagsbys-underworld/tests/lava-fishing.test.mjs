@@ -5,15 +5,15 @@ import {createAnglingController,linePoints,catchFish,fishPool,FISH,ROD} from '..
 import {applyFishFood,updateFishEffects} from '../.build/behavior_pack/scripts/lava_fishing/fish.js';
 const json=file=>JSON.parse(readFileSync(new URL(file,import.meta.url)));
 function fixture({dimension='minecraft:nether',biome=1,mode='Survival',damage=0,maxDurability=256,chance=100,lure=0}={}){
- const properties=new Map(),rodProperties=new Map(),caught=[],sounds=[],particles=[],positions=[],impulses=[],animations=[],messages=[],effects=[],fires=[],experience=[],damageTaken=[];
+ const properties=new Map(),rodProperties=new Map(),caught=[],caughtDrops=[],sounds=[],particles=[],positions=[],impulses=[],animations=[],messages=[],effects=[],fires=[],experience=[],damageTaken=[];
  const rod={typeId:ROD,getDynamicProperty:k=>rodProperties.get(k),setDynamicProperty:(k,v)=>rodProperties.set(k,v),getComponent(type){if(type==='minecraft:durability')return durability;if(type==='minecraft:enchantable')return {getEnchantment:name=>({level:name==='lure'?lure:0})};}};
  const durability={damage,maxDurability,getDamageChance:()=>chance};
  const inventory=new Map([[0,rod]]);const container={getItem:slot=>inventory.get(slot),setItem:(slot,value)=>inventory.set(slot,value),addItem:item=>{caught.push(item);return undefined;}};
  const lava={typeId:'minecraft:lava',isAir:false,location:{x:0,y:31,z:8},permutation:{getState:()=>0}};
  const bobber={location:{x:0,y:31.9,z:8},applyImpulse:v=>impulses.push(v),clearVelocity(){},isOnGround:false,isValid:true,removed:0,events:[],teleport(p){positions.push(p);this.location=p;},triggerEvent(event){this.events.push(event);},getProperty:()=>biome,setProperty(){},remove(){this.removed++;this.isValid=false;}};
- const dim={id:dimension,entities:[],getBlock(p){return p.y<=31?lava:{typeId:'minecraft:air',isAir:true};},spawnEntity(type,p){this.entities.push({type,p});return bobber;},playSound:(id,p,options)=>sounds.push({id,p,options}),spawnParticle:(id,p)=>particles.push({id,p}),spawnItem(item){caught.push(item);},getEntities:()=>[]};
+ const dim={id:dimension,entities:[],getBlock(p){return p.y<=31?lava:{typeId:'minecraft:air',isAir:true};},spawnEntity(type,p){this.entities.push({type,p});return bobber;},playSound:(id,p,options)=>sounds.push({id,p,options}),spawnParticle:(id,p)=>particles.push({id,p}),spawnItem(item,p){caught.push(item);const drop={position:p,velocity:undefined,cleared:false,clearVelocity(){this.cleared=true;},applyImpulse(v){this.velocity=v;}};caughtDrops.push(drop);return drop;},getEntities:()=>[]};
  const player={id:'angler',typeId:'minecraft:player',selectedSlotIndex:0,location:{x:0,y:32,z:0},dimension:dim,getGameMode:()=>mode,getRotation:()=>({x:0,y:0}),playAnimation:(id,options)=>animations.push({id,options}),getComponent:()=>({container}),getBlockFromViewDirection:options=>{assert.equal(options.includeLiquidBlocks,true);return {block:lava,faceLocation:{x:0.5,z:0.5}};},getHeadLocation:()=>({x:0,y:33.6,z:0}),getViewDirection:()=>({x:0,y:-0.3,z:Math.sqrt(0.91)}),addExperience:n=>experience.push(n),onScreenDisplay:{setActionBar:m=>messages.push(m)},addEffect:(...args)=>effects.push(args),setOnFire:(...args)=>fires.push(args),setDynamicProperty:(k,v)=>properties.set(k,v),getDynamicProperty:k=>properties.get(k),applyDamage:(...args)=>damageTaken.push(args),getVelocity:()=>({y:-0.2}),teleport:p=>positions.push(p),applyImpulse:p=>positions.push(p)};
- return {player,dim,bobber,lava,inventory,rod,durability,caught,experience,effects,fires,properties,positions,impulses,animations,messages,sounds,particles,damageTaken};
+ return {player,dim,bobber,lava,inventory,rod,durability,caught,caughtDrops,experience,effects,fires,properties,positions,impulses,animations,messages,sounds,particles,damageTaken};
 }
 function bite(controller,f,start=0){assert.equal(controller.use(f.player,start),true);for(const tick of [start+12,start+14,start+114,start+134])controller.update([f.player],tick);assert.equal(controller.sessions.get(f.player.id).state,'bite');}
 test('uploaded Java loot tables and fishing-only scope determine the pools',()=>{
@@ -179,4 +179,15 @@ test('vertical casts use player yaw for the rod-side shoulder',()=>{
  f.player.getViewDirection=()=>({x:0,y:-1,z:0});f.player.getRotation=()=>({x:90,y:90});
  assert(c.use(f.player,0));const p=f.dim.entities[0].p;
  assert(p.x<0 && p.z<0);assert(Number.isFinite(p.x));assert(p.y>f.player.getHeadLocation().y);
+});
+
+test('a catch is thrown from above the bobber toward the player rather than inserted into inventory',()=>{
+ const f=fixture(),c=createAnglingController({rng:()=>0});
+ f.player.getComponent=()=>({container:{getItem:()=>f.rod,setItem(){},addItem(){throw Error('Must use world pickup');}}});
+ bite(c,f);const target={...c.sessions.get(f.player.id).target};
+ assert(c.use(f.player,135));assert.equal(f.caughtDrops.length,1);
+ const drop=f.caughtDrops[0];assert.deepEqual(drop.position,{...target,y:target.y+0.35});
+ assert(drop.cleared);assert(drop.velocity.y>0);
+ const dx=f.player.location.x-drop.position.x,dz=f.player.location.z-drop.position.z;
+ assert(drop.velocity.x*dx+drop.velocity.z*dz>0);
 });
