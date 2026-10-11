@@ -1,0 +1,135 @@
+NETHER SETTLEMENTS v0.8.14 - VILLAGE FINDER
+
+Deactivate v0.8.13 before enabling this pack. Existing generated structures
+are not changed. Use new terrain for camp/outpost frequency testing and a
+new spot for village placement testing.
+
+TEST IN THE NETHER:
+/scriptevent nether_settlements:test crimson
+/scriptevent nether_settlements:test warped
+Keep Data-Driven Jigsaw Structures enabled for native /place jigsaw tests.
+The terrain assembler uses stable @minecraft/server 2.0.0; no Beta API needed.
+
+ROADS
+All generated village roads and road ends use approximately 90% basalt
+and 10% smooth basalt. Native road templates use upright basalt and retain
+blackstone foundations. Runtime raised roads also retain blackstone supports.
+Road selection is coordinate-based and does not consume the layout RNG.
+Town-center surfaces and house materials are not repainted as paths.
+
+CAMP / TENT / OUTPOST FREQUENCY
+Each eligible newly generated chunk receives a random rarity gate:
+- Camp/tent rule: probability 1/32; at most one placement attempt.
+- Nether-wastes outpost rule: probability 1/96; at most one placement attempt.
+Compared with the previous two attempts every eligible chunk, expected
+attempt counts decrease by 64x for camps/tents and 192x for outposts.
+Ground and clearance checks can still reject an attempt. These are chances,
+not minimum spacing rules. Tents and campgrounds share the camp rarity gate.
+Matching camp styles exist for crimson, warped, soul, basalt and Nether wastes.
+Rarity uses a supported Molang expression in distribution.iterations.
+
+PLACEHOLDER BLOCK CLEANUP
+Converted Java-only/unsupported names throughout the structure templates:
+- weeping_vines_plant / twisting_vines_plant -> Bedrock vine blocks.
+- magma_block -> magma; lava_cauldron -> cauldron with lava states.
+- stonecutter -> stonecutter_block.
+- Potted fungi/mushrooms -> flower_pot with a planted block entity.
+- red_wall_banner -> wall_banner with red banner data and wall-facing states.
+- Unsupported oxidized copper golem statue -> chiseled polished blackstone.
+598 block instances were corrected. All palette names now match the official
+@minecraft/vanilla-data 1.21.100 catalog. Old placeholder blocks already in
+the world remain until removed or replaced; fresh structures use the fixes.
+
+VILLAGES
+Runtime generation near players: one candidate per 192x192-block region.
+A player must approach within 32 blocks; visited regions are persisted.
+This is scripted placement in loaded terrain, not native precomputed worldgen;
+/locate does not locate these villages. Previously explored regions can receive
+placements too. Local nylium, vegetation and soul soil select the village style.
+Small (25%): house cap 6-8, road cap 10, radius 28, road depth 3.
+Medium (60%): house cap 9-11, road cap 14, radius 36, road depth 4.
+Large (15%): house cap 12-14, road cap 18, radius 44, road depth 4.
+These are custom vanilla-inspired budgets, not vanilla's exact algorithm.
+Terrain/collision checks can yield fewer houses. The center is not a house.
+
+TERRAIN FITTING
+Searches cave floors above the lava sea and below the bedrock roof. Requires
+three blocks of initial clearance, then checks each building's actual height.
+Clears replaceable Nether vegetation, excavates natural bumps up to two blocks,
+and supports shallow gaps up to eight blocks under occupied structure columns.
+Neighboring site searches can move the center to a nearby ledge. Roads follow
+floor height and grade small dips into walkable one-block steps. Houses stay
+rigid and flush against roads. Cliffs, liquids, loaded-chunk boundaries and
+substantial ceilings can stop a branch. Commands finish with a result message.
+The older /place jigsaw command remains a rigid native connection test and
+does not invoke scripted terrain fitting.
+
+VALIDATION
+27 automated tests passed, including simulated assembly across multiple
+heights and 60 seeds, sizing budgets, terrain behavior, road palette sampling,
+and rarity-rule configuration. All 412 NBT files and JSON parse. Palette IDs,
+block indices, entity coordinates, potted-plant data and the 72 native road
+surfaces were checked. Actual engine placement, Molang execution, block entity
+rendering and appearance still require in-game testing.
+
+SITE SELECTION CHANGES IN v0.8.13
+The terrain assembler now evaluates all 13 candidate positions within a
+12-block local search before placing the center. A coarse four-block grid
+surveys surrounding terrain out to 24 blocks per candidate. Scores favor:
+- More usable floor connected to the candidate.
+- More floor with at least eight blocks of building headroom.
+- Smaller changes in ground height.
+Disconnected land across lava, gaps or steep cliffs does not contribute
+to a candidate's connected-floor score. Intermediate columns are checked.
+All usable candidates are compared with the actual center-template fit.
+Each center is tested in all four rotations; viable road exits improve its
+score, while more foundation work and grading reduce it. No blocks are
+placed during the survey. The winning footprint is checked again before
+placement in case terrain becomes blocked or unloaded while the job runs.
+Automatic generation also checks nearby candidates when the exact region
+coordinate lacks ground, then invokes the same ranking system.
+This chooses a promising local site; it is not a globally optimal search
+or a preview of every possible completed road/house layout. Terrain and
+random piece choices can still produce small or partial villages.
+The survey yields across ticks to share work with the game and takes more
+time than the older first-fit search. Test commands report the selected
+site's connected-ground and building-headroom sample counts.
+Basalt/smooth-basalt roads, block compatibility fixes, village size budgets
+and reduced camp/outpost rates from v0.8.12 are preserved.
+Tests include a valid cramped starting point losing to a larger nearby
+ledge, isolated terrain across lava, headroom and slope scoring, and
+automatic generation when the exact candidate column is over lava.
+
+VILLAGE FINDER IN v0.8.14
+Run in the Nether with cheats enabled:
+/scriptevent nether_settlements:find nearest
+Shows the nearest recorded village, or a nearby unchecked potential site
+if there are no village records. A potential site is not a confirmed village.
+
+/scriptevent nether_settlements:find village
+Shows only an existing village recorded by this version.
+
+/scriptevent nether_settlements:find site
+Shows the nearest unchecked potential natural-generation site, even when
+a recorded village exists elsewhere. Approach within 32 blocks below the
+roof and automatic generation will attempt suitable nearby terrain.
+
+These finder commands do not force generation, teleport the player, or
+place blocks. They report coordinates and horizontal distance. Candidate
+search covers regions within eight cells of the player's current region.
+Completed villages now save their center coordinates, theme, and house/road
+counts as world dynamic properties. Records persist across reloads.
+Center-only attempts are not returned as confirmed villages.
+Older pack versions saved attempt flags but no actual village coordinates;
+previously generated villages cannot be reliably indexed retroactively.
+Records describe generation locations and are not a live scan for structures
+a player may subsequently destroy. Normal /locate does not find these
+scripted villages. Camps and outposts are not covered by this finder.
+
+The natural candidate algorithm is shared with the finder, preserving
+existing candidate locations. Other generation, terrain, rarity, road
+materials and size settings are unchanged from v0.8.13.
+27 tests passed including nearest recorded village selection, corrupt
+record handling, candidate location compatibility, avoiding attempted
+regions, completed-village persistence, and finder commands placing no blocks.
+In-game command behavior remains to be verified in Minecraft.
