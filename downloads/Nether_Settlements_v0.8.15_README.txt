@@ -1,0 +1,19 @@
+Nether Settlements v0.8.15 - Open Terrain Search
+
+Replace the previous behavior pack with this version.
+Natural villages now survey ground around Nether players and nearby grid points within 64 blocks, comparing local terrain within 12 blocks of each surveyed point.
+The search runs every five seconds when no village is being assembled; assembly yields across game ticks.
+Failed sites have temporary ten-minute cooldowns. Other nearby cells remain eligible immediately. No permanent failure flags are written.
+Regions are marked complete only after a village finishes with at least one house. Old terrain-attempt flags are ignored.
+Recorded successful village centers must be at least 384 blocks apart. This is a minimum separation, not a guaranteed spawn interval.
+Center-only remnants are recorded and avoided within 96 blocks to prevent repeated overlapping placements.
+Automatic placement operates below the roof on supported natural floors from Y33 upwards. Existing terrain checks still protect structures from lava, cliffs, and ceilings.
+Villages can generate in already explored terrain. Camps and outposts still require newly generated chunks; their rarity is unchanged.
+
+Finder in the Nether with cheats enabled:
+/scriptevent nether_settlements:find village
+/scriptevent nether_settlements:find nearest
+Potential coordinates are exploration guides, not confirmed villages.
+Older villages that were never indexed cannot be located by this finder.
+
+Validation: 30 automated geometry and mocked Bedrock runtime tests passed, including natural generation on netherrack, soul sand, and soul soil; failed-site recovery; spacing; and legacy attempt-flag recovery. No live Minecraft verification was available.
