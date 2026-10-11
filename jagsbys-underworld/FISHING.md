@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.8 playtest build
+# Lava fishing — v0.2.9 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -80,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.8 and confirm both pack versions and the Content Log.
+1. Import v0.2.9 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -154,3 +154,11 @@ A successful catch plays a lava pop with a short, higher-pitched sizzle at
 the player. Empty reels and missed bites do not play the catch cue. The
 existing cast, splash and reel sounds are retained. The simulated line is
 unchanged; the native fishing-line connection has no supported custom-rod API.
+
+## v0.2.9 shoulder release and rod swing
+
+The cast releases above the rod-side shoulder, rather than dropping its
+origin toward the chest when aiming down. A brief rotation-only animation
+swings the rod arm and item on cast and reel; no held-item model, pivot, scale
+or position override is added. Current catch sounds and spark effects remain.
+Check the swing in first and third person in Minecraft, including custom skins.

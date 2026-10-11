@@ -46,7 +46,7 @@ test('instant rod global and component use events launch once and ignore other i
  let launches=0,impulses=0,removed=0;
  const bobber={applyImpulse(){impulses++;},remove(){removed++;}};
  const dimension={id:'minecraft:nether',spawnEntity(type){assert.equal(type,'jagsby_nether:lava_bobber');launches++;return bobber;},playSound(){}};
- const player={id:'instant-fishing-test',typeId:'minecraft:player',selectedSlotIndex:0,location:{x:0,y:32,z:0},dimension,getGameMode:()=> 'Survival',getComponent:()=>({container:{getItem:()=>rod,setItem(){}}}),getHeadLocation:()=>({x:0,y:33.6,z:0}),getViewDirection:()=>({x:0,y:0,z:1})};
+ const player={id:'instant-fishing-test',typeId:'minecraft:player',selectedSlotIndex:0,location:{x:0,y:32,z:0},dimension,getGameMode:()=> 'Survival',getRotation:()=>({x:0,y:0}),playAnimation(){},getComponent:()=>({container:{getItem:()=>rod,setItem(){}}}),getHeadLocation:()=>({x:0,y:33.6,z:0}),getViewDirection:()=>({x:0,y:0,z:1})};
  world.afterEvents.itemUse.emit({source:player,itemStack:rod});
  itemComponents.get('jagsby_nether:lava_fishing_rod').onUse({source:player});
  itemComponents.get('jagsby_nether:lava_fishing_rod').onUseOn({source:player});

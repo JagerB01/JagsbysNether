@@ -56,6 +56,10 @@ export function createAnglingController({rng=Math.random}={}){
  const sessions=new Map(),lastUses=new Map();let serial=0;
  function cancel(id){const session=sessions.get(id);if(!session)return;try{session.bobber.remove();}catch{/* Already unloaded/removed. */}sessions.delete(id);}
  function identity(item){return item.getDynamicProperty('jagsby_nether:rod_id');}
+ function swing(player){
+  try{player.playAnimation('animation.jagsby_nether.fishing_use',{blendOutTime:0.05});}
+  catch(error){console.warn(`[Underworld lava fishing] Rod swing unavailable: ${error}`);}
+ }
  function throwSound(player){cue(player,'random.bow',player.location,{volume:0.5,pitch:0.33+Math.random()*0.17});}
  function use(player,tick){
   if(player?.typeId!=='minecraft:player' || player.getGameMode()==='Spectator')return false;
@@ -78,16 +82,20 @@ export function createAnglingController({rng=Math.random}={}){
     cue(player,'liquid.lavapop',player.location,{volume:0.9,pitch:1.2});
     cue(player,'random.fizz',player.location,{volume:0.35,pitch:1.6});
    }
-   throwSound(player);cancel(player.id);return true;
+   swing(player);throwSound(player);cancel(player.id);return true;
   }
   let rodId=identity(equipment.item);
   if(!rodId){rodId=`${player.id}:${tick}:${serial++}`;equipment.item.setDynamicProperty('jagsby_nether:rod_id',rodId);equipment.container.setItem(equipment.slot,equipment.item);}
   const head=player.getHeadLocation(),view=player.getViewDirection();
-  const start={x:head.x+view.x*0.9,y:head.y+view.y*0.9,z:head.z+view.z*0.9};
+  // Raise the release above the rod-side shoulder, even when aiming down.
+  const horizontal=Math.hypot(view.x,view.z);
+  const yaw=player.getRotation().y*Math.PI/180;
+  const forward=horizontal>0.001?{x:view.x/horizontal,z:view.z/horizontal}:{x:-Math.sin(yaw),z:Math.cos(yaw)};
+  const start={x:head.x-forward.z*0.35+forward.x*0.35,y:head.y+0.35,z:head.z+forward.x*0.35+forward.z*0.35};
   const bobber=player.dimension.spawnEntity('jagsby_nether:lava_bobber',start);
   try{bobber.applyImpulse({x:view.x*1.75,y:view.y*1.75+0.38,z:view.z*1.75});}catch(error){bobber.remove();throw error;}
   sessions.set(player.id,{bobber,rodId,slot:equipment.slot,dimensionId:player.dimension.id,visual:start,state:'casting',startTick:tick,lastTick:tick,lure:level(equipment.item,'lure')});
-  throwSound(player);return true;
+  swing(player);throwSound(player);return true;
  }
  function update(players,tick){
   const online=new Map(players.map(player=>[player.id,player]));
