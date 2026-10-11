@@ -57,6 +57,7 @@ export function createAnglingController({rng=Math.random}={}){
  function cancel(id){const session=sessions.get(id);if(!session)return;try{session.bobber.remove();}catch{/* Already unloaded/removed. */}sessions.delete(id);}
  function identity(item){return item.getDynamicProperty('jagsby_nether:rod_id');}
  function swing(player){
+  try{held(player).item?.getComponent('minecraft:cooldown')?.startCooldown(player);}catch(error){console.warn(`[Underworld lava fishing] Swing cooldown unavailable: ${error}`);}
   try{player.playAnimation('animation.jagsby_nether.fishing_use',{blendOutTime:0.05,controller:'jagsby_nether_fishing_use'});}
   catch(error){console.warn(`[Underworld lava fishing] Rod swing unavailable: ${error}`);}
  }
@@ -151,7 +152,7 @@ export function createAnglingController({rng=Math.random}={}){
     if(['classifying','waiting','approaching','bite'].includes(s.state)){s.bobber.clearVelocity();s.bobber.teleport(s.visual,{rotation:{x:0,y:0}});}
     try{
      const head=player.getHeadLocation(),view=player.getViewDirection(),horizontal=Math.hypot(view.x,view.z)||1;
-     const tip={x:head.x-view.z/horizontal*0.55+view.x*0.6,y:head.y-0.32+view.y*0.2,z:head.z+view.x/horizontal*0.55+view.z*0.6};
+     const tip={x:head.x-view.z/horizontal*0.75+view.x*0.8,y:head.y-0.28+view.y*0.2,z:head.z+view.x/horizontal*0.75+view.z*0.8};
      const hook={...s.visual,y:s.visual.y+0.22};
      for(const point of linePoints(tip,hook))particle(player.dimension,'jagsby_nether:fishing_line',point);
     }catch(error){if(!s.lineWarning){console.warn(`[Underworld lava fishing] Line update failed: ${error}`);s.lineWarning=true;}}

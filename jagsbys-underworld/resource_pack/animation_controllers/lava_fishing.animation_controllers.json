@@ -1,0 +1,28 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.jagsby_nether.rod_use": {
+      "initial_state": "idle",
+      "states": {
+        "idle": {
+          "transitions": [
+            {
+              "casting": "context.is_first_person && query.cooldown_time_remaining('jagsby_nether:rod_swing') > 0.0"
+            }
+          ]
+        },
+        "casting": {
+          "animations": [
+            "cast"
+          ],
+          "transitions": [
+            {
+              "idle": "query.all_animations_finished"
+            }
+          ],
+          "blend_transition": 0.04
+        }
+      }
+    }
+  }
+}

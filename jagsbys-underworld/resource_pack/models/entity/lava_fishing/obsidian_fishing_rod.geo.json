@@ -1,0 +1,66 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.jagsby_nether.obsidian_rod",
+        "texture_width": 64,
+        "texture_height": 64,
+        "visible_bounds_width": 3,
+        "visible_bounds_height": 3,
+        "visible_bounds_offset": [
+          0,
+          1,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "rod",
+          "binding": "query.item_slot_to_bone_name(context.item_slot)",
+          "pivot": [
+            0,
+            24,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -2,
+                22,
+                -0.0625
+              ],
+              "size": [
+                16,
+                16,
+                0.125
+              ],
+              "uv": {
+                "north": {
+                  "uv": [
+                    0,
+                    0
+                  ],
+                  "uv_size": [
+                    64,
+                    64
+                  ]
+                },
+                "south": {
+                  "uv": [
+                    64,
+                    0
+                  ],
+                  "uv_size": [
+                    -64,
+                    64
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "jagsby_nether:obsidian_fishing_rod",
+      "materials": {
+        "default": "entity_alphatest",
+        "enchanted": "entity_alphatest_glint"
+      },
+      "textures": {
+        "default": "textures/items/lava_fishing/obsidian_fishing_rod",
+        "enchanted": "textures/misc/enchanted_item_glint"
+      },
+      "geometry": {
+        "default": "geometry.jagsby_nether.obsidian_rod"
+      },
+      "animations": {
+        "hold": "animation.jagsby_nether.rod_hold",
+        "cast": "animation.jagsby_nether.rod_first_person_cast",
+        "use_controller": "controller.animation.jagsby_nether.rod_use"
+      },
+      "scripts": {
+        "animate": [
+          "hold",
+          "use_controller"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.item_default"
+      ]
+    }
+  }
+}

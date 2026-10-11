@@ -41,11 +41,15 @@
         ]
       },
       "minecraft:use_modifiers": {
-        "use_duration": 0.3,
+        "use_duration": 0.05,
         "movement_modifier": 1.0
       },
-      "minecraft:use_animation": "spear",
-      "jagsby_nether:lava_fishing_rod": {}
+      "minecraft:use_animation": "bow",
+      "jagsby_nether:lava_fishing_rod": {},
+      "minecraft:cooldown": {
+        "category": "jagsby_nether:rod_swing",
+        "duration": 0.35
+      }
     }
   }
 }

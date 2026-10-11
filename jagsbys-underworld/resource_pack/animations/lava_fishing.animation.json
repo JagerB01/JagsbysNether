@@ -60,6 +60,48 @@
         }
       },
       "override_previous_animation": true
+    },
+    "animation.jagsby_nether.rod_hold": {
+      "loop": true,
+      "bones": {
+        "rod": {
+          "rotation": [
+            0,
+            "context.is_first_person ? 0.0 : 180.0",
+            0
+          ]
+        }
+      }
+    },
+    "animation.jagsby_nether.rod_first_person_cast": {
+      "animation_length": 0.35,
+      "loop": false,
+      "bones": {
+        "rod": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.09": [
+              -65,
+              0,
+              0
+            ],
+            "0.19": [
+              22,
+              0,
+              0
+            ],
+            "0.35": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      }
     }
   }
 }

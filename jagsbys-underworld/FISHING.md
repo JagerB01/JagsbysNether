@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.12 playtest build
+# Lava fishing — v0.2.13 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -80,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.12 and confirm both pack versions and the Content Log.
+1. Import v0.2.13 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -201,3 +201,21 @@ The line anchor moves 0.28 blocks lower and 0.20 blocks further to the rod
 side, with a smaller pitch offset, to bring it away from the face toward
 the held tip. Native first-person use and tip alignment require gameplay
 verification. Catch launching, XP orbs and sounds remain unchanged.
+
+## v0.2.13 held rod animation and grip playtest
+
+A new rod attachable renders the unchanged user PNG as a thin sprite.
+Its equipment-bound pivot is at [0,24,0], with the handle pixel (8,56) at
+that pivot; this avoids the old zero-height binding that placed it at the feet.
+The third-person hold turns the sprite around the vertical axis while leaving
+its hanging line vertical. A first-person-only controller plays a 0.35-second
+back-and-forward swing when the native cooldown is active. The script starts
+that cooldown explicitly on accepted use. Supported since 1.20.60,
+query.cooldown_time_remaining supplies the client animation trigger; the
+short native bow use definition is restored. Third-person player arm swing
+is retained. Inventory PNG, catches, sounds and enchantments are unchanged.
+
+The particle line anchor moves further to the rod side and forward. It
+remains an approximation: Script API does not expose rendered bone locators.
+Verify the new grip, first-person visibility, motion, enchantment glint and
+line connection in Minecraft. Automated tests cannot establish these visuals.

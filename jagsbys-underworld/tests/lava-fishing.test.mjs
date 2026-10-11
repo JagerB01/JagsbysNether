@@ -5,15 +5,15 @@ import {createAnglingController,linePoints,catchFish,fishPool,FISH,ROD} from '..
 import {applyFishFood,updateFishEffects} from '../.build/behavior_pack/scripts/lava_fishing/fish.js';
 const json=file=>JSON.parse(readFileSync(new URL(file,import.meta.url)));
 function fixture({dimension='minecraft:nether',biome=1,mode='Survival',damage=0,maxDurability=256,chance=100,lure=0,unbreaking=0}={}){
- const properties=new Map(),rodProperties=new Map(),caught=[],caughtDrops=[],xpOrbs=[],sounds=[],particles=[],positions=[],impulses=[],animations=[],messages=[],effects=[],fires=[],experience=[],damageTaken=[];
- const rod={typeId:ROD,getDynamicProperty:k=>rodProperties.get(k),setDynamicProperty:(k,v)=>rodProperties.set(k,v),getComponent(type){if(type==='minecraft:durability')return durability;if(type==='minecraft:enchantable')return {getEnchantment:name=>({level:name==='lure'?lure:name==='unbreaking'?unbreaking:0})};}};
+ const properties=new Map(),rodProperties=new Map(),caught=[],caughtDrops=[],xpOrbs=[],sounds=[],particles=[],positions=[],impulses=[],animations=[],cooldowns=[],messages=[],effects=[],fires=[],experience=[],damageTaken=[];
+ const rod={typeId:ROD,getDynamicProperty:k=>rodProperties.get(k),setDynamicProperty:(k,v)=>rodProperties.set(k,v),getComponent(type){if(type==='minecraft:cooldown')return {startCooldown:player=>cooldowns.push(player.id)};if(type==='minecraft:durability')return durability;if(type==='minecraft:enchantable')return {getEnchantment:name=>({level:name==='lure'?lure:name==='unbreaking'?unbreaking:0})};}};
  const durability={damage,maxDurability,getDamageChance:()=>chance};
  const inventory=new Map([[0,rod]]);const container={getItem:slot=>inventory.get(slot),setItem:(slot,value)=>inventory.set(slot,value),addItem:item=>{caught.push(item);return undefined;}};
  const lava={typeId:'minecraft:lava',isAir:false,location:{x:0,y:31,z:8},permutation:{getState:()=>0}};
  const bobber={location:{x:0,y:31.9,z:8},applyImpulse:v=>impulses.push(v),clearVelocity(){},isOnGround:false,isValid:true,removed:0,events:[],teleport(p){positions.push(p);this.location=p;},triggerEvent(event){this.events.push(event);},getProperty:()=>biome,setProperty(){},remove(){this.removed++;this.isValid=false;}};
  const dim={id:dimension,entities:[],getBlock(p){return p.y<=31?lava:{typeId:'minecraft:air',isAir:true};},spawnEntity(type,p){if(type==='minecraft:xp_orb'){xpOrbs.push({type,p});return {};}this.entities.push({type,p});return bobber;},playSound:(id,p,options)=>sounds.push({id,p,options}),spawnParticle:(id,p)=>particles.push({id,p}),spawnItem(item,p){caught.push(item);const drop={position:p,velocity:undefined,cleared:false,clearVelocity(){this.cleared=true;},applyImpulse(v){this.velocity=v;}};caughtDrops.push(drop);return drop;},getEntities:()=>[]};
  const player={id:'angler',typeId:'minecraft:player',selectedSlotIndex:0,location:{x:0,y:32,z:0},dimension:dim,getGameMode:()=>mode,getRotation:()=>({x:0,y:0}),playAnimation:(id,options)=>animations.push({id,options}),getComponent:()=>({container}),getBlockFromViewDirection:options=>{assert.equal(options.includeLiquidBlocks,true);return {block:lava,faceLocation:{x:0.5,z:0.5}};},getHeadLocation:()=>({x:0,y:33.6,z:0}),getViewDirection:()=>({x:0,y:-0.3,z:Math.sqrt(0.91)}),addExperience:n=>experience.push(n),onScreenDisplay:{setActionBar:m=>messages.push(m)},addEffect:(...args)=>effects.push(args),setOnFire:(...args)=>fires.push(args),setDynamicProperty:(k,v)=>properties.set(k,v),getDynamicProperty:k=>properties.get(k),applyDamage:(...args)=>damageTaken.push(args),getVelocity:()=>({y:-0.2}),teleport:p=>positions.push(p),applyImpulse:p=>positions.push(p)};
- return {player,dim,bobber,lava,inventory,rod,durability,caught,caughtDrops,xpOrbs,experience,effects,fires,properties,positions,impulses,animations,messages,sounds,particles,damageTaken};
+ return {player,dim,bobber,lava,inventory,rod,durability,caught,caughtDrops,xpOrbs,experience,effects,fires,properties,positions,impulses,animations,cooldowns,messages,sounds,particles,damageTaken};
 }
 function bite(controller,f,start=0){assert.equal(controller.use(f.player,start),true);for(const tick of [start+12,start+14,start+114,start+134])controller.update([f.player],tick);assert.equal(controller.sessions.get(f.player.id).state,'bite');}
 test('uploaded Java loot tables and fishing-only scope determine the pools',()=>{
@@ -129,10 +129,11 @@ test('bobber uses the vanilla fishhook atlas and the rod has no custom held mode
  const bobber=json('../behavior_pack/entities/lava_fishing/lava_bobber.json')['minecraft:entity'];
  assert('minecraft:fire_immune' in bobber.components);assert.equal(bobber.components['minecraft:physics'].has_gravity,true);
  assert(!Object.keys(bobber.description.properties).some(k=>k.includes('line_')));
- assert.throws(()=>readFileSync(new URL('../resource_pack/attachables/obsidian_fishing_rod.json',import.meta.url)));
+ const attachable=json('../resource_pack/attachables/obsidian_fishing_rod.json')['minecraft:attachable'].description;
+ assert.equal(attachable.identifier,ROD);assert.equal(attachable.textures.default,'textures/items/lava_fishing/obsidian_fishing_rod');
  const rod=json('../behavior_pack/items/lava_fishing/obsidian_fishing_rod.json')['minecraft:item'].components;
- assert.equal(rod['minecraft:hand_equipped'],true);assert.equal(rod['minecraft:use_animation'],'spear');
- assert.equal(rod['minecraft:use_modifiers'].use_duration,0.3);
+ assert.equal(rod['minecraft:hand_equipped'],true);assert.equal(rod['minecraft:use_animation'],'bow');
+ assert.equal(rod['minecraft:use_modifiers'].use_duration,0.05);
  assert(!('minecraft:tags' in rod));
  const particle=json('../resource_pack/particles/lava_fishing_line.particle.json').particle_effect;
  assert.equal(particle.description.identifier,'jagsby_nether:fishing_line');
@@ -213,4 +214,17 @@ test('catch XP uses native orbs so pickup can mend eligible equipment; failed re
  assert.equal(f.xpOrbs.length,1);assert.equal(f.experience.length,0);
  const empty=fixture(),early=createAnglingController();early.use(empty.player,0);early.use(empty.player,5);
  assert.equal(empty.xpOrbs.length,0);
+});
+
+test('accepted rod uses start the client-visible cooldown once, while duplicate callbacks do not',()=>{
+ const f=fixture(),c=createAnglingController();c.use(f.player,0);c.use(f.player,0);
+ assert.deepEqual(f.cooldowns,[f.player.id]);c.use(f.player,8);assert.equal(f.cooldowns.length,2);
+});
+test('held sprite is bound at the handle and client swing controller uses the native cooldown',()=>{
+ const bone=json('../resource_pack/models/entity/lava_fishing/obsidian_fishing_rod.geo.json')['minecraft:geometry'][0].bones[0];
+ assert.equal(bone.binding,'query.item_slot_to_bone_name(context.item_slot)');assert.deepEqual(bone.pivot,[0,24,0]);
+ assert.equal(bone.cubes[0].origin[0]+8/4,0);assert.equal(bone.cubes[0].origin[1]+(64-56)/4,24);
+ const controller=json('../resource_pack/animation_controllers/lava_fishing.animation_controllers.json').animation_controllers['controller.animation.jagsby_nether.rod_use'];
+ assert(controller.states.idle.transitions[0].casting.includes('context.is_first_person'));
+ assert(controller.states.idle.transitions[0].casting.includes('query.cooldown_time_remaining'));
 });
