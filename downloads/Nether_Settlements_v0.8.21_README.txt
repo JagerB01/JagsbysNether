@@ -1,0 +1,14 @@
+Nether Settlements v0.8.21 - Fence Gate Alignment
+
+Replace v0.8.20 with this version.
+Corrects the two side gates in animal_pen_1 for both crimson and warped styles. Gates previously faced along the fence line, turning their rails 90 degrees away from their neighboring fences.
+Front/back gates now face north/south, with rails joining the east/west fence line. Existing roadside entrance gates in pens 1, 2, and 3 remain aligned.
+Both original native templates and sanitized runtime copies are corrected: eight gate-direction changes across four files.
+Generation settings, eligibility checks, terrain scoring, 256-block village spacing, and building variety are unchanged.
+Existing already-placed gates are not automatically rotated. Newly placed/generated pens use the correction. Existing gates can be broken and replaced manually.
+
+Inspect corrected terrain templates with cheats enabled, in a clear area:
+/structure load "nether_settlements:terrain/villages/warped/houses/animal_pen_1" ~ ~-1 ~5
+/structure load "nether_settlements:terrain/villages/crimson/houses/animal_pen_1" ~ ~-1 ~5
+
+Validation: all 14 gate placements across pack templates align with neighboring fences in all four rotations (56 orientation checks). Before/after NBT comparison verifies only eight gate directions changed, with other blocks, states, entities, and block data preserved. In-game appearance still needs verification.
