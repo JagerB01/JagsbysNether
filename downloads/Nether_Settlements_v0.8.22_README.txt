@@ -1,0 +1,23 @@
+Nether Settlements v0.8.22 - Village Spacing
+
+Replace v0.8.21 with this version.
+Minimum center-to-center village spacing reduced from 256 to 200 horizontal blocks. This is a minimum separation, not a guaranteed spawn interval.
+Removes all four command-test prototypes: crimson_cottage, warped_porch_house, open_forge, and basalt_lodge. They were never in natural village pools, so natural building variety is unchanged.
+If the standalone Nether Building Prototypes behavior pack is still enabled on the world, disable it separately; this update removes prototypes from Nether Settlements only. Already placed structures are not deleted.
+
+Natural roadside templates per style (crimson and warped):
+11 homes: 8 small houses, 2 medium houses, 1 big house.
+11 profession buildings: armorer, 2 butcher shops, cartographer, fisher cottage, fletcher, mason, shepherd, tannery, tool smith, weaponsmith.
+2 libraries and 2 temples.
+2 Nether wart farms (small and large).
+3 animal pens and 2 stables.
+2 meeting areas and 1 accessory plot.
+Total: 36 templates per style, 72 across both. 26 enclosed buildings and 10 outdoor amenities per style.
+Farms and outdoor amenities do not count toward the two-building village-center requirement. A one-building site still places only that building and does not contribute to village spacing.
+Village centers, roads, naturally generated camps/tents, and outposts retain their existing templates and settings. Terrain sampling, eligibility caching, and corrected fence-gate states are retained.
+
+/scriptevent nether_settlements:find village
+/scriptevent nether_settlements:test crimson
+/scriptevent nether_settlements:test warped
+
+Validation: 45 automated geometry and mocked Bedrock runtime checks passed, including the exact 200-block spacing boundary. Pack validation confirms no prototype structure files and all referenced natural village templates exist. Live Realm verification remains outstanding.
