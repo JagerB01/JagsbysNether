@@ -69,6 +69,11 @@
             0,
             "context.is_first_person ? 45.0 : 90.0",
             0
+          ],
+          "position": [
+            "context.is_first_person ? -3.0 : 0.0",
+            "context.is_first_person ? 6.0 : -6.0",
+            "context.is_first_person ? -2.0 : 0.0"
           ]
         }
       }
