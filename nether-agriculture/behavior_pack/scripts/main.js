@@ -137,4 +137,4 @@ system.afterEvents.scriptEventReceive.subscribe(({id: eventId, sourceEntity}) =>
   player.sendMessage('Nether Agriculture kit received. Till soul soil within four blocks of lava in the Nether.');
 }));
 
-console.warn('[Nether Agriculture] v0.1.1 loaded. Starter kit: /scriptevent jagsby_nether:kit');
+console.warn('[Nether Agriculture] v0.1.2 loaded. Starter kit: /scriptevent jagsby_nether:kit');
