@@ -11,19 +11,46 @@
     },
     {
       "rolls": 1,
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 0.5714285714285714
+        }
+      ],
       "entries": [
         {
           "type": "item",
-          "name": "jagsby_nether:rye_seeds",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 4
-              }
-            }
-          ]
+          "name": "jagsby_nether:rye_seeds"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 0.5714285714285714
+        }
+      ],
+      "entries": [
+        {
+          "type": "item",
+          "name": "jagsby_nether:rye_seeds"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 0.5714285714285714
+        }
+      ],
+      "entries": [
+        {
+          "type": "item",
+          "name": "jagsby_nether:rye_seeds"
         }
       ]
     }

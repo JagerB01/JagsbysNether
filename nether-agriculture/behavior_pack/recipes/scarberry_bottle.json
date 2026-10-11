@@ -17,6 +17,9 @@
       {
         "item": "minecraft:glass_bottle"
       }
-    ]
+    ],
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
   }
 }

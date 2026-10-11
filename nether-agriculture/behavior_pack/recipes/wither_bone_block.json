@@ -19,6 +19,9 @@
       "#": {
         "item": "jagsby_nether:wither_bone_meal"
       }
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
     }
   }
 }

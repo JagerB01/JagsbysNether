@@ -15,6 +15,9 @@
       {
         "item": "jagsby_nether:blistered_rye_block"
       }
-    ]
+    ],
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
   }
 }

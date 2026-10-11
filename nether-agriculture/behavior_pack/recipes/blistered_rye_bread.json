@@ -17,6 +17,9 @@
       "#": {
         "item": "jagsby_nether:blistered_rye"
       }
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
     }
   }
 }

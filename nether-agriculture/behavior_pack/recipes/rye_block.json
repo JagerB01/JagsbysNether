@@ -19,6 +19,9 @@
       "#": {
         "item": "jagsby_nether:rye"
       }
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
     }
   }
 }

@@ -1,15 +1,16 @@
 # Nether Agriculture — Bedrock crop port
 
-Personal test build v0.1.0, separate from Nether Settlements. Based on the Nether
+Personal test build v0.1.1, separate from Nether Settlements. Based on the Nether
 farming content in SuitedLlama's Agriculture Progression 1.0.1 for Java 1.16.4.
 The original crop and item textures are included. End crops are excluded.
 
 ## Import and test
 
-Import `../downloads/Nether_Agriculture_v0.1.0.mcaddon` into **Minecraft Bedrock
+Import `../downloads/Nether_Agriculture_v0.1.1.mcaddon` into **Minecraft Bedrock
 1.21.100 or newer**. Enable **Nether Agriculture Behavior** and **Nether Agriculture
 Resources** on a disposable world with cheats enabled. Both packs are required.
 The script uses stable `@minecraft/server` 2.0.0; Beta APIs are not required.
+Replace v0.1.0 with v0.1.1 and ensure both updated packs are active.
 The pack has its own namespace and does not replace vanilla entity definitions,
 loot tables, or the Nether Settlements pack.
 
@@ -36,7 +37,9 @@ for the gameplay checklist.
   stages. Ordinary bone meal does not fertilize these crops.
 - Rye at stage six has a 1-in-475 mutation roll per random tick before its
   ordinary growth roll. Harvest Blistered Rye by breaking the glowing crop.
-- Break mature Rye for rye and seeds. Break mature Polyps for multiple polyps
+- Break mature Rye for one rye and zero to three seeds, using three independent
+  4-in-7 seed rolls like ordinary wheat. Immature Rye returns one seed.
+  Break mature Polyps for multiple polyps
   and a 2% chance of a Wither Polyp. Normal crop harvest uses breaking; these
   crops do not automatically replant themselves.
 - Plant Scarberries on Nether ground or farmland. They grow without lava.
@@ -60,6 +63,8 @@ One Wither Bone crafts into three Wither Bone Meal.
 Original recipes are included for Rye Bread, Blistered Rye Bread, Scarberry
 Bottles, Murky Pie (gourd + redstone + egg), gourd seeds, Murk O' Lanterns,
 rye bales, and Wither Bone Blocks. Polyps cook in furnaces, smokers, and campfires.
+All crafting recipes are unlocked from the start. Disable the recipe book's
+craftable-only filter to see recipes when ingredients are missing.
 Scarberries can poison the eater; Scarberry Bottles remove Wither but can also
 poison. Wither Polyps can cause Wither. Blistered Rye Bread grants sixteen
 minutes of fire resistance. Food hunger/saturation values follow the Java mod.
@@ -78,6 +83,11 @@ harvesting, adjacent gourds, deferred interactions, food effects and starter kit
 with a mocked Bedrock API. Pack references and JS syntax are also checked.
 These checks do not prove that Bedrock imports, renders or runs the pack;
 live import, textures, loot, recipes, hunger effects and growth need in-game testing.
+Version 0.1.1 restores the soul-soil sound group for farmland, adds a short arm
+swing and the vanilla tilling sound, and adds bone-meal sound/growth particles to
+successful fertilizer use. It avoids rewriting unchanged farmland states and
+combines gourd attachment updates to reduce unnecessary block updates. Confirm
+the arm swing in both first-person and third-person views, and retest stuttering.
 
 ## Development
 

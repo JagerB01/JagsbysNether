@@ -15,6 +15,9 @@
       {
         "item": "jagsby_nether:wither_bone"
       }
-    ]
+    ],
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
   }
 }

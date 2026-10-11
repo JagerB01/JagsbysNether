@@ -22,6 +22,8 @@ export function offset(block, x, y, z) {
   return read(block.dimension, {x: block.location.x + x, y: block.location.y + y, z: block.location.z + z});
 }
 export function setState(block, state, value) {
+  // Rewriting the same permutation remeshes blocks without changing gameplay.
+  if (block.permutation.getState(state) === value) return;
   block.setPermutation(block.permutation.withState(state, value));
 }
 export function isNether(block) { return block.dimension.id === 'minecraft:nether'; }
@@ -64,8 +66,7 @@ export function growGourd(block, rng = Math.random) {
   // Unknown/unloaded columns are never treated as empty space.
   if (!fruit?.isAir || !GOURD_GROUND.has(ground?.typeId)) return;
   fruit.setType(`${NS}:murky_gourd`);
-  setState(block, FACING, facing);
-  setState(block, ATTACHED, true);
+  block.setPermutation(block.permutation.withState(FACING, facing).withState(ATTACHED, true));
 }
 export function randomTick(block, rng = Math.random) {
   const crop = CROPS[block.typeId];

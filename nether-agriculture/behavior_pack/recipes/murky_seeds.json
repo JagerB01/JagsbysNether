@@ -15,6 +15,9 @@
       {
         "item": "jagsby_nether:murky_gourd"
       }
-    ]
+    ],
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
   }
 }

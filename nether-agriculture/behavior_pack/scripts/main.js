@@ -1,5 +1,5 @@
 import {world, system, ItemStack, GameMode} from '@minecraft/server';
-import {NS, AGE, CROPS, FARMLAND, HEATED, read, offset, hasHeat, updateFarmland,
+import {NS, AGE, CROPS, FARMLAND, HEATED, read, offset, setState, hasHeat, updateFarmland,
   randomTick, fertilize, pickBerries} from './crops.js';
 
 const id = name => `${NS}:${name}`;
@@ -33,6 +33,15 @@ function damageTool(player, slot, stack) {
   if (durability.damage + 1 >= durability.maxDurability) inventory(player).setItem(slot);
   else { durability.damage++; inventory(player).setItem(slot, stack); }
 }
+function farmingFeedback(player, block, fertilizer = false) {
+  // These effects run only after the farming action succeeds.
+  const location = {x: block.location.x + 0.5, y: block.location.y + 0.5, z: block.location.z + 0.5};
+  guard(() => player.playAnimation('animation.jagsby_nether.farm_swing', {
+    blendOutTime: 0.05, stopExpression: 'q.anim_time >= 0.3',
+  }));
+  guard(() => block.dimension.playSound(fertilizer ? 'item.bone_meal.use' : 'use.gravel', location));
+  if (fertilizer) guard(() => block.dimension.spawnParticle('minecraft:crop_growth_emitter', location));
+}
 
 system.beforeEvents.startup.subscribe(({blockComponentRegistry}) => {
   blockComponentRegistry.registerCustomComponent(id('crop'), {
@@ -43,7 +52,7 @@ system.beforeEvents.startup.subscribe(({blockComponentRegistry}) => {
   });
   blockComponentRegistry.registerCustomComponent(id('farmland'), {
     onPlace({block}) { guard(() => {
-      block.setPermutation(block.permutation.withState(HEATED, hasHeat(block)));
+      setState(block, HEATED, hasHeat(block));
     }); },
     onRandomTick({block}) { guard(() => updateFarmland(block)); },
   });
@@ -72,10 +81,12 @@ world.beforeEvents.playerInteractWithBlock.subscribe(event => {
       }
       if (!offset(target, 0, 1, 0)?.isAir) return;
       target.setType(FARMLAND);
-      target.setPermutation(target.permutation.withState(HEATED, hasHeat(target)));
+      setState(target, HEATED, hasHeat(target));
       damageTool(player, slot, stack);
+      farmingFeedback(player, target);
     } else if (feed && fertilize(target)) {
       consume(player, slot, stack);
+      farmingFeedback(player, target, true);
     } else if (harvest) {
       const count = pickBerries(target);
       if (count) drop(target, id('scarberries'), count);
@@ -126,4 +137,4 @@ system.afterEvents.scriptEventReceive.subscribe(({id: eventId, sourceEntity}) =>
   player.sendMessage('Nether Agriculture kit received. Till soul soil within four blocks of lava in the Nether.');
 }));
 
-console.warn('[Nether Agriculture] v0.1.0 loaded. Starter kit: /scriptevent jagsby_nether:kit');
+console.warn('[Nether Agriculture] v0.1.1 loaded. Starter kit: /scriptevent jagsby_nether:kit');

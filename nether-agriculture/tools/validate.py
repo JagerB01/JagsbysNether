@@ -78,6 +78,15 @@ def main():
             for child in value:
                 references(child)
     recipes = list((BP / "recipes").glob("*.json"))
+    for path in recipes:
+        recipe = load(path)
+        for kind in ("minecraft:recipe_shaped", "minecraft:recipe_shapeless"):
+            if kind in recipe:
+                # Bedrock's AlwaysUnlocked context is an object, not an item array.
+                assert recipe[kind].get("unlock") == {"context": "AlwaysUnlocked"}, path
+    assert load(RP / "blocks.json")["jagsby_nether:soul_soil_farmland"]["sound"] == "soul_soil"
+    animations = load(RP / "animations/farming.animation.json")["animations"]
+    assert "animation.jagsby_nether.farm_swing" in animations
     for path in recipes + list((BP / "loot_tables").rglob("*.json")):
         references(load(path))
     assert set(load(RP / "blocks.json")) - {"format_version"} == set(blocks)

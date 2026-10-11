@@ -34,6 +34,11 @@ test('lava keeps farmland heated', () => {
   const {soil, put} = farm(); put('minecraft:flowing_lava', {x: 1, y: 64, z: 0});
   updateFarmland(soil); assert.equal(soil.permutation.getState(HEATED), true);
 });
+test('already-heated farmland is not rewritten on random ticks', () => {
+  const {soil, put} = farm(); put('minecraft:lava', {x: 1, y: 64, z: 0});
+  for (let i = 0; i < 10; i++) updateFarmland(soil);
+  assert.equal(soil.writes, 0);
+});
 for (const name of ['rye_crop','polyps','murky_gourd_stem']) {
   test(`${name} advances on a successful growth roll`, () => {
     const {crop} = farm(name, 2); randomTick(crop, rng(0)); assert.equal(crop.permutation.getState(AGE), 3);

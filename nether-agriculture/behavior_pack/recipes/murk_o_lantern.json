@@ -21,6 +21,9 @@
       "B": {
         "item": "minecraft:soul_torch"
       }
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
     }
   }
 }
