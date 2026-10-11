@@ -1,0 +1,18 @@
+Nether Building Prototypes v0.1.0
+
+Separate behavior pack; enable alongside Nether Settlements. No natural generation rules or scripts are included.
+Four standalone prototype designs. These are review templates, not yet wired into village pools or equipped with jigsaw connectors.
+Stand on a flat clear test area, with at least 15 blocks of space above and 14 blocks in the positive Z direction. Cheats required. Templates face negative Z.
+Each command places a building five blocks in positive Z, with its floor one block below your feet. Interior air clears blocks inside the template footprint. Move to a different clear area before placing another design.
+
+/structure load nether_prototypes/crimson_cottage ~ ~-1 ~5
+/structure load nether_prototypes/warped_porch_house ~ ~-1 ~5
+/structure load nether_prototypes/open_forge ~ ~-1 ~5
+/structure load nether_prototypes/basalt_lodge ~ ~-1 ~5
+
+Crimson cottage: 9 x 10 x 11 (width x height x depth), dark masonry and crimson timber with a gabled roof.
+Warped porch house: 11 x 12 x 14, smooth basalt walls, warped timber and a covered front porch.
+Open forge: 13 x 12 x 12, wide open workshop, front awning, enclosed magma hearth and masonry chimney. No flowing lava or active fire.
+Basalt lodge: 11 x 15 x 14, two floors, interior stairs, front balcony and warped roof.
+
+Validated little-endian NBT roundtrip, palette identifiers against Bedrock 1.21.100 block IDs, index bounds, doorway pairs, interior access, lighting, and absence of template markers. Live Minecraft placement and appearance remain unverified.
