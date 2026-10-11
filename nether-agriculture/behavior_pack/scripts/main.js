@@ -33,12 +33,9 @@ function damageTool(player, slot, stack) {
   if (durability.damage + 1 >= durability.maxDurability) inventory(player).setItem(slot);
   else { durability.damage++; inventory(player).setItem(slot, stack); }
 }
-function farmingFeedback(player, block, fertilizer = false) {
+function farmingFeedback(block, fertilizer = false) {
   // These effects run only after the farming action succeeds.
   const location = {x: block.location.x + 0.5, y: block.location.y + 0.5, z: block.location.z + 0.5};
-  guard(() => player.playAnimation('animation.jagsby_nether.farm_swing', {
-    blendOutTime: 0.05,
-  }));
   guard(() => block.dimension.playSound(fertilizer ? 'item.bone_meal.use' : 'use.gravel', location));
   if (fertilizer) guard(() => block.dimension.spawnParticle('minecraft:crop_growth_emitter', location));
 }
@@ -49,6 +46,15 @@ system.beforeEvents.startup.subscribe(({blockComponentRegistry}) => {
       if (event.dimension.id !== 'minecraft:nether') event.cancel = true;
     },
     onRandomTick({block}) { guard(() => randomTick(block)); },
+    // Use the block's native interaction callback rather than simulating use
+    // through a deferred before-event. Native arm motion still needs game testing.
+    onPlayerInteract({block, player}) { guard(() => {
+      if (!player || !editable(player) || player.dimension.id !== block.dimension.id) return;
+      const slot = player.selectedSlotIndex, stack = inventory(player)?.getItem(slot);
+      if (stack?.typeId !== id('wither_bone_meal') || !fertilize(block)) return;
+      consume(player, slot, stack);
+      farmingFeedback(block, true);
+    }); },
   });
   blockComponentRegistry.registerCustomComponent(id('farmland'), {
     // Newly placed/tiled farmland uses its dry default. Seven two-second steps
@@ -63,13 +69,13 @@ world.beforeEvents.playerInteractWithBlock.subscribe(event => {
   const type = block.typeId, held = itemStack?.typeId;
   const hoe = held?.startsWith('minecraft:') && held.endsWith('_hoe');
   const till = type === 'minecraft:soul_soil' && hoe && event.blockFace === 'Up';
-  const feed = !!CROPS[type] && held === id('wither_bone_meal');
+  // Let the crop's native onPlayerInteract handle fertilizer, including ripe bushes.
+  if (CROPS[type] && held === id('wither_bone_meal')) return;
   const harvest = !player.isSneaking && type === id('scarberry_bush') && block.permutation.getState(AGE) >= 2;
   const carve = type === id('murky_gourd') && held === 'minecraft:shears';
-  if (!(till || feed || harvest || carve) || !editable(player)) return;
-  // Neither a vanilla hoe on soul soil nor this custom fertilizer has a
-  // competing vanilla action. Let those interactions reach the client normally.
-  if ((harvest && !feed) || carve) event.cancel = true;
+  if (!(till || harvest || carve) || !editable(player)) return;
+  // A vanilla hoe has no competing vanilla action on soul soil.
+  if (harvest || carve) event.cancel = true;
   if (!event.isFirstEvent) return;
   const dimension = block.dimension, location = {...block.location}, slot = player.selectedSlotIndex;
   system.run(() => guard(() => {
@@ -78,15 +84,12 @@ world.beforeEvents.playerInteractWithBlock.subscribe(event => {
         player.selectedSlotIndex !== slot || stack?.typeId !== held) return;
     if (till) {
       if (dimension.id !== 'minecraft:nether') {
-        player.sendMessage('Soul Soil Farmland needs the Nether and nearby lava.'); return;
+        player.sendMessage('Soul Soil Farmland needs the Nether.'); return;
       }
       if (!offset(target, 0, 1, 0)?.isAir) return;
       target.setType(FARMLAND);
       damageTool(player, slot, stack);
-      farmingFeedback(player, target);
-    } else if (feed && fertilize(target)) {
-      consume(player, slot, stack);
-      farmingFeedback(player, target, true);
+      farmingFeedback(target);
     } else if (harvest) {
       const count = pickBerries(target);
       if (count) drop(target, id('scarberries'), count);
@@ -134,7 +137,7 @@ system.afterEvents.scriptEventReceive.subscribe(({id: eventId, sourceEntity}) =>
     ['murky_seeds', 16], ['wither_bone_meal', 64], ['blistered_rye', 6]]) give(player, id(name), count);
   for (const [name, count] of [['minecraft:soul_soil', 32], ['minecraft:iron_hoe', 1],
     ['minecraft:lava_bucket', 1], ['minecraft:shears', 1]]) give(player, name, count);
-  player.sendMessage('Nether Agriculture kit received. Till soul soil within four blocks of lava in the Nether.');
+  player.sendMessage('Nether Agriculture kit received. Till soul soil in the Nether. Nearby lava speeds up growth.');
 }));
 
-console.warn('[Nether Agriculture] v0.1.4 loaded. Starter kit: /scriptevent jagsby_nether:kit');
+console.warn('[Nether Agriculture] v0.1.5 loaded. Starter kit: /scriptevent jagsby_nether:kit');

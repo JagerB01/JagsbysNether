@@ -85,9 +85,6 @@ def main():
                 # Bedrock's AlwaysUnlocked context is an object, not an item array.
                 assert recipe[kind].get("unlock") == {"context": "AlwaysUnlocked"}, path
     assert load(RP / "blocks.json")["jagsby_nether:soul_soil_farmland"]["sound"] == "soul_soil"
-    animations = load(RP / "animations/farming.animation.json")["animations"]
-    assert "animation.jagsby_nether.farm_swing" in animations
-    assert {"rightarm", "rightitem"} <= set(animations["animation.jagsby_nether.farm_swing"]["bones"])
     farmland = blocks["jagsby_nether:soul_soil_farmland"]
     assert farmland["description"]["states"]["jagsby_nether:heat_level"] == list(range(8))
     assert farmland["components"]["minecraft:tick"] == {"interval_range": [40, 40], "looping": True}

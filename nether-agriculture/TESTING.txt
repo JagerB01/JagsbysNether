@@ -1,10 +1,10 @@
-Nether Agriculture v0.1.4 — First Bedrock Test Build
+Nether Agriculture v0.1.5 — First Bedrock Test Build
 
-1. Import Nether_Agriculture_v0.1.4.mcaddon into Bedrock 1.21.100 or newer.
+1. Import Nether_Agriculture_v0.1.5.mcaddon into Bedrock 1.21.100 or newer.
    Activate both the Behavior and Resource packs on a disposable world.
    Enable cheats for the starter-kit command. Beta APIs are not required.
    If import or scripts fail, capture the Content Log errors.
-   Replace the previous packs with v0.1.4; activate both updated packs.
+   Replace the previous packs with v0.1.5; activate both updated packs.
 
 2. Enter the Nether and run:
    /scriptevent jagsby_nether:kit
@@ -12,9 +12,9 @@ Nether Agriculture v0.1.4 — First Bedrock Test Build
 3. Make a small soul-soil bed and safely contain lava beside it at soil height.
    Hoe the top of the soul soil. Farmland within four horizontal blocks of lava
    should START DRY and take about fourteen seconds to show the heated texture. Lava below the soil does
-   not count. Soil without nearby lava should eventually revert to soul soil.
+   not count. Soil without lava should remain farmland permanently.
    Place and walk on farmland: both should use soul-soil sounds. Tilling should
-   swing the arm and play the normal hoe-tilling sound. Try both camera views.
+   play the normal hoe-tilling sound. Vanilla-hoe arm motion is still unresolved.
 
 4. Plant Sorgum Seeds, Polyps and Grollet Seeds on the farmland; plant Scarberries
    on soul soil, netherrack or nylium. Check sprites, selection boxes and names.
@@ -22,8 +22,9 @@ Nether Agriculture v0.1.4 — First Bedrock Test Build
 
 5. Try ordinary bone meal (no growth) and Wither Bone Meal (crop advancement).
    Switch to survival to check fertilizer consumption and hoe durability.
-   Successful Wither Bone Meal use should swing the arm, play a sound and show
-   growth particles. Failed growth should not consume fertilizer or play effects.
+   Successful Wither Bone Meal use should play a sound and show growth particles.
+   Its native interaction handler needs a fresh arm-motion check in both camera
+   views. Failed growth should not consume fertilizer or play effects.
    Mature Sorgum should drop one Sorgum and zero to three seeds; immature Sorgum one seed.
    Retest whether nearby crop growth still stutters.
    Break mature Sorgum and Polyps and verify the harvested items. Ripe Scarberry
@@ -59,10 +60,11 @@ tools, custom brewing and End content are not included in this first test build.
 
 11. On a newly tilled plot near lava, immediately try Wither Bone Meal. It
     should grow the crop and consume one item in survival, without instantly
-    heating the soil. Repeat on dry farmland with no lava before it reverts.
-    Natural growth should wait until full heating, about fourteen seconds near lava.
+    heating the soil. Repeat on dry farmland with no lava. All plots should grow
+    naturally; fully
+    heated soil should grow faster on average, not block growth on dry soil.
     Using fertilizer on a mature crop should not consume it or play effects.
-    Remove lava and check gradual cooling and eventual return to soul soil.
+    Remove lava and check gradual cooling; the soil must remain tilled.
     Previously heated farmland in an upgraded world should retain its heat.
 
 12. Inspect Sorgum, Polyps, Scarberries and Grollet stems from several angles
@@ -70,7 +72,15 @@ tools, custom brewing and End content are not included in this first test build.
     fertilizer use. Compare arm/held-item movement in first-person and third-person
     while tilling and fertilizing; successful planting remains a useful comparison.
 
-13. The v0.1.4 arm-motion change is experimental. Check tilling and Wither Bone
-    Meal in first-person and third-person on 26.52, in survival and creative.
-    Check that the arm returns to idle and that mining/attacking still look normal.
-    Check the same actions while sneaking and while holding the use button.
+13. Compare dry and lava-heated beds planted with Sorgum, Polyps and Grollet.
+    Dry growth is three times slower on average, so use several crops rather
+    than judging a single plant. /gamerule randomTickSpeed 100 can speed this up
+    in a test world; restore the Bedrock default of 1 afterward. Confirm Grollet
+    can produce fruit without lava. Harvest everything and wait: dry soil must
+    remain tilled even without plants. Save/reload and recheck these plots.
+
+14. The previous scripted arm-animation attempts did not work on the reported
+    26.52 client and have been removed. Fertilizer now uses the native crop
+    interaction callback; check its motion in first-person and third-person,
+    survival and creative, sneaking and holding use. Tilling with vanilla hoes
+    still has no confirmed arm-motion fix. Check normal mining and attacking too.

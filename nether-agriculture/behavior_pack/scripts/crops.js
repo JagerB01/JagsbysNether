@@ -44,7 +44,6 @@ export function updateFarmland(block, nearbyHeat = hasHeat(block)) {
   if (level === 0 && block.permutation.getState(HEATED)) level = 7;
   if (nearbyHeat) level = Math.min(7, level + 1);
   else if (level > 0) level--;
-  else { block.setType('minecraft:soul_soil'); return; }
   const heated = level === 7;
   if (level === block.permutation.getState(HEAT_LEVEL) && heated === block.permutation.getState(HEATED)) return;
   block.setPermutation(block.permutation.withState(HEAT_LEVEL, level).withState(HEATED, heated));
@@ -53,7 +52,7 @@ export function canGrow(block) {
   if (!isNether(block)) return false;
   if (block.typeId === `${NS}:scarberry_bush`) return true;
   const soil = offset(block, 0, -1, 0);
-  return soil?.typeId === FARMLAND && soil.permutation.getState(HEATED) === true;
+  return soil?.typeId === FARMLAND;
 }
 export function growGourd(block, rng = Math.random) {
   if (block.permutation.getState(ATTACHED)) {
@@ -75,17 +74,21 @@ export function randomTick(block, rng = Math.random) {
   const crop = CROPS[block.typeId];
   if (!crop || !canGrow(block)) return;
   const age = block.permutation.getState(AGE);
+  const heated = offset(block, 0, -1, 0)?.permutation.getState(HEATED) === true;
+  // Dry/warming plots grow at one third of the fully heated rate.
+  // Scarberry bushes keep their own lava-independent growth rate.
+  const multiplier = block.typeId === `${NS}:scarberry_bush` || heated ? 1 : 3;
   if (block.typeId === `${NS}:murky_gourd_stem` && block.permutation.getState(ATTACHED)) {
     growGourd(block, rng);
     return;
   }
-  if (block.typeId === `${NS}:rye_crop` && age === 6 && Math.floor(rng() * 475) === 0) {
+  if (heated && block.typeId === `${NS}:rye_crop` && age === 6 && Math.floor(rng() * 475) === 0) {
     block.setType(`${NS}:blistered_rye_crop`);
     return;
   }
   if (age < crop.max) {
-    if (Math.floor(rng() * crop.chance) === 0) setState(block, AGE, age + 1);
-  } else if (block.typeId === `${NS}:murky_gourd_stem` && Math.floor(rng() * 8) === 0) {
+    if (Math.floor(rng() * crop.chance * multiplier) === 0) setState(block, AGE, age + 1);
+  } else if (block.typeId === `${NS}:murky_gourd_stem` && Math.floor(rng() * 8 * multiplier) === 0) {
     growGourd(block, rng);
   }
 }

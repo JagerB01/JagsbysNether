@@ -1,16 +1,16 @@
 # Nether Agriculture — Bedrock crop port
 
-Personal test build v0.1.4, separate from Nether Settlements. Based on the Nether
+Personal test build v0.1.5, separate from Nether Settlements. Based on the Nether
 farming content in SuitedLlama's Agriculture Progression 1.0.1 for Java 1.16.4.
 The original crop and item textures are included. End crops are excluded.
 
 ## Import and test
 
-Import `../downloads/Nether_Agriculture_v0.1.4.mcaddon` into **Minecraft Bedrock
+Import `../downloads/Nether_Agriculture_v0.1.5.mcaddon` into **Minecraft Bedrock
 1.21.100 or newer**. Enable **Nether Agriculture Behavior** and **Nether Agriculture
 Resources** on a disposable world with cheats enabled. Both packs are required.
 The script uses stable `@minecraft/server` 2.0.0; Beta APIs are not required.
-Replace the previous version with v0.1.4 and ensure both updated packs are active.
+Replace the previous version with v0.1.5 and ensure both updated packs are active.
 The pack has its own namespace and does not replace vanilla entity definitions,
 loot tables, or the Nether Settlements pack.
 
@@ -27,21 +27,22 @@ for the gameplay checklist.
 
 ## Farming
 
-- Use a vanilla hoe on the top of soul soil to make Soul Soil Farmland.
-  Lava must be within four blocks horizontally, at the farmland's height or one
-  block above it. Water and lava below the soil do not heat it. New farmland starts dry and warms in seven two-second steps, becoming fully
-  heated after about fourteen seconds near lava while loaded. Only fully heated
-  farmland glows and supports natural crop growth. Wither Bone Meal also works
-  on dry and warming farmland. Removing lava cools it
-  gradually; after cooling completely it returns to soul soil. Bone meal cannot
-  instantly heat a newly tilled plot. Already-heated blocks from older versions
-  retain their heat when upgrading.
-- Plant Sorgum Seeds, Polyps, or Grollet Seeds on Soul Soil Farmland. They only grow
-  on heated farmland in the Nether. Sorgum and Polyps have eight stages; polyps
-  use the original four texture stages. Wither Bone Meal advances two to five
-  stages. Ordinary bone meal does not fertilize these crops.
-- Sorgum at stage six has a 1-in-475 mutation roll per random tick before its
-  ordinary growth roll. Harvest Blistered Sorgum by breaking the glowing crop.
+- Use a vanilla hoe on the top of soul soil in the Nether to make Soul Soil
+  Farmland. Dry farmland stays tilled without lava, including after crops are
+  harvested. Removing lava cools the plot but never turns it back into soul soil.
+- Plant Sorgum Seeds, Polyps, or Grollet Seeds on dry or heated farmland. Dry and
+  warming plots grow naturally at one third of the fully heated rate. Scarberry
+  bushes keep their original lava-independent rate. All crops remain Nether-only.
+- Optional lava within four blocks horizontally, at soil height or one block
+  above, heats farmland in seven two-second steps while loaded. Full heat adds
+  the glowing texture and growth-speed boost. Water and lava below soil do not
+  heat it. Cooling after lava removal also takes seven steps.
+- Sorgum and Polyps have eight stages; polyps use the original four texture stages.
+  Wither Bone Meal works on dry and heated farmland and advances two to five
+  stages without changing the soil's heat. Ordinary bone meal does not work.
+- Sorgum at stage six on fully heated soil has a 1-in-475 mutation roll per random
+  tick before its ordinary growth roll. Dry Sorgum grows without blistering.
+  Harvest Blistered Sorgum by breaking the glowing crop.
 - Break mature Sorgum for one Sorgum and zero to three seeds, using three independent
   4-in-7 seed rolls like ordinary wheat. Immature Sorgum returns one seed.
   Break mature Polyps for multiple polyps
@@ -129,3 +130,16 @@ interactions are no longer cancelled, and the swing animation also drives the
 native player attack-time variable. Arm/held-item motion is experimental and
 requires first-person and third-person testing on Bedrock 26.52; previous
 bone-only animation attempts did not work in the reported game tests.
+
+Version 0.1.5 keeps unheated farmland tilled permanently and permits natural crop
+and Grollet fruit growth without lava. Fully heated soil retains the existing
+rate; dry/warming soil is three times slower. This intentionally changes the
+Java mod's heat requirement at the user's request. Blistered Sorgum mutation
+still needs fully heated soil.
+
+Fertilizer now uses the custom crop's native `onPlayerInteract` handler. The
+ineffective scripted arm animation and attack-time variable workaround were
+removed after in-game tests reported no motion. Fertilizer arm motion requires
+another live check; vanilla-hoe tilling motion remains unresolved. The current
+stable and preview Script APIs have no direct arm-swing method. No player or
+vanilla hoe definitions are overridden.

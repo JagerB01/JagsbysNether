@@ -8,7 +8,12 @@ startup();
 const id = name => `${NS}:${name}`;
 function interact(block, player, held) {
   const event = {block, player, itemStack: held, blockFace: 'Up', isFirstEvent: true, cancel: false};
-  world.beforeEvents.playerInteractWithBlock.emit(event); return event;
+  world.beforeEvents.playerInteractWithBlock.emit(event);
+  // Model Bedrock's subsequent native crop interaction, not just its before-event.
+  if (!event.cancel && held?.typeId === id('wither_bone_meal')) {
+    components.get(id('crop')).onPlayerInteract({block, player});
+  }
+  return event;
 }
 test('registers both custom block components', () => {
   assert.deepEqual([...components.keys()].sort(), [id('crop'),id('farmland')]);
@@ -20,7 +25,7 @@ test('crop placement cancels outside the Nether', () => {
 test('hoe interaction creates dry farmland, then scheduled ticks warm it', () => {
   const {put, dimension} = worldFixture(); const soil = put('minecraft:soul_soil');
   put('minecraft:lava', {x: 1, y: 64, z: 0});
-  const tool = new ItemStack('minecraft:iron_hoe'); const {player, animations} = playerFixture(dimension, {held: tool});
+  const tool = new ItemStack('minecraft:iron_hoe'); const {player} = playerFixture(dimension, {held: tool});
   const event = interact(soil, player, tool); assert.equal(event.cancel, false);
   assert.equal(soil.typeId, 'minecraft:soul_soil'); flush();
   assert.equal(soil.typeId, FARMLAND); assert.equal(soil.permutation.getState(HEATED), false);
@@ -28,7 +33,6 @@ test('hoe interaction creates dry farmland, then scheduled ticks warm it', () =>
   for (let i = 0; i < 7; i++) components.get(id('farmland')).onTick({block:soil});
   assert.equal(soil.permutation.getState(HEATED), true);
   assert.equal(dimension.sounds[0].name, 'use.gravel');
-  assert.equal(animations[0].name, 'animation.jagsby_nether.farm_swing');
 });
 test('an inventory change before the deferred interaction prevents mutation', () => {
   const {put, dimension} = worldFixture(); const soil = put('minecraft:soul_soil');
@@ -99,4 +103,16 @@ test('fertilizing a ripe berry bush grows it instead of harvesting it', () => {
   assert.equal(bush.permutation.getState(AGE), 3);
   assert.equal(slots.get(0).amount, 1);
   assert.equal(dimension.drops.length, 0);
+});
+
+test('native fertilizer callback respects adventure mode and missing players', () => {
+  const {put, dimension} = worldFixture(); put(FARMLAND);
+  const crop = put(id('polyps'), {x: 0, y: 65, z: 0}, {[AGE]: 0});
+  const stack = new ItemStack(id('wither_bone_meal'), 2);
+  const {player, slots} = playerFixture(dimension, {mode: 'Adventure', held: stack});
+  components.get(id('crop')).onPlayerInteract({block: crop});
+  interact(crop, player, stack); flush();
+  assert.equal(crop.permutation.getState(AGE), 0);
+  assert.equal(slots.get(0).amount, 2);
+  assert.equal(dimension.sounds.length, 0);
 });

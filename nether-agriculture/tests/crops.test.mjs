@@ -25,14 +25,16 @@ test('unloaded heat cells are safe', () => {
   const {soil, dimension} = farm(); dimension.unloaded = new Set(['-4,64,-4']);
   assert.equal(hasHeat(soil), false);
 });
-test('heated soil cools in seven steps then reverts after removal of lava', () => {
+test('heated soil cools in seven steps and remains farmland without lava', () => {
   const {soil} = farm(); updateFarmland(soil);
   assert.equal(soil.permutation.getState(HEATED), false);
   assert.equal(soil.permutation.getState(HEAT_LEVEL), 6);
   for (let i = 0; i < 6; i++) updateFarmland(soil);
   assert.equal(soil.permutation.getState(HEAT_LEVEL), 0);
   assert.equal(soil.typeId, FARMLAND);
-  updateFarmland(soil); assert.equal(soil.typeId, 'minecraft:soul_soil');
+  const writes = soil.writes;
+  for (let i = 0; i < 20; i++) updateFarmland(soil);
+  assert.equal(soil.typeId, FARMLAND); assert.equal(soil.writes, writes);
 });
 test('new farmland warms gradually through all seven stages', () => {
   const {soil} = farm(); soil.setType(FARMLAND);
@@ -51,7 +53,7 @@ test('fertilizer does not instantly heat warming farmland', () => {
   assert.equal(soil.permutation.getState(HEATED), false);
   assert.equal(crop.permutation.getState(AGE), 2);
   randomTick(crop, rng(0));
-  assert.equal(crop.permutation.getState(AGE), 2);
+  assert.equal(crop.permutation.getState(AGE), 3);
 });
 test('heated farmland from an old world upgrades without cooling', () => {
   const {soil} = farm(); soil.setPermutation(soil.permutation.withState(HEAT_LEVEL, 0));
@@ -72,7 +74,7 @@ for (const name of ['rye_crop','polyps','murky_gourd_stem']) {
   test(`${name} advances on a successful growth roll`, () => {
     const {crop} = farm(name, 2); randomTick(crop, rng(0)); assert.equal(crop.permutation.getState(AGE), 3);
   });
-  test(`${name} requires heated farmland`, () => {
+  test(`${name} requires farmland`, () => {
     const {crop, soil} = farm(name, 2); soil.setType('minecraft:soul_soil');
     randomTick(crop, rng(0)); assert.equal(crop.permutation.getState(AGE), 2);
   });
@@ -116,7 +118,7 @@ for (const name of ['rye_crop', 'polyps', 'murky_gourd_stem']) {
     assert.equal(soil.permutation.getState(HEAT_LEVEL), 0);
     assert.equal(soil.permutation.getState(HEATED), false);
     randomTick(crop, rng(0));
-    assert.equal(crop.permutation.getState(AGE), 2);
+    assert.equal(crop.permutation.getState(AGE), 3);
   });
 }
 test('fertilizer refuses unsupported soil', () => {
@@ -147,4 +149,34 @@ test('gourd growth never overwrites a neighboring block', () => {
   put('minecraft:soul_soil', {x: 0, y: 64, z: -1}); const obstruction = put('minecraft:chest', {x: 0, y: 65, z: -1});
   randomTick(crop, rng(0,0)); assert.equal(obstruction.typeId, 'minecraft:chest');
   assert.equal(crop.permutation.getState(ATTACHED), false);
+});
+
+for (const name of ['rye_crop', 'polyps', 'murky_gourd_stem']) {
+  test(`${name} grows more slowly on dry/warming soil than fully heated soil`, () => {
+    const {crop, soil} = farm(name, 2);
+    soil.setType(FARMLAND);
+    randomTick(crop, rng(0.1)); assert.equal(crop.permutation.getState(AGE), 2);
+    soil.setPermutation(soil.permutation.withState(HEAT_LEVEL, 4));
+    randomTick(crop, rng(0.1)); assert.equal(crop.permutation.getState(AGE), 2);
+    soil.setPermutation(soil.permutation.withState(HEATED, true).withState(HEAT_LEVEL, 7));
+    randomTick(crop, rng(0.1)); assert.equal(crop.permutation.getState(AGE), 3);
+  });
+}
+test('dry farmland and its crop survive repeated soil ticks', () => {
+  const {crop, soil} = farm(); soil.setType(FARMLAND);
+  for (let i = 0; i < 50; i++) updateFarmland(soil);
+  assert.equal(soil.typeId, FARMLAND); assert.equal(soil.writes, 0);
+  randomTick(crop, rng(0)); assert.equal(crop.permutation.getState(AGE), 1);
+});
+test('dry mature Grollet stems fruit without lava', () => {
+  const {crop, soil, put} = farm('murky_gourd_stem', 7); soil.setType(FARMLAND);
+  const ground = {x: 0, y: 64, z: -1}; put('minecraft:soul_soil', ground);
+  randomTick(crop, rng(0));
+  assert.equal(crop.permutation.getState(ATTACHED), true);
+  assert.equal(crop.dimension.getBlock({...ground, y: 65}).typeId, id('murky_gourd'));
+});
+test('dry stage-six Sorgum grows normally without blistering', () => {
+  const {crop, soil} = farm('rye_crop', 6); soil.setType(FARMLAND);
+  randomTick(crop, rng(0));
+  assert.equal(crop.typeId, id('rye_crop')); assert.equal(crop.permutation.getState(AGE), 7);
 });
