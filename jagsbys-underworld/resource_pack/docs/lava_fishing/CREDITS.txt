@@ -7,3 +7,5 @@ Vanilla bobber geometry/texture and sounds resolve from Minecraft's built-in res
 AdvancedFishing.mcaddon by Renderphoenix and devsuki was supplied by the user
 and inspected as a behavior reference: native-physics casts, surface anchoring
 and world-space particle lines. Its code, textures, fish and gear are not bundled.
+
+Obsidian rod icon: user-supplied ObsidianFishingRod.png, copied unchanged from ObsidianFishingRod.zip.

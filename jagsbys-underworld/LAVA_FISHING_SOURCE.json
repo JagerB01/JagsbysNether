@@ -21,5 +21,11 @@
     "data/lavafishing/loot_table/gameplay/fishing/lava/fish.json": "780db434ec3864bdbafe2158225ac6bcd0a22a12fb0b0c2801f0fd64a5eb042e",
     "data/lavafishing/loot_table/gameplay/fishing/nether/fish.json": "28dfa112e1483303e6d34bbcd662c99ee2f0cca87f6fee2a896d2f110b33cb1a"
   },
-  "scope": "obsidian rod and nine catchable fish items only; no living fish, spawn eggs, hooks, buckets, gear, junk or treasure"
+  "scope": "obsidian rod and nine catchable fish items only; no living fish, spawn eggs, hooks, buckets, gear, junk or treasure",
+  "asset_overrides": {
+    "assets/lavafishing/textures/item/obsidian_fishing_rod.png": {
+      "source": "User-supplied ObsidianFishingRod.zip / ObsidianFishingRod.png",
+      "sha256": "0a2d2c5820086d24beb14da60cac3716df15900aa9a7bdbaee27cbb3fb914529"
+    }
+  }
 }

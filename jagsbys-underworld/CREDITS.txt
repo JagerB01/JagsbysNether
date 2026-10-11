@@ -1,4 +1,4 @@
-Jagsby's Underworld v0.2.3 — combined personal test build.
+Jagsby's Underworld v0.2.4 — combined personal test build.
 
 Village subsystem: Jagsby's Nether Settlements v0.8.24, including its original
 structures, source notices and license. The complete original release notes
@@ -22,3 +22,5 @@ Vanilla bobber geometry/texture and sounds resolve from Minecraft's built-in res
 Behavior reference: user-supplied AdvancedFishing by Renderphoenix and devsuki;
 native-physics casting, surface anchoring and particle-line techniques were
 reviewed. No AdvancedFishing assets, source code, fish or gear are bundled.
+
+Obsidian rod icon: user-supplied ObsidianFishingRod.png, copied unchanged from ObsidianFishingRod.zip.

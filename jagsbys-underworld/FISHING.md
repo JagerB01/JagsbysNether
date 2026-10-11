@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.3 playtest build
+# Lava fishing — v0.2.4 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -80,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.3 and confirm both pack versions and the Content Log.
+1. Import v0.2.4 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -98,18 +98,19 @@ imports, casts, renders or behaves correctly in the Bedrock client.
 
 ## Source and license
 
-Original assets are byte-for-byte copies from `lavafishing-26.1.2-1.3.1-all.jar`.
+Original fish/cast assets are byte-for-byte copies from `lavafishing-26.1.2-1.3.1-all.jar`.
 `LAVA_FISHING_SOURCE.json` records its hash, imported asset hashes and scope.
+The rod icon is the unchanged user-supplied 64×64 ObsidianFishingRod.png;
+its override hash is recorded separately.
 The original fish loot tables and rod recipe are included under
 `behavior_pack/docs/lava_fishing/source_data/`. Fishing code, assets and the full
 AGPLv3 license are bundled and attributed. Other subsystem licenses are retained.
 
-## v0.2.3 revision and AdvancedFishing reference
+## v0.2.4 revision and AdvancedFishing reference
 
 The displaced custom held-rod model and pose animations have been removed.
 The rod uses the ordinary flat held-item renderer with the same tool flag and
-instant use behavior as the user-supplied AdvancedFishing rod. Its icon remains
-original. No attachment, custom hand translation or custom hand scale is used.
+instant use behavior as the user-supplied AdvancedFishing rod. Its icon is the user-supplied replacement PNG. No attachment, custom hand translation or custom hand scale is used.
 
 AdvancedFishing by Renderphoenix and devsuki was inspected for its native-physics
 cast, surface anchor and curved world-space particle-line approach. This build

@@ -70,6 +70,7 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
     # Validate the entire scoped fishing asset set and its client references.
     metadata = load(ROOT / 'LAVA_FISHING_SOURCE.json')
     for source, expected_hash in metadata['assets_sha256'].items():
+        expected_hash = metadata.get('asset_overrides', {}).get(source, {}).get('sha256', expected_hash)
         name = Path(source).name
         if '/textures/item/' in source:
             target = RP / 'textures/items/lava_fishing' / name
@@ -102,7 +103,7 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
     assert not list((RP / 'textures/entity/lava_fishing').glob('*.png'))
     for fish in fish_ids:
         assert not (BP / f'entities/lava_fishing/{fish}.json').exists()
-    print(f'Validated {len(metadata["assets_sha256"])} exact Java fishing assets/data files, nine fish and one rod')
+    print(f'Validated {len(metadata["assets_sha256"])} verified fishing assets/data files (including user overrides), nine fish and one rod')
 
     terrain = load(RP / "textures/terrain_texture.json")["texture_data"]
     icons = load(RP / "textures/item_texture.json")["texture_data"]

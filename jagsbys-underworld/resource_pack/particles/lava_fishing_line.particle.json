@@ -5,7 +5,7 @@
       "identifier": "jagsby_nether:fishing_line",
       "basic_render_parameters": {
         "material": "particles_alpha",
-        "texture": "textures/items/lava_fishing/obsidian_fishing_rod"
+        "texture": "textures/entity/fishhook"
       }
     },
     "components": {
@@ -23,11 +23,11 @@
         ],
         "facing_camera_mode": "lookat_xyz",
         "uv": {
-          "texture_width": 16,
-          "texture_height": 16,
+          "texture_width": 24,
+          "texture_height": 3,
           "uv": [
-            13,
-            3
+            20,
+            0
           ],
           "uv_size": [
             1,
