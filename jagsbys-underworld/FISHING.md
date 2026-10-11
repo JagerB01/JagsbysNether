@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.4 playtest build
+# Lava fishing — v0.2.5 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -80,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.4 and confirm both pack versions and the Content Log.
+1. Import v0.2.5 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -106,7 +106,7 @@ The original fish loot tables and rod recipe are included under
 `behavior_pack/docs/lava_fishing/source_data/`. Fishing code, assets and the full
 AGPLv3 license are bundled and attributed. Other subsystem licenses are retained.
 
-## v0.2.4 revision and AdvancedFishing reference
+## v0.2.5 revision and AdvancedFishing reference
 
 The displaced custom held-rod model and pose animations have been removed.
 The rod uses the ordinary flat held-item renderer with the same tool flag and

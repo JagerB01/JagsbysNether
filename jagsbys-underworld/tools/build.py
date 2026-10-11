@@ -113,6 +113,11 @@ def main():
     (BUILD / 'resource_pack/CREDITS.txt').write_bytes((ROOT / 'CREDITS.txt').read_bytes())
     for directory in ('behavior_pack', 'resource_pack'):
         (BUILD / directory / 'docs/lava_fishing/SOURCE_METADATA.json').write_bytes((ROOT / 'LAVA_FISHING_SOURCE.json').read_bytes())
+    # Loose documents in a .mcaddon are treated as failed pack imports.
+    docs = BUILD / 'behavior_pack/docs/underworld'
+    docs.mkdir(parents=True, exist_ok=True)
+    for name in ('TESTING.txt', 'FISHING.md'):
+        (docs / name).write_bytes((ROOT / name).read_bytes())
     subprocess.run(['python3', 'tools/validate.py'], cwd=ROOT, check=True)
     subprocess.run(['node', '--import', './tests/register-mock.mjs', '--test',
                     *[str(p.relative_to(ROOT)) for p in sorted((ROOT / 'tests').glob('*.test.mjs'))]],
@@ -122,14 +127,13 @@ def main():
         entries = [(p.relative_to(BUILD / directory).as_posix(), p.read_bytes())
                    for p in (BUILD / directory).rglob('*') if p.is_file()]
         packs.append((f'Jagsbys_Underworld_{suffix}.mcpack', archive_files(entries)))
-    packs.append(('TESTING.txt', (ROOT / 'TESTING.txt').read_bytes()))
-    packs.append(('FISHING.md', (ROOT / 'FISHING.md').read_bytes()))
     version = json.loads((ROOT / 'behavior_pack/manifest.json').read_text())['header']['version']
     # A placeholder verification build stays local and cannot overwrite a release.
     output = BUILD / 'Jagsbys_Underworld_ICON_PENDING.mcaddon' if placeholder else \
         REPO / 'downloads' / f'Jagsbys_Underworld_v{".".join(map(str, version))}.mcaddon'
     output.write_bytes(archive_files(packs))
     check = files(output.read_bytes())
+    assert set(check) == {'Jagsbys_Underworld_BP.mcpack', 'Jagsbys_Underworld_RP.mcpack'}, 'Only importable packs belong in the outer add-on archive'
     for suffix in ('BP', 'RP'):
         pack = files(check[f'Jagsbys_Underworld_{suffix}.mcpack'])
         assert pack['pack_icon.png'] == icon
