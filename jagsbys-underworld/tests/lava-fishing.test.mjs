@@ -152,3 +152,14 @@ test('cast and retrieval use vanilla throwing sound settings, while bites use ho
  for(const sound of throws){assert.equal(sound.options.volume,0.5);assert(sound.options.pitch>=0.33&&sound.options.pitch<=0.5);}
  for(const sound of f.sounds.filter(s=>s.id==='random.splash'))assert.equal(sound.options.volume,0.25);
 });
+
+test('lava pop and sizzle signal only successful catches',()=>{
+ const success=fixture(),controller=createAnglingController({rng:()=>0});
+ bite(controller,success);
+ assert.equal(success.sounds.some(s=>['liquid.lavapop','random.fizz'].includes(s.id)),false);
+ controller.use(success.player,135);
+ for(const id of ['liquid.lavapop','random.fizz'])assert.equal(success.sounds.filter(s=>s.id===id).length,1);
+ const empty=fixture(),early=createAnglingController({rng:()=>0});
+ early.use(empty.player,0);early.update([empty.player],12);early.use(empty.player,14);
+ assert.equal(empty.sounds.some(s=>['liquid.lavapop','random.fizz'].includes(s.id)),false);
+});

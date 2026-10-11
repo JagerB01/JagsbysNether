@@ -75,6 +75,8 @@ export function createAnglingController({rng=Math.random}={}){
      if(durability && rng()*100<chance){durability.damage++;equipment.container.setItem(equipment.slot,durability.damage>=durability.maxDurability?undefined:equipment.item);}
     }
     player.addExperience(range(rng,1,6));
+    cue(player,'liquid.lavapop',player.location,{volume:0.9,pitch:1.2});
+    cue(player,'random.fizz',player.location,{volume:0.35,pitch:1.6});
    }
    throwSound(player);cancel(player.id);return true;
   }
