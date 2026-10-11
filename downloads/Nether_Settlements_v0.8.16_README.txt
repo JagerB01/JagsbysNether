@@ -1,0 +1,18 @@
+Nether Settlements v0.8.16 - Planned Village Layouts
+
+Replace the previous Nether Settlements pack.
+The entire layout is planned against terrain before any blocks are placed, then selected pieces are revalidated before placement.
+0 fitting houses: place nothing; do not record a village or complete the region.
+1 fitting house: place only the house and its necessary foundation, with no roads or center. Do not record it as a village or complete the region; it does not contribute to village spacing.
+2 or more fitting houses: place houses, roads, then the center last. Record the completed village and mark the region complete.
+Standalone houses can still physically obstruct overlapping templates, like other existing structures. They have no village exclusion radius.
+The finder and spacing checks also ignore older records containing fewer than two houses. Old completion flags are superseded, while actual recorded villages with two or more houses continue to enforce minimum spacing.
+Existing centers and roads from older versions are not deleted.
+Open terrain search, retry cooldowns, 384-block minimum village spacing, and camp/outpost rarity remain unchanged.
+
+/scriptevent nether_settlements:find village
+/scriptevent nether_settlements:test crimson
+/scriptevent nether_settlements:test warped
+
+Validation: 33 automated geometry and mocked Bedrock runtime checks passed, including zero-house/no-write behavior, a terrain-constrained one-house layout without roads or registry entries, center-last placement, and legacy one-house record recovery. Live Minecraft verification remains outstanding.
+Planning adds work before visible placement. Placement is not transactional: if terrain unloads or an error occurs after writing starts, already placed pieces may remain. Center-last placement avoids placing a center before houses.
