@@ -96,9 +96,12 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
     assert rod['minecraft:durability']['max_durability'] == 256
     assert rod['minecraft:max_stack_size'] == 1
     assert 'jagsby_nether:lava_fishing_rod' in rod
+    assert {p.name for p in (BP / 'entities/lava_fishing').glob('*.json')} == {'lava_bobber.json'}
+    assert {p.name for p in (RP / 'entity/lava_fishing').glob('*.json')} == {'lava_bobber.entity.json'}
+    assert not list((BP / 'loot_tables/entities/lava_fishing').glob('*.json'))
+    assert not list((RP / 'textures/entity/lava_fishing').glob('*.png'))
     for fish in fish_ids:
-        assert (BP / f'entities/lava_fishing/{fish}.json').is_file()
-        assert load(BP / f'loot_tables/entities/lava_fishing/{fish}.json')['pools'][0]['entries'][0]['name'] == 'jagsby_nether:' + fish
+        assert not (BP / f'entities/lava_fishing/{fish}.json').exists()
     print(f'Validated {len(metadata["assets_sha256"])} exact Java fishing assets/data files, nine fish and one rod')
 
     terrain = load(RP / "textures/terrain_texture.json")["texture_data"]

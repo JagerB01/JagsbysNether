@@ -17,24 +17,9 @@
     "assets/lavafishing/textures/item/scaly_foot_snail.png": "0185c79f35ccb914269ab757b56c91a9b315a959caebb72b612aef05b40a86b0",
     "assets/lavafishing/textures/item/yeti_crab.png": "86a8591b42b3253dabd9fc57853b9818d4b080a4a761311ed7cacb45bd5afb2f",
     "assets/lavafishing/textures/item/lava_lamprey.png": "05819fa391fc82b32f31506a77e5f83d657b2db439f963f1190b63b233132ec2",
-    "assets/lavafishing/geo/common_fish.geo.json": "631e60f19fedba551eefc57915700a0c5fbd7a68c8daf50c6e18b4984b2a7756",
-    "assets/lavafishing/geo/sword_fish.geo.json": "29026b58179979d4c175db459dc64192738cac4d5e5f3bd029079d0cad171120",
-    "assets/lavafishing/geo/eel.geo.json": "d3026f111173e9c13dcf7609f430e47612ec2b61f955908cc6b537d4ab8b987c",
-    "assets/lavafishing/geo/crab.geo.json": "caf49c66070ef5214b8a5752c3f15e06060176f46a535053a1d90d3b19607bd5",
-    "assets/lavafishing/geo/snail.geo.json": "fb90c17a9dc53031e6d7986ccd667a9b1329e0e0af12f2fc41c7aa3d721a708d",
-    "assets/lavafishing/geo/lobster.geo.json": "3e7903221bd9147f88808ba5479adef8f727c8f826da3a8e64828298177c169a",
-    "assets/lavafishing/textures/entity/flame_squat_lobster.png": "977bb027dfb381143f7aa5b46d0e5fa2c6dba17c035f8142047d776fa030fb55",
-    "assets/lavafishing/textures/entity/obsidian_sword_fish.png": "cd70e8507ce759617cc13fe88261aae97249a7e717dbbec6cabe38ca4b23dfbb",
-    "assets/lavafishing/textures/entity/steam_flying_fish.png": "61f89897c83d6ecdc0c23ea8932d6b3d7c3d7f53c302875690fe50fa19249636",
-    "assets/lavafishing/textures/entity/agni_fish.png": "af102aa9f348f32dbcfb4a10b567f3d814b6d053e9b3806008b7461ba92a1929",
-    "assets/lavafishing/textures/entity/arowana_fish.png": "13c7d2d515a0f7a7ee464c22a7694ffeb2773b6a66904086add78be7fb3f313a",
-    "assets/lavafishing/textures/entity/quartz_fish.png": "af33c8fc3e1632da0694b190eaf53135723ce628126f33bb5b9188bd760bd23a",
-    "assets/lavafishing/textures/entity/scaly_foot_snail.png": "5142fd6c89a5b846f371b0a1e3e009733ff821b627edee09673f4d71330ef02f",
-    "assets/lavafishing/textures/entity/yeti_crab.png": "c672e9f1cfb307e4d70dc8c1c15473358a9bb6418857526050ea9be5514d69d4",
-    "assets/lavafishing/textures/entity/lava_lamprey.png": "35d6f2376fbbf337e37a26b1d2d417723154593764d7f1c3e249df0668d23a98",
     "data/lavafishing/recipe/obsidian_fishing_rod.json": "76897e4e7eb2f8c4d46575c85d726c1162956a54915040dd044f25d66ade2f5f",
     "data/lavafishing/loot_table/gameplay/fishing/lava/fish.json": "780db434ec3864bdbafe2158225ac6bcd0a22a12fb0b0c2801f0fd64a5eb042e",
     "data/lavafishing/loot_table/gameplay/fishing/nether/fish.json": "28dfa112e1483303e6d34bbcd662c99ee2f0cca87f6fee2a896d2f110b33cb1a"
   },
-  "scope": "obsidian rod, nine fish items and creatures; no separate hooks, buckets, gear, junk or treasure"
+  "scope": "obsidian rod and nine catchable fish items only; no living fish, spawn eggs, hooks, buckets, gear, junk or treasure"
 }

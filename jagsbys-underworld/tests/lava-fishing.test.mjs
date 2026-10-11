@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
-import {createAnglingController,catchFish,fishPool,FISH,ROD} from '../.build/behavior_pack/scripts/lava_fishing/angling.js';
-import {applyFishFood,updateFishEffects,validFishSpawn,updateFish} from '../.build/behavior_pack/scripts/lava_fishing/fish.js';
+import {readFileSync,readdirSync} from 'node:fs';
+import {createAnglingController,findLavaTarget,catchFish,fishPool,FISH,ROD} from '../.build/behavior_pack/scripts/lava_fishing/angling.js';
+import {applyFishFood,updateFishEffects} from '../.build/behavior_pack/scripts/lava_fishing/fish.js';
 const json=file=>JSON.parse(readFileSync(new URL(file,import.meta.url)));
 function fixture({dimension='minecraft:nether',biome=1,mode='Survival',damage=0,maxDurability=256,chance=100,lure=0}={}){
  const properties=new Map(),rodProperties=new Map(),caught=[],sounds=[],particles=[],positions=[],effects=[],fires=[],experience=[],damageTaken=[];
@@ -12,7 +12,7 @@ function fixture({dimension='minecraft:nether',biome=1,mode='Survival',damage=0,
  const lava={typeId:'minecraft:lava',isAir:false,location:{x:0,y:31,z:8},permutation:{getState:()=>0}};
  const bobber={isValid:true,removed:0,events:[],teleport:p=>positions.push(p),triggerEvent(event){this.events.push(event);},getProperty:()=>biome,setProperty(){},remove(){this.removed++;this.isValid=false;}};
  const dim={id:dimension,entities:[],getBlock(p){return p.y<=31?lava:{typeId:'minecraft:air',isAir:true};},spawnEntity(type,p){this.entities.push({type,p});return bobber;},playSound:(id,p)=>sounds.push({id,p}),spawnParticle:(id,p)=>particles.push({id,p}),spawnItem(item){caught.push(item);},getEntities:()=>[]};
- const player={id:'angler',typeId:'minecraft:player',selectedSlotIndex:0,location:{x:0,y:32,z:0},dimension:dim,getGameMode:()=>mode,getComponent:()=>({container}),getBlockFromViewDirection:options=>{assert.equal(options.includeLiquidBlocks,true);return {block:lava,faceLocation:{x:0.5,z:0.5}};},getHeadLocation:()=>({x:0,y:33.6,z:0}),addExperience:n=>experience.push(n),onScreenDisplay:{setActionBar:()=>{}},addEffect:(...args)=>effects.push(args),setOnFire:(...args)=>fires.push(args),setDynamicProperty:(k,v)=>properties.set(k,v),getDynamicProperty:k=>properties.get(k),applyDamage:(...args)=>damageTaken.push(args),getVelocity:()=>({y:-0.2}),teleport:p=>positions.push(p),applyImpulse:p=>positions.push(p)};
+ const player={id:'angler',typeId:'minecraft:player',selectedSlotIndex:0,location:{x:0,y:32,z:0},dimension:dim,getGameMode:()=>mode,getComponent:()=>({container}),getBlockFromViewDirection:options=>{assert.equal(options.includeLiquidBlocks,true);return {block:lava,faceLocation:{x:0.5,z:0.5}};},getHeadLocation:()=>({x:0,y:33.6,z:0}),getViewDirection:()=>({x:0,y:-0.3,z:Math.sqrt(0.91)}),addExperience:n=>experience.push(n),onScreenDisplay:{setActionBar:()=>{}},addEffect:(...args)=>effects.push(args),setOnFire:(...args)=>fires.push(args),setDynamicProperty:(k,v)=>properties.set(k,v),getDynamicProperty:k=>properties.get(k),applyDamage:(...args)=>damageTaken.push(args),getVelocity:()=>({y:-0.2}),teleport:p=>positions.push(p),applyImpulse:p=>positions.push(p)};
  return {player,dim,bobber,lava,inventory,rod,durability,caught,experience,effects,fires,properties,positions,damageTaken};
 }
 function bite(controller,f,start=0){assert.equal(controller.use(f.player,start),true);for(const tick of [start+12,start+14,start+114,start+134])controller.update([f.player],tick);assert.equal(controller.sessions.get(f.player.id).state,'bite');}
@@ -70,11 +70,25 @@ test('fish food preserves native durations and scoped custom effects expire',()=
  assert.equal(f.properties.get('jagsby_nether:endless_flame_until'),120100);assert.equal(f.properties.get('jagsby_nether:lava_walker_until'),15100);
  updateFishEffects([f.player],20,120101);assert.equal(f.properties.get('jagsby_nether:endless_flame_until'),undefined);assert.equal(f.properties.get('jagsby_nether:lava_walker_until'),undefined);
 });
-test('fish spawning requires source lava and five safe neighbors below Y32',()=>{
- const f=fixture();assert(validFishSpawn(f.dim,{x:0,y:30,z:0}));assert.equal(validFishSpawn(f.dim,{x:0,y:32,z:0}),false);
- f.lava.permutation.getState=()=>1;assert.equal(validFishSpawn(f.dim,{x:0,y:30,z:0}),false);
+test('fishing adds only catch items and the required bobber, with no living fish definitions',()=>{
+ const entities=readdirSync(new URL('../behavior_pack/entities/lava_fishing/',import.meta.url));
+ assert.deepEqual(entities,['lava_bobber.json']);
+ const clients=readdirSync(new URL('../resource_pack/entity/lava_fishing/',import.meta.url));
+ assert.deepEqual(clients,['lava_bobber.entity.json']);
+ const bobber=json('../behavior_pack/entities/lava_fishing/lava_bobber.json')['minecraft:entity'];
+ assert.equal(bobber.description.is_spawnable,false);
+ for(const name of FISH)assert.equal(json(`../behavior_pack/items/lava_fishing/${name}.json`)['minecraft:item'].description.identifier,`jagsby_nether:${name}`);
 });
-test('natural spawning is bounded and inactive outside Nether',()=>{
- const f=fixture({dimension:'minecraft:overworld'});updateFish([f.player],100,()=>0);assert.equal(f.dim.entities.length,0);
- f.dim.id='minecraft:nether';f.dim.getEntities=()=>Array.from({length:12},(_,i)=>({id:String(i),location:{x:0,y:30,z:0},typeId:'jagsby_nether:quartz_fish',triggerEvent(){},teleport(){}}));updateFish([f.player],100,()=>0);assert.equal(f.dim.entities.length,0);
+
+test('direct lava detection works when native liquid raycast misses',()=>{
+ const f=fixture();f.player.getBlockFromViewDirection=()=>undefined;
+ assert(findLavaTarget(f.player));const c=createAnglingController();assert(c.use(f.player,0));assert.equal(c.sessions.size,1);
+});
+test('a level forward cast arcs down into lava below the crosshair',()=>{
+ const f=fixture();f.player.getViewDirection=()=>({x:0,y:0,z:1});f.player.getBlockFromViewDirection=()=>undefined;
+ const hit=findLavaTarget(f.player);assert(hit);assert.equal(hit.block.y,31);assert(hit.target.z>1&&hit.target.z<32);
+});
+test('casting cannot pass through a solid wall or fish in water',()=>{
+ const f=fixture();f.dim.getBlock=p=>p.z>=2?{typeId:'minecraft:stone',isAir:false}:{typeId:'minecraft:air',isAir:true};assert.equal(findLavaTarget(f.player),undefined);
+ f.dim.getBlock=p=>p.y<=31?{typeId:'minecraft:water',isAir:false}:{typeId:'minecraft:air',isAir:true};assert.equal(findLavaTarget(f.player),undefined);
 });

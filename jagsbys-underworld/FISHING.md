@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.0 playtest build
+# Lava fishing — v0.2.1 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -21,7 +21,7 @@ For a test rod and one of each catch, run:
 /scriptevent jagsby_nether:fishing_kit
 ```
 
-Aim at exposed lava within 24 blocks and use the rod to cast. The bobber travels
+Cast toward exposed lava within 32 blocks and use the rod to cast. The bobber travels
 in an arc and floats on the surface, with a modeled fishing line. Wait for it to
 dip, splash and display **Bite! Reel in!**, then use the rod again. The default
 wait is 5–30 seconds plus a 1–4 second approach, followed by a 1–2 second catch
@@ -58,18 +58,14 @@ Raw foods use the original 0.1 saturation modifier. There are no additional
 cooked foods, recipes, potion items, fishing gear, hooks, fish buckets, junk or
 treasure. Only the rod and nine catch items are added.
 
-## Living fish and Bedrock differences
+## Catch items and Bedrock differences
 
-The nine fish creatures use the original six geometries and nine textures.
-Small schools are sampled in Nether source-lava oceans below Y32, with five
-source-lava neighbors, at least 12 blocks from players and a bounded nearby
-population. They swim in lava, avoid nearby players and drop their matching fish
-item when killed. Lobsters, snails and crabs survive on land; the other fish take
-damage out of lava. Water harms them. Spawn eggs are available for testing.
-Lava movement/spawning is scripted rather than Java's pathfinding/schooling AI.
+All nine fish are inventory catch items only. There are no living fish entities,
+fish spawn eggs or natural fish spawning. The bobber is the only entity added
+for fishing and is needed to display casts, the line and bite cues.
 
-Bedrock cannot load the Java mod or its Aquaculture hooks. Casting uses an aimed,
-scripted arc and a custom bobber/line; it does not hook/pull entities. Weather and
+Bedrock cannot load the Java mod or its Aquaculture hooks. Casting checks lava blocks directly and supports a forward,
+falling arc and a custom bobber/line; it does not hook/pull entities. Weather and
 open-sky speed modifiers are not reproduced. The original rod/cast textures are
 included, but the inventory icon does not switch while a cast is active.
 
@@ -82,7 +78,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.0 and confirm both pack versions and the Content Log.
+1. Import v0.2.1 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -90,8 +86,8 @@ not grant Fire Resistance.
    Creative, full inventory, death, disconnects, reloads and dimension changes.
 4. Catch fish in all five Nether biomes and in Overworld lava. Check specialist
    catches stay in their correct biomes and every successful catch is a fish.
-5. Inspect all nine fish models, swimming, survival, spawn rate, land behavior,
-   loot and raw food/effects. Test away from existing farm areas.
+5. Inspect all nine fish item textures and raw food/effects. Confirm there are
+   no fish spawn eggs or naturally spawning lava fish.
 6. Retest village generation, villager compatibility, wart replacements and
    agriculture; the existing crop/village systems remain included.
 

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import {system,world,ItemStack} from '@minecraft/server';
 import {createAnglingController,ROD,FISH} from './angling.js';
-import {updateFish,applyFishFood,updateFishEffects} from './fish.js';
+import {applyFishFood,updateFishEffects} from './fish.js';
 const controller=createAnglingController();
 system.beforeEvents.startup.subscribe(({itemComponentRegistry})=>{
  const use=({source})=>{try{controller.use(source,system.currentTick);}catch(error){controller.cancel(source?.id);console.warn(`[Underworld lava fishing] Cast/reel failed: ${error}`);}};
@@ -10,7 +10,7 @@ system.beforeEvents.startup.subscribe(({itemComponentRegistry})=>{
 system.runInterval(()=>{
  const players=world.getAllPlayers();
  controller.update(players,system.currentTick);
- if(system.currentTick%10===0){updateFish(players,system.currentTick);updateFishEffects(players,system.currentTick);}
+ if(system.currentTick%10===0){updateFishEffects(players,system.currentTick);}
 },1);
 world.afterEvents.itemCompleteUse.subscribe(({source,itemStack})=>applyFishFood(source,itemStack?.typeId));
 world.afterEvents.entityDie.subscribe(({deadEntity})=>{if(deadEntity?.typeId==='minecraft:player')controller.cancel(deadEntity.id);});

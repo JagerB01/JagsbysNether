@@ -23,6 +23,36 @@ function level(item,name){return item?.getComponent('minecraft:enchantable')?.ge
 function cue(player,sound,position){try{player.dimension.playSound(sound,position);}catch{/* Optional vanilla sound availability varies by game version. */}}
 function particle(dimension,id,position){try{dimension.spawnParticle(id,position);}catch{/* Effects never determine the catch result. */}}
 
+// Read liquid blocks directly: native block raycasts can miss passable lava.
+// A normal forward cast also falls into lava below the player's crosshair.
+export function findLavaTarget(player){
+ const start=player.getHeadLocation(),view=player.getViewDirection();
+ const inspect=position=>{
+  const block=read(player.dimension,position);
+  if(!block)return {stop:true};
+  if(isLava(block)){
+   const location={x:Math.floor(position.x),y:Math.floor(position.y),z:Math.floor(position.z)};
+   if(!read(player.dimension,{...location,y:location.y+1})?.isAir)return {stop:true};
+   return {stop:true,hit:{block:location,target:{x:position.x,y:location.y+0.9,z:position.z}}};
+  }
+  return {stop:!block.isAir && !['minecraft:crimson_roots','minecraft:warped_roots','minecraft:nether_sprouts'].includes(block.typeId)};
+ };
+ for(let d=0.15;d<=32;d+=0.15){
+  const result=inspect({x:start.x+view.x*d,y:start.y+view.y*d,z:start.z+view.z*d});
+  if(result.hit)return result.hit;
+  if(result.stop)break;
+ }
+ const position={...start},velocity={x:view.x*1.2,y:view.y*1.2+0.18,z:view.z*1.2};
+ for(let step=0;step<400;step++){
+  position.x+=velocity.x*0.15;position.y+=velocity.y*0.15;position.z+=velocity.z*0.15;velocity.y-=0.05*0.15;
+  if(distance(start,position)>32)break;
+  const result=inspect(position);
+  if(result.hit)return result.hit;
+  if(result.stop)break;
+ }
+ return undefined;
+}
+
 export function createAnglingController({rng=Math.random}={}){
  const sessions=new Map(),lastUses=new Map();let serial=0;
  function cancel(id){const session=sessions.get(id);if(!session)return;try{session.bobber.remove();}catch{/* Already unloaded/removed. */}sessions.delete(id);}
@@ -51,12 +81,9 @@ export function createAnglingController({rng=Math.random}={}){
    }
    cue(player,'random.bow',active.target);cancel(player.id);return true;
   }
-  const hit=player.getBlockFromViewDirection({maxDistance:24,includeLiquidBlocks:true,includePassableBlocks:false});
-  if(!hit || !isLava(hit.block)){player.onScreenDisplay?.setActionBar('Aim the Obsidian Fishing Rod at exposed lava.');return false;}
-  const block=hit.block.location;
-  const above=read(player.dimension,{...block,y:block.y+1});
-  if(!above?.isAir){player.onScreenDisplay?.setActionBar('The lava needs an open surface.');return false;}
-  const target={x:block.x+(hit.faceLocation?.x ?? 0.5),y:block.y+0.9,z:block.z+(hit.faceLocation?.z ?? 0.5)};
+  const hit=findLavaTarget(player);
+  if(!hit){player.onScreenDisplay?.setActionBar('Cast toward exposed lava within 32 blocks.');return false;}
+  const {block,target}=hit;
   let rodId=identity(equipment.item);
   if(!rodId){rodId=`${player.id}:${tick}:${serial++}`;equipment.item.setDynamicProperty('jagsby_nether:rod_id',rodId);equipment.container.setItem(equipment.slot,equipment.item);}
   const start=player.getHeadLocation();
