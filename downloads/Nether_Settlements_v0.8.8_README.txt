@@ -1,0 +1,52 @@
+NETHER SETTLEMENTS v0.8.8 - NETHER TERRAIN TEST
+
+Deactivate v0.8.7 and activate this pack. Use a new test world or a copy.
+The pack now includes a stable @minecraft/server 2.0.0 script module.
+Keep Data-Driven Jigsaw Structures enabled for the retained native test
+commands. Beta APIs are not required by the terrain script.
+
+TEST IN THE NETHER, standing near an open ledge:
+/scriptevent nether_settlements:test crimson
+/scriptevent nether_settlements:test warped
+
+These commands scan actual cave floors near your height and assemble
+terrain-aware villages over several ticks. A chat message reports results.
+Use these commands for terrain testing; /place jigsaw still tests the old
+rigid native assembly and does not invoke the terrain script.
+
+Natural placement:
+- Automatic scripted generation when a player approaches a candidate in a
+  loaded Nether region, approximately one candidate per 192x192 blocks.
+- Attempts are persisted per region to avoid regeneration on revisits.
+- This is runtime placement near players, not precomputed native worldgen.
+  It can also attempt placement in previously explored terrain.
+- Selects crimson/warped style using nearby nylium, vegetation, and soul soil;
+  this stable API implementation infers local style rather than reading an
+  exact biome identifier. Nether wastes default to crimson.
+- Native structure sets removed so flat Y=65 villages no longer generate
+  automatically. /locate does not locate these runtime-generated villages.
+
+Terrain behavior:
+- Scans solid cave floors above the lava sea and below the bedrock roof.
+- Requires air/replaceable plants above the ground. Lava, unloaded chunks,
+  large drops, narrow caves, and solid obstructions stop placement.
+- Roads sample their footprint column by column. Adjacent road surfaces
+  differ by at most one block; houses meet the road at the entrance height.
+- Houses and town centers stay rigid. Small differences use blackstone
+  foundations up to four blocks tall. Large cliffs are rejected rather than
+  bridged by a floating village. A town center can rise up to three blocks
+  to find a fit. Trees and low ceilings can prevent a piece from fitting.
+- Compact road bounds from v0.8.7 are preserved. House spurs remain removed.
+- Maximum 48 pieces, depth 5, radius 56 blocks. Some sites yield small or
+  partial villages because unsuitable branches are skipped.
+- Original native templates are retained. Sanitized runtime copies resolve
+  jigsaw blocks before script placement; structures are not warped vertically.
+- Camps and outposts retain their existing generation settings.
+
+Validation:
+Nine automated tests passed using simulated dimensions: cave floor heights,
+roof avoidance, lava/headroom/unloaded rejection, slopes, cliff rejection,
+foundations, 1120 rotated house-road combinations, complete crimson/warped
+assembly at Y45/Y65/Y90, and persisted automatic-generation attempts.
+All JSON and 412 NBT structure files parse. Minecraft engine placement
+has not been verified here. This version is for in-game terrain testing.
