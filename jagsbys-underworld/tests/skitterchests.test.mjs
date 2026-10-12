@@ -88,8 +88,8 @@ for(const variant of ['crimson','warped'])test(`${variant} repeated sit/stand re
  for(let cycle=0;cycle<10;cycle++){
   apply('jagsby_nether:sit');assert.equal(components['minecraft:movement'].value,0);
   assert.deepEqual(components['minecraft:pushable'],{is_pushable:false,is_pushable_by_piston:false});
-  apply('jagsby_nether:stand');assert.equal(components['minecraft:movement'].value,0.2);
-  assert.equal(components['minecraft:lava_movement'].value,0.2);
+  apply('jagsby_nether:stand');assert.equal(components['minecraft:movement'].value,0.25);
+  assert.equal(components['minecraft:lava_movement'].value,0.25);
   assert.deepEqual(components['minecraft:pushable'],{is_pushable:true,is_pushable_by_piston:true});
   assert.deepEqual(components['minecraft:jump.static'],{jump_power:0.42});
   assert(components['minecraft:behavior.follow_owner']);
@@ -118,7 +118,7 @@ for(const variant of ['crimson','warped'])test(`${variant} repeated native inven
   assert.deepEqual(components['minecraft:pushable'],{is_pushable:false,is_pushable_by_piston:false});
   apply('jagsby_nether:resume_storage');apply(pose);
   const standing=pose==='jagsby_nether:stand';
-  assert.equal(components['minecraft:movement'].value,standing?0.2:0);
+  assert.equal(components['minecraft:movement'].value,standing?0.25:0);
   assert.equal(components['minecraft:jump.static'].jump_power,standing?0.42:0);
   assert.deepEqual(components['minecraft:pushable'],{is_pushable:standing,is_pushable_by_piston:standing});
   assert(components['minecraft:behavior.follow_owner']);

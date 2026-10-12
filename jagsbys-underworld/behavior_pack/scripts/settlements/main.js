@@ -89,7 +89,7 @@ function* place(dimension,piece,rotation,origin,baseY,plan,automatic=false,inVil
     yield;
   }
 }
-function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComplete) {
+export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComplete) {
   const rng=random(seed),boxes=[],queue=[],layout=[];let houses=0,roads=0,buildings=0;
   const size=villageSize(rng);
   try {
@@ -153,7 +153,7 @@ function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComplete) {
       for (const id of weightedOrder(entries,rng)) {
         const piece=catalog[id];
         // Secure real buildings first; amenities cannot establish a village alone.
-        if (wantsHouse && houses<2 && piece.countsAsHouse===false) continue;
+        if (wantsHouse && houses<3 && piece.countsAsHouse===false) continue;
         const offset=Math.floor(rng()*4);
         for (let step=0;step<4;step++) {
           const rotation=(step+offset)%4;
@@ -185,14 +185,12 @@ function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComplete) {
       }
       yield;
     }
-    if (houses===0) {
-      notify?.('No houses fit: nothing was placed, and this region remains eligible.');
+    if (houses<3) {
+      notify?.(`Only ${houses} residential houses fit: at least 3 are required. Nothing was placed, and this region remains eligible.`);
       return;
     }
-    const standalone=houses===1;
-    const chosen=standalone ? layout.filter(item=>item.piece.kind==='house' && item.piece.countsAsHouse!==false) :
-      [...layout.filter(item=>item.piece.kind==='house'),
-       ...layout.filter(item=>item.piece.kind==='road'),center];
+    const chosen=[...layout.filter(item=>item.piece.kind==='house'),
+      ...layout.filter(item=>item.piece.kind==='road'),center];
     if (regionKey && chosen.some(item=>{
       const [sx,,sz]=dimensions(item.piece,item.rotation);
       return !outsidePlayerBuffer(world.getPlayers(),{...item.origin,sx,sz});
@@ -209,15 +207,10 @@ function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComplete) {
       item.plan=plan;
     }
     // Place the center last so an interrupted job cannot leave an empty center.
-    for (const item of chosen) yield* place(dimension,item.piece,item.rotation,item.origin,item.baseY,item.plan,!!regionKey,!standalone);
-    if (standalone) {
-      yield* populate(dimension,chosen,notify);
-      notify?.('One house fits: placed a standalone house, with no center or roads. It does not count toward village spacing.');
-      return;
-    }
+    for (const item of chosen) yield* place(dimension,item.piece,item.rotation,item.origin,item.baseY,item.plan,!!regionKey,true);
     world.setDynamicProperty(`${RECORD_PREFIX}${x}_${z}`,JSON.stringify({
       x,y:best.baseY+1,z,theme,houses,roads}));
-    if (regionKey && houses>=2) world.setDynamicProperty(regionKey,true);
+    if (regionKey) world.setDynamicProperty(regionKey,true);
     yield* populate(dimension,chosen,notify);
     notify?.(`${theme} ${size.name} terrain village: ${roads} road pieces, ${houses} houses, ${buildings-houses} amenities. Steep or blocked branches were skipped.`);
   } catch (error) {

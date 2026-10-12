@@ -132,10 +132,10 @@
       },
       "jagsby_nether:standing": {
         "minecraft:movement": {
-          "value": 0.2
+          "value": 0.25
         },
         "minecraft:lava_movement": {
-          "value": 0.2
+          "value": 0.25
         },
         "minecraft:jump.static": {
           "jump_power": 0.42
@@ -192,7 +192,7 @@
         "max": 10
       },
       "minecraft:movement": {
-        "value": 0.2
+        "value": 0.25
       },
       "minecraft:navigation.walk": {
         "can_path_over_water": true,
@@ -274,7 +274,7 @@
         "range": 16
       },
       "minecraft:lava_movement": {
-        "value": 0.2
+        "value": 0.25
       },
       "minecraft:buoyant": {
         "apply_gravity": true,

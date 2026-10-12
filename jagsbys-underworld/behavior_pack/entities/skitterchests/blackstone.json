@@ -55,7 +55,7 @@
         "max": 35
       },
       "minecraft:movement": {
-        "value": 0.2
+        "value": 0.25
       },
       "minecraft:navigation.walk": {
         "can_path_over_water": true,
@@ -124,7 +124,7 @@
         "range": 16
       },
       "minecraft:lava_movement": {
-        "value": 0.2
+        "value": 0.25
       },
       "minecraft:buoyant": {
         "apply_gravity": true,
