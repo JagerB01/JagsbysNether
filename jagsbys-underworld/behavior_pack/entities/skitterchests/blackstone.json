@@ -148,6 +148,9 @@
         "base_value": 1.0,
         "controlled_value": 1.0,
         "jump_prevented_value": 0.5625
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/entities/skitterchests/blackstone.json"
       }
     },
     "events": {

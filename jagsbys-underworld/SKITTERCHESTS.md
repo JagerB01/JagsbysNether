@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.39 native-screen test build
+# Skitterchests — v0.2.40 native-screen test build
 
 This build removes the custom ActionForm storage menu entirely. Standing
 interaction with a tamed Crimson/Warped opens a real native 27-slot container;
@@ -29,7 +29,7 @@ helper with an owner-dead marker for retry after load. The native before-hurt ev
 cancels hits to the helper and forwards calculated damage and attacker to the pet,
 so its own health, defense and XP rules remain in control.
 
-v0.2.39 lowers each variant’s base walking/lava movement speed from 0.3 to
+v0.2.39 lowered each variant’s base walking/lava movement speed from 0.3 to
 0.2 (one third slower), including explicit standing restoration after sitting or
 opening storage. Follow-owner speed stays at 1×; existing flee/avoidance
 multipliers remain. A zero-volume entity sound mapping suppresses movement and
@@ -51,7 +51,7 @@ archive; provenance and sound hashes are in docs/skitterchests.
 ## Required in-game checks
 
 This environment cannot run the Bedrock client. The user confirmed the native
-inventory works in v0.2.37. The blank title and v0.2.39 helper sound suppression need client
+inventory works in v0.2.37. The blank title and helper sound suppression need client
 verification: confirm the Minecart with Chest heading is gone, no overhead text
 appears, and a regular chest minecart keeps its normal title. Automated checks
 cannot verify the engine renders a formatting-only name as blank.
@@ -68,3 +68,20 @@ Requires Bedrock 26.50+ and stable server 2.10.0 (target: user version 26.52).
 No server-ui dependency, horse runtime on the mob, or custom storage menu remains.
 
 The helper’s unique skin marker 99137 selects zero client render scale, including the inherited vanilla chest-minecart client definition. Normal chest minecarts retain scale 1. This does not shrink the server interaction hitbox or add visible overhead text. Invisibility potion effects are not required.
+
+## v0.2.40 loot and rarity
+
+Blackstone death loot has one fixed 75% random-chance roll for one vanilla
+Relic music disc (`minecraft:music_disc_relic`). The other 25% drops no disc.
+Looting does not increase this chance or quantity, and a player kill is not
+required for the item roll. Its existing player-kill XP reward stays at 30.
+Crimson/Warped have no new item drops; their stored items still drop on death.
+
+All three variants retain their existing Nether biome rules and spawn singly,
+but each rule now has weight 1 and surface/underground density limits of 1.
+Weights were previously Crimson 20, Warped 10, and Blackstone 5 or 100 depending
+on the biome. This makes them rare relative to competing eligible mobs and
+prevents natural spawning from building up nearby groups of the same variant.
+Weight is a relative selection weight, not a percentage or guaranteed interval.
+Actual encounters depend on terrain, eligible mobs and population limits.
+Existing mobs and spawn eggs are unaffected by natural-spawn restrictions.

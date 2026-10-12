@@ -13,7 +13,7 @@
           "max": "hard"
         },
         "minecraft:weight": {
-          "default": 10
+          "default": 1
         },
         "minecraft:herd": {
           "min_size": 1,
@@ -23,6 +23,10 @@
           "test": "has_biome_tag",
           "operator": "==",
           "value": "warped_forest"
+        },
+        "minecraft:density_limit": {
+          "surface": 1,
+          "underground": 1
         }
       }
     ]
