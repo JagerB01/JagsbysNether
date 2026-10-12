@@ -1,79 +1,54 @@
-# Skitterchests — v0.2.34
+# Skitterchests — v0.2.35
 
-Only the three chest pets and their models, textures, animations and spawn eggs
-are adapted from the supplied NetherPlus Add-on MA v3 by BubbleStudio and
-MarcoGamer. Asset hashes and provenance are in SKITTERCHESTS_SOURCE.json.
+Models, textures and original movement animations are adapted from the supplied
+NetherPlus Add-on MA v3 by BubbleStudio and MarcoGamer. Only its three chest pets
+and their visual dependencies are included. See SKITTERCHESTS_SOURCE.json.
 
-| Mob | Natural habitat | Taming and storage |
-| --- | --- | --- |
-| Crimson Skitterchest | Crimson Forest | Netherite Scrap, 1/3 chance; 27 slots once tamed |
-| Warped Skitterchest | Warped Forest | Netherite Scrap, 1/3 chance; 27 slots once tamed |
-| Blackstone Skitterchest | Nether Wastes (rare), Basalt Deltas | Cannot be tamed or opened |
+| Variant | Habitat | Wild behavior | Player-kill XP |
+| --- | --- | --- | --- |
+| Crimson | Crimson Forest | Attacks visible players within 4 blocks | 10 |
+| Warped | Warped Forest | Attacks visible players within 4 blocks | 10 |
+| Blackstone | Nether Wastes and Basalt Deltas | Flees players within 8 blocks | 30 |
 
-All have creative spawn eggs and are fire immune. No variant can be ridden or
-bred; natural spawns are adults. Tamed Crimson and Warped retain following,
-healing and defense. Their inventories drop their contents on death. Tamed pets
-are persistent, so distance despawning cannot remove the player's stored goods.
-Wild mobs have no accessible storage; Blackstone has no inventory component.
+Crimson/Warped tame with Netherite Scrap (1/3 chance). Blackstone cannot be tamed
+and has no accessible storage. None can be ridden or bred. All use explicit
+custom spawn eggs and custom entity rendering, with no horse/minecart runtime
+inheritance. Automatic overhead names are removed, including labels from older
+builds when entities load. Blackstone is not included in storage interaction.
 
-## Controls
+## Controls and storage
 
-Stand and use Netherite Scrap to tame wild Crimson or Warped. Once tamed,
-standing interaction toggles their sit/stand state; crouching interaction opens
-the native 27-slot storage screen without changing that state. Sitting prevents
-walking and jumping. The horse runtime supplies the container interaction while supporting animal
-navigation. The tamed group has is_chested, and the inventory stays 27-slot
-minecart_chest. No riding component is present.
+Stand and use Netherite Scrap to tame wild Crimson/Warped. Once tamed:
 
-## Opening and closing sounds
+- Stand and interact to open the custom 27-slot storage menu.
+- Select a stored stack to withdraw it into your inventory.
+- Choose Store item, then select an inventory stack to deposit it.
+- Crouch and interact to toggle sitting/standing.
 
-The exact user-selected clips from Eating Animations And Sounds SE V1.9.4
-(Nexus mod 42602) are registered as:
+The menu title is Skitterchest. This is an action-form menu, not the vanilla
+chest grid; the user approved this replacement to remove the runtime workaround.
+The same underlying 27-slot entity inventory is retained for existing contents,
+native death drops and persistence. Transfers preserve item data and leave
+unaccepted quantities in their source slots. Stale selections are rejected.
+Each player can have only one storage session active. The menu checks distance
+and dimension between operations. Sitting smoothly retracts the legs, settles
+the body onto the ground and stops both land and lava movement.
 
-- LargeMeat.wav → jagsby_nether.skitterchest.open
-- RawLargeMeat.wav → jagsby_nether.skitterchest.close
+## Sounds and lava
 
-They play from the real entityContainerOpened and entityContainerClosed
-events on tamed Crimson and Warped only, using stable server 2.8.0. Full clips are preserved, converted to mono Ogg Vorbis
-without changing duration, pitch or speed. No global vanilla chest sounds are
-replaced. Original paths and SHA-256 hashes are in
-resource_pack/docs/skitterchests/SOUND_SOURCE_METADATA.json.
+Ambient: strider idle. Hurt: glow squid. Death: nautilus. The full user-selected
+LargeMeat.wav/RawLargeMeat.wav clips from Eating Animations And Sounds SE V1.9.4
+are converted to Ogg for opening/closing the storage menu. Source paths and hashes
+are in docs/skitterchests/SOUND_SOURCE_METADATA.json. No global sounds are changed.
+
+All variants are fire immune, can navigate lava, float without waves and step
+back onto land. No riding or breeding components are present.
 
 ## Playtest
 
-Confirm wild mobs and Blackstone cannot open storage, tame Crimson and Warped,
-then check standing sit/stand, crouching storage, both selected sounds, inventory
-persistence and natural spawning. Native container interaction and sound-event
-playback require verification in Bedrock; the cloud environment has no game
-runtime. Spawn rules preserve source weights/difficulty ranges, except Crimson
-can spawn on crimson nylium, correcting the source's exclusion of its own floor.
-
-All three variants use the built-in mob.glow_squid.hurt sound when hurt and mob.nautilus.death sound on death, at normal pitch. Blackstone has no storage sounds.
-
-## Storage title
-
-Unnamed Crimson and Warped receive the default name Skitterchest on spawn, chunk load and initial script startup, so the native container uses that title. Player-applied names remain intact; ordinary chest minecarts are not renamed. Sitting retracts the legs and lowers the body onto the ground; standing extends them again.
-
-## Retracting legs
-
-Tamed Crimson and Warped smoothly retract both leg groups to zero scale while lowering all chest-body roots by three model units, matching the gap between their base and the ground. Standing reverses that pose. Frame-time-based interpolation smooths transitions and fades out walking and idle movement while sitting. Blackstone has no sitting control. No additional sit/stand sounds were added.
-
-All three variants use mob.strider.idle as their periodic ambient sound, with the standard ambient interval settings (value 8, range 16).
-
-## Movement and overhead names
-
-Crimson and Warped now use an animal runtime instead of the chest-minecart runtime that interfered with normal mob walking. Nameable is removed from all variants so naming interaction and nameable-driven display are disabled; the internal default name remains for the storage title. Native container layout, overhead-name behavior and locomotion must be checked in Bedrock for this runtime combination.
-
-This build requires Bedrock 26.50+ (tested target: user version 26.52) and stable server 2.8.0 for the native container access events.
-
-## Wild behavior and death XP
-
-Untamed Crimson and Warped acquire visible player targets within four blocks. Their wild targeting group is removed upon taming, retaining normal pet following and defensive behavior. No group anger broadcasting is used. Blackstone flees players within eight blocks, moving at 1.5x walking or 2x sprinting speed, and has no attack or retaliation goals. Player-attributed kills award 10 XP for Crimson/Warped and 30 XP for Blackstone, using native XP rewards. Environmental deaths without player attribution award no XP, as in vanilla.
-
-## v0.2.34 wild behavior, lava and spawn eggs
-
-Creative eggs are explicit entity_placer items targeting the custom Skitterchest identifiers, replacing automatically generated eggs that could inherit the animal runtime’s spawning behavior. The internal animal runtime remains for native inventory/movement support; eggs do not target minecraft:horse.
-
-All three can path through and across lava, do not treat lava as a forbidden damage block, do not sink, and have explicit lava movement speed 0.3. The sitting group overrides lava movement to zero. These settings follow the vanilla strider navigation pattern.
-
-Lava buoyancy keeps them at the surface and allows stepping back onto land. The old generic jumping-in-liquid goal is removed so it does not compete with lava navigation. Buoyancy has no wave motion.
+Test fresh eggs and existing pets: chest model, no overhead name, land/lava
+movement, wild behavior, taming, standing storage, item deposit/withdraw and
+crouching sit/stand. Confirm stored items persist and drop on death, with 10/30 XP
+for player-attributed kills. GUI presentation and gameplay require Bedrock testing.
+Requires Bedrock 26.50+, stable server 2.8.0 and stable server-ui 2.0.0; target
+user version is 26.52.

@@ -6,7 +6,6 @@
       "is_spawnable": false,
       "is_summonable": true,
       "is_experimental": false,
-      "runtime_identifier": "minecraft:horse",
       "properties": {
         "jagsby_nether:sitting": {
           "type": "bool",
@@ -107,8 +106,7 @@
             }
           ]
         },
-        "minecraft:persistent": {},
-        "minecraft:is_chested": {}
+        "minecraft:persistent": {}
       },
       "jagsby_nether:persistent_storage": {
         "minecraft:persistent": {}

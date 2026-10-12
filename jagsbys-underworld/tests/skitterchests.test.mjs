@@ -27,7 +27,7 @@ for (const variant of ['crimson', 'warped', 'blackstone']) {
       assert.deepEqual(components()['minecraft:persistent'], {});
       assert.deepEqual(components()['minecraft:is_tamed'], {});
       assert.equal(components()['minecraft:inventory'].inventory_size, 27);
-      assert.equal(entity.description.runtime_identifier, 'minecraft:horse');
+      assert.equal(entity.description.runtime_identifier, undefined);
     } else {
       assert.equal(entity.description.runtime_identifier, undefined);
       assert.equal(entity.events['jagsby_nether:retain_storage'], undefined);

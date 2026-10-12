@@ -72,7 +72,7 @@ test('only tamed Crimson and Warped interactions retain storage', () => {
   assert.deepEqual(retained, Array(2).fill('jagsby_nether:retain_storage'));
 });
 
-test('standing use toggles tamed pets without opening storage; crouching keeps native access', () => {
+test('crouching toggles tamed pets; standing storage never toggles sitting', () => {
   for (const sitting of [false, true]) {
     const calls = [];
     const target = {
@@ -80,19 +80,20 @@ test('standing use toggles tamed pets without opening storage; crouching keeps n
       getProperty(name) { return name.endsWith(':tamed') || sitting; },
       hasComponent() { return true; },
       triggerEvent(name) { calls.push(name); },
+      dimension:{id:'minecraft:nether'},location:{x:0,y:0,z:0},getComponent(){},
     };
-    const standing = {target, player: {isSneaking: false}, cancel: false};
+    const standing = {target, player: {isSneaking: true}, cancel: false};
     world.beforeEvents.playerInteractWithEntity.emit(standing);
     assert.equal(standing.cancel, true);
     assert.deepEqual(calls, []); // Before-events are read-only: mutations defer.
     flush();
     assert.deepEqual(calls, ['jagsby_nether:retain_storage', `jagsby_nether:${sitting ? 'stand' : 'sit'}`]);
     calls.length = 0;
-    const crouching = {target, player: {isSneaking: true}, cancel: false};
+    const crouching = {target, player: {id:'menu-test',isSneaking: false,dimension:{id:'minecraft:nether'},location:{x:0,y:0,z:0}}, cancel: false};
     world.beforeEvents.playerInteractWithEntity.emit(crouching);
     flush();
-    assert.equal(crouching.cancel, false);
-    assert.deepEqual(calls, []);
+    assert.equal(crouching.cancel, true);
+    assert.deepEqual(calls, ['jagsby_nether:retain_storage']);
   }
 });
 
@@ -117,33 +118,14 @@ test('Scrap taming stays available while Blackstone and other mobs cannot enter 
 });
 
 
-test('Skitterchest names give native storage a title without renaming other mobs or player-named pets',()=>{
+test('Skitterchest overhead labels are cleared without renaming unrelated mobs',()=>{
  for(const signal of [world.afterEvents.entitySpawn,world.afterEvents.entityLoad]){
   for(const variant of ['crimson','warped']){
    const entity={typeId:`jagsby_nether:${variant}_skitterchest`,nameTag:''};
-   signal.emit({entity});assert.equal(entity.nameTag,'Skitterchest');
-   entity.nameTag='My pet';signal.emit({entity});assert.equal(entity.nameTag,'My pet');
+   entity.nameTag='Skitterchest';signal.emit({entity});assert.equal(entity.nameTag,'');
+   entity.nameTag='My pet';signal.emit({entity});assert.equal(entity.nameTag,'');
   }
   const minecart={typeId:'minecraft:chest_minecart',nameTag:''};
   signal.emit({entity:minecart});assert.equal(minecart.nameTag,'');
  }
-});
-
-test('real inventory open/close events play the selected clips only for tamed storage pets',()=>{
-  const sounds=[];
-  function entity(typeId,tamed=true){return {
-    typeId,location:{x:10,y:30,z:20},getProperty(){return tamed;},hasComponent(){return tamed;},
-    dimension:{playSound(sound,position){sounds.push({sound,position});}},
-  };}
-  for(const variant of ['crimson','warped']){
-    const pet=entity(`jagsby_nether:${variant}_skitterchest`);
-    world.afterEvents.entityContainerOpened.emit({entity:pet});
-    world.afterEvents.entityContainerClosed.emit({entity:pet});
-  }
-  for(const ignored of [entity('jagsby_nether:crimson_skitterchest',false),entity('jagsby_nether:blackstone_skitterchest'),entity('minecraft:chest_minecart')]){
-    world.afterEvents.entityContainerOpened.emit({entity:ignored});
-    world.afterEvents.entityContainerClosed.emit({entity:ignored});
-  }
-  assert.deepEqual(sounds.map(e=>e.sound),['jagsby_nether.skitterchest.open','jagsby_nether.skitterchest.close','jagsby_nether.skitterchest.open','jagsby_nether.skitterchest.close']);
-  assert(sounds.every(e=>e.position.x===10 && e.position.y===30 && e.position.z===20));
 });
