@@ -60,7 +60,7 @@ test('selected chest clips are scoped to Crimson and Warped native open/close ev
   const entities = load('resource_pack/sounds.json').entity_sounds.entities;
   assert.deepEqual(Object.keys(entities).sort(), ['jagsby_nether:blackstone_skitterchest', 'jagsby_nether:crimson_skitterchest', 'jagsby_nether:warped_skitterchest']);
   const definitions = load('resource_pack/sounds/sound_definitions.json').sound_definitions;
-  assert.deepEqual(Object.keys(entities['jagsby_nether:blackstone_skitterchest'].events), ['death', 'hurt']);
+  assert.deepEqual(Object.keys(entities['jagsby_nether:blackstone_skitterchest'].events), ['death', 'hurt', 'ambient']);
   for (const variant of ['crimson', 'warped']) {
     const entity = entities[`jagsby_nether:${variant}_skitterchest`];
     assert.equal(entity.events['chest.open'].sound, 'jagsby_nether.skitterchest.open');

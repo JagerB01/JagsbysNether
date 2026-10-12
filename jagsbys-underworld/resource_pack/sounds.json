@@ -24,6 +24,11 @@
             "sound": "mob.glow_squid.hurt",
             "volume": 1.0,
             "pitch": 1.0
+          },
+          "ambient": {
+            "sound": "mob.strider.idle",
+            "volume": 1.0,
+            "pitch": 1.0
           }
         }
       },
@@ -50,6 +55,11 @@
             "sound": "mob.glow_squid.hurt",
             "volume": 1.0,
             "pitch": 1.0
+          },
+          "ambient": {
+            "sound": "mob.strider.idle",
+            "volume": 1.0,
+            "pitch": 1.0
           }
         }
       },
@@ -64,6 +74,11 @@
           },
           "hurt": {
             "sound": "mob.glow_squid.hurt",
+            "volume": 1.0,
+            "pitch": 1.0
+          },
+          "ambient": {
+            "sound": "mob.strider.idle",
             "volume": 1.0,
             "pitch": 1.0
           }

@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.31
+# Skitterchests — v0.2.32
 
 Only the three chest pets and their models, textures, animations and spawn eggs
 are adapted from the supplied NetherPlus Add-on MA v3 by BubbleStudio and
@@ -56,3 +56,5 @@ Unnamed Crimson and Warped receive the default name Skitterchest on spawn, chunk
 ## Retracting legs
 
 Tamed Crimson and Warped smoothly retract both leg groups to zero scale while lowering all chest-body roots by three model units, matching the gap between their base and the ground. Standing reverses that pose. Frame-time-based interpolation smooths transitions and fades out walking and idle movement while sitting. Blackstone has no sitting control. No additional sit/stand sounds were added.
+
+All three variants use mob.strider.idle as their periodic ambient sound, with the standard ambient interval settings (value 8, range 16).
