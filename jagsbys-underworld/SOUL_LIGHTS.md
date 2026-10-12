@@ -1,6 +1,8 @@
-# Soul-light spawn protection — v0.2.50
+# Soul-light spawn protection — v0.2.51
 
-Soul torches protect a 12-block radius; soul lanterns protect a 16-block radius.
+Soul torches protect a 12-block radius; soul lanterns protect a 16-block radius;
+lit soul campfires protect a 20-block radius. Extinguished soul campfires
+and ordinary campfires provide no protection.
 The radius is a sphere measured from the light’s block center to the mob’s spawn
 position, including vertical distance. Wall-mounted soul torches and hanging
 soul lanterns use the same Bedrock block IDs and qualify. Protection works

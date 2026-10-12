@@ -6,7 +6,7 @@ function fixture(typeId='minecraft:zombie',location={x:0.5,y:64.5,z:0.5},family=
  const blocks=[];let queries=0,removed=0;
  const dimension={heightRange:{min:-64,max:320},getBlocks(volume,filter,allowUnloaded){
   queries++;assert.equal(allowUnloaded,true);
-  assert.deepEqual(filter.includeTypes,['minecraft:soul_torch','minecraft:soul_lantern']);
+  assert.deepEqual(filter.includeTypes,['minecraft:soul_torch','minecraft:soul_lantern','minecraft:soul_campfire']);
   assert(volume.from.y>=-64&&volume.to.y<320);
   const matches=blocks.filter(b=>filter.includeTypes.includes(b.typeId)&&['x','y','z'].every(k=>b.location[k]>=volume.from[k]&&b.location[k]<=volume.to[k]));
   return {getBlockLocationIterator(){return matches.map(b=>b.location);}};
@@ -15,10 +15,10 @@ function fixture(typeId='minecraft:zombie',location={x:0.5,y:64.5,z:0.5},family=
   hasComponent(id){return id==='minecraft:is_tamed'&&tamed;},getProperty(){return tamed;},
   getComponent(id){return id==='minecraft:type_family'?{hasTypeFamily:f=>family.includes(f)}:undefined;},
   remove(){removed++;this.isValid=false;},kill(){throw Error('Suppression must not kill');},applyDamage(){throw Error('Suppression must not deal damage');}};
- const light=(typeId='minecraft:soul_torch',location={x:0,y:64,z:0})=>blocks.push({typeId,location});
+ const light=(typeId='minecraft:soul_torch',location={x:0,y:64,z:0})=>blocks.push({typeId,location,permutation:{getState(){return false;}}});
  return {entity,blocks,light,queries:()=>queries,removed:()=>removed};
 }
-for(const [type,radius] of [['minecraft:soul_torch',12],['minecraft:soul_lantern',16]]){
+for(const [type,radius] of [['minecraft:soul_torch',12],['minecraft:soul_lantern',16],['minecraft:soul_campfire',20]]){
  test(`${type} suppresses exactly at its ${radius}-block boundary`,()=>{
   const f=fixture('minecraft:zombie',{x:radius+0.5,y:64.5,z:0.5});f.light(type);
   assert.equal(suppressHostileSpawn(f.entity),true);assert.equal(f.removed(),1);assert.equal(f.queries(),1);
@@ -34,7 +34,7 @@ test('distance is spherical, including vertical distance and diagonal corners',(
  f.entity.location={x:0.5,y:80.5,z:0.5};assert.equal(suppressHostileSpawn(f.entity),true);
 });
 test('ordinary torches and lanterns do not suppress hostile spawns',()=>{
- const f=fixture();f.light('minecraft:torch');f.light('minecraft:lantern');
+ const f=fixture();f.light('minecraft:torch');f.light('minecraft:lantern');f.light('minecraft:campfire');
  assert.equal(suppressHostileSpawn(f.entity),false);assert.equal(f.removed(),0);
 });
 test('passive creatures and tamed monster-family pets never trigger a block search',()=>{
@@ -66,4 +66,11 @@ test('search bounds are clipped at both world-height limits',()=>{
 });
 test('already removed entities are ignored before accessing components or blocks',()=>{
  const f=fixture();f.entity.isValid=false;assert.equal(isHostileSpawn(f.entity),false);assert.equal(suppressHostileSpawn(f.entity),false);assert.equal(f.queries(),0);
+});
+
+test('extinguished soul campfires provide no protection until relit',()=>{
+ const f=fixture();f.light('minecraft:soul_campfire');let extinguished=true;
+ f.blocks[0].permutation.getState=key=>key==='extinguished'?extinguished:undefined;
+ assert.equal(suppressHostileSpawn(f.entity),false);assert.equal(f.removed(),0);
+ extinguished=false;assert.equal(suppressHostileSpawn(f.entity),true);
 });

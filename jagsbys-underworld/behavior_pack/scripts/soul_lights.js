@@ -3,6 +3,7 @@ import {world,BlockVolume} from '@minecraft/server';
 export const SOUL_LIGHT_RANGES=Object.freeze({
  'minecraft:soul_torch':12,
  'minecraft:soul_lantern':16,
+ 'minecraft:soul_campfire':20,
 });
 // Monster-family add-on mobs are covered automatically. The explicit vanilla
 // list also covers hostile mobs such as hoglins that do not use that family.
@@ -25,16 +26,17 @@ export function protectedBySoulLight(entity){
  const {dimension,location}=entity;
  const center={x:Math.floor(location.x),y:Math.floor(location.y),z:Math.floor(location.z)};
  const height=dimension.heightRange;
- const from={x:center.x-16,y:Math.max(height.min,center.y-16),z:center.z-16};
- const to={x:center.x+16,y:Math.min(height.max-1,center.y+16),z:center.z+16};
+ const from={x:center.x-20,y:Math.max(height.min,center.y-20),z:center.z-20};
+ const to={x:center.x+20,y:Math.min(height.max-1,center.y+20),z:center.z+20};
  if(from.y>to.y)return false;
- // One native filtered lookup per hostile spawn, not 35,937 JavaScript block
+ // One native filtered lookup per hostile spawn, not 68,921 JavaScript block
  // reads or a recurring patrol. Existing lights, wall torches and hanging
  // lanterns are found directly, without placement caches that can go stale.
  const matches=dimension.getBlocks(new BlockVolume(from,to),{includeTypes:Object.keys(SOUL_LIGHT_RANGES)},true);
  for(const position of matches.getBlockLocationIterator()){
   const block=dimension.getBlock(position);if(!block)continue;
   const range=SOUL_LIGHT_RANGES[block.typeId];if(!range)continue;
+  if(block.typeId==='minecraft:soul_campfire'&&block.permutation.getState('extinguished')===true)continue;
   const distance=(position.x+0.5-location.x)**2+(position.y+0.5-location.y)**2+(position.z+0.5-location.z)**2;
   if(distance<=range*range)return true;
  }
