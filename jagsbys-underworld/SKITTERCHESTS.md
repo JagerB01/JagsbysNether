@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.43 native-screen test build
+# Skitterchests — v0.2.44 native-screen test build
 
 This build removes the custom ActionForm storage menu entirely. Standing
 interaction with a tamed Crimson/Warped opens a real native 27-slot container;
@@ -69,7 +69,7 @@ No server-ui dependency, horse runtime on the mob, or custom storage menu remain
 
 The helper’s unique skin marker 99137 selects zero client render scale, including the inherited vanilla chest-minecart client definition. Normal chest minecarts retain scale 1. This does not shrink the server interaction hitbox or add visible overhead text. Invisibility potion effects are not required.
 
-## v0.2.43 MineScape loot compatibility and rarity
+## v0.2.44 MineScape loot compatibility and rarity
 
 Blackstone death loot has one fixed 75% random-chance roll for one MineScape
 relic. On success, its 54 normal spawner-drop relics are equally weighted, matching
@@ -90,18 +90,18 @@ items still drop on death.
 Crimson/Warped retain their existing biome rules, singleton herds, weight 1 and
 surface/underground density limits of 1.
 
-## v0.2.43 Blackstone biome rarity
+## v0.2.44 Blackstone biome rarity
 
 Blackstone can spawn naturally in Basalt Deltas, Nether Wastes and Soul Sand
-Valleys. Basalt Deltas retains the v0.2.42 rarity setting and is the best place
-to search. All three rules have weight 1, herd size 1 and surface/underground
+Valleys. Basalt Deltas is the best place to search. v0.2.44 makes the natural-spawn
+gates ten times more permissive than v0.2.43, as requested. All three rules have weight 1, herd size 1 and surface/underground
 density limits of 1. Natural-spawn herd events apply additional gates:
 
 | Biome | Surviving natural-spawn attempts | Event |
 | --- | --- | --- |
-| Basalt Deltas | 1 in 100 | jagsby_nether:rare_natural_spawn |
-| Nether Wastes | 1 in 1,000 | jagsby_nether:exceptionally_rare_natural_spawn |
-| Soul Sand Valley | 1 in 1,000 | jagsby_nether:exceptionally_rare_natural_spawn |
+| Basalt Deltas | 10% (1 in 10) | jagsby_nether:rare_natural_spawn |
+| Nether Wastes | 1% (1 in 100) | jagsby_nether:exceptionally_rare_natural_spawn |
+| Soul Sand Valley | 1% (1 in 100) | jagsby_nether:exceptionally_rare_natural_spawn |
 
 These gates run only after Minecraft selects the already rare weight-1 rule
 and finds a valid location. They are not chances per chunk or per tick. The
