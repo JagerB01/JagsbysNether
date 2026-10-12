@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.19 playtest build
+# Lava fishing — v0.2.20 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -80,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.19 and confirm both pack versions and the Content Log.
+1. Import v0.2.20 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -277,3 +277,14 @@ angle without changing the parent yaw, hand position or first-person pose.
 The sprite child has the same pivot as the hand-bound parent.
 Preview artifacts are in previews/rod-placement-v0.2.19; Minecraft remains
 the final check for this editor-based fit.
+
+## v0.2.20 rightward placement and third-person shaft
+
+First-person rotation stays [142.49,26.09,34.72]. Translation becomes
+[2.36,0.736,5.427], calculated by moving along the preview camera right
+axis only (7.5% of the screen width at the grip depth). Camera-plane height
+and depth are preserved, so the accepted orientation and size remain.
+The preview includes the hotbar rectangle measured from the user screenshot.
+Third-person sprite rotation increases from 10 to 30 degrees, the requested
+additional 20-degree downward turn, about the same grip.
+Final Minecraft appearance still requires gameplay verification.
