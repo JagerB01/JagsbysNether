@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.30
+# Skitterchests — v0.2.31
 
 Only the three chest pets and their models, textures, animations and spawn eggs
 are adapted from the supplied NetherPlus Add-on MA v3 by BubbleStudio and
@@ -51,4 +51,8 @@ All three variants use the built-in mob.glow_squid.hurt sound when hurt and mob.
 
 ## Storage title
 
-Unnamed Crimson and Warped receive the default name Skitterchest on spawn, chunk load and initial script startup, so the native container uses that title. Player-applied names remain intact; ordinary chest minecarts are not renamed. Sitting/standing feedback is unchanged pending the user’s choice.
+Unnamed Crimson and Warped receive the default name Skitterchest on spawn, chunk load and initial script startup, so the native container uses that title. Player-applied names remain intact; ordinary chest minecarts are not renamed. Sitting retracts the legs and lowers the body onto the ground; standing extends them again.
+
+## Retracting legs
+
+Tamed Crimson and Warped smoothly retract both leg groups to zero scale while lowering all chest-body roots by three model units, matching the gap between their base and the ground. Standing reverses that pose. Frame-time-based interpolation smooths transitions and fades out walking and idle movement while sitting. Blackstone has no sitting control. No additional sit/stand sounds were added.

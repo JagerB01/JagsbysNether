@@ -15,15 +15,25 @@
       "animations": {
         "setup": "animation.jagsby_nether.crimson_skitterchest.setup",
         "walk": "animation.jagsby_nether.crimson_skitterchest.walk",
-        "look_at_target": "animation.common.look_at_target"
+        "look_at_target": "animation.common.look_at_target",
+        "sitting": "animation.jagsby_nether.crimson_skitterchest.sitting"
       },
       "scripts": {
         "animate": [
-          "setup",
           {
-            "walk": "query.modified_move_speed"
+            "setup": "1.0 - variable.sit_amount"
           },
-          "look_at_target"
+          {
+            "walk": "query.modified_move_speed * (1.0 - variable.sit_amount)"
+          },
+          "look_at_target",
+          "sitting"
+        ],
+        "initialize": [
+          "variable.sit_amount = 0.0;"
+        ],
+        "pre_animation": [
+          "variable.sit_amount = math.lerp(variable.sit_amount, query.property('jagsby_nether:sitting') ? 1.0 : 0.0, math.min(query.delta_time * 8.0, 1.0));"
         ]
       },
       "render_controllers": [

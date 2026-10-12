@@ -463,6 +463,41 @@
           }
         }
       }
+    },
+    "animation.jagsby_nether.crimson_skitterchest.sitting": {
+      "loop": true,
+      "bones": {
+        "cuerpo": {
+          "position": [
+            0,
+            "-3.0 * variable.sit_amount",
+            0
+          ]
+        },
+        "tapatwitchtube": {
+          "position": [
+            0,
+            "-3.0 * variable.sit_amount",
+            0
+          ]
+        },
+        "patas1": {
+          "position": [
+            0,
+            "-3.0 * variable.sit_amount",
+            0
+          ],
+          "scale": "1.0 - variable.sit_amount"
+        },
+        "patas2": {
+          "position": [
+            0,
+            "-3.0 * variable.sit_amount",
+            0
+          ],
+          "scale": "1.0 - variable.sit_amount"
+        }
+      }
     }
   }
 }
