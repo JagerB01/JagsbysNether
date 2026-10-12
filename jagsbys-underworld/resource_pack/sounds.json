@@ -5,16 +5,6 @@
         "volume": 1.0,
         "pitch": 1.0,
         "events": {
-          "chest.open": {
-            "sound": "jagsby_nether.skitterchest.open",
-            "volume": 1.0,
-            "pitch": 1.0
-          },
-          "chest.closed": {
-            "sound": "jagsby_nether.skitterchest.close",
-            "volume": 1.0,
-            "pitch": 1.0
-          },
           "death": {
             "sound": "mob.nautilus.death",
             "volume": 1.0,
@@ -36,16 +26,6 @@
         "volume": 1.0,
         "pitch": 1.0,
         "events": {
-          "chest.open": {
-            "sound": "jagsby_nether.skitterchest.open",
-            "volume": 1.0,
-            "pitch": 1.0
-          },
-          "chest.closed": {
-            "sound": "jagsby_nether.skitterchest.close",
-            "volume": 1.0,
-            "pitch": 1.0
-          },
           "death": {
             "sound": "mob.nautilus.death",
             "volume": 1.0,

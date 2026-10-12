@@ -128,3 +128,22 @@ test('Skitterchest names give native storage a title without renaming other mobs
   signal.emit({entity:minecart});assert.equal(minecart.nameTag,'');
  }
 });
+
+test('real inventory open/close events play the selected clips only for tamed storage pets',()=>{
+  const sounds=[];
+  function entity(typeId,tamed=true){return {
+    typeId,location:{x:10,y:30,z:20},getProperty(){return tamed;},hasComponent(){return tamed;},
+    dimension:{playSound(sound,position){sounds.push({sound,position});}},
+  };}
+  for(const variant of ['crimson','warped']){
+    const pet=entity(`jagsby_nether:${variant}_skitterchest`);
+    world.afterEvents.entityContainerOpened.emit({entity:pet});
+    world.afterEvents.entityContainerClosed.emit({entity:pet});
+  }
+  for(const ignored of [entity('jagsby_nether:crimson_skitterchest',false),entity('jagsby_nether:blackstone_skitterchest'),entity('minecraft:chest_minecart')]){
+    world.afterEvents.entityContainerOpened.emit({entity:ignored});
+    world.afterEvents.entityContainerClosed.emit({entity:ignored});
+  }
+  assert.deepEqual(sounds.map(e=>e.sound),['jagsby_nether.skitterchest.open','jagsby_nether.skitterchest.close','jagsby_nether.skitterchest.open','jagsby_nether.skitterchest.close']);
+  assert(sounds.every(e=>e.position.x===10 && e.position.y===30 && e.position.z===20));
+});

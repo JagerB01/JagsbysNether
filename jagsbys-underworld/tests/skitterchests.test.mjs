@@ -27,7 +27,7 @@ for (const variant of ['crimson', 'warped', 'blackstone']) {
       assert.deepEqual(components()['minecraft:persistent'], {});
       assert.deepEqual(components()['minecraft:is_tamed'], {});
       assert.equal(components()['minecraft:inventory'].inventory_size, 27);
-      assert.equal(entity.description.runtime_identifier, 'minecraft:chest_minecart');
+      assert.equal(entity.description.runtime_identifier, 'minecraft:horse');
     } else {
       assert.equal(entity.description.runtime_identifier, undefined);
       assert.equal(entity.events['jagsby_nether:retain_storage'], undefined);
@@ -56,21 +56,16 @@ for (const variant of ['crimson', 'warped', 'blackstone']) {
   });
 }
 
-test('selected chest clips are scoped to Crimson and Warped native open/close events', () => {
-  const entities = load('resource_pack/sounds.json').entity_sounds.entities;
-  assert.deepEqual(Object.keys(entities).sort(), ['jagsby_nether:blackstone_skitterchest', 'jagsby_nether:crimson_skitterchest', 'jagsby_nether:warped_skitterchest']);
+test('selected full-length Ogg clips stay registered without ineffective native chest sound maps', () => {
   const definitions = load('resource_pack/sounds/sound_definitions.json').sound_definitions;
-  assert.deepEqual(Object.keys(entities['jagsby_nether:blackstone_skitterchest'].events), ['death', 'hurt', 'ambient']);
-  for (const variant of ['crimson', 'warped']) {
-    const entity = entities[`jagsby_nether:${variant}_skitterchest`];
-    assert.equal(entity.events['chest.open'].sound, 'jagsby_nether.skitterchest.open');
-    assert.equal(entity.events['chest.closed'].sound, 'jagsby_nether.skitterchest.close');
-    for (const event of ['chest.open', 'chest.closed']) {
-      const entry = entity.events[event];
-      for (const path of definitions[entry.sound].sounds) {
-        const data = readFileSync(new URL(`../resource_pack/${path}.ogg`, import.meta.url));
-        assert.equal(data.subarray(0, 4).toString(), 'OggS');
-      }
+  for (const event of ['open', 'close']) {
+    for (const path of definitions[`jagsby_nether.skitterchest.${event}`].sounds) {
+      const data = readFileSync(new URL(`../resource_pack/${path}.ogg`, import.meta.url));
+      assert.equal(data.subarray(0, 4).toString(), 'OggS');
     }
+  }
+  for (const entity of Object.values(load('resource_pack/sounds.json').entity_sounds.entities)) {
+    assert.equal(entity.events['chest.open'], undefined);
+    assert.equal(entity.events['chest.closed'], undefined);
   }
 });

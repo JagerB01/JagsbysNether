@@ -20,7 +20,7 @@ export const world = {
   getDynamicPropertyIds() { return [...properties.keys()]; },
   getAllPlayers() { return []; },
   beforeEvents: {playerInteractWithEntity: signal(), playerInteractWithBlock: signal()},
-  afterEvents: {entitySpawn: signal(), entityLoad: signal(), playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
+  afterEvents: {entityContainerOpened: signal(), entityContainerClosed: signal(), entitySpawn: signal(), entityLoad: signal(), playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
 };
 const pending = [];
 export const intervals = [], jobs = [];

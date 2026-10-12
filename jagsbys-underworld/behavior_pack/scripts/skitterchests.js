@@ -34,7 +34,7 @@ world.beforeEvents.playerInteractWithEntity.subscribe(event => {
     event.cancel = player.isSneaking || itemStack?.typeId !== 'minecraft:netherite_scrap';
     return;
   }
-  // The native chest-minecart runtime supplies the real container screen.
+  // The native animal runtime supplies container interaction for a chested pet.
   // Crouching reaches that interaction without changing the sitting state.
   if (player.isSneaking) return;
   event.cancel = true;
@@ -56,4 +56,21 @@ world.afterEvents.playerInteractWithEntity.subscribe(({target}) => {
       target.triggerEvent('jagsby_nether:retain_storage');
     }
   } catch (error) { console.warn(`[Underworld Skitterchests] ${error}`); }
+});
+
+// Native container access does not emit the entity sound mappings used before.
+// Stable server 2.8 supplies actual open/close events, so there is no guessed
+// timeout, crouching-click approximation, or replacement of vanilla sounds.
+function storageSound(entity, sound) {
+  if (!tameableChests.has(entity.typeId)) return;
+  try {
+    if (!isTamed(entity)) return;
+    entity.dimension.playSound(sound, entity.location, {volume: 1, pitch: 1});
+  } catch (error) { console.warn(`[Underworld Skitterchests] ${error}`); }
+}
+world.afterEvents.entityContainerOpened.subscribe(({entity}) => {
+  storageSound(entity, 'jagsby_nether.skitterchest.open');
+});
+world.afterEvents.entityContainerClosed.subscribe(({entity}) => {
+  storageSound(entity, 'jagsby_nether.skitterchest.close');
 });

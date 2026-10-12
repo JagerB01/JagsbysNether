@@ -43,7 +43,7 @@ def main():
         assert path.is_file(), path
     assert manifests[0]["dependencies"][0]["uuid"] == manifests[1]["header"]["uuid"]
     assert manifests[0]["dependencies"][0]["version"] == manifests[1]["header"]["version"]
-    assert manifests[0]["dependencies"][1] == {"module_name": "@minecraft/server", "version": "2.0.0"}
+    assert manifests[0]["dependencies"][1] == {"module_name": "@minecraft/server", "version": "2.8.0"}
     for path in BP.rglob("*.js"):
         subprocess.run(["node", "--check", str(path)], check=True)
     for manifest in manifests:

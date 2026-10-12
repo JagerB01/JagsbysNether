@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.32
+# Skitterchests — v0.2.33
 
 Only the three chest pets and their models, textures, animations and spawn eggs
 are adapted from the supplied NetherPlus Add-on MA v3 by BubbleStudio and
@@ -21,8 +21,9 @@ Wild mobs have no accessible storage; Blackstone has no inventory component.
 Stand and use Netherite Scrap to tame wild Crimson or Warped. Once tamed,
 standing interaction toggles their sit/stand state; crouching interaction opens
 the native 27-slot storage screen without changing that state. Sitting prevents
-walking and jumping. The chest-minecart runtime supplies the container
-interaction; custom mob navigation remains in place, with no riding component.
+walking and jumping. The horse runtime supplies the container interaction while supporting animal
+navigation. The tamed group has is_chested, and the inventory stays 27-slot
+minecart_chest. No riding component is present.
 
 ## Opening and closing sounds
 
@@ -32,8 +33,8 @@ The exact user-selected clips from Eating Animations And Sounds SE V1.9.4
 - LargeMeat.wav → jagsby_nether.skitterchest.open
 - RawLargeMeat.wav → jagsby_nether.skitterchest.close
 
-They are mapped to the native chest.open and chest.closed sound events on
-Crimson and Warped only. Full clips are preserved, converted to mono Ogg Vorbis
+They play from the real entityContainerOpened and entityContainerClosed
+events on tamed Crimson and Warped only, using stable server 2.8.0. Full clips are preserved, converted to mono Ogg Vorbis
 without changing duration, pitch or speed. No global vanilla chest sounds are
 replaced. Original paths and SHA-256 hashes are in
 resource_pack/docs/skitterchests/SOUND_SOURCE_METADATA.json.
@@ -43,7 +44,7 @@ resource_pack/docs/skitterchests/SOUND_SOURCE_METADATA.json.
 Confirm wild mobs and Blackstone cannot open storage, tame Crimson and Warped,
 then check standing sit/stand, crouching storage, both selected sounds, inventory
 persistence and natural spawning. Native container interaction and sound-event
-routing require verification in Bedrock; the cloud environment has no game
+playback require verification in Bedrock; the cloud environment has no game
 runtime. Spawn rules preserve source weights/difficulty ranges, except Crimson
 can spawn on crimson nylium, correcting the source's exclusion of its own floor.
 
@@ -58,3 +59,9 @@ Unnamed Crimson and Warped receive the default name Skitterchest on spawn, chunk
 Tamed Crimson and Warped smoothly retract both leg groups to zero scale while lowering all chest-body roots by three model units, matching the gap between their base and the ground. Standing reverses that pose. Frame-time-based interpolation smooths transitions and fades out walking and idle movement while sitting. Blackstone has no sitting control. No additional sit/stand sounds were added.
 
 All three variants use mob.strider.idle as their periodic ambient sound, with the standard ambient interval settings (value 8, range 16).
+
+## Movement and overhead names
+
+Crimson and Warped now use an animal runtime instead of the chest-minecart runtime that interfered with normal mob walking. Nameable is removed from all variants so naming interaction and nameable-driven display are disabled; the internal default name remains for the storage title. Native container layout, overhead-name behavior and locomotion must be checked in Bedrock for this runtime combination.
+
+This build requires Bedrock 26.50+ (tested target: user version 26.52) and stable server 2.8.0 for the native container access events.

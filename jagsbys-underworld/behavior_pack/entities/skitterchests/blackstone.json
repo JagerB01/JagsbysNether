@@ -119,7 +119,6 @@
       }
     },
     "components": {
-      "minecraft:nameable": {},
       "minecraft:type_family": {
         "family": [
           "skitterchest",

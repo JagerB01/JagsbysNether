@@ -6,7 +6,7 @@
       "is_spawnable": true,
       "is_summonable": true,
       "is_experimental": false,
-      "runtime_identifier": "minecraft:chest_minecart",
+      "runtime_identifier": "minecraft:horse",
       "properties": {
         "jagsby_nether:sitting": {
           "type": "bool",
@@ -193,7 +193,8 @@
             }
           ]
         },
-        "minecraft:persistent": {}
+        "minecraft:persistent": {},
+        "minecraft:is_chested": {}
       },
       "jagsby_nether:persistent_storage": {
         "minecraft:persistent": {}
@@ -208,7 +209,6 @@
       }
     },
     "components": {
-      "minecraft:nameable": {},
       "minecraft:type_family": {
         "family": [
           "skitterchest",
