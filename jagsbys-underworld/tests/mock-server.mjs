@@ -14,6 +14,7 @@ export const itemComponents = new Map();
 const properties = new Map();
 export const entities = new Map();
 export const world = {
+  getAbsoluteTime(){return system.currentTick;},
   getEntity(id){return entities.get(id);},
   getDimension() { return {getEntities() { return []; }}; },
   getPlayers() { return []; },

@@ -1,0 +1,157 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "jagsby_nether:warped_hongo",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "properties": {
+        "jagsby_nether:tamed": {
+          "type": "bool",
+          "default": false
+        }
+      }
+    },
+    "component_groups": {
+      "jagsby_nether:wild": {
+        "minecraft:tameable": {
+          "probability": 0.33,
+          "tame_items": "minecraft:warped_fungus",
+          "tame_event": {
+            "event": "jagsby_nether:on_tame",
+            "target": "self"
+          }
+        }
+      },
+      "jagsby_nether:tamed": {
+        "minecraft:is_tamed": {},
+        "minecraft:persistent": {},
+        "minecraft:health": {
+          "value": 10,
+          "max": 10
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "hongo",
+          "warped_hongo",
+          "mob"
+        ]
+      },
+      "minecraft:nameable": {},
+      "minecraft:health": {
+        "value": 8,
+        "max": 8
+      },
+      "minecraft:collision_box": {
+        "width": 0.6,
+        "height": 0.8
+      },
+      "minecraft:movement": {
+        "value": 0.2
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:navigation.walk": {
+        "avoid_damage_blocks": true,
+        "can_jump": true,
+        "can_path_over_water": true,
+        "can_path_over_lava": false,
+        "can_walk_in_lava": false,
+        "can_sink": false
+      },
+      "minecraft:jump.static": {
+        "jump_power": 0.42
+      },
+      "minecraft:variable_max_auto_step": {
+        "base_value": 1,
+        "controlled_value": 1,
+        "jump_prevented_value": 0.5625
+      },
+      "minecraft:fire_immune": {},
+      "minecraft:physics": {},
+      "minecraft:pushable": {
+        "is_pushable": true,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:breathable": {
+        "total_supply": 15,
+        "suffocate_time": 0
+      },
+      "minecraft:leashable": {
+        "soft_distance": 4,
+        "hard_distance": 6,
+        "max_distance": 10
+      },
+      "minecraft:healable": {
+        "items": [
+          {
+            "item": "minecraft:warped_fungus",
+            "heal_amount": 2
+          }
+        ]
+      },
+      "minecraft:behavior.float": {
+        "priority": 0
+      },
+      "minecraft:behavior.avoid_block": {
+        "priority": 1,
+        "target_blocks": [
+          "minecraft:lava",
+          "minecraft:flowing_lava"
+        ],
+        "search_range": 4,
+        "search_height": 2,
+        "walk_speed_modifier": 1.2,
+        "sprint_speed_modifier": 1.2
+      },
+      "minecraft:behavior.panic": {
+        "priority": 2,
+        "speed_multiplier": 1.25
+      },
+      "minecraft:behavior.random_stroll": {
+        "priority": 5,
+        "speed_multiplier": 1
+      },
+      "minecraft:behavior.look_at_player": {
+        "priority": 6,
+        "target_distance": 6,
+        "probability": 0.02
+      },
+      "minecraft:behavior.random_look_around": {
+        "priority": 7
+      },
+      "minecraft:despawn": {
+        "despawn_from_distance": {}
+      },
+      "minecraft:experience_reward": {
+        "on_death": "query.last_hit_by_player ? math.random(1,3) : 0"
+      }
+    },
+    "events": {
+      "minecraft:entity_spawned": {
+        "add": {
+          "component_groups": [
+            "jagsby_nether:wild"
+          ]
+        }
+      },
+      "jagsby_nether:on_tame": {
+        "remove": {
+          "component_groups": [
+            "jagsby_nether:wild"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "jagsby_nether:tamed"
+          ]
+        },
+        "set_property": {
+          "jagsby_nether:tamed": true
+        }
+      }
+    }
+  }
+}

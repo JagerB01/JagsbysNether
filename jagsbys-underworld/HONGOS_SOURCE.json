@@ -1,0 +1,54 @@
+{
+  "source": "NetherPlus Add-on MA v3.mcaddon",
+  "authors": [
+    "BubbleStudio",
+    "MarcoGamer"
+  ],
+  "scope": "Two tameable normal Hongo variants and their visual dependencies only. Passive free-roaming behavior replaces wolf runtime/goals.",
+  "assets": [
+    {
+      "source": "models/entity/hongo_carmesi.geo.json",
+      "destination": "resource_pack/models/entity/hongos/crimson.geo.json",
+      "adaptation": "geometry identifier renamed only",
+      "sha256": "61960828818da65e04d7d8ee64f45497ef51dc8ff68555f771d95f8578e4c083"
+    },
+    {
+      "source": "animations/carmesi.animation.json",
+      "destination": "resource_pack/animations/hongos/crimson.json",
+      "adaptation": "animation identifiers renamed only",
+      "sha256": "ab1307a85b001a6dfbe7b54f6485e2321241bb2f1a9aefe875393ae8c17726a6"
+    },
+    {
+      "source": "textures/entity/hongo/carmesi.png",
+      "destination": "resource_pack/textures/entity/hongos/crimson.png",
+      "sha256": "05661834a3178b4d4597135f92b91de1b9e7624ee795ad283c7fdfbcb3acd07c"
+    },
+    {
+      "source": "textures/items/hongocarmesi.png",
+      "destination": "resource_pack/textures/items/hongos/crimson_spawn_egg.png",
+      "sha256": "0ac3fdb4b8e7099dddc9cc250eee2106e1e9960a535fbd8a9fa81c057903d834"
+    },
+    {
+      "source": "models/entity/hongo_torcido.geo.json",
+      "destination": "resource_pack/models/entity/hongos/warped.geo.json",
+      "adaptation": "geometry identifier renamed only",
+      "sha256": "7a2fb2d5e2d672f756b8af49797fcf882b4cc88ed58334bb5802e9b8cfbe0cdb"
+    },
+    {
+      "source": "animations/retorcida.animation.json",
+      "destination": "resource_pack/animations/hongos/warped.json",
+      "adaptation": "animation identifiers renamed only",
+      "sha256": "3eb918ac933b948fe661f3d08456a47b1826b9e97d3fac3aac75b20ceb4040c8"
+    },
+    {
+      "source": "textures/entity/hongo/hongo.png",
+      "destination": "resource_pack/textures/entity/hongos/warped.png",
+      "sha256": "73d20ce10dd79dd9a7d923019ddba6e08cb3fc94512e82d1ee07e927145bd34d"
+    },
+    {
+      "source": "textures/items/hongoretorcido.png",
+      "destination": "resource_pack/textures/items/hongos/warped_spawn_egg.png",
+      "sha256": "bcc46050b649ebc68f83760350084795ee05dbcf1da1e00ee54772f1847a4616"
+    }
+  ]
+}

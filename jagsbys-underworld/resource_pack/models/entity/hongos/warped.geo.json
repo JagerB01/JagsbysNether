@@ -1,0 +1,249 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.jagsby_nether.warped_hongo",
+        "texture_width": 64,
+        "texture_height": 64,
+        "visible_bounds_width": 2,
+        "visible_bounds_height": 2.5,
+        "visible_bounds_offset": [
+          0,
+          0.75,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "bone4",
+          "pivot": [
+            0,
+            2.45,
+            -0.26875
+          ],
+          "cubes": [
+            {
+              "origin": [
+                0.2,
+                3.2,
+                -1.575
+              ],
+              "size": [
+                1,
+                1.5,
+                1
+              ],
+              "inflate": -0.2,
+              "uv": [
+                3,
+                12
+              ]
+            },
+            {
+              "origin": [
+                -1.2,
+                3.2,
+                -1.575
+              ],
+              "size": [
+                1,
+                1.5,
+                1
+              ],
+              "inflate": -0.2,
+              "uv": [
+                0,
+                6
+              ]
+            },
+            {
+              "origin": [
+                -1.5,
+                0.7,
+                -1.5
+              ],
+              "size": [
+                3,
+                6,
+                3
+              ],
+              "inflate": -0.2,
+              "uv": [
+                21,
+                24
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rightArm",
+          "parent": "bone4",
+          "pivot": [
+            0,
+            2.45,
+            -0.26875
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -2.3,
+                1.5,
+                -0.5
+              ],
+              "size": [
+                1,
+                3,
+                1
+              ],
+              "uv": [
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "name": "leftArm",
+          "parent": "bone4",
+          "pivot": [
+            0,
+            2.45,
+            -0.26875
+          ],
+          "cubes": [
+            {
+              "origin": [
+                1.3,
+                1.5,
+                -0.5
+              ],
+              "size": [
+                1,
+                3,
+                1
+              ],
+              "uv": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rightLeg",
+          "parent": "bone4",
+          "pivot": [
+            -0.2,
+            0,
+            -0.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -1.2,
+                0,
+                -0.5
+              ],
+              "size": [
+                1,
+                2,
+                1
+              ],
+              "uv": [
+                0,
+                10
+              ]
+            }
+          ]
+        },
+        {
+          "name": "leftLeg",
+          "parent": "bone4",
+          "pivot": [
+            0,
+            2.45,
+            -0.26875
+          ],
+          "cubes": [
+            {
+              "origin": [
+                0.2,
+                0,
+                -0.5
+              ],
+              "size": [
+                1,
+                2,
+                1
+              ],
+              "uv": [
+                4,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "cabezon",
+          "parent": "bone4",
+          "pivot": [
+            3,
+            -1,
+            -6
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -3.61667,
+                6.125,
+                -3.5
+              ],
+              "size": [
+                7.2,
+                2.5,
+                7
+              ],
+              "uv": [
+                0,
+                10
+              ]
+            },
+            {
+              "origin": [
+                -3.01667,
+                5.125,
+                -3
+              ],
+              "size": [
+                6,
+                2,
+                6
+              ],
+              "uv": [
+                0,
+                19
+              ]
+            },
+            {
+              "origin": [
+                -4.11667,
+                5.375,
+                -4
+              ],
+              "size": [
+                8.3,
+                2.25,
+                8.05
+              ],
+              "uv": [
+                0,
+                0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

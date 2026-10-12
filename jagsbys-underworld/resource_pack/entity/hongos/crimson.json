@@ -1,0 +1,35 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "jagsby_nether:crimson_hongo",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/hongos/crimson"
+      },
+      "geometry": {
+        "default": "geometry.jagsby_nether.crimson_hongo"
+      },
+      "animations": {
+        "setup": "animation.jagsby_nether.crimson_hongo.setup",
+        "walk": "animation.jagsby_nether.crimson_hongo.walk"
+      },
+      "scripts": {
+        "animate": [
+          "setup",
+          {
+            "walk": "query.modified_move_speed"
+          }
+        ]
+      },
+      "render_controllers": [
+        "controller.render.jagsby_nether.hongo"
+      ],
+      "spawn_egg": {
+        "texture": "jagsby_crimson_hongo_spawn_egg"
+      }
+    }
+  }
+}

@@ -82,6 +82,12 @@
     },
     "jagsby_blackstone_skitterchest_spawn_egg": {
       "textures": "textures/items/skitterchests/blackstone_spawn_egg"
+    },
+    "jagsby_crimson_hongo_spawn_egg": {
+      "textures": "textures/items/hongos/crimson_spawn_egg"
+    },
+    "jagsby_warped_hongo_spawn_egg": {
+      "textures": "textures/items/hongos/warped_spawn_egg"
     }
   }
 }

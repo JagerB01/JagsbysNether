@@ -58,3 +58,9 @@ entity.jagsby_nether:blackstone_skitterchest.name=Blackstone Skitterchest
 item.spawn_egg.entity.jagsby_nether:blackstone_skitterchest.name=Blackstone Skitterchest Spawn Egg
 
 entity.jagsby_nether:skitterchest_storage.name=Skitterchest
+
+entity.jagsby_nether:crimson_hongo.name=Crimson Hongo
+item.spawn_egg.entity.jagsby_nether:crimson_hongo.name=Crimson Hongo Spawn Egg
+
+entity.jagsby_nether:warped_hongo.name=Warped Hongo
+item.spawn_egg.entity.jagsby_nether:warped_hongo.name=Warped Hongo Spawn Egg

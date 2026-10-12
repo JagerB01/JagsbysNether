@@ -8,7 +8,7 @@ startup();
 
 test('one combined entry registers crop components and all subsystem schedules exactly once', () => {
   assert.deepEqual([...components.keys()].sort(), ['jagsby_nether:crop', 'jagsby_nether:farmland', 'jagsby_nether:tillable_soil']);
-  assert.deepEqual(intervals.map(i => i.ticks).sort((a,b) => a-b), [1,1,1,100]);
+  assert.deepEqual(intervals.map(i => i.ticks).sort((a,b) => a-b), [1,1,1,20,100]);
   assert.deepEqual([...itemComponents.keys()], ['jagsby_nether:lava_fishing_rod']);
   for (const {callback} of intervals) assert.doesNotThrow(callback);
 });

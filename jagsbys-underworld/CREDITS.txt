@@ -1,4 +1,4 @@
-Jagsby's Underworld v0.2.44 — combined personal test build.
+Jagsby's Underworld v0.2.45 — combined personal test build.
 
 Village subsystem: Jagsby's Nether Settlements v0.8.24, including its original
 structures, source notices and license. The complete original release notes
@@ -34,3 +34,8 @@ Native chest-minecart client definition adapted from Mojang/bedrock-samples, wit
 MineScape v1.5.18 compatibility: relic item IDs, normal random-spawner pool and
 level-1 initialization lore derived from the user-supplied MineScape archive.
 No MineScape textures, item definitions or gameplay scripts are bundled.
+
+Hongos: normal Crimson/Warped mushroom models, textures, animations and egg
+artwork adapted from the user-supplied NetherPlus Add-on MA v3 by BubbleStudio
+and MarcoGamer. HONGOS_SOURCE.json records original asset paths and hashes.
+Passive roaming AI and Skitterchest nugget synergy are Underworld additions.
