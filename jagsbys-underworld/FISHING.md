@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.23 playtest build
+# Lava fishing — v0.2.24 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -80,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.23 and confirm both pack versions and the Content Log.
+1. Import v0.2.24 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -348,3 +348,14 @@ remain unchanged; this revision changes visual motion only. Native asset
 references do not copy vanilla source/assets into the add-on. The editor
 preview can check the inherited resting pose but the simultaneous native
 animation and owner-arm motion still need Minecraft verification.
+
+## v0.2.24 continuous first-person swing timing
+
+The native cooldown now triggers the swing only; it no longer directly
+drives attack_time. The attachable accumulates query.delta_time while the
+client animation is active, giving the native item swing a render-frame
+clock instead of a seven-tick countdown. Entry and exit blend over 0.08
+seconds, and a settling state waits for cooldown expiry before rearming,
+preventing replay if the client timer and server cooldown end differently.
+The native motion asset, resting pose, third-person overhead animation,
+casting physics and catches are unchanged. Check smoothness in Minecraft.
