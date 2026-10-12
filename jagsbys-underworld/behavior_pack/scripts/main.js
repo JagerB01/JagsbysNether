@@ -7,4 +7,4 @@ import './skitterchests.js';
 import './hongos.js';
 import './soul_lights.js';
 
-console.warn("[Jagsby's Underworld] v0.2.52 loaded.");
+console.warn("[Jagsby's Underworld] v0.2.53 loaded.");

@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.52 native-screen test build
+# Skitterchests — v0.2.53 native-screen test build
 
 This build removes the custom ActionForm storage menu entirely. Standing
 interaction with a tamed Crimson/Warped opens a real native 27-slot container;
@@ -69,7 +69,7 @@ No server-ui dependency, horse runtime on the mob, or custom storage menu remain
 
 The helper’s unique skin marker 99137 selects zero client render scale, including the inherited vanilla chest-minecart client definition. Normal chest minecarts retain scale 1. This does not shrink the server interaction hitbox or add visible overhead text. Invisibility potion effects are not required.
 
-## v0.2.52 MineScape loot compatibility and rarity
+## v0.2.53 MineScape loot compatibility and rarity
 
 Blackstone death loot has one fixed 75% random-chance roll for one MineScape
 relic. On success, its 54 normal spawner-drop relics are equally weighted, matching
@@ -84,16 +84,16 @@ textures, upgrades and effects. No MineScape items or gameplay scripts are bundl
 in Underworld. Provenance, the exact eligible IDs and pool selection are recorded
 in MINESCAPE_COMPATIBILITY.json. Looting does not increase the 75% chance or
 quantity; a player kill is not required for the item roll. Blackstone’s existing
-player-kill XP stays at 30. Crimson/Warped have no new item drops; their stored
-items still drop on death.
+player-kill XP stays at 30. Warped has no additional death loot yet. Stored items still drop on death.
+Crimson’s added death loot is documented below.
 
 Crimson/Warped retain their existing biome rules, singleton herds, weight 1 and
 surface/underground density limits of 1.
 
-## v0.2.52 Blackstone biome rarity
+## v0.2.53 Blackstone biome rarity
 
 Blackstone can spawn naturally in Basalt Deltas, Nether Wastes and Soul Sand
-Valleys. Basalt Deltas is the best place to search. v0.2.52 makes the natural-spawn
+Valleys. Basalt Deltas is the best place to search. v0.2.53 makes the natural-spawn
 gates ten times more permissive than v0.2.43, as requested. All three rules have weight 1, herd size 1 and surface/underground
 density limits of 1. Natural-spawn herd events apply additional gates:
 
@@ -116,7 +116,7 @@ summon commands bypass these natural-only events, and existing mobs are
 unaffected. The fixed 75% MineScape relic roll and 30 XP player-kill reward remain
 unchanged. Crimson/Warped spawning is unchanged.
 
-## v0.2.52 seated push resistance
+## v0.2.53 seated push resistance
 
 Sitting Crimson/Warped Skitterchests disable both entity pushes and piston
 pushes. The temporary inventory-open state also disables pushing, preserving
@@ -125,7 +125,7 @@ flags, including after repeated sit/stand and native inventory open/close cycles
 The hidden storage helper was already non-pushable. Blackstone behavior and
 Hongos’ fast test production settings are unchanged.
 
-## v0.2.52 movement
+## v0.2.53 movement
 
 All three Skitterchests use base walking/lava movement 0.25 instead of 0.2,
 including explicit standing restoration. This is a 25% increase; existing flee
@@ -133,4 +133,23 @@ and avoidance multipliers are unchanged. Sitting/inventory-open movement stays
 zero, seated push resistance stays enabled, and Hongo movement is unchanged.
 
 Tamed standing Crimson/Warped resume following their owner at a 4-block
-distance and stop within 2 blocks (v0.2.52). Sitting behavior is unchanged.
+distance and stop within 2 blocks (v0.2.53). Sitting behavior is unchanged.
+
+## v0.2.53 Crimson death loot
+
+Every row rolls independently once when a Crimson Skitterchest dies. Looting
+does not modify these fixed chances or quantities. A player kill is not required.
+Both wild and tamed Crimson use this table; a tamed chest additionally drops its
+existing stored contents through the native-storage death handler.
+
+| Item | Chance | Quantity |
+| --- | --- | --- |
+| Leather | 60% | 1–3 |
+| Gold nuggets | 45% | 2–6 |
+| Crimson fungus | 40% | 1–2 |
+| Nether wart | 25% | 1–4 |
+| Gold ingot | 10% | 1 |
+| Netherite scrap | 1% | 1 |
+
+Netherite Scrap replaces Ancient Debris as requested. Nether Wart is explicitly
+allowed in this mob loot table; the ban on wart in generated structures remains.
