@@ -29,6 +29,9 @@
             }
           ]
         }
+      },
+      "jagsby_nether:discard_natural_spawn": {
+        "minecraft:instant_despawn": {}
       }
     },
     "components": {
@@ -161,6 +164,21 @@
             "minecraft:wolf_wild"
           ]
         }
+      },
+      "jagsby_nether:rare_natural_spawn": {
+        "randomize": [
+          {
+            "weight": 1
+          },
+          {
+            "weight": 99,
+            "add": {
+              "component_groups": [
+                "jagsby_nether:discard_natural_spawn"
+              ]
+            }
+          }
+        ]
       }
     }
   }
