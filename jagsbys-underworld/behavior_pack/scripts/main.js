@@ -6,4 +6,4 @@ import './lava_fishing/main.js';
 import './skitterchests.js';
 import './hongos.js';
 
-console.warn("[Jagsby's Underworld] v0.2.48 loaded.");
+console.warn("[Jagsby's Underworld] v0.2.49 loaded.");

@@ -59,7 +59,7 @@
         "minecraft:behavior.follow_owner": {
           "priority": 6,
           "speed_multiplier": 1,
-          "start_distance": 10,
+          "start_distance": 4,
           "stop_distance": 2
         },
         "minecraft:attack": {
