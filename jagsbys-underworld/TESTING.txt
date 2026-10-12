@@ -1,7 +1,7 @@
-Jagsby's Underworld v0.2.42 — combined test build
+Jagsby's Underworld v0.2.43 — combined test build
 
-1. Import Jagsbys_Underworld_v0.2.42.mcaddon. Confirm both pack-selection entries
-   show the supplied Jagsby's Underworld artwork and the v0.2.42 name/version.
+1. Import Jagsbys_Underworld_v0.2.43.mcaddon. Confirm both pack-selection entries
+   show the supplied Jagsby's Underworld artwork and the v0.2.43 name/version.
    Activate both Behavior and Resources. Use a new test world on Bedrock 26.52,
    with cheats enabled. Disable the separate Nether Settlements and Agriculture
    packs to prevent duplicate script execution. Beta APIs are not required.
@@ -35,7 +35,7 @@ Jagsby's Underworld v0.2.42 — combined test build
 7. Existing-world upgrade testing is optional and should use a copy. Original
    crop/item identifiers are retained, but village records from the old behavior
    pack UUID do not transfer automatically to this new combined pack. A fresh
-   world avoids that unverified migration behavior during v0.2.42 testing.
+   world avoids that unverified migration behavior during v0.2.43 testing.
 
 8. Repeat generation with Conquest & Commerce behavior and resource packs
    enabled, then disabled. Check native villagers without it and its matching

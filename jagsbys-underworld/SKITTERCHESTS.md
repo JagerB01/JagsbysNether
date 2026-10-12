@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.42 native-screen test build
+# Skitterchests — v0.2.43 native-screen test build
 
 This build removes the custom ActionForm storage menu entirely. Standing
 interaction with a tamed Crimson/Warped opens a real native 27-slot container;
@@ -69,7 +69,7 @@ No server-ui dependency, horse runtime on the mob, or custom storage menu remain
 
 The helper’s unique skin marker 99137 selects zero client render scale, including the inherited vanilla chest-minecart client definition. Normal chest minecarts retain scale 1. This does not shrink the server interaction hitbox or add visible overhead text. Invisibility potion effects are not required.
 
-## v0.2.42 MineScape loot compatibility and rarity
+## v0.2.43 MineScape loot compatibility and rarity
 
 Blackstone death loot has one fixed 75% random-chance roll for one MineScape
 relic. On success, its 54 normal spawner-drop relics are equally weighted, matching
@@ -90,23 +90,28 @@ items still drop on death.
 Crimson/Warped retain their existing biome rules, singleton herds, weight 1 and
 surface/underground density limits of 1.
 
-## v0.2.42 exceptionally rare Blackstone spawns
+## v0.2.43 Blackstone biome rarity
 
-Blackstone now spawns naturally only in Basalt Deltas (the vanilla
-`spawn_many_magma_cubes` tag); its Nether Wastes rule is removed. The remaining
-rule still has weight 1, herd size 1 and density limits of 1, but invokes the
-`jagsby_nether:rare_natural_spawn` event for every naturally spawned member
-(`event_skip_count: 0`). Its weighted randomization keeps 1 out of 100 and
-immediately despawns the other 99 without killing them. Rejected attempts
-therefore produce no death loot or XP.
+Blackstone can spawn naturally in Basalt Deltas, Nether Wastes and Soul Sand
+Valleys. Basalt Deltas retains the v0.2.42 rarity setting and is the best place
+to search. All three rules have weight 1, herd size 1 and surface/underground
+density limits of 1. Natural-spawn herd events apply additional gates:
 
-This reduces successful Blackstone spawns approximately 100-fold compared with
-the previous Basalt Deltas rule. It is roughly 10,000 times less likely to
-produce a mob per comparable selection than vanilla magma cubes’ weight-100
-rule, before terrain, population limits and group sizes. This is not an
-encounter-per-chunk guarantee. Actual rarity needs a Bedrock population test.
+| Biome | Surviving natural-spawn attempts | Event |
+| --- | --- | --- |
+| Basalt Deltas | 1 in 100 | jagsby_nether:rare_natural_spawn |
+| Nether Wastes | 1 in 1,000 | jagsby_nether:exceptionally_rare_natural_spawn |
+| Soul Sand Valley | 1 in 1,000 | jagsby_nether:exceptionally_rare_natural_spawn |
 
-The rarity event is attached only to the natural spawn rule. Spawn eggs and
-ordinary summon commands continue to create a Blackstone Skitterchest normally;
-existing mobs are unaffected. Successful Skitterchests retain their fixed 75%
-MineScape relic roll and 30 XP player-kill reward.
+These gates run only after Minecraft selects the already rare weight-1 rule
+and finds a valid location. They are not chances per chunk or per tick. The
+Nether Wastes and Soul Sand Valley gates are ten times stricter than Basalt
+Deltas; actual encounter ratios depend on competing mob weights, terrain and
+population limits. Actual search times need a Bedrock spawn test.
+
+Every natural herd member invokes its event (`event_skip_count: 0`). Weighted
+randomization keeps one attempt and immediately despawns the rejected attempts
+without killing them, producing no death loot or XP. Spawn eggs and ordinary
+summon commands bypass these natural-only events, and existing mobs are
+unaffected. The fixed 75% MineScape relic roll and 30 XP player-kill reward remain
+unchanged. Crimson/Warped spawning is unchanged.

@@ -179,6 +179,21 @@
             }
           }
         ]
+      },
+      "jagsby_nether:exceptionally_rare_natural_spawn": {
+        "randomize": [
+          {
+            "weight": 1
+          },
+          {
+            "weight": 999,
+            "add": {
+              "component_groups": [
+                "jagsby_nether:discard_natural_spawn"
+              ]
+            }
+          }
+        ]
       }
     }
   }
