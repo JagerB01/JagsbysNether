@@ -1,0 +1,88 @@
+{
+  "current": {
+    "rotation": [
+      147.0,
+      30.0,
+      21.0
+    ],
+    "position": [
+      0.0,
+      -4.0,
+      0.0
+    ]
+  },
+  "proposed": {
+    "rotation": [
+      164.13,
+      24.4,
+      45.71
+    ],
+    "position": [
+      1.42,
+      1.92,
+      2.67
+    ]
+  },
+  "camera": {
+    "position": [
+      0,
+      19,
+      -40
+    ],
+    "target": [
+      0,
+      16,
+      0
+    ],
+    "focal_length": 18,
+    "aspect": 1.7777777777777777
+  },
+  "base": {
+    "position": [
+      -20,
+      21,
+      0
+    ],
+    "rotation_degrees": [
+      -95,
+      45,
+      115
+    ],
+    "rotation_order": "ZYX"
+  },
+  "grip_pixel": [
+    8,
+    56
+  ],
+  "sources": {
+    "blockbench": "https://github.com/JannisX11/blockbench/blob/7c92e27d237e365110030d73e92c5d1605f0d311/js/formats/bedrock/attachable_preview.js",
+    "bedrock_import": "https://github.com/JannisX11/blockbench/blob/7c92e27d237e365110030d73e92c5d1605f0d311/js/formats/bedrock/bedrock.js"
+  },
+  "vanilla_screenshot_landmarks": {
+    "handle": [
+      0.81,
+      1.025
+    ],
+    "tip": [
+      0.725,
+      0.455
+    ]
+  },
+  "third_person": {
+    "rotation": [
+      0,
+      90,
+      0
+    ],
+    "before_position": [
+      0,
+      -5,
+      0
+    ],
+    "after_position": [
+      0,
+      -4.5,
+      0
+    ]
+  }
+}
