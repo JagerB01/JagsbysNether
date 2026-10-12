@@ -59,7 +59,8 @@
           }
         }
       },
-      "override_previous_animation": true
+      "override_previous_animation": true,
+      "blend_weight": "query.is_first_person ? 0.0 : 1.0"
     },
     "animation.jagsby_nether.rod_hold": {
       "loop": true,
@@ -85,35 +86,71 @@
         }
       }
     },
-    "animation.jagsby_nether.rod_first_person_cast": {
-      "animation_length": 0.35,
+    "animation.jagsby_nether.fishing_overhead_cast": {
       "loop": false,
+      "animation_length": 0.7,
+      "override_previous_animation": true,
       "bones": {
-        "rod": {
+        "rightarm": {
+          "rotation": {
+            "0.0": [
+              -10,
+              0,
+              0
+            ],
+            "0.18": [
+              -95,
+              -8,
+              6
+            ],
+            "0.32": [
+              -130,
+              -8,
+              6
+            ],
+            "0.43": [
+              -45,
+              0,
+              0
+            ],
+            "0.52": [
+              12,
+              0,
+              0
+            ],
+            "0.7": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "rightitem": {
           "rotation": {
             "0.0": [
               0,
               0,
               0
             ],
-            "0.09": [
-              -65,
+            "0.32": [
+              -30,
               0,
               0
             ],
-            "0.19": [
-              22,
+            "0.48": [
+              18,
               0,
               0
             ],
-            "0.35": [
+            "0.7": [
               0,
               0,
               0
             ]
           }
         }
-      }
+      },
+      "blend_weight": "query.is_first_person ? 0.0 : 1.0"
     }
   }
 }

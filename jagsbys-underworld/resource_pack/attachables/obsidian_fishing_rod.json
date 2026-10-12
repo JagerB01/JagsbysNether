@@ -16,13 +16,16 @@
       },
       "animations": {
         "hold": "animation.jagsby_nether.rod_hold",
-        "cast": "animation.jagsby_nether.rod_first_person_cast",
-        "use_controller": "controller.animation.jagsby_nether.rod_use"
+        "use_controller": "controller.animation.jagsby_nether.rod_use",
+        "vanilla_use": "animation.player.first_person.attack_rotation_item"
       },
       "scripts": {
         "animate": [
           "hold",
           "use_controller"
+        ],
+        "pre_animation": [
+          "variable.attack_time = math.clamp(query.cooldown_time_remaining('jagsby_nether:rod_swing') / 0.35, 0.0, 1.0);"
         ]
       },
       "render_controllers": [

@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.22 playtest build
+# Lava fishing — v0.2.23 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -80,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.22 and confirm both pack versions and the Content Log.
+1. Import v0.2.23 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -328,3 +328,23 @@ held sprite. Both last 0.35 seconds; a native item cooldown drives the
 first-person controller. These are custom keyframe animations, not the
 vanilla fishing rod's internal use animation. Timing and swing can be edited
 independently of the accepted rest/grip pose.
+
+## v0.2.23 native first-person item swing and overhead arm cast
+
+The script-driven arm animations have zero blend weight in first person,
+so they do not combine the overhead motion with the vanilla item swing.
+First person now references Minecraft's built-in
+animation.player.first_person.attack_rotation_item. A hand-bound rightitem
+parent receives that animation while a rod child retains the accepted
+rest pose, so the native animation's override does not erase the grip.
+The native rod-swing cooldown supplies normalized attack_time to the
+attachable; its controller stops when that cooldown ends. No custom
+first-person keyframe swing is active.
+
+Third-person casting uses a new 0.7-second overhead arm animation with a
+longer backward lift and forward sweep. Reeling retains the shorter
+0.35-second third-person arm motion. Bobber launch physics and catch timing
+remain unchanged; this revision changes visual motion only. Native asset
+references do not copy vanilla source/assets into the add-on. The editor
+preview can check the inherited resting pose but the simultaneous native
+animation and owner-arm motion still need Minecraft verification.

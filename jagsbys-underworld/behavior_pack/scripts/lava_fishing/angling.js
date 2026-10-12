@@ -84,9 +84,9 @@ export function createAnglingController({rng=Math.random}={}){
   const values=enchants?.getEnchantments?.().map(e=>[e.type.id,e.level]).sort() ?? ['lure','unbreaking','mending','luck_of_the_sea','vanishing'].map(name=>[name,level(item,name)]);
   return JSON.stringify([item?.typeId,item?.nameTag ?? '',!!durability,durability?.maxDurability ?? 0,values]);
  }
- function swing(player){
+ function swing(player,casting=false){
   try{held(player).item?.getComponent('minecraft:cooldown')?.startCooldown(player);}catch(error){console.warn(`[Underworld lava fishing] Swing cooldown unavailable: ${error}`);}
-  try{player.playAnimation('animation.jagsby_nether.fishing_use',{blendOutTime:0.05,controller:'jagsby_nether_fishing_use'});}
+  try{player.playAnimation(casting?'animation.jagsby_nether.fishing_overhead_cast':'animation.jagsby_nether.fishing_use',{blendOutTime:0.05,controller:'jagsby_nether_fishing_use'});}
   catch(error){console.warn(`[Underworld lava fishing] Rod swing unavailable: ${error}`);}
  }
  function throwSound(player){cue(player,'random.bow',player.location,{volume:0.5,pitch:0.33+Math.random()*0.17});}
@@ -130,7 +130,7 @@ export function createAnglingController({rng=Math.random}={}){
   const bobber=player.dimension.spawnEntity('jagsby_nether:lava_bobber',start);
   try{bobber.applyImpulse({x:view.x*1.75,y:view.y*1.75+0.38,z:view.z*1.75});}catch(error){bobber.remove();throw error;}
   sessions.set(player.id,{bobber,rodState,slot:equipment.slot,dimensionId:player.dimension.id,visual:start,state:'casting',startTick:tick,lastTick:tick,lure:level(equipment.item,'lure')});
-  swing(player);throwSound(player);return true;
+  swing(player,true);throwSound(player);return true;
  }
  function update(players,tick){
   const online=new Map(players.map(player=>[player.id,player]));

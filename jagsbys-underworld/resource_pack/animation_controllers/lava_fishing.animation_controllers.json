@@ -13,11 +13,11 @@
         },
         "casting": {
           "animations": [
-            "cast"
+            "vanilla_use"
           ],
           "transitions": [
             {
-              "idle": "query.all_animations_finished"
+              "idle": "query.cooldown_time_remaining('jagsby_nether:rod_swing') <= 0.0"
             }
           ],
           "blend_transition": 0.04

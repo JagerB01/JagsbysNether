@@ -5,15 +5,15 @@ import {createAnglingController,clearLegacyRodProperties,rodTip,linePoints,catch
 import {applyFishFood,updateFishEffects} from '../.build/behavior_pack/scripts/lava_fishing/fish.js';
 const json=file=>JSON.parse(readFileSync(new URL(file,import.meta.url)));
 function fixture({dimension='minecraft:nether',biome=1,mode='Survival',damage=0,maxDurability=256,chance=100,lure=0,unbreaking=0}={}){
- const properties=new Map(),rodProperties=new Map(),caught=[],caughtDrops=[],xpOrbs=[],sounds=[],particles=[],positions=[],impulses=[],animations=[],cooldowns=[],messages=[],effects=[],fires=[],experience=[],damageTaken=[];
+ const properties=new Map(),rodProperties=new Map(),caught=[],caughtDrops=[],xpOrbs=[],sounds=[],particles=[],positions=[],impulses=[],animations=[],cooldowns=[],castCooldowns=[],messages=[],effects=[],fires=[],experience=[],damageTaken=[];
  const rod={typeId:ROD,getDynamicProperty:k=>rodProperties.get(k),setDynamicProperty:(k,v)=>v===undefined?rodProperties.delete(k):rodProperties.set(k,v),getComponent(type){if(type==='minecraft:cooldown')return {startCooldown:player=>cooldowns.push(player.id)};if(type==='minecraft:durability')return durability;if(type==='minecraft:enchantable')return {getEnchantment:name=>({level:name==='lure'?lure:name==='unbreaking'?unbreaking:0})};}};
  const durability={damage,maxDurability,getDamageChance:()=>chance};
  const inventory=new Map([[0,rod]]);const container={getItem:slot=>inventory.get(slot),setItem:(slot,value)=>inventory.set(slot,value),addItem:item=>{caught.push(item);return undefined;}};
  const lava={typeId:'minecraft:lava',isAir:false,location:{x:0,y:31,z:8},permutation:{getState:()=>0}};
  const bobber={location:{x:0,y:31.9,z:8},applyImpulse:v=>impulses.push(v),clearVelocity(){},isOnGround:false,isValid:true,removed:0,events:[],teleport(p){positions.push(p);this.location=p;},triggerEvent(event){this.events.push(event);},getProperty:()=>biome,setProperty(){},remove(){this.removed++;this.isValid=false;}};
  const dim={id:dimension,entities:[],getBlock(p){return p.y<=31?lava:{typeId:'minecraft:air',isAir:true};},spawnEntity(type,p){if(type==='minecraft:xp_orb'){xpOrbs.push({type,p});return {};}this.entities.push({type,p});bobber.isValid=true;return bobber;},playSound:(id,p,options)=>sounds.push({id,p,options}),spawnParticle:(id,p)=>particles.push({id,p}),spawnItem(item,p){caught.push(item);const drop={position:p,velocity:undefined,cleared:false,clearVelocity(){this.cleared=true;},applyImpulse(v){this.velocity=v;}};caughtDrops.push(drop);return drop;},getEntities:()=>[]};
- const player={id:'angler',typeId:'minecraft:player',selectedSlotIndex:0,location:{x:0,y:32,z:0},dimension:dim,getGameMode:()=>mode,getRotation:()=>({x:0,y:0}),playAnimation:(id,options)=>animations.push({id,options}),getComponent:()=>({container}),getBlockFromViewDirection:options=>{assert.equal(options.includeLiquidBlocks,true);return {block:lava,faceLocation:{x:0.5,z:0.5}};},getHeadLocation:()=>({x:0,y:33.6,z:0}),getViewDirection:()=>({x:0,y:-0.3,z:Math.sqrt(0.91)}),addExperience:n=>experience.push(n),onScreenDisplay:{setActionBar:m=>messages.push(m)},addEffect:(...args)=>effects.push(args),setOnFire:(...args)=>fires.push(args),setDynamicProperty:(k,v)=>properties.set(k,v),getDynamicProperty:k=>properties.get(k),applyDamage:(...args)=>damageTaken.push(args),getVelocity:()=>({y:-0.2}),teleport:p=>positions.push(p),applyImpulse:p=>positions.push(p)};
- return {player,dim,bobber,lava,inventory,rod,durability,caught,caughtDrops,xpOrbs,experience,effects,fires,properties,rodProperties,positions,impulses,animations,cooldowns,messages,sounds,particles,damageTaken};
+ const player={id:'angler',typeId:'minecraft:player',selectedSlotIndex:0,location:{x:0,y:32,z:0},dimension:dim,getGameMode:()=>mode,getRotation:()=>({x:0,y:0}),playAnimation:(id,options)=>animations.push({id,options}),startItemCooldown:(category,ticks)=>castCooldowns.push({category,ticks}),getComponent:()=>({container}),getBlockFromViewDirection:options=>{assert.equal(options.includeLiquidBlocks,true);return {block:lava,faceLocation:{x:0.5,z:0.5}};},getHeadLocation:()=>({x:0,y:33.6,z:0}),getViewDirection:()=>({x:0,y:-0.3,z:Math.sqrt(0.91)}),addExperience:n=>experience.push(n),onScreenDisplay:{setActionBar:m=>messages.push(m)},addEffect:(...args)=>effects.push(args),setOnFire:(...args)=>fires.push(args),setDynamicProperty:(k,v)=>properties.set(k,v),getDynamicProperty:k=>properties.get(k),applyDamage:(...args)=>damageTaken.push(args),getVelocity:()=>({y:-0.2}),teleport:p=>positions.push(p),applyImpulse:p=>positions.push(p)};
+ return {player,dim,bobber,lava,inventory,rod,durability,caught,caughtDrops,xpOrbs,experience,effects,fires,properties,rodProperties,positions,impulses,animations,cooldowns,castCooldowns,messages,sounds,particles,damageTaken};
 }
 function bite(controller,f,start=0){assert.equal(controller.use(f.player,start),true);for(const tick of [start+12,start+14,start+114,start+134])controller.update([f.player],tick);assert.equal(controller.sessions.get(f.player.id).state,'bite');}
 test('uploaded Java loot tables and fishing-only scope determine the pools',()=>{
@@ -177,7 +177,7 @@ test('cast releases above the rod-side shoulder when looking down, with one swin
  assert(c.use(f.player,0));
  const start=f.dim.entities[0].p,head=f.player.getHeadLocation();
  assert.equal(start.y,head.y+0.35);assert.equal(start.x,head.x-0.35);
- assert.equal(f.animations.length,1);assert.equal(f.animations[0].id,'animation.jagsby_nether.fishing_use');
+ assert.equal(f.animations.length,1);assert.equal(f.animations[0].id,'animation.jagsby_nether.fishing_overhead_cast');
  assert.equal(c.use(f.player,0),false);assert.equal(f.animations.length,1);
  c.use(f.player,5);assert.equal(f.animations.length,2);
 });
@@ -262,4 +262,12 @@ test('casting does not write custom item properties, and legacy IDs are removed 
  legacy.durability.damage=20;clearLegacyRodProperties(legacy.player);
  assert(!legacy.rodProperties.has('jagsby_nether:rod_id'));assert.equal(legacy.rodProperties.get('other:addon'),'keep');
  assert.equal(legacy.durability.damage,20);assert.equal(legacy.inventory.get(0),legacy.rod);
+});
+
+test('casting selects the slow overhead cue and reeling keeps the shorter arm swing',()=>{
+ const f=fixture(),c=createAnglingController();c.use(f.player,0);
+ assert.deepEqual(f.cooldowns,[f.player.id]);
+ assert.equal(f.animations[0].id,'animation.jagsby_nether.fishing_overhead_cast');
+ c.use(f.player,8);assert.equal(f.cooldowns.length,2);
+ assert.equal(f.animations[1].id,'animation.jagsby_nether.fishing_use');
 });

@@ -16,13 +16,22 @@
       },
       "bones": [
         {
-          "name": "rod",
+          "name": "rightitem",
           "binding": "query.item_slot_to_bone_name(context.item_slot)",
           "pivot": [
             0,
             24,
             0
           ]
+        },
+        {
+          "name": "rod",
+          "pivot": [
+            0,
+            24,
+            0
+          ],
+          "parent": "rightitem"
         },
         {
           "name": "rod_sprite",
