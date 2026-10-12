@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.25
+# Skitterchests — v0.2.26
 
 Only the three chest pets and their models, textures, animations and spawn eggs
 are adapted from the supplied NetherPlus Add-on MA v3 by BubbleStudio and
@@ -26,3 +26,7 @@ In-game checks: spawn each egg, open and fill all three chests, tame Crimson and
 Warped with Netherite Scrap, confirm Blackstone stays untameable, confirm no
 riding prompt or breeding, and leave/reload to check stored items. Natural
 spawning, storage UI and pet interactions require Bedrock playtesting.
+
+## Storage controls
+
+Crouch and interact to open the native 27-slot chest screen, including on Blackstone. Standing interaction toggles sit/stand on tamed Crimson and Warped. Wild Crimson/Warped still tame with Netherite Scrap while standing. Sitting prevents walking and jumping; crouching storage access leaves that state unchanged. No rideable component is present. The native chest-minecart runtime is used only to supply container interaction; movement remains the custom mob navigation. Verify this runtime combination in Bedrock, including existing pets after updating.

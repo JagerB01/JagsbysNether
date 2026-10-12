@@ -1,11 +1,23 @@
 {
-  "format_version": "1.16.200",
+  "format_version": "1.21.100",
   "minecraft:entity": {
     "description": {
       "identifier": "jagsby_nether:warped_skitterchest",
       "is_spawnable": true,
       "is_summonable": true,
-      "is_experimental": false
+      "is_experimental": false,
+      "runtime_identifier": "minecraft:chest_minecart",
+      "properties": {
+        "jagsby_nether:sitting": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "jagsby_nether:tamed": {
+          "type": "bool",
+          "default": false
+        }
+      }
     },
     "component_groups": {
       "minecraft:wolf_adult": {
@@ -131,7 +143,6 @@
           "value": 60,
           "max": 60
         },
-        "minecraft:sittable": {},
         "minecraft:behavior.follow_owner": {
           "priority": 6,
           "speed_multiplier": 1,
@@ -186,6 +197,14 @@
       },
       "jagsby_nether:persistent_storage": {
         "minecraft:persistent": {}
+      },
+      "jagsby_nether:sitting": {
+        "minecraft:movement": {
+          "value": 0
+        },
+        "minecraft:jump.static": {
+          "jump_power": 0
+        }
       }
     },
     "components": {
@@ -248,9 +267,6 @@
       "minecraft:behavior.float": {
         "priority": 0
       },
-      "minecraft:behavior.stay_while_sitting": {
-        "priority": 3
-      },
       "minecraft:behavior.leap_at_target": {
         "priority": 4,
         "target_dist": 0.4
@@ -310,6 +326,9 @@
           "component_groups": [
             "minecraft:wolf_tame"
           ]
+        },
+        "set_property": {
+          "jagsby_nether:tamed": true
         }
       },
       "minecraft:become_angry": {
@@ -342,6 +361,42 @@
             "jagsby_nether:persistent_storage"
           ]
         }
+      },
+      "jagsby_nether:sit": {
+        "sequence": [
+          {
+            "filters": {
+              "test": "is_tamed",
+              "value": true
+            },
+            "add": {
+              "component_groups": [
+                "jagsby_nether:sitting"
+              ]
+            },
+            "set_property": {
+              "jagsby_nether:sitting": true
+            }
+          }
+        ]
+      },
+      "jagsby_nether:stand": {
+        "sequence": [
+          {
+            "filters": {
+              "test": "is_tamed",
+              "value": true
+            },
+            "remove": {
+              "component_groups": [
+                "jagsby_nether:sitting"
+              ]
+            },
+            "set_property": {
+              "jagsby_nether:sitting": false
+            }
+          }
+        ]
       }
     }
   }

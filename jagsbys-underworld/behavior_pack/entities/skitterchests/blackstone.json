@@ -1,11 +1,23 @@
 {
-  "format_version": "1.16.200",
+  "format_version": "1.21.100",
   "minecraft:entity": {
     "description": {
       "identifier": "jagsby_nether:blackstone_skitterchest",
       "is_spawnable": true,
       "is_summonable": true,
-      "is_experimental": false
+      "is_experimental": false,
+      "runtime_identifier": "minecraft:chest_minecart",
+      "properties": {
+        "jagsby_nether:sitting": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "jagsby_nether:tamed": {
+          "type": "bool",
+          "default": false
+        }
+      }
     },
     "component_groups": {
       "minecraft:wolf_adult": {
@@ -119,6 +131,14 @@
       },
       "jagsby_nether:persistent_storage": {
         "minecraft:persistent": {}
+      },
+      "jagsby_nether:sitting": {
+        "minecraft:movement": {
+          "value": 0
+        },
+        "minecraft:jump.static": {
+          "jump_power": 0
+        }
       }
     },
     "components": {
@@ -260,6 +280,42 @@
             "jagsby_nether:persistent_storage"
           ]
         }
+      },
+      "jagsby_nether:sit": {
+        "sequence": [
+          {
+            "filters": {
+              "test": "is_tamed",
+              "value": true
+            },
+            "add": {
+              "component_groups": [
+                "jagsby_nether:sitting"
+              ]
+            },
+            "set_property": {
+              "jagsby_nether:sitting": true
+            }
+          }
+        ]
+      },
+      "jagsby_nether:stand": {
+        "sequence": [
+          {
+            "filters": {
+              "test": "is_tamed",
+              "value": true
+            },
+            "remove": {
+              "component_groups": [
+                "jagsby_nether:sitting"
+              ]
+            },
+            "set_property": {
+              "jagsby_nether:sitting": false
+            }
+          }
+        ]
       }
     }
   }

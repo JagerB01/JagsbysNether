@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {components, itemComponents, startup, world, system, intervals, jobs} from './mock-server.mjs';
+import {components, itemComponents, startup, world, system, intervals, jobs, flush} from './mock-server.mjs';
 import {worldFixture, playerFixture} from './fixtures.mjs';
 import {RECORD_PREFIX} from '../.build/behavior_pack/scripts/settlements/navigation.js';
 import '../.build/behavior_pack/scripts/main.js';
@@ -67,4 +67,48 @@ test('using Skitterchest storage retains each variant without affecting other mo
     typeId: 'minecraft:cow', triggerEvent() { assert.fail('unrelated mob changed'); },
   }});
   assert.deepEqual(retained, Array(3).fill('jagsby_nether:retain_storage'));
+});
+
+test('standing use toggles tamed pets without opening storage; crouching keeps native access', () => {
+  for (const sitting of [false, true]) {
+    const calls = [];
+    const target = {
+      typeId: 'jagsby_nether:crimson_skitterchest',
+      getProperty(name) { return name.endsWith(':tamed') || sitting; },
+      hasComponent() { return true; },
+      triggerEvent(name) { calls.push(name); },
+    };
+    const standing = {target, player: {isSneaking: false}, cancel: false};
+    world.beforeEvents.playerInteractWithEntity.emit(standing);
+    assert.equal(standing.cancel, true);
+    assert.deepEqual(calls, []); // Before-events are read-only: mutations defer.
+    flush();
+    assert.deepEqual(calls, ['jagsby_nether:retain_storage', `jagsby_nether:${sitting ? 'stand' : 'sit'}`]);
+    calls.length = 0;
+    const crouching = {target, player: {isSneaking: true}, cancel: false};
+    world.beforeEvents.playerInteractWithEntity.emit(crouching);
+    flush();
+    assert.equal(crouching.cancel, false);
+    assert.deepEqual(calls, []);
+  }
+});
+
+test('Scrap taming stays available while Blackstone and other mobs cannot enter pet controls', () => {
+  function target(typeId) {
+    return {typeId, getProperty() {return false;}, hasComponent() {return false;},
+      triggerEvent() {assert.fail('wild mob received sit/stand');}};
+  }
+  for (const variant of ['crimson', 'warped', 'blackstone']) {
+    const use = {target: target(`jagsby_nether:${variant}_skitterchest`),
+      player: {isSneaking: false}, itemStack: {typeId: 'minecraft:netherite_scrap'}, cancel: false};
+    world.beforeEvents.playerInteractWithEntity.emit(use);
+    assert.equal(use.cancel, variant === 'blackstone');
+    const crouching = {...use, player: {isSneaking: true}, cancel: false};
+    world.beforeEvents.playerInteractWithEntity.emit(crouching);
+    assert.equal(crouching.cancel, false);
+  }
+  const cow = {target: target('minecraft:cow'), player: {isSneaking: false}, cancel: false};
+  world.beforeEvents.playerInteractWithEntity.emit(cow);
+  assert.equal(cow.cancel, false);
+  flush();
 });

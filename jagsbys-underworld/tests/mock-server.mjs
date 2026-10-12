@@ -18,7 +18,7 @@ export const world = {
   setDynamicProperty(key, value) { properties.set(key, value); },
   getDynamicPropertyIds() { return [...properties.keys()]; },
   getAllPlayers() { return []; },
-  beforeEvents: {playerInteractWithBlock: signal()},
+  beforeEvents: {playerInteractWithEntity: signal(), playerInteractWithBlock: signal()},
   afterEvents: {playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
 };
 const pending = [];
