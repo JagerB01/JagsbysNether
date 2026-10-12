@@ -1,4 +1,4 @@
-Jagsby's Underworld v0.2.28 — combined personal test build.
+Jagsby's Underworld v0.2.29 — combined personal test build.
 
 Village subsystem: Jagsby's Nether Settlements v0.8.24, including its original
 structures, source notices and license. The complete original release notes

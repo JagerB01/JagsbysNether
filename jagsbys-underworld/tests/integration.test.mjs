@@ -115,3 +115,16 @@ test('Scrap taming stays available while Blackstone and other mobs cannot enter 
   assert.equal(cow.cancel, false);
   flush();
 });
+
+
+test('Skitterchest names give native storage a title without renaming other mobs or player-named pets',()=>{
+ for(const signal of [world.afterEvents.entitySpawn,world.afterEvents.entityLoad]){
+  for(const variant of ['crimson','warped']){
+   const entity={typeId:`jagsby_nether:${variant}_skitterchest`,nameTag:''};
+   signal.emit({entity});assert.equal(entity.nameTag,'Skitterchest');
+   entity.nameTag='My pet';signal.emit({entity});assert.equal(entity.nameTag,'My pet');
+  }
+  const minecart={typeId:'minecraft:chest_minecart',nameTag:''};
+  signal.emit({entity:minecart});assert.equal(minecart.nameTag,'');
+ }
+});

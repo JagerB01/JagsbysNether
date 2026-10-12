@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
-import {createAnglingController,clearLegacyRodProperties,rodTip,linePoints,catchFish,fishPool,FISH,ROD} from '../.build/behavior_pack/scripts/lava_fishing/angling.js';
+import {createAnglingController,lavaCatchXp,clearLegacyRodProperties,rodTip,linePoints,catchFish,fishPool,FISH,ROD} from '../.build/behavior_pack/scripts/lava_fishing/angling.js';
 import {applyFishFood,updateFishEffects} from '../.build/behavior_pack/scripts/lava_fishing/fish.js';
 const json=file=>JSON.parse(readFileSync(new URL(file,import.meta.url)));
 function fixture({dimension='minecraft:nether',biome=1,mode='Survival',damage=0,maxDurability=256,chance=100,lure=0,unbreaking=0}={}){
@@ -33,7 +33,7 @@ test('nested base table retains 34/33/33 weights and excludes Nether specialists
 });
 test('cast, classify, approach, bite and reel give exactly one fish, XP and one durability',()=>{
  const f=fixture(),controller=createAnglingController({rng:()=>0});bite(controller,f);
- assert.equal(controller.use(f.player,135),true);assert.equal(f.caught.length,1);assert.equal(f.caught[0].typeId,'jagsby_nether:flame_squat_lobster');assert.equal(f.durability.damage,1);assert.equal(f.xpOrbs.length,1);assert.deepEqual(f.experience,[]);assert.equal(f.bobber.removed,1);assert.equal(controller.sessions.size,0);
+ assert.equal(controller.use(f.player,135),true);assert.equal(f.caught.length,1);assert.equal(f.caught[0].typeId,'jagsby_nether:flame_squat_lobster');assert.equal(f.durability.damage,1);assert.equal(f.xpOrbs.length,2);assert.deepEqual(f.experience,[]);assert.equal(f.bobber.removed,1);assert.equal(controller.sessions.size,0);
  assert.equal(controller.use(f.player,135),false);assert.equal(f.dim.entities.length,1);
 });
 test('duplicate native use events neither reel early nor immediately recast',()=>{
@@ -217,7 +217,7 @@ for(const unbreaking of [1,2,3])test(`Unbreaking ${unbreaking} is passed to the 
 });
 test('catch XP uses native orbs so pickup can mend eligible equipment; failed reels give no XP',()=>{
  const f=fixture(),c=createAnglingController({rng:()=>0});bite(c,f);c.use(f.player,135);
- assert.equal(f.xpOrbs.length,1);assert.equal(f.experience.length,0);
+ assert.equal(f.xpOrbs.length,2);assert.equal(f.experience.length,0);
  const empty=fixture(),early=createAnglingController();early.use(empty.player,0);early.use(empty.player,5);
  assert.equal(empty.xpOrbs.length,0);
 });
@@ -270,4 +270,16 @@ test('casting selects the slow overhead cue and reeling keeps the shorter arm sw
  assert.equal(f.animations[0].id,'animation.jagsby_nether.fishing_overhead_cast');
  c.use(f.player,8);assert.equal(f.cooldowns.length,2);
  assert.equal(f.animations[1].id,'animation.jagsby_nether.fishing_use');
+});
+
+
+test('lava fishing scales every vanilla XP roll by 1.5 with unbiased integer rounding',()=>{
+ for(let vanilla=1;vanilla<=6;vanilla++){
+  const outcomes=[0.25,0.75].map(rounding=>{
+   let calls=0;
+   return lavaCatchXp(()=>calls++===0?(vanilla-.5)/6:rounding);
+  });
+  assert.equal((outcomes[0]+outcomes[1])/2,vanilla*1.5);
+  assert(outcomes.every(Number.isInteger));
+ }
 });

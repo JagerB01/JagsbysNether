@@ -5,6 +5,22 @@ const tameableChests = new Set([
   'jagsby_nether:warped_skitterchest',
 ]);
 const blackstone = 'jagsby_nether:blackstone_skitterchest';
+
+// Native container titles use the entity's custom name. Do not rename vanilla
+// minecarts or replace names deliberately applied by players.
+function nameStoragePet(entity) {
+  if (tameableChests.has(entity.typeId) && !entity.nameTag) entity.nameTag = 'Skitterchest';
+}
+world.afterEvents.entitySpawn.subscribe(({entity}) => nameStoragePet(entity));
+world.afterEvents.entityLoad.subscribe(({entity}) => nameStoragePet(entity));
+system.run(() => {
+  for (const dimension of ['overworld', 'nether', 'the_end']) {
+    for (const type of tameableChests) {
+      for (const entity of world.getDimension(dimension).getEntities({type})) nameStoragePet(entity);
+    }
+  }
+});
+
 const isTamed = target => target.getProperty('jagsby_nether:tamed') === true
   || target.hasComponent('minecraft:is_tamed');
 
@@ -35,6 +51,9 @@ world.beforeEvents.playerInteractWithEntity.subscribe(event => {
 world.afterEvents.playerInteractWithEntity.subscribe(({target}) => {
   if (!tameableChests.has(target.typeId)) return;
   try {
-    if (isTamed(target)) target.triggerEvent('jagsby_nether:retain_storage');
+    if (isTamed(target)) {
+      nameStoragePet(target);
+      target.triggerEvent('jagsby_nether:retain_storage');
+    }
   } catch (error) { console.warn(`[Underworld Skitterchests] ${error}`); }
 });

@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.28 playtest build
+# Lava fishing — v0.2.29 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -80,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.28 and confirm both pack versions and the Content Log.
+1. Import v0.2.29 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -359,3 +359,7 @@ seconds, and a settling state waits for cooldown expiry before rearming,
 preventing replay if the client timer and server cooldown end differently.
 The native motion asset, resting pose, third-person overhead animation,
 casting physics and catches are unchanged. Check smoothness in Minecraft.
+
+## v0.2.29 lava XP bonus
+
+Successful lava catches roll vanilla fishing’s 1–6 XP and multiply by 1.5. Half points round up/down with equal probability, for an exact 1.5× average (5.25 XP per catch, possible integer rewards 1–9). XP still uses native orbs for Mending. Failed and empty reels give no XP.

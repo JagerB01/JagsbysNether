@@ -13,13 +13,14 @@ export const components = new Map();
 export const itemComponents = new Map();
 const properties = new Map();
 export const world = {
+  getDimension() { return {getEntities() { return []; }}; },
   getPlayers() { return []; },
   getDynamicProperty(key) { return properties.get(key); },
   setDynamicProperty(key, value) { properties.set(key, value); },
   getDynamicPropertyIds() { return [...properties.keys()]; },
   getAllPlayers() { return []; },
   beforeEvents: {playerInteractWithEntity: signal(), playerInteractWithBlock: signal()},
-  afterEvents: {playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
+  afterEvents: {entitySpawn: signal(), entityLoad: signal(), playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
 };
 const pending = [];
 export const intervals = [], jobs = [];

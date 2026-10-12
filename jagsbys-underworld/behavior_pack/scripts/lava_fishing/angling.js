@@ -4,6 +4,11 @@ import {ItemStack} from '@minecraft/server';
 export const ROD='jagsby_nether:obsidian_fishing_rod';
 export const FISH=['flame_squat_lobster','obsidian_sword_fish','steam_flying_fish','agni_fish','arowana_fish','quartz_fish','scaly_foot_snail','yeti_crab','lava_lamprey'];
 const LAVA=new Set(['minecraft:lava','minecraft:flowing_lava']);
+// XP is integral: randomly round half points to retain an exact 1.5x mean.
+export function lavaCatchXp(rng=Math.random){
+ const scaled=range(rng,1,6)*1.5;
+ return Math.floor(scaled)+(scaled%1>0 && rng()<scaled%1 ? 1 : 0);
+}
 export function isLava(block){return !!block && LAVA.has(block.typeId);}
 export function read(dimension,position){try{return dimension.getBlock({x:Math.floor(position.x),y:Math.floor(position.y),z:Math.floor(position.z)});}catch{return undefined;}}
 export function fishPool(dimension,biome){
@@ -113,7 +118,7 @@ export function createAnglingController({rng=Math.random}={}){
      if(durability && rng()*100<chance){durability.damage++;equipment.container.setItem(equipment.slot,durability.damage>=durability.maxDurability?undefined:equipment.item);}
     }
     // Native XP pickup lets Minecraft handle Mending and XP distribution.
-    const xp=range(rng,1,6);
+    const xp=lavaCatchXp(rng);
     for(let orb=0;orb<xp;orb++)player.dimension.spawnEntity('minecraft:xp_orb',{...player.location,y:player.location.y+0.5});
     cue(player,'liquid.lavapop',player.location,{volume:0.9,pitch:1.2});
     cue(player,'random.fizz',player.location,{volume:0.35,pitch:1.6});
