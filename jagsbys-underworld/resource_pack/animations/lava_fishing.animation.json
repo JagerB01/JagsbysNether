@@ -71,9 +71,9 @@
             "context.is_first_person ? 34.72 : 0"
           ],
           "position": [
-            "context.is_first_person ? 2.36 : 0",
-            "context.is_first_person ? 0.736 : -4.5",
-            "context.is_first_person ? 5.427 : 0"
+            "context.is_first_person ? 3.613 : 0",
+            "context.is_first_person ? -0.843 : -4.5",
+            "context.is_first_person ? 9.103 : 0"
           ]
         },
         "rod_sprite": {

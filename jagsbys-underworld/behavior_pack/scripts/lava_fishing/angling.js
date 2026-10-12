@@ -52,6 +52,19 @@ export function linePoints(start,end){
  });
 }
 
+// Reference tip from the bound sprite's pixel (49,9), accepted 30-degree
+// shaft angle and Blockbench's third-person arm transform. Script API cannot
+// read client bone locators, so this remains a model-based world approximation.
+export function rodTip(player){
+ const yaw=player.getRotation().y*Math.PI/180;
+ const forward={x:-Math.sin(yaw),z:Math.cos(yaw)},right={x:-forward.z,z:forward.x};
+ const head=player.getHeadLocation(),view=player.getViewDirection();
+ const crouch=Math.max(0,1.62-(head.y-player.location.y));
+ return {x:player.location.x+right.x*0.375+forward.x*0.934522,
+         y:player.location.y+1.20811-crouch+view.y*0.2,
+         z:player.location.z+right.z*0.375+forward.z*0.934522};
+}
+
 export function createAnglingController({rng=Math.random}={}){
  const sessions=new Map(),lastUses=new Map();let serial=0;
  function cancel(id){const session=sessions.get(id);if(!session)return;try{session.bobber.remove();}catch{/* Already unloaded/removed. */}sessions.delete(id);}
@@ -89,7 +102,7 @@ export function createAnglingController({rng=Math.random}={}){
     cue(player,'liquid.lavapop',player.location,{volume:0.9,pitch:1.2});
     cue(player,'random.fizz',player.location,{volume:0.35,pitch:1.6});
    }
-   swing(player);throwSound(player);cancel(player.id);return true;
+   swing(player);cancel(player.id);return true;
   }
   let rodId=identity(equipment.item);
   if(!rodId){rodId=`${player.id}:${tick}:${serial++}`;equipment.item.setDynamicProperty('jagsby_nether:rod_id',rodId);equipment.container.setItem(equipment.slot,equipment.item);}
@@ -151,8 +164,7 @@ export function createAnglingController({rng=Math.random}={}){
     }
     if(['classifying','waiting','approaching','bite'].includes(s.state)){s.bobber.clearVelocity();s.bobber.teleport(s.visual,{rotation:{x:0,y:0}});}
     try{
-     const head=player.getHeadLocation(),view=player.getViewDirection(),horizontal=Math.hypot(view.x,view.z)||1;
-     const tip={x:head.x-view.z/horizontal*0.75+view.x*0.8,y:head.y-0.28+view.y*0.2,z:head.z+view.x/horizontal*0.75+view.z*0.8};
+     const tip=rodTip(player);
      const hook={...s.visual,y:s.visual.y+0.22};
      for(const point of linePoints(tip,hook))particle(player.dimension,'jagsby_nether:fishing_line',point);
     }catch(error){if(!s.lineWarning){console.warn(`[Underworld lava fishing] Line update failed: ${error}`);s.lineWarning=true;}}

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
-import {createAnglingController,linePoints,catchFish,fishPool,FISH,ROD} from '../.build/behavior_pack/scripts/lava_fishing/angling.js';
+import {createAnglingController,rodTip,linePoints,catchFish,fishPool,FISH,ROD} from '../.build/behavior_pack/scripts/lava_fishing/angling.js';
 import {applyFishFood,updateFishEffects} from '../.build/behavior_pack/scripts/lava_fishing/fish.js';
 const json=file=>JSON.parse(readFileSync(new URL(file,import.meta.url)));
 function fixture({dimension='minecraft:nether',biome=1,mode='Survival',damage=0,maxDurability=256,chance=100,lure=0,unbreaking=0}={}){
@@ -147,9 +147,9 @@ test('Nether biome classification uses native tags rather than the limited is_bi
  assert.equal(entity.components['minecraft:damage_sensor'].triggers[0].deals_damage,'no');
 });
 
-test('cast and retrieval use vanilla throwing sound settings, while bites use hook splash settings',()=>{
+test('only casting plays the throwing sound, while bites use hook splash settings',()=>{
  const f=fixture(),c=createAnglingController({rng:()=>0});bite(c,f);c.use(f.player,135);
- const throws=f.sounds.filter(s=>s.id==='random.bow');assert.equal(throws.length,2);
+ const throws=f.sounds.filter(s=>s.id==='random.bow');assert.equal(throws.length,1);
  for(const sound of throws){assert.equal(sound.options.volume,0.5);assert(sound.options.pitch>=0.33&&sound.options.pitch<=0.5);}
  for(const sound of f.sounds.filter(s=>s.id==='random.splash'))assert.equal(sound.options.volume,0.25);
 });
@@ -228,4 +228,22 @@ test('held sprite is bound at the handle and client swing controller uses the na
  const controller=json('../resource_pack/animation_controllers/lava_fishing.animation_controllers.json').animation_controllers['controller.animation.jagsby_nether.rod_use'];
  assert(controller.states.idle.transitions[0].casting.includes('context.is_first_person'));
  assert(controller.states.idle.transitions[0].casting.includes('query.cooldown_time_remaining'));
+});
+
+test('reeling early or after a bite never repeats the casting sound',()=>{
+ for(const caught of [false,true]){
+  const f=fixture(),c=createAnglingController({rng:()=>0});
+  if(caught)bite(c,f);else c.use(f.player,0);
+  const before=f.sounds.length;c.use(f.player,caught?135:5);
+  assert(!f.sounds.slice(before).some(s=>s.id==='random.bow'));
+ }
+});
+test('line origin follows model-tip yaw, crouch and vertical aim without a zero-length yaw vector',()=>{
+ const f=fixture();f.player.getViewDirection=()=>({x:0,y:0,z:1});
+ const front=rodTip(f.player);assert(front.x<f.player.location.x);assert(front.z>f.player.location.z);
+ f.player.getRotation=()=>({x:0,y:90});const turned=rodTip(f.player);
+ assert(Math.abs(Math.hypot(front.x,front.z)-Math.hypot(turned.x,turned.z))<1e-6);
+ f.player.getHeadLocation=()=>({x:0,y:33.2,z:0});assert(rodTip(f.player).y<front.y);
+ f.player.getViewDirection=()=>({x:0,y:-1,z:0});
+ assert(Object.values(rodTip(f.player)).every(Number.isFinite));
 });
