@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.37 native-screen test build
+# Skitterchests — v0.2.38 native-screen test build
 
 This build removes the custom ActionForm storage menu entirely. Standing
 interaction with a tamed Crimson/Warped opens a real native 27-slot container;
@@ -12,9 +12,11 @@ The visible Skitterchest retains its custom model, ordinary mob runtime and AI.
 Each tamed pet receives a separate hidden, non-colliding native storage entity.
 The helper follows it every tick and presents the native interaction target. The
 pet pauses while the inventory is open, then resumes its previous seated or
-standing state. No player riding is enabled. Neither pet nor helper is assigned
-an overhead name. The native title may still use its default Minecart with Chest
-label; title customization is secondary to verifying the real inventory screen.
+standing state. No player riding is enabled. The visible pet has no overhead
+name. The hidden helper uses a formatting-only title marker with no visible
+letters, giving its native window a blank heading as requested. This does not
+change any resource-pack UI or other container titles. Native slots, input,
+drag/drop and storage remain unchanged.
 
 Existing 27-slot contents migrate slot-for-slot to the native container, including
 item data. Copying completes before original slots are cleared; interrupted
@@ -27,7 +29,8 @@ helper with an owner-dead marker for retry after load. The native before-hurt ev
 cancels hits to the helper and forwards calculated damage and attacker to the pet,
 so its own health, defense and XP rules remain in control.
 
-Only this native-screen integration is new. Untamed Crimson/Warped retain their
+v0.2.38 changes only the native window title. The user confirmed the v0.2.37
+native inventory and other behavior work in-game. Untamed Crimson/Warped retain their
 4-block hostile detection range and 10 XP player-kill reward. Blackstone flees
 within 8 blocks and gives 30 XP. Lava avoidance, fire immunity, one-block traversal,
 retracting legs, no breeding and no riding remain in place. Netherite Scrap tames
@@ -38,10 +41,11 @@ archive; provenance and sound hashes are in docs/skitterchests.
 
 ## Required in-game checks
 
-This environment cannot run the Bedrock client. The native inventory backend is
-the same container type previously confirmed to open in-game, but the hidden
-helper and interaction overlap require an actual client check. This is a native
-screen test build, not a claim of verified gameplay restoration.
+This environment cannot run the Bedrock client. The user confirmed the native
+inventory works in v0.2.37. The v0.2.38 blank title still needs client
+verification: confirm the Minecart with Chest heading is gone, no overhead text
+appears, and a regular chest minecart keeps its normal title. Automated checks
+cannot verify the engine renders a formatting-only name as blank.
 
 1. Tame a fresh Crimson/Warped. Confirm custom model, movement and no visible helper.
 2. Stand and interact: confirm Minecraft's actual chest grid, player inventory,
@@ -54,4 +58,4 @@ screen test build, not a claim of verified gameplay restoration.
 Requires Bedrock 26.50+ and stable server 2.10.0 (target: user version 26.52).
 No server-ui dependency, horse runtime on the mob, or custom storage menu remains.
 
-The helper’s unique skin marker 99137 selects zero client render scale, including the inherited vanilla chest-minecart client definition. Normal chest minecarts retain scale 1. This does not shrink the server interaction hitbox or assign an overhead name. Invisibility potion effects are not required.
+The helper’s unique skin marker 99137 selects zero client render scale, including the inherited vanilla chest-minecart client definition. Normal chest minecarts retain scale 1. This does not shrink the server interaction hitbox or add visible overhead text. Invisibility potion effects are not required.

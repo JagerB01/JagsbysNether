@@ -1,5 +1,8 @@
 import {world,system} from '@minecraft/server';
 export const STORAGE='jagsby_nether:skitterchest_storage';
+// A nonempty formatting-only name replaces the native Minecart with Chest
+// fallback title without adding any visible letters to the window or world.
+export const TITLE_MARKER='§r';
 const PETS=new Set(['jagsby_nether:crimson_skitterchest','jagsby_nether:warped_skitterchest']);
 const LINK='jagsby_nether:storage_entity',OWNER='jagsby_nether:storage_owner';
 const tracked=new Map(),viewers=new Map(),waiting=new Map(),links=new Map();
@@ -36,6 +39,7 @@ export function ensureStorage(pet){
   box.setDynamicProperty(OWNER,pet.id);
   pet.setDynamicProperty(LINK,box.id);
  }
+ box.nameTag=TITLE_MARKER;
  if(!pet.getDynamicProperty('jagsby_nether:storage_migrated')){
   moveInventory(inventory(pet),inventory(box));
   pet.setDynamicProperty('jagsby_nether:storage_migrated',true);
@@ -52,6 +56,7 @@ function register(entity){
   const dead=world.getDynamicProperty(DEAD+entity.id);
   if(dead==='discard'){entity.remove();world.setDynamicProperty(DEAD+entity.id,undefined);return;}
   if(dead==='drop'||entity.getDynamicProperty('jagsby_nether:owner_dead')){dropStorage(entity);return;}
+  entity.nameTag=TITLE_MARKER;
   const pet=storageOwner(entity);
   if(pet)tracked.set(pet.id,{pet,box:entity,migrated:!!pet.getDynamicProperty('jagsby_nether:storage_migrated')});
  }

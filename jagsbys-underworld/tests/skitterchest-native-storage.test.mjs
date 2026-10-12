@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {world,system,entities,flush,intervals} from './mock-server.mjs';
-import {STORAGE,ensureStorage,moveInventory} from '../behavior_pack/scripts/skitterchest_native_storage.js';
+import {STORAGE,TITLE_MARKER,ensureStorage,moveInventory} from '../behavior_pack/scripts/skitterchest_native_storage.js';
 let next=0;
 function bag(){const slots=Array(27);return {size:27,clearAll(){slots.fill(undefined);},getItem:i=>slots[i],setItem(i,v){slots[i]=v;}};}
 function fixture(){
@@ -84,4 +84,28 @@ test('a death while the linked container is unloaded is recorded and dropped onc
  box.setDynamicProperty('jagsby_nether:storage_owner',f.pet.id);box.container.setItem(0,{typeId:'minecraft:diamond',amount:5});
  world.afterEvents.entityLoad.emit({entity:box});assert.equal(box.isValid,false);assert.deepEqual(f.drops,[{typeId:'minecraft:diamond',amount:5}]);
  assert.equal(world.getDynamicProperty('jagsby_nether:dead_storage:'+box.id),undefined);
+});
+
+// Exercise both existing saved helpers and freshly spawned ones. An empty name
+// would restore the minecart fallback; formatting-only must remain nonempty.
+test('fresh and existing native helpers use a blank title without naming the visible pet',()=>{
+ const f=fixture(),box=ensureStorage(f.pet);
+ assert.equal(box.nameTag,TITLE_MARKER);assert.ok(box.nameTag.length>0);
+ assert.equal(box.nameTag.replace(/§[0-9a-fk-or]/gi,''),'');
+ assert.equal(f.pet.nameTag,undefined);
+ box.nameTag='Old container title';
+ assert.equal(ensureStorage(f.pet),box);assert.equal(box.nameTag,TITLE_MARKER);
+ assert.equal(f.spawned.length,1);
+});
+test('loading a saved native helper clears its old visible title while preserving its contents',()=>{
+ const f=fixture(),box=ensureStorage(f.pet);box.nameTag='Old container title';
+ box.container.setItem(4,{typeId:'minecraft:diamond',amount:12});
+ world.afterEvents.entityLoad.emit({entity:box});
+ assert.equal(box.nameTag,TITLE_MARKER);
+ assert.equal(box.container.getItem(4).amount,12);
+});
+test('normal chest minecarts are not renamed by helper load handling',()=>{
+ const f=fixture(),cart=f.pet.dimension.spawnEntity('minecraft:chest_minecart',f.pet.location);
+ cart.nameTag='My cart';world.afterEvents.entityLoad.emit({entity:cart});
+ assert.equal(cart.nameTag,'My cart');
 });
