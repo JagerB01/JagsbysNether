@@ -23,7 +23,12 @@ function weightedOrder(entries,rng) {
   return entries.map(([id,weight])=>({id,key:-Math.log(Math.max(rng(),1e-9))/weight}))
     .sort((a,b)=>a.key-b.key).map(entry=>entry.id);
 }
-function themeAt(dimension,x,y,z) {
+export function themeAt(dimension,x,y,z) {
+  // Use the biome itself: decorative soul soil/warped blocks in Nether Wastes
+  // must not turn an automatically generated village into the warped style.
+  const biome=dimension.getBiome?.({x,y,z})?.id;
+  if (['minecraft:hell','minecraft:nether_wastes','minecraft:crimson_forest'].includes(biome)) return 'crimson';
+  if (['minecraft:warped_forest','minecraft:soulsand_valley','minecraft:soul_sand_valley'].includes(biome)) return 'warped';
   let warped=0,crimson=0;
   for (let dx=-8;dx<=8;dx+=4) for (let dz=-8;dz<=8;dz+=4) {
     for (let dy=-2;dy<=2;dy++) {

@@ -128,10 +128,12 @@ def main():
     # Loose documents in a .mcaddon are treated as failed pack imports.
     docs = BUILD / 'behavior_pack/docs/underworld'
     docs.mkdir(parents=True, exist_ok=True)
-    for name in ('TESTING.txt', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md', 'GENERATION.md'):
+    for name in ('TESTING.txt', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md', 'GENERATION.md', 'VILLAGER_FOOD.md', 'CONQUEST_COMPATIBILITY.json'):
         (docs / name).write_bytes((ROOT / name).read_bytes())
     (docs / 'SKITTERCHESTS.md').write_bytes((ROOT / 'SKITTERCHESTS.md').read_bytes())
     (docs / 'STRUCTURE_BLOCK_CONVERSIONS.json').write_text(json.dumps(block_conversions, indent=2) + '\n')
+    assert not (BUILD / 'behavior_pack/entities/villager_v2.json').exists(), 'Food integration must not override C&C villagers'
+    assert not (BUILD / 'resource_pack/entity/villager_v2.entity.json').exists()
     subprocess.run(['python3', 'tools/test_structure_blocks.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/validate.py'], cwd=ROOT, check=True)
     subprocess.run(['node', '--import', './tests/register-mock.mjs', '--test',

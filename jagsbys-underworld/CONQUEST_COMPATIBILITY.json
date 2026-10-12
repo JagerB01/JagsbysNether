@@ -1,0 +1,13 @@
+{
+  "source": "Conquest Commerce v1.1.0.mcaddon",
+  "sha256": "59ddb9d6b9ca0d3e0e81215bd07b1d87d1f6a1c3a57ed9002f8a577f5f5b5485",
+  "villager_definition_sha256": "ca061904224ab685e28c59db877362487baf76cb7cc4871cfb4e78b0d1852063",
+  "reviewed": "Native villager_v2 make_love/receive_love, private eight-slot food inventory, and C&C emerald pickup scripts.",
+  "scope": "No C&C or vanilla villager entity/client definitions, trades, variants, schedules, or scripts are replaced.",
+  "items": [
+    "jagsby_nether:rye",
+    "jagsby_nether:polyp"
+  ],
+  "food_bridge": "Four accepted crops become one native bread food unit in the private inventory; twelve provide three bread (native 12 food points). Partial crop servings persist.",
+  "native_behavior": "Bed availability, breeding cooldowns, food sharing and offspring initialization remain controlled by the active villager definition."
+}

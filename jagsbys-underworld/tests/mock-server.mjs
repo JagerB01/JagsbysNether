@@ -7,6 +7,7 @@ function signal() {
 export const GameMode = {Survival: 'Survival', Creative: 'Creative', Adventure: 'Adventure', Spectator: 'Spectator'};
 export class ItemStack {
   constructor(typeId, amount = 1) { this.typeId = typeId; this.amount = amount; }
+  clone(){return Object.assign(new ItemStack(this.typeId,this.amount),this);}
   getComponent() { return undefined; }
 }
 export const components = new Map();
@@ -14,6 +15,7 @@ export const itemComponents = new Map();
 const properties = new Map();
 export const entities = new Map();
 export const world = {
+  gameRules:{mobGriefing:true},
   getAbsoluteTime(){return system.currentTick;},
   getEntity(id){return entities.get(id);},
   getDimension() { return {getEntities() { return []; }}; },

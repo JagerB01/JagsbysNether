@@ -8,7 +8,7 @@ startup();
 
 test('one combined entry registers crop components and all subsystem schedules exactly once', () => {
   assert.deepEqual([...components.keys()].sort(), ['jagsby_nether:crop', 'jagsby_nether:farmland', 'jagsby_nether:tillable_soil']);
-  assert.deepEqual(intervals.map(i => i.ticks).sort((a,b) => a-b), [1,1,1,20,100]);
+  assert.deepEqual(intervals.map(i => i.ticks).sort((a,b) => a-b), [1,1,1,10,20,100]);
   assert.deepEqual([...itemComponents.keys()], ['jagsby_nether:lava_fishing_rod']);
   for (const {callback} of intervals) assert.doesNotThrow(callback);
 });
@@ -123,11 +123,13 @@ test('Scrap taming stays available while Blackstone and other mobs cannot enter 
 test('Skitterchest overhead labels are cleared without renaming unrelated mobs',()=>{
  for(const signal of [world.afterEvents.entitySpawn,world.afterEvents.entityLoad]){
   for(const variant of ['crimson','warped']){
-   const entity={typeId:`jagsby_nether:${variant}_skitterchest`,nameTag:'',getProperty(){return false;},hasComponent(){return false;}};
+   const entity={typeId:`jagsby_nether:${variant}_skitterchest`,nameTag:'',location:{x:0,y:64,z:0},
+    dimension:{heightRange:{min:0,max:256},getBlocks(){return {getBlockLocationIterator(){return [];}};}},
+    getProperty(){return false;},hasComponent(){return false;},getComponent(){return undefined;}};
    entity.nameTag='Skitterchest';signal.emit({entity});assert.equal(entity.nameTag,'');
    entity.nameTag='My pet';signal.emit({entity});assert.equal(entity.nameTag,'');
   }
-  const minecart={typeId:'minecraft:chest_minecart',nameTag:''};
+  const minecart={typeId:'minecraft:chest_minecart',nameTag:'',hasComponent(){return false;},getProperty(){return undefined;},getComponent(){return undefined;}};
   signal.emit({entity:minecart});assert.equal(minecart.nameTag,'');
  }
 });
