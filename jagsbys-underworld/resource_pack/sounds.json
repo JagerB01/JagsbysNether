@@ -16,7 +16,12 @@
             "pitch": 1.0
           },
           "death": {
-            "sound": "mob.spider.death",
+            "sound": "mob.nautilus.death",
+            "volume": 1.0,
+            "pitch": 1.0
+          },
+          "hurt": {
+            "sound": "mob.glow_squid.hurt",
             "volume": 1.0,
             "pitch": 1.0
           }
@@ -37,7 +42,12 @@
             "pitch": 1.0
           },
           "death": {
-            "sound": "mob.spider.death",
+            "sound": "mob.nautilus.death",
+            "volume": 1.0,
+            "pitch": 1.0
+          },
+          "hurt": {
+            "sound": "mob.glow_squid.hurt",
             "volume": 1.0,
             "pitch": 1.0
           }
@@ -48,7 +58,12 @@
         "pitch": 1.0,
         "events": {
           "death": {
-            "sound": "mob.spider.death",
+            "sound": "mob.nautilus.death",
+            "volume": 1.0,
+            "pitch": 1.0
+          },
+          "hurt": {
+            "sound": "mob.glow_squid.hurt",
             "volume": 1.0,
             "pitch": 1.0
           }

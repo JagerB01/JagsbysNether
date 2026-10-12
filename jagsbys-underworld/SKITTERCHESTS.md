@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.29
+# Skitterchests — v0.2.30
 
 Only the three chest pets and their models, textures, animations and spawn eggs
 are adapted from the supplied NetherPlus Add-on MA v3 by BubbleStudio and
@@ -47,7 +47,7 @@ routing require verification in Bedrock; the cloud environment has no game
 runtime. Spawn rules preserve source weights/difficulty ranges, except Crimson
 can spawn on crimson nylium, correcting the source's exclusion of its own floor.
 
-All three variants use the built-in mob.spider.death sound at normal pitch. Blackstone receives only that death event, with no storage sounds.
+All three variants use the built-in mob.glow_squid.hurt sound when hurt and mob.nautilus.death sound on death, at normal pitch. Blackstone has no storage sounds.
 
 ## Storage title
 
