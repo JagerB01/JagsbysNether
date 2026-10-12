@@ -66,14 +66,14 @@
       "bones": {
         "rod": {
           "rotation": [
-            "context.is_first_person ? -45.0 : 0.0",
-            "context.is_first_person ? 45.0 : 90.0",
-            0
+            "context.is_first_person ? 147.0 : 0.0",
+            "context.is_first_person ? 30.0 : 90.0",
+            "context.is_first_person ? 21.0 : 0.0"
           ],
           "position": [
-            0,
+            "context.is_first_person ? 0.0 : 0.0",
             "context.is_first_person ? -4.0 : -5.0",
-            0
+            "context.is_first_person ? 0.0 : 0.0"
           ]
         }
       }
