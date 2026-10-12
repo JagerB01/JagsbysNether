@@ -1,4 +1,4 @@
-# Lava fishing — v0.2.21 playtest build
+# Lava fishing — v0.2.22 playtest build
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 1.21.100 or newer. No Beta APIs.
@@ -26,7 +26,7 @@ in an arc and floats on the surface, with a curved black particle line running b
 dip and splash, then use the rod again. No action-bar prompts accompany casting,
 waiting or bites. The default
 wait is 5–30 seconds plus a 1–4 second approach, followed by a 1–2 second catch
-window. Lure reduces the waiting phase. Missing a bite restarts the wait;
+window. Lure reduces the waiting phase. Missing a bite requires reeling in and casting again;
 reeling early gives nothing. A successful catch gives one fish, 1–6 XP and uses
 one durability (Creative uses none; Unbreaking is respected).
 
@@ -80,7 +80,7 @@ not grant Fire Resistance.
 
 ## Required live checks
 
-1. Import v0.2.21 and confirm both pack versions and the Content Log.
+1. Import v0.2.22 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    this first live confirmation; automated mocks cannot validate it.
@@ -303,3 +303,28 @@ offset but is still an approximation: the stable Script API cannot read
 the rendered attachable locator or distinguish the client camera mode.
 It cannot guarantee an exact first-person attachment to the camera-space
 sprite; final line alignment requires gameplay verification.
+
+## v0.2.22 item tooltip, missed bites and tip refinement
+
+Cast sessions now keep a read-only rod-state signature in memory, rather
+than writing a persistent rod_id onto the stack. Existing rod_id values
+are removed from player inventories every second and before using a rod.
+Only this addon-owned property is removed; name, enchantments, damage and
+other addons' data are retained. Identical rods in the same slot cannot
+be distinguished without persistent IDs; switching slots or changing
+rod name/enchantment state cancels normally.
+
+A missed bite enters a terminal missed state, leaving the bobber afloat.
+No automatic next bite can occur: the next use reels in without loot, and
+a subsequent use starts a fresh cast. Lure still shortens the new wait.
+
+The model-based line anchor moves 0.06 blocks to the rod side and 0.12
+blocks upward, based on the remaining gap in the user screenshot. It
+still approximates client tip position rather than binding to its locator.
+
+Casting currently uses custom animation.jagsby_nether.fishing_use for the
+third-person arm and animation.jagsby_nether.rod_first_person_cast for the
+held sprite. Both last 0.35 seconds; a native item cooldown drives the
+first-person controller. These are custom keyframe animations, not the
+vanilla fishing rod's internal use animation. Timing and swing can be edited
+independently of the accepted rest/grip pose.

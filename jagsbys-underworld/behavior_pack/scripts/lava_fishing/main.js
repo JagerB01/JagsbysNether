@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import {system,world,ItemStack} from '@minecraft/server';
-import {createAnglingController,ROD,FISH} from './angling.js';
+import {createAnglingController,clearLegacyRodProperties,ROD,FISH} from './angling.js';
 import {applyFishFood,updateFishEffects} from './fish.js';
 const controller=createAnglingController();
 const use=({source})=>{try{controller.use(source,system.currentTick);}catch(error){controller.cancel(source?.id);console.warn(`[Underworld lava fishing] Cast/reel failed: ${error}`);}};
@@ -12,6 +12,7 @@ system.beforeEvents.startup.subscribe(({itemComponentRegistry})=>{
 });
 system.runInterval(()=>{
  const players=world.getAllPlayers();
+ if(system.currentTick%20===0)for(const player of players)clearLegacyRodProperties(player);
  controller.update(players,system.currentTick);
  if(system.currentTick%10===0){updateFishEffects(players,system.currentTick);}
 },1);

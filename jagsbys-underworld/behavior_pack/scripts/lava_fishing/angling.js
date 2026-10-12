@@ -60,15 +60,30 @@ export function rodTip(player){
  const forward={x:-Math.sin(yaw),z:Math.cos(yaw)},right={x:-forward.z,z:forward.x};
  const head=player.getHeadLocation(),view=player.getViewDirection();
  const crouch=Math.max(0,1.62-(head.y-player.location.y));
- return {x:player.location.x+right.x*0.375+forward.x*0.934522,
-         y:player.location.y+1.20811-crouch+view.y*0.2,
-         z:player.location.z+right.z*0.375+forward.z*0.934522};
+ return {x:player.location.x+right.x*0.435+forward.x*0.934522,
+         y:player.location.y+1.32811-crouch+view.y*0.2,
+         z:player.location.z+right.z*0.435+forward.z*0.934522};
+}
+
+export function clearLegacyRodProperties(player){
+ const container=player.getComponent('minecraft:inventory')?.container;
+ if(!container)return;
+ for(let slot=0;slot<(container.size ?? 36);slot++){
+  const item=container.getItem(slot);
+  if(item?.typeId!==ROD || item.getDynamicProperty?.('jagsby_nether:rod_id')===undefined)continue;
+  item.setDynamicProperty('jagsby_nether:rod_id',undefined);container.setItem(slot,item);
+ }
 }
 
 export function createAnglingController({rng=Math.random}={}){
- const sessions=new Map(),lastUses=new Map();let serial=0;
+ const sessions=new Map(),lastUses=new Map();
  function cancel(id){const session=sessions.get(id);if(!session)return;try{session.bobber.remove();}catch{/* Already unloaded/removed. */}sessions.delete(id);}
- function identity(item){return item.getDynamicProperty('jagsby_nether:rod_id');}
+ function identity(item){
+  const durability=item?.getComponent('minecraft:durability');
+  const enchants=item?.getComponent('minecraft:enchantable');
+  const values=enchants?.getEnchantments?.().map(e=>[e.type.id,e.level]).sort() ?? ['lure','unbreaking','mending','luck_of_the_sea','vanishing'].map(name=>[name,level(item,name)]);
+  return JSON.stringify([item?.typeId,item?.nameTag ?? '',!!durability,durability?.maxDurability ?? 0,values]);
+ }
  function swing(player){
   try{held(player).item?.getComponent('minecraft:cooldown')?.startCooldown(player);}catch(error){console.warn(`[Underworld lava fishing] Swing cooldown unavailable: ${error}`);}
   try{player.playAnimation('animation.jagsby_nether.fishing_use',{blendOutTime:0.05,controller:'jagsby_nether_fishing_use'});}
@@ -77,12 +92,13 @@ export function createAnglingController({rng=Math.random}={}){
  function throwSound(player){cue(player,'random.bow',player.location,{volume:0.5,pitch:0.33+Math.random()*0.17});}
  function use(player,tick){
   if(player?.typeId!=='minecraft:player' || player.getGameMode()==='Spectator')return false;
+  clearLegacyRodProperties(player);
   const equipment=held(player);if(equipment.item?.typeId!==ROD)return false;
   if(tick-(lastUses.get(player.id) ?? -Infinity)<4)return false;
   lastUses.set(player.id,tick);
   const active=sessions.get(player.id);
   if(active){
-   if(active.slot!==equipment.slot || identity(equipment.item)!==active.rodId){cancel(player.id);return false;}
+   if(active.slot!==equipment.slot || identity(equipment.item)!==active.rodState){cancel(player.id);return false;}
    if(active.state==='bite' && tick<active.deadline && active.dimensionId===player.dimension.id && distance(player.location,active.visual)<=32 && isLava(read(player.dimension,active.block))){
     const id=catchFish(active.dimensionId,active.biome,rng);
     const origin={...active.target,y:active.target.y+0.35};
@@ -104,8 +120,7 @@ export function createAnglingController({rng=Math.random}={}){
    }
    swing(player);cancel(player.id);return true;
   }
-  let rodId=identity(equipment.item);
-  if(!rodId){rodId=`${player.id}:${tick}:${serial++}`;equipment.item.setDynamicProperty('jagsby_nether:rod_id',rodId);equipment.container.setItem(equipment.slot,equipment.item);}
+  const rodState=identity(equipment.item);
   const head=player.getHeadLocation(),view=player.getViewDirection();
   // Raise the release above the rod-side shoulder, even when aiming down.
   const horizontal=Math.hypot(view.x,view.z);
@@ -114,7 +129,7 @@ export function createAnglingController({rng=Math.random}={}){
   const start={x:head.x-forward.z*0.35+forward.x*0.35,y:head.y+0.35,z:head.z+forward.x*0.35+forward.z*0.35};
   const bobber=player.dimension.spawnEntity('jagsby_nether:lava_bobber',start);
   try{bobber.applyImpulse({x:view.x*1.75,y:view.y*1.75+0.38,z:view.z*1.75});}catch(error){bobber.remove();throw error;}
-  sessions.set(player.id,{bobber,rodId,slot:equipment.slot,dimensionId:player.dimension.id,visual:start,state:'casting',startTick:tick,lastTick:tick,lure:level(equipment.item,'lure')});
+  sessions.set(player.id,{bobber,rodState,slot:equipment.slot,dimensionId:player.dimension.id,visual:start,state:'casting',startTick:tick,lastTick:tick,lure:level(equipment.item,'lure')});
   swing(player);throwSound(player);return true;
  }
  function update(players,tick){
@@ -124,7 +139,7 @@ export function createAnglingController({rng=Math.random}={}){
    const player=online.get(id);
    try{
     const equipment=player&&held(player);
-    if(!player || player.getGameMode()==='Spectator' || player.dimension.id!==s.dimensionId || equipment.slot!==s.slot || equipment.item?.typeId!==ROD || identity(equipment.item)!==s.rodId || distance(player.location,s.visual)>32 || !s.bobber.isValid || (s.block && !isLava(read(player.dimension,s.block)))){cancel(id);continue;}
+    if(!player || player.getGameMode()==='Spectator' || player.dimension.id!==s.dimensionId || equipment.slot!==s.slot || equipment.item?.typeId!==ROD || identity(equipment.item)!==s.rodState || distance(player.location,s.visual)>32 || !s.bobber.isValid || (s.block && !isLava(read(player.dimension,s.block)))){cancel(id);continue;}
     if(tick%600===0)s.bobber.triggerEvent('jagsby_nether:keep_alive');
     if(s.state==='casting'){
      const current=s.bobber.location;
@@ -156,13 +171,13 @@ export function createAnglingController({rng=Math.random}={}){
        const angle=spark*Math.PI/6,radius=spark%2===0?0.08:0.18;
        particle(player.dimension,'minecraft:lava_particle',{x:s.target.x+Math.cos(angle)*radius,y:s.target.y+0.12,z:s.target.z+Math.sin(angle)*radius});
       }}
-    }else if(s.state==='bite' && tick>=s.deadline){s.state='waiting';s.deadline=tick+Math.max(20,range(rng,100,600)-s.lure*100);}
+    }else if(s.state==='bite' && tick>=s.deadline){s.state='missed';}
     if(!sessions.has(id))continue;
-    if(['classifying','waiting','approaching','bite'].includes(s.state)){
+    if(['classifying','waiting','approaching','bite','missed'].includes(s.state)){
      const dip=s.state==='bite'?0.32+Math.sin((tick-s.biteStart)*0.8)*0.025:Math.sin(tick/8)*0.025;
      s.visual={...s.target,y:s.target.y-dip};
     }
-    if(['classifying','waiting','approaching','bite'].includes(s.state)){s.bobber.clearVelocity();s.bobber.teleport(s.visual,{rotation:{x:0,y:0}});}
+    if(['classifying','waiting','approaching','bite','missed'].includes(s.state)){s.bobber.clearVelocity();s.bobber.teleport(s.visual,{rotation:{x:0,y:0}});}
     try{
      const tip=rodTip(player);
      const hook={...s.visual,y:s.visual.y+0.22};
