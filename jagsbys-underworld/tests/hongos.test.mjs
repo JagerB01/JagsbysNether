@@ -8,11 +8,12 @@ function fixture(variant='crimson'){
  const dimension={getEntities({type}){return chests.filter(c=>c.typeId===type);},spawnEntity(){throw Error('Should use existing native storage');}};
  const entity=(typeId,location={x:0,y:30,z:0})=>{
   const data=new Map();return {id:`hongo-test-${serial++}`,typeId,location,dimension,isValid:true,tamed:true,owner:'A',
-   getProperty(){return this.tamed;},hasComponent(){return this.tamed;},getDynamicProperty:k=>data.get(k),setDynamicProperty(k,v){data.set(k,v);}};
+   getProperty(key){return key==='jagsby_nether:sitting'?this.sitting===true:this.tamed;},hasComponent(){return this.tamed;},getDynamicProperty:k=>data.get(k),setDynamicProperty(k,v){data.set(k,v);}};
  };
  const hongo=entity(`jagsby_nether:${variant}_hongo`);
  function chest(kind=variant,pos={x:2,y:30,z:0},full=false){
   const c=entity(`jagsby_nether:${kind}_skitterchest`,pos),deposits=[];
+  c.sitting=true;
   const box=entity('jagsby_nether:skitterchest_storage');
   box.getComponent=()=>({container:{addItem(item){if(full)return item;deposits.push(item);return undefined;}}});
   c.setDynamicProperty('jagsby_nether:storage_entity',box.id);c.setDynamicProperty('jagsby_nether:storage_migrated',true);
@@ -45,14 +46,27 @@ test('a full nearest chest is skipped in favor of matching storage with room',()
 });
 test('full storage schedules a retry and never materializes a dropped nugget',()=>{
  const f=fixture(),c=f.chest('crimson',undefined,true);f.due();
- assert.equal(tickHongo(f.hongo,100,()=>0),false);assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),300);
+ assert.equal(tickHongo(f.hongo,100,()=>0),false);assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),140);
  assert.equal(c.deposits.length,0);
 });
-test('initial cooldown lasts 3–5 minutes and unloaded time does not accumulate production',()=>{
+test('initial cooldown lasts 5–10 seconds and unloaded time does not accumulate production',()=>{
  const f=fixture(),c=f.chest();assert.equal(tickHongo(f.hongo,0,()=>0),false);
- assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),3600);
- assert.equal(tickHongo(f.hongo,3599,()=>0),false);
+ assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),100);
+ assert.equal(tickHongo(f.hongo,99,()=>0),false);
  assert.equal(tickHongo(f.hongo,200000,()=>0.999),true);assert.equal(c.deposits.length,1);
- assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),206000);
+ assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),200200);
  assert.equal(tickHongo(f.hongo,200001,()=>0),false);
+});
+
+test('standing Skitterchests reject nuggets; sitting enables deposits after the short retry',()=>{
+ const f=fixture(),c=f.chest();c.c.sitting=false;f.due();
+ assert.equal(tickHongo(f.hongo,100,()=>0),false);assert.equal(c.deposits.length,0);
+ c.c.sitting=true;assert.equal(tickHongo(f.hongo,139,()=>0),false);
+ assert.equal(tickHongo(f.hongo,140,()=>0),true);assert.equal(c.deposits.length,1);
+});
+test('saved production cooldowns are shortened when upgrading to the test build',()=>{
+ const f=fixture(),c=f.chest();f.hongo.setDynamicProperty('jagsby_nether:nugget_due',6000);
+ assert.equal(tickHongo(f.hongo,100,()=>0),false);
+ assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),200);
+ assert.equal(tickHongo(f.hongo,200,()=>0),true);assert.equal(c.deposits.length,1);
 });
