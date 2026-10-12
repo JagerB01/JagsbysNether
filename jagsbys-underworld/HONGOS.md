@@ -1,4 +1,4 @@
-# Hongos — v0.2.54
+# Hongos — v0.2.55
 
 Two normal tameable mushroom mobs from NetherPlus: Crimson Hongo and Warped
 Hongo. Their original model, texture, idle/setup and walk animations and egg
@@ -24,8 +24,8 @@ range, a Crimson Hongo deposits one iron nugget into a Crimson Skitterchest,
 and a Warped Hongo deposits one gold nugget into a Warped Skitterchest.
 Blackstone and opposite variants receive nothing. Only sitting Skitterchests qualify; standing ones receive nothing.
 
-Each tamed Hongo gets a random 5–10 second cooldown for testing based
-on persistent world time. One successful deposit starts the next cooldown.
+Each tamed Hongo gets a variant-specific random cooldown based on persistent world time:
+Warped 25–35 seconds per gold nugget; Crimson 40–60 seconds per iron nugget. One successful deposit starts the next cooldown.
 The nearest matching tamed chest with available storage is used, through the
 existing native storage helper, never the old empty pet inventory. If matching
 storage is unavailable or full, it retries after 2 seconds; no nuggets are
@@ -42,7 +42,7 @@ wrong variants, range, full-storage handling, native-container writes, cooldown
 bounds and no production backlog. Bedrock client behavior still needs checking:
 spawn both variants, confirm model/walk animation, tame and leash them, and
 confirm they keep roaming. Place tamed matching chests within 8 blocks, make the Skitterchests sit, wait
-5–10 seconds, then open their native inventory to inspect nugget deposits.
+25–35 seconds (Warped) or 40–60 seconds (Crimson), then open their native inventory to inspect nugget deposits.
 
-This is a fast-production test build. Previously saved long cooldowns are
-shortened automatically; the normal 3–5 minute rate can be restored after testing.
+The prior fast-test timers reset once on upgrade to these production ranges.
+Subsequent save/reload cycles retain the scheduled cooldown.

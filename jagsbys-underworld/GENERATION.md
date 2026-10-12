@@ -1,4 +1,4 @@
-# Non-village generation — v0.2.54
+# Non-village generation — v0.2.55
 
 Larger abandoned campgrounds and both Nether-brick outpost tower variants have
 50% more placement attempts. Every individual tent’s marginal per-chunk attempt

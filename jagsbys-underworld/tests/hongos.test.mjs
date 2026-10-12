@@ -20,7 +20,7 @@ function fixture(variant='crimson'){
   c.legacyInventoryUntouched=true;c.getComponent=()=>{c.legacyInventoryUntouched=false;throw Error('Must not deposit in legacy inventory');};
   entities.set(box.id,box);chests.push(c);return {c,deposits,box};
  }
- const due=()=>hongo.setDynamicProperty('jagsby_nether:nugget_due',0);
+ const due=()=>{hongo.setDynamicProperty('jagsby_nether:nugget_due',0);hongo.setDynamicProperty('jagsby_nether:nugget_schedule',1);};
  return {hongo,chest,due};
 }
 for(const [variant,item] of [['crimson','minecraft:iron_nugget'],['warped','minecraft:gold_nugget']]){
@@ -49,12 +49,12 @@ test('full storage schedules a retry and never materializes a dropped nugget',()
  assert.equal(tickHongo(f.hongo,100,()=>0),false);assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),140);
  assert.equal(c.deposits.length,0);
 });
-test('initial cooldown lasts 5–10 seconds and unloaded time does not accumulate production',()=>{
- const f=fixture(),c=f.chest();assert.equal(tickHongo(f.hongo,0,()=>0),false);
- assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),100);
- assert.equal(tickHongo(f.hongo,99,()=>0),false);
+for(const [variant,min,max] of [['crimson',40,60],['warped',25,35]])test(`${variant} cooldown is ${min}–${max} seconds without unloaded production backlog`,()=>{
+ const f=fixture(variant),c=f.chest();assert.equal(tickHongo(f.hongo,0,()=>0),false);
+ assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),min*20);
+ assert.equal(tickHongo(f.hongo,min*20-1,()=>0),false);
  assert.equal(tickHongo(f.hongo,200000,()=>0.999),true);assert.equal(c.deposits.length,1);
- assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),200200);
+ assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),200000+max*20);
  assert.equal(tickHongo(f.hongo,200001,()=>0),false);
 });
 
@@ -64,9 +64,11 @@ test('standing Skitterchests reject nuggets; sitting enables deposits after the 
  c.c.sitting=true;assert.equal(tickHongo(f.hongo,139,()=>0),false);
  assert.equal(tickHongo(f.hongo,140,()=>0),true);assert.equal(c.deposits.length,1);
 });
-test('saved production cooldowns are shortened when upgrading to the test build',()=>{
- const f=fixture(),c=f.chest();f.hongo.setDynamicProperty('jagsby_nether:nugget_due',6000);
+test('upgrading from the fast test timer starts one normal cooldown without repeatedly resetting it',()=>{
+ const f=fixture(),c=f.chest();f.hongo.setDynamicProperty('jagsby_nether:nugget_due',200);
  assert.equal(tickHongo(f.hongo,100,()=>0),false);
- assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),200);
- assert.equal(tickHongo(f.hongo,200,()=>0),true);assert.equal(c.deposits.length,1);
+ assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),900);
+ assert.equal(tickHongo(f.hongo,200,()=>0),false);
+ assert.equal(f.hongo.getDynamicProperty('jagsby_nether:nugget_due'),900);
+ assert.equal(tickHongo(f.hongo,900,()=>0),true);assert.equal(c.deposits.length,1);
 });
