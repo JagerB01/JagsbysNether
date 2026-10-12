@@ -124,6 +124,10 @@
           "base_value": 0,
           "controlled_value": 0,
           "jump_prevented_value": 0
+        },
+        "minecraft:pushable": {
+          "is_pushable": false,
+          "is_pushable_by_piston": false
         }
       },
       "jagsby_nether:standing": {
@@ -140,6 +144,10 @@
           "base_value": 1.0,
           "controlled_value": 1.0,
           "jump_prevented_value": 0.5625
+        },
+        "minecraft:pushable": {
+          "is_pushable": true,
+          "is_pushable_by_piston": true
         }
       },
       "jagsby_nether:inventory_open": {
@@ -156,6 +164,10 @@
           "base_value": 0,
           "controlled_value": 0,
           "jump_prevented_value": 0
+        },
+        "minecraft:pushable": {
+          "is_pushable": false,
+          "is_pushable_by_piston": false
         }
       }
     },

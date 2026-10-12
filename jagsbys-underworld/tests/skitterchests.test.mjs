@@ -87,14 +87,16 @@ for(const variant of ['crimson','warped'])test(`${variant} repeated sit/stand re
  apply('minecraft:entity_spawned');apply('minecraft:on_tame');
  for(let cycle=0;cycle<10;cycle++){
   apply('jagsby_nether:sit');assert.equal(components['minecraft:movement'].value,0);
+  assert.deepEqual(components['minecraft:pushable'],{is_pushable:false,is_pushable_by_piston:false});
   apply('jagsby_nether:stand');assert.equal(components['minecraft:movement'].value,0.2);
   assert.equal(components['minecraft:lava_movement'].value,0.2);
+  assert.deepEqual(components['minecraft:pushable'],{is_pushable:true,is_pushable_by_piston:true});
   assert.deepEqual(components['minecraft:jump.static'],{jump_power:0.42});
   assert(components['minecraft:behavior.follow_owner']);
  }
 });
 
-for(const variant of ['crimson','warped'])test(`${variant} repeated native inventory opens restore standing even when active-group additions are ignored`,()=>{
+for(const variant of ['crimson','warped'])test(`${variant} repeated native inventory opens restore seated and standing push behavior`,()=>{
  const e=load(`behavior_pack/entities/skitterchests/${variant}.json`)['minecraft:entity'];
  const components={...e.components},active=new Set();
  function apply(name){
@@ -110,9 +112,15 @@ for(const variant of ['crimson','warped'])test(`${variant} repeated native inven
   }
  }
  apply('minecraft:entity_spawned');apply('minecraft:on_tame');
- for(let cycle=0;cycle<10;cycle++){
+ for(const pose of ['jagsby_nether:stand','jagsby_nether:sit'])for(let cycle=0;cycle<10;cycle++){
+  apply(pose);
   apply('jagsby_nether:pause_storage');apply('jagsby_nether:pause_storage');assert.equal(components['minecraft:movement'].value,0);
-  apply('jagsby_nether:resume_storage');apply('jagsby_nether:stand');assert.equal(components['minecraft:movement'].value,0.2);
-  assert.equal(components['minecraft:jump.static'].jump_power,0.42);assert(components['minecraft:behavior.follow_owner']);
+  assert.deepEqual(components['minecraft:pushable'],{is_pushable:false,is_pushable_by_piston:false});
+  apply('jagsby_nether:resume_storage');apply(pose);
+  const standing=pose==='jagsby_nether:stand';
+  assert.equal(components['minecraft:movement'].value,standing?0.2:0);
+  assert.equal(components['minecraft:jump.static'].jump_power,standing?0.42:0);
+  assert.deepEqual(components['minecraft:pushable'],{is_pushable:standing,is_pushable_by_piston:standing});
+  assert(components['minecraft:behavior.follow_owner']);
  }
 });
