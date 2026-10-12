@@ -11,8 +11,1079 @@
       "entries": [
         {
           "type": "item",
-          "name": "minecraft:music_disc_relic",
-          "weight": 1
+          "name": "passiveskills:relic_bloodroot_sigil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Beetroot §f0/64",
+                "",
+                "§9Hostile kills have a 0.5％ chance to restore 2 HP.",
+                "",
+                "§8§oA gnarled wooden talisman wrapped in red thread.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_wardens_eye",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Echo Shard §f0/1",
+                "",
+                "§9When Darkness is applied, has a 0.5％ chance to clear it",
+                "§9immediately.",
+                "",
+                "§8§oA milky, clouded orb that never quite looks in the right§r",
+                "§8§odirection.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_shard_of_the_fallen_king",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Ominous Bottle §f0/1",
+                "",
+                "§9Deal 0.5％ extra damage to Illager-type enemies.",
+                "",
+                "§8§oA cracked crown fragment, dark iron and dried blood-red§r",
+                "§8§ogems.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_stormglass_vial",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Prismarine Crystals §f0/16",
+                "",
+                "§9During thunderstorms, gain a 0.5％ movement-speed bonus.",
+                "",
+                "§8§oA vial of cloudy liquid that swirls on its own.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_ashbound_effigy",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Magma Cream §f0/10",
+                "",
+                "§9Reduces fire damage by 0.5％.",
+                "",
+                "§8§oA small clay figure, cracked and fire-blackened but§r",
+                "§8§ointact.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_cinderclaw_talisman",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Blaze Powder §f0/32",
+                "",
+                "§9Melee hits have a 0.5％ chance to apply a separate",
+                "§9fire-like burn.",
+                "",
+                "§8§oA curled talon, scorched black at the tip.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_vaelgriths_knuckle",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Bone Block §f0/8",
+                "",
+                "§9Melee hits have a 0.5％ chance to apply a brief extra",
+                "§9burst of knockback.",
+                "",
+                "§8§oA fossilized finger bone, said to have belonged to§r",
+                "§8§osomething enormous.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_widow_moss_charm",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Moss Block §f0/64",
+                "",
+                "§9While standing on Moss or Pale Moss, has a 0.5％ chance",
+                "§9each second to restore 1 HP.",
+                "",
+                "§8§oA clump of dried moss bound in twine, faintly pulsing.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_hollow_ledger",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Bookshelf §f0/8",
+                "",
+                "§9Gain 0.5％ more Trading XP.",
+                "",
+                "§8§oA tiny leatherbound book, every page blank except the§r",
+                "§8§olast.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_tinkers_thimble",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Tripwire Hook §f0/16",
+                "",
+                "§9Flint and Steel, Brushes, Shears, and Fishing Rods have",
+                "§9a 0.5％ chance to not lose durability.",
+                "",
+                "§8§oA dented brass thimble, too small for any hand.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_watchers_marble",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Spider Eye §f0/32",
+                "",
+                "§9Warns of unseen Skeletons, Spiders, and Cave Spiders",
+                "§9within 6 blocks. 8-second cooldown.",
+                "",
+                "§8§oA glass orb with something faintly moving inside it.§r",
+                "§0％§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_windcallers_feather",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Feather §f0/128",
+                "",
+                "§9While sprinting, has a 0.5％ chance to grant Speed I for",
+                "§92 seconds.",
+                "",
+                "§8§oA single feather that never quite touches the ground.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_echo_shard",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Sculk Block §f0/128",
+                "",
+                "§9While sneaking in the Deep Dark, gain 0.5％ movement",
+                "§9speed.",
+                "",
+                "§8§oA fragment of dark crystal that hums faintly when held.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_houndmasters_whistle",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Bone §f0/128",
+                "",
+                "§9Your tamed wolves have a 0.5％ chance to heal 2 HP when",
+                "§9they deal melee damage.",
+                "",
+                "§8§oA bone whistle that makes no audible sound.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_marsh_walkers_eye",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Lily Pad §f0/32",
+                "",
+                "§9While in water or standing on mud, gain 0.5％ movement",
+                "§9speed.",
+                "",
+                "§8§oA single glass eye, faintly green, always slightly wet.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_emberkin_locket",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Fire Charge §f0/32",
+                "",
+                "§9Reduces freezing damage by 0.5％.",
+                "",
+                "§8§oA small locket that's always slightly warm, even in§r",
+                "§8§osnow.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_gravewax_candle",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Black Candle §f0/64",
+                "",
+                "§9Undead kills have a 0.5％ chance to grant 10 vanilla XP.",
+                "",
+                "§8§oA stub of black wax that burns cold and never gets§r",
+                "§8§oshorter.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_lantern_moth_pin",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Glowstone Dust §f0/64",
+                "",
+                "§9Placed Torches and Lanterns have a 0.5％ chance to be",
+                "§9refunded.",
+                "",
+                "§8§oA tiny bronze moth whose wings change position when no§r",
+                "§8§oone is looking.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_deadmans_chalk",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Calcite §f0/48",
+                "",
+                "§9Breaking Cobweb has a 0.5％ chance to grant +1 extra",
+                "§9String.",
+                "",
+                "§8§oA nub of white chalk that only writes on things that§r",
+                "§8§ohave been abandoned.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_moonblind_lens",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Tinted Glass §f0/32",
+                "",
+                "§9Phantom kills have a 0.5％ chance to grant +1 extra",
+                "§9Phantom Membrane.",
+                "",
+                "§8§oA cloudy monocle that makes stars disappear when looked§r",
+                "§8§othrough.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_false_pearl",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Purpur Block §f0/64",
+                "",
+                "§9Thrown Ender Pearls have a 20％ chance to be refunded.",
+                "§9Damage taken from Ender Pearl teleportation is reduced",
+                "§9by 20％.",
+                "",
+                "§8§oA gray pearl that casts a shadow larger than itself.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_fogseed",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7White Dye §f0/256",
+                "",
+                "§9Taking projectile damage has a 0.5％ chance to grant",
+                "§9Invisibility for 2 seconds.",
+                "",
+                "§8§oA hard white seed that exhales a wisp of mist when§r",
+                "§8§owarmed in the hand.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_saints_splinter",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Charcoal §f0/128",
+                "",
+                "§9Warns when Creepers enter a 6 block radius. 8-second",
+                "§9cooldown.",
+                "",
+                "§8§oA sliver of old wood that smells faintly of smoke before§r",
+                "§8§odanger.§r",
+                "§0％§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_ferrymans_obol",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Soul Sand §f0/96",
+                "",
+                "§9Killing an undead mob has a 0.5％ chance to grant 2",
+                "§9temporary absorption hearts for 10 seconds.",
+                "",
+                "§8§oA smooth dark coin, worn thin, found under a tongue.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_red_widows_brooch",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Fermented Spider Eye §f0/16",
+                "",
+                "§9Melee hits have a 0.5％ chance to inflict Poison I for 3",
+                "§9seconds.",
+                "",
+                "§8§oA cracked red gemstone set in black iron.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_ash_psalm",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Ink Sac §f0/32",
+                "",
+                "§9When Poison, Wither, or Weakness is applied to you, has",
+                "§9a 0.5％ chance to clear it immediately.",
+                "",
+                "§8§oA strip of singed parchment covered in a prayer text you§r",
+                "§8§ocan't quite read twice the same way.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_bog_apostles_toe",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Mangrove Roots §f0/32",
+                "",
+                "§9While standing on bog blocks, melee hits have a 0.5％",
+                "§9chance to inflict Slowness II for 3 seconds.",
+                "",
+                "§8§oA shriveled mummified toe stained dark green.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_peatlung",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Sponge §f0/2",
+                "",
+                "§9While underwater, has a 0.5％ chance each second to grant",
+                "§9Water Breathing for 3 seconds.",
+                "",
+                "§8§oA fist sized black sponge-like organ that smells of wet§r",
+                "§8§osmoke.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_tallow_whisper",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Rotten Flesh §f0/128",
+                "",
+                "§9While a hostile mob is within 8 blocks, has a 0.5％",
+                "§9chance each second to grant Night Vision for 3 seconds.",
+                "",
+                "§8§oA lump of yellow wax that grows softer when monsters are§r",
+                "§8§onear.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_runescarred_carapace",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Lapis Lazuli §f0/64",
+                "",
+                "§9Gain 0.5％ more Enchanting XP.",
+                "",
+                "§8§oA brittle, rune-scarred ash carapace that leaves faint§r",
+                "§8§oblue fingerprints on books.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_grainwrit",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Hay Bale §f0/16",
+                "",
+                "§9Gain 0.5％ more Farming XP.",
+                "",
+                "§8§oA folded strip of vellum covered in tiny crop-like marks§r",
+                "§8§othat rearrange after harvest.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_rainmolt",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Phantom Membrane §f0/2",
+                "",
+                "§9While directly exposed to rain, reduces incoming",
+                "§9projectile damage by 0.5％.",
+                "",
+                "§8§oA transparent insect husk that softens moments before§r",
+                "§8§orainfall.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_paper_nautilus",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Nautilus Shell §f0/2",
+                "",
+                "§9While your head is submerged, warns of Drowned,",
+                "§9Guardians, and Elder Guardians within 6 blocks. 8-second",
+                "§9cooldown.",
+                "",
+                "§8§oA paper-thin shell that sounds like deep ocean currents§r",
+                "§8§owhen held to the ear.§r",
+                "§0％§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_murmur_stone",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Tuff §f0/128",
+                "",
+                "§9Gain 0.5％ more Mining XP.",
+                "",
+                "§8§oA porous gray stone that repeats mining sounds several§r",
+                "§8§oseconds late.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_static_pollen",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Redstone Dust §f0/128",
+                "",
+                "§9Pulls approved dropped metal resources toward you from 2",
+                "§9blocks away.",
+                "",
+                "§8§oA pinch of yellow dust that clings to metal instead of§r",
+                "§8§oskin.§r",
+                "§0％§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_dreamers_thimblecap",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Red Mushroom §f0/64",
+                "",
+                "§9After sleeping through the night, gain Absorption I for",
+                "§91 minute. Once per Minecraft day.",
+                "",
+                "§8§oA tiny mushroom cap that bruises with colors you can't§r",
+                "§8§oname.§r",
+                "§0％§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_mercury_seed",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Iron Nugget §f0/256",
+                "",
+                "§9Reduces knockback caused by external attacks and impacts",
+                "§9by 5％.",
+                "",
+                "§8§oA silver droplet trapped inside a transparent seed husk;§r",
+                "§8§oit rolls uphill when set down.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_veilpin",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7String §f0/128",
+                "",
+                "§9Reduces the remaining duration of harmful timed status",
+                "§9effects applied to you by 5％.",
+                "",
+                "§8§oA long silver pin wrapped in a strip of fabric that§r",
+                "§8§ocannot be untied.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_rustveil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Copper Ingot §f0/64",
+                "",
+                "§9Gain 0.5％ more Mining XP from copper, iron, and gold",
+                "§9ores.",
+                "",
+                "§8§oA thin metallic membrane that flakes red dust but never§r",
+                "§8§ogets smaller.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_second_shadow",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Black Stained Glass §f0/32",
+                "",
+                "§9Eligible combat attacks have a 0.5％ chance to deal zero",
+                "§9damage.",
+                "",
+                "§8§oA flat piece of black glass that casts a shadow even in§r",
+                "§8§odarkness.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_discordant_bell",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Bell §f0/1",
+                "",
+                "§9Each second, eligible hostile mobs within 6 blocks have",
+                "§9a 3％ chance to be provoked into attacking another nearby",
+                "§9hostile mob.",
+                "",
+                "§8§oA cracked brass handbell whose clapper swings toward§r",
+                "§8§owhoever is angriest.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_traitors_brand",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Leather §f0/64",
+                "",
+                "§9Deal 0.5％ additional damage to hostile mobs damaged by",
+                "§9another hostile mob within the last 5 seconds.",
+                "",
+                "§8§oA blackened iron seal stamped with the same crest on§r",
+                "§8§oboth sides.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_riotheart",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Sugar §f0/128",
+                "",
+                "§9When a hostile mob damages another hostile mob within 16",
+                "§9blocks, has a 0.5％ chance to grant Speed I for 4",
+                "§9seconds.",
+                "",
+                "§8§oA shriveled red heart that beats faster whenever§r",
+                "§8§oviolence spreads nearby.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_crown_of_misrule",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Gold Ingot §f0/32",
+                "",
+                "§9When a hostile mob kills another hostile mob within 16",
+                "§9blocks, has a 5％ chance to provoke another nearby",
+                "§9hostile mob into attacking the killer.",
+                "",
+                "§8§oA tiny tarnished crown whose points all bend inward§r",
+                "§8§otoward one another.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_bloodsport_token",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Experience Bottle §f0/8",
+                "",
+                "§9When a hostile mob damages another hostile mob within 16",
+                "§9blocks, gain Bloodsport for 6 seconds. While active,",
+                "§9personally earned Martial and Ranged XP is increased by",
+                "§95％.",
+                "",
+                "§8§oA battered betting token scratched with tally marks on§r",
+                "§8§oboth faces.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_riftspike",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Obsidian §f0/128",
+                "",
+                "§9For 4 seconds after teleporting with an Ender Pearl, all",
+                "§9melee attacks have a 0.5％ chance to deal double damage.",
+                "",
+                "§8§oAn obsidian thorn that disappears when viewed from the§r",
+                "§8§oside.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_afterimage_thread",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Chorus Fruit §f0/64",
+                "",
+                "§9After teleporting with an Ender Pearl, has a 5％ chance",
+                "§9to grant Speed II for 4 seconds.",
+                "",
+                "§8§oA strand of violet fiber that always seems one step§r",
+                "§8§obehind your hand.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_voidglass_charm",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Crying Obsidian §f0/32",
+                "",
+                "§9For 4 seconds after teleporting with an Ender Pearl, the",
+                "§9first attack against you is negated and the second is",
+                "§9reduced by 10％.",
+                "",
+                "§8§oA sliver of black glass that briefly reflects places you§r",
+                "§8§ohave already left.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_hollow_compass",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Ender Eye §f0/16",
+                "",
+                "§9Killing a hostile mob within 5 seconds of teleporting",
+                "§9with an Ender Pearl has a 5％ chance to refund an Ender",
+                "§9Pearl.",
+                "",
+                "§8§oA compass with no markings whose needle jerks toward the§r",
+                "§8§onearest empty space.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_bound_chime",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Amethyst Shard §f0/64",
+                "",
+                "§9Give an Allay an item while this relic is active to bond",
+                "§9it to you. It follows naturally and safely returns when",
+                "§9separated by over 20 blocks. While within 16 blocks and",
+                "§9you are below full health, each second has a 0.5％ chance",
+                "§9to grant Regeneration I for 7.5 seconds.",
+                "",
+                "§8§oA tiny silver chime that rings whenever its companion§r",
+                "§8§odrifts too far away.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_borrowed_purpose",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Bookshelf §f0/32",
+                "",
+                "§9While your bound Allay is within 16 blocks, gain 0.5％",
+                "§9increased MineScape XP from all skills.",
+                "",
+                "§8§oThe Allay's wings hum softly whenever its keeper learns§r",
+                "§8§osomething new.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_pale_feather",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Phantom Membrane §f0/32",
+                "",
+                "§9While your bound Allay is within 16 blocks, each second",
+                "§9has a 0.5％ chance to remove one random negative status",
+                "§9effect from you.",
+                "",
+                "§8§oA soft blue-white feather that never seems to gather§r",
+                "§8§odust.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_giftbearers_knot",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7String §f0/128",
+                "",
+                "§9Whenever your bound Allay delivers an item to you, there",
+                "§9is a 0.5％ chance to grant Haste I and Speed I for 6",
+                "§9seconds.",
+                "",
+                "§8§oA loop of silver thread tied around a tiny blue bead§r",
+                "§8§othat grows warm whenever something is returned.§r"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "passiveskills:relic_distracting_gleam",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_lore",
+              "lore": [
+                "§7Lv§f1",
+                "§7Glow Ink Sac §f0/32",
+                "",
+                "§9While your bound Allay is within 16 blocks, hostile",
+                "§9attackers have a 5％ chance to receive Weakness I and",
+                "§9Slowness I for 6 seconds after damaging you.",
+                "",
+                "§8§oA cloudy blue crystal that catches the eye even in§r",
+                "§8§ocomplete darkness.§r"
+              ]
+            }
+          ]
         }
       ]
     }
