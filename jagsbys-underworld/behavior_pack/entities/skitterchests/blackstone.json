@@ -56,13 +56,16 @@
       },
       "minecraft:navigation.walk": {
         "can_path_over_water": true,
-        "avoid_damage_blocks": false,
-        "can_path_over_lava": true,
-        "can_walk_in_lava": true,
-        "can_sink": false
+        "avoid_damage_blocks": true,
+        "can_path_over_lava": false,
+        "can_walk_in_lava": false,
+        "can_sink": false,
+        "can_jump": true
       },
       "minecraft:movement.basic": {},
-      "minecraft:jump.static": {},
+      "minecraft:jump.static": {
+        "jump_power": 0.42
+      },
       "minecraft:can_climb": {},
       "minecraft:healable": {
         "items": [
@@ -129,6 +132,22 @@
           "minecraft:lava",
           "minecraft:flowing_lava"
         ]
+      },
+      "minecraft:behavior.avoid_block": {
+        "priority": 0,
+        "target_blocks": [
+          "minecraft:lava",
+          "minecraft:flowing_lava"
+        ],
+        "search_range": 4,
+        "search_height": 2,
+        "walk_speed_modifier": 1.2,
+        "sprint_speed_modifier": 1.2
+      },
+      "minecraft:variable_max_auto_step": {
+        "base_value": 1.0,
+        "controlled_value": 1.0,
+        "jump_prevented_value": 0.5625
       }
     },
     "events": {

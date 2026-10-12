@@ -72,3 +72,24 @@ test('selected full-length Ogg clips stay registered without ineffective native 
     assert.equal(entity.events['chest.closed'], undefined);
   }
 });
+
+for(const variant of ['crimson','warped'])test(`${variant} repeated sit/stand restores movement after destructive group removal`,()=>{
+ const e=load(`behavior_pack/entities/skitterchests/${variant}.json`)['minecraft:entity'];
+ const components={...e.components};
+ function apply(name){
+  for(const step of e.events[name].sequence??[e.events[name]]){
+   for(const group of step.remove?.component_groups??[]){
+    for(const component of Object.keys(e.component_groups[group]))delete components[component];
+   }
+   for(const group of step.add?.component_groups??[])Object.assign(components,e.component_groups[group]);
+  }
+ }
+ apply('minecraft:entity_spawned');apply('minecraft:on_tame');
+ for(let cycle=0;cycle<10;cycle++){
+  apply('jagsby_nether:sit');assert.equal(components['minecraft:movement'].value,0);
+  apply('jagsby_nether:stand');assert.equal(components['minecraft:movement'].value,0.3);
+  assert.equal(components['minecraft:lava_movement'].value,0.3);
+  assert.deepEqual(components['minecraft:jump.static'],{jump_power:0.42});
+  assert(components['minecraft:behavior.follow_owner']);
+ }
+});

@@ -5,4 +5,4 @@ import './agriculture/main.js';
 import './lava_fishing/main.js';
 import './skitterchests.js';
 
-console.warn("[Jagsby's Underworld] v0.2.35 loaded.");
+console.warn("[Jagsby's Underworld] v0.2.36 loaded.");

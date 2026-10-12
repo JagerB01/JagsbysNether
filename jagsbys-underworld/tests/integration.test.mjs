@@ -121,7 +121,7 @@ test('Scrap taming stays available while Blackstone and other mobs cannot enter 
 test('Skitterchest overhead labels are cleared without renaming unrelated mobs',()=>{
  for(const signal of [world.afterEvents.entitySpawn,world.afterEvents.entityLoad]){
   for(const variant of ['crimson','warped']){
-   const entity={typeId:`jagsby_nether:${variant}_skitterchest`,nameTag:''};
+   const entity={typeId:`jagsby_nether:${variant}_skitterchest`,nameTag:'',getProperty(){return false;},hasComponent(){return false;}};
    entity.nameTag='Skitterchest';signal.emit({entity});assert.equal(entity.nameTag,'');
    entity.nameTag='My pet';signal.emit({entity});assert.equal(entity.nameTag,'');
   }

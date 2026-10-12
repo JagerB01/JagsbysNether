@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.35
+# Skitterchests — v0.2.36
 
 Models, textures and original movement animations are adapted from the supplied
 NetherPlus Add-on MA v3 by BubbleStudio and MarcoGamer. Only its three chest pets
@@ -41,8 +41,7 @@ LargeMeat.wav/RawLargeMeat.wav clips from Eating Animations And Sounds SE V1.9.4
 are converted to Ogg for opening/closing the storage menu. Source paths and hashes
 are in docs/skitterchests/SOUND_SOURCE_METADATA.json. No global sounds are changed.
 
-All variants are fire immune, can navigate lava, float without waves and step
-back onto land. No riding or breeding components are present.
+All variants are fire immune, actively avoid lava and do not plan paths through it. If pushed in, they remain fire immune and buoyant. No riding or breeding components are present.
 
 ## Playtest
 
@@ -52,3 +51,7 @@ crouching sit/stand. Confirm stored items persist and drop on death, with 10/30 
 for player-attributed kills. GUI presentation and gameplay require Bedrock testing.
 Requires Bedrock 26.50+, stable server 2.8.0 and stable server-ui 2.0.0; target
 user version is 26.52.
+
+Standing explicitly restores movement, lava movement and jump components after the sitting group is removed. Loaded tamed pets marked as standing receive the repair event.
+
+One-block traversal uses explicit navigation can_jump, normal jump power 0.42 and a one-block auto-step height. Sitting sets stepping to zero; standing restores jumping and stepping explicitly.

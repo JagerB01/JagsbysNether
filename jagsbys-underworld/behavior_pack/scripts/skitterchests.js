@@ -10,6 +10,7 @@ const blackstone = 'jagsby_nether:blackstone_skitterchest';
 // The menu has its own title: no overhead name is required.
 function clearStorageLabel(entity) {
   if ((tameableChests.has(entity.typeId) || entity.typeId === blackstone) && entity.nameTag) entity.nameTag = '';
+  if (tameableChests.has(entity.typeId) && isTamed(entity) && !entity.getProperty('jagsby_nether:sitting')) entity.triggerEvent('jagsby_nether:stand');
 }
 world.afterEvents.entitySpawn.subscribe(({entity}) => clearStorageLabel(entity));
 world.afterEvents.entityLoad.subscribe(({entity}) => clearStorageLabel(entity));
@@ -51,7 +52,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(({target}) => {
   if (!tameableChests.has(target.typeId)) return;
   try {
     if (isTamed(target)) {
-      clearStorageLabel(target);
+      if(target.nameTag) target.nameTag='';
       target.triggerEvent('jagsby_nether:retain_storage');
     }
   } catch (error) { console.warn(`[Underworld Skitterchests] ${error}`); }
