@@ -66,14 +66,21 @@
       "bones": {
         "rod": {
           "rotation": [
-            "context.is_first_person ? 164.13 : 0",
-            "context.is_first_person ? 24.4 : 90",
-            "context.is_first_person ? 45.71 : 0"
+            "context.is_first_person ? 142.49 : 0",
+            "context.is_first_person ? 26.09 : 90",
+            "context.is_first_person ? 34.72 : 0"
           ],
           "position": [
             "context.is_first_person ? 1.42 : 0",
             "context.is_first_person ? 1.92 : -4.5",
             "context.is_first_person ? 2.67 : 0"
+          ]
+        },
+        "rod_sprite": {
+          "rotation": [
+            0,
+            0,
+            "context.is_first_person ? 0.0 : 10.0"
           ]
         }
       }

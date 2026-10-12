@@ -221,7 +221,8 @@ test('accepted rod uses start the client-visible cooldown once, while duplicate 
  assert.deepEqual(f.cooldowns,[f.player.id]);c.use(f.player,8);assert.equal(f.cooldowns.length,2);
 });
 test('held sprite is bound at the handle and client swing controller uses the native cooldown',()=>{
- const bone=json('../resource_pack/models/entity/lava_fishing/obsidian_fishing_rod.geo.json')['minecraft:geometry'][0].bones[0];
+ const bones=json('../resource_pack/models/entity/lava_fishing/obsidian_fishing_rod.geo.json')['minecraft:geometry'][0].bones;
+ const bone={...bones[0],cubes:bones.find(b=>b.name==='rod_sprite').cubes};
  assert.equal(bone.binding,'query.item_slot_to_bone_name(context.item_slot)');assert.deepEqual(bone.pivot,[0,24,0]);
  assert.equal(bone.cubes[0].origin[0]+8/4,0);assert.equal(bone.cubes[0].origin[1]+(64-56)/4,24);
  const controller=json('../resource_pack/animation_controllers/lava_fishing.animation_controllers.json').animation_controllers['controller.animation.jagsby_nether.rod_use'];
