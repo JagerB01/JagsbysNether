@@ -8,6 +8,7 @@ import subprocess
 import zipfile
 from pathlib import Path
 from structure_crops import strip_wart
+from structure_blocks import convert_structure_blocks
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parent
@@ -61,6 +62,7 @@ def main():
     expected = {}
     crop_sites = {}
     changed_structures = set()
+    block_conversions = {}
     for label, source in [('agriculture', agriculture), ('settlements', settlements)]:
         for name, content in source.items():
             if name in ('manifest.json', 'pack_icon.png'):
@@ -74,8 +76,12 @@ def main():
             expected[name] = content
             if name.endswith('.mcstructure'):
                 content, positions = strip_wart(content)
-                if positions:
+                content, conversion = convert_structure_blocks(content, '/villages/' in name)
+                if any(conversion.values()):
+                    block_conversions[name] = conversion
+                if content != expected[name]:
                     changed_structures.add(name)
+                if positions:
                     namespace, identifier = name.removeprefix('structures/').removesuffix('.mcstructure').split('/', 1)
                     crop_sites[f'{namespace}:{identifier}'] = positions
             combined[name] = content
@@ -111,6 +117,7 @@ def main():
             continue
         if name in changed_structures:
             rebuilt, _ = strip_wart(content)
+            rebuilt, _ = convert_structure_blocks(rebuilt, '/villages/' in name)
             assert (BUILD / 'behavior_pack' / name).read_bytes() == rebuilt, name
             continue
         assert (BUILD / 'behavior_pack' / name).read_bytes() == content, name
@@ -124,6 +131,8 @@ def main():
     for name in ('TESTING.txt', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md', 'GENERATION.md'):
         (docs / name).write_bytes((ROOT / name).read_bytes())
     (docs / 'SKITTERCHESTS.md').write_bytes((ROOT / 'SKITTERCHESTS.md').read_bytes())
+    (docs / 'STRUCTURE_BLOCK_CONVERSIONS.json').write_text(json.dumps(block_conversions, indent=2) + '\n')
+    subprocess.run(['python3', 'tools/test_structure_blocks.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/validate.py'], cwd=ROOT, check=True)
     subprocess.run(['node', '--import', './tests/register-mock.mjs', '--test',
                     *[str(p.relative_to(ROOT)) for p in sorted((ROOT / 'tests').glob('*.test.mjs'))]],
@@ -144,7 +153,7 @@ def main():
         pack = files(check[f'Jagsbys_Underworld_{suffix}.mcpack'])
         assert pack['pack_icon.png'] == icon
         assert json.loads(pack['manifest.json'])['header']['version'] == version
-    print(f'Preserved all {len(expected)-len(overrides)-len(changed_structures)} original behavior assets/scripts byte-for-byte (population/generation overridden; wart removed from {len(changed_structures)} structures); built {output} ({output.stat().st_size:,} bytes)')
+    print(f'Preserved all {len(expected)-len(overrides)-len(changed_structures)} original behavior assets/scripts byte-for-byte (population/generation overridden; wart/lighting/jigsaw conversion applied to {len(changed_structures)} structures); built {output} ({output.stat().st_size:,} bytes)')
     if placeholder:
         print('LOCAL VERIFICATION ONLY: user cover PNG still required; no release download was produced.')
 

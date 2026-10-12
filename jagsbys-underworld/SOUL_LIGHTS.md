@@ -1,4 +1,4 @@
-# Soul-light spawn protection — v0.2.55
+# Soul-light spawn protection — v0.2.56
 
 Soul torches protect a 12-block radius; soul lanterns protect a 16-block radius;
 lit soul campfires protect a 20-block radius. Extinguished soul campfires
