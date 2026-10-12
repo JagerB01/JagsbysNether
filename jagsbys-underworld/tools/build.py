@@ -100,6 +100,11 @@ def main():
         (BUILD / directory / 'pack_icon.png').write_bytes(icon)
     # Intentional population/generation overrides and wart-only structure edits.
     overrides = {'scripts/settlements/population.js', 'scripts/settlements/main.js'}
+    # Weighted pools and their matching roll probabilities are changed together
+    # so interesting structures rise while marginal tent attempt rates stay fixed.
+    for name in ('basalt', 'crimson_camp', 'warped_camp', 'soul', 'nether_brick', 'outpost'):
+        overrides.add(f'features/{name}_weighted.json')
+        overrides.add(f'feature_rules/{name}.json')
     for name, content in expected.items():
         if name in overrides:
             assert (BUILD / 'behavior_pack' / name).read_bytes() == (ROOT / 'behavior_pack' / name).read_bytes()
@@ -116,7 +121,7 @@ def main():
     # Loose documents in a .mcaddon are treated as failed pack imports.
     docs = BUILD / 'behavior_pack/docs/underworld'
     docs.mkdir(parents=True, exist_ok=True)
-    for name in ('TESTING.txt', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md'):
+    for name in ('TESTING.txt', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md', 'GENERATION.md'):
         (docs / name).write_bytes((ROOT / name).read_bytes())
     (docs / 'SKITTERCHESTS.md').write_bytes((ROOT / 'SKITTERCHESTS.md').read_bytes())
     subprocess.run(['python3', 'tools/validate.py'], cwd=ROOT, check=True)

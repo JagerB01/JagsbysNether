@@ -1,0 +1,66 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:weighted_random_feature": {
+    "description": {
+      "identifier": "nether_settlements:nether_brick_weighted"
+    },
+    "features": [
+      [
+        "nether_settlements:nether_brick_0",
+        1
+      ],
+      [
+        "nether_settlements:nether_brick_1",
+        1
+      ],
+      [
+        "nether_settlements:nether_brick_2",
+        1
+      ],
+      [
+        "nether_settlements:nether_brick_3",
+        1
+      ],
+      [
+        "nether_settlements:nether_brick_4",
+        1
+      ],
+      [
+        "nether_settlements:nether_brick_5",
+        1
+      ],
+      [
+        "nether_settlements:nether_brick_6",
+        1
+      ],
+      [
+        "nether_settlements:nether_brick_7",
+        1
+      ],
+      [
+        "nether_settlements:nether_brick_8",
+        1
+      ],
+      [
+        "nether_settlements:nether_brick_9",
+        1
+      ],
+      [
+        "nether_settlements:nether_brick_campsite_1",
+        3
+      ],
+      [
+        "nether_settlements:nether_brick_campsite_2",
+        3
+      ],
+      [
+        "nether_settlements:nether_brick_campsite_3",
+        3
+      ],
+      [
+        "nether_settlements:nether_brick_campsite_4",
+        3
+      ]
+    ]
+  }
+}

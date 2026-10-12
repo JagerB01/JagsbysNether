@@ -1,0 +1,66 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:weighted_random_feature": {
+    "description": {
+      "identifier": "nether_settlements:soul_weighted"
+    },
+    "features": [
+      [
+        "nether_settlements:soul_0",
+        1
+      ],
+      [
+        "nether_settlements:soul_1",
+        1
+      ],
+      [
+        "nether_settlements:soul_2",
+        1
+      ],
+      [
+        "nether_settlements:soul_3",
+        1
+      ],
+      [
+        "nether_settlements:soul_4",
+        1
+      ],
+      [
+        "nether_settlements:soul_5",
+        1
+      ],
+      [
+        "nether_settlements:soul_6",
+        1
+      ],
+      [
+        "nether_settlements:soul_7",
+        1
+      ],
+      [
+        "nether_settlements:soul_8",
+        1
+      ],
+      [
+        "nether_settlements:soul_9",
+        1
+      ],
+      [
+        "nether_settlements:soul_campsite_1",
+        3
+      ],
+      [
+        "nether_settlements:soul_campsite_2",
+        3
+      ],
+      [
+        "nether_settlements:soul_campsite_3",
+        3
+      ],
+      [
+        "nether_settlements:soul_campsite_4",
+        3
+      ]
+    ]
+  }
+}

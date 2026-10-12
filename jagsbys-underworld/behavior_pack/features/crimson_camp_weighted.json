@@ -1,0 +1,66 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:weighted_random_feature": {
+    "description": {
+      "identifier": "nether_settlements:crimson_camp_weighted"
+    },
+    "features": [
+      [
+        "nether_settlements:crimson_camp_0",
+        1
+      ],
+      [
+        "nether_settlements:crimson_camp_1",
+        1
+      ],
+      [
+        "nether_settlements:crimson_camp_2",
+        1
+      ],
+      [
+        "nether_settlements:crimson_camp_3",
+        1
+      ],
+      [
+        "nether_settlements:crimson_camp_4",
+        1
+      ],
+      [
+        "nether_settlements:crimson_camp_5",
+        1
+      ],
+      [
+        "nether_settlements:crimson_camp_6",
+        1
+      ],
+      [
+        "nether_settlements:crimson_camp_7",
+        1
+      ],
+      [
+        "nether_settlements:crimson_camp_8",
+        1
+      ],
+      [
+        "nether_settlements:crimson_camp_9",
+        1
+      ],
+      [
+        "nether_settlements:crimson_camp_campsite_1",
+        3
+      ],
+      [
+        "nether_settlements:crimson_camp_campsite_2",
+        3
+      ],
+      [
+        "nether_settlements:crimson_camp_campsite_3",
+        3
+      ],
+      [
+        "nether_settlements:crimson_camp_campsite_4",
+        3
+      ]
+    ]
+  }
+}

@@ -1,11 +1,11 @@
-# Jagsby's Underworld v0.2.51
+# Jagsby's Underworld v0.2.52
 
 Combined test build of Nether Settlements v0.8.24 and Nether Agriculture v0.1.6.
 One `.mcaddon` imports one behavior pack and one resource pack. A single script
 entry point loads both subsystems exactly once. Stable `@minecraft/server` 2.10.0
 and Bedrock 26.50 or newer are required; no Beta APIs are needed.
 
-Activate **Jagsby's Underworld v0.2.51 Behavior** and **Resources** together.
+Activate **Jagsby's Underworld v0.2.52 Behavior** and **Resources** together.
 Deactivate the separate Nether Settlements and Nether Agriculture packs so
 scripts do not run twice. The user-supplied cover is installed as `pack_icon.png`
 in both packs when the original PNG file has been provided.
@@ -14,7 +14,7 @@ Use a new test world for the first combined test on Bedrock 26.52. To test an
 existing world, use a copy, remove the old active packs and activate both new
 packs. Original `nether_settlements` and `jagsby_nether` identifiers are preserved
 so existing crops, items and structure identifiers remain recognizable.
-The combined packs use new UUIDs to permit the requested v0.2.51 version alongside
+The combined packs use new UUIDs to permit the requested v0.2.52 version alongside
 the higher-version standalone releases. Old village-generation seed/spacing
 records are scoped to the old behavior-pack UUID and do not automatically
 transfer. Existing village blocks and entities remain, but the new generator
@@ -55,7 +55,7 @@ cd jagsbys-underworld
 python3 tools/build.py
 ```
 
-This writes `downloads/Jagsbys_Underworld_v0.2.51.mcaddon`. The cover is copied
+This writes `downloads/Jagsbys_Underworld_v0.2.52.mcaddon`. The cover is copied
 unchanged into both packs. For local verification while the original icon is
 unavailable, `--allow-placeholder-icon` produces an explicitly marked local build
 inside `.build/`, never a release download. Original source licenses and credits
@@ -88,7 +88,7 @@ classification, with a ten-second cleanup timer as a fallback. Selection is per
 planting position and independent of forced village style. Existing structures
 already placed in saved worlds are not retroactively edited.
 
-## Lava fishing (v0.2.51 prototype)
+## Lava fishing (v0.2.52 prototype)
 
 Fishing-only adaptation of the supplied Lava Fishing 1.3.1 Java mod: one
 Obsidian Fishing Rod and its nine catch species, with original textures,
@@ -122,3 +122,7 @@ Existing villages are unchanged.
 Soul torches suppress new hostile mobs within 12 blocks; soul lanterns within
 16; soul campfires within 20. Protection is checked on spawn only, with no constant scan. Existing mobs
 and tame pets remain. See [SOUL_LIGHTS.md](SOUL_LIGHTS.md) for scope and testing.
+
+Larger campgrounds and outpost towers receive 50% more placement attempts in
+new chunks, while individual tent attempt rates are preserved. See
+[GENERATION.md](GENERATION.md) for probabilities and terrain constraints.

@@ -1,0 +1,26 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:weighted_random_feature": {
+    "description": {
+      "identifier": "nether_settlements:outpost_weighted"
+    },
+    "features": [
+      [
+        "nether_settlements:outpost_0",
+        3
+      ],
+      [
+        "nether_settlements:outpost_1",
+        2
+      ],
+      [
+        "nether_settlements:outpost_2",
+        2
+      ],
+      [
+        "nether_settlements:outpost_tower_aged",
+        3
+      ]
+    ]
+  }
+}

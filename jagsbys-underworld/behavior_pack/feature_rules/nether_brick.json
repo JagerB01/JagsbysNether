@@ -1,0 +1,51 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:feature_rules": {
+    "description": {
+      "identifier": "nether_settlements:nether_brick",
+      "places_feature": "nether_settlements:nether_brick_floor"
+    },
+    "conditions": {
+      "placement_pass": "surface_pass",
+      "minecraft:biome_filter": {
+        "all_of": [
+          {
+            "test": "has_biome_tag",
+            "operator": "==",
+            "value": "nether"
+          },
+          {
+            "test": "has_biome_tag",
+            "operator": "==",
+            "value": "nether_wastes"
+          }
+        ]
+      }
+    },
+    "distribution": {
+      "iterations": "math.random(0, 1) < (11 / 288) ? 1 : 0",
+      "coordinate_eval_order": "xzy",
+      "x": {
+        "distribution": "uniform",
+        "extent": [
+          0,
+          15
+        ]
+      },
+      "y": {
+        "distribution": "uniform",
+        "extent": [
+          36,
+          108
+        ]
+      },
+      "z": {
+        "distribution": "uniform",
+        "extent": [
+          0,
+          15
+        ]
+      }
+    }
+  }
+}

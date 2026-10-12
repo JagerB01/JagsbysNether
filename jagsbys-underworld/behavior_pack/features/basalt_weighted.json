@@ -1,0 +1,66 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:weighted_random_feature": {
+    "description": {
+      "identifier": "nether_settlements:basalt_weighted"
+    },
+    "features": [
+      [
+        "nether_settlements:basalt_0",
+        1
+      ],
+      [
+        "nether_settlements:basalt_1",
+        1
+      ],
+      [
+        "nether_settlements:basalt_2",
+        1
+      ],
+      [
+        "nether_settlements:basalt_3",
+        1
+      ],
+      [
+        "nether_settlements:basalt_4",
+        1
+      ],
+      [
+        "nether_settlements:basalt_5",
+        1
+      ],
+      [
+        "nether_settlements:basalt_6",
+        1
+      ],
+      [
+        "nether_settlements:basalt_7",
+        1
+      ],
+      [
+        "nether_settlements:basalt_8",
+        1
+      ],
+      [
+        "nether_settlements:basalt_9",
+        1
+      ],
+      [
+        "nether_settlements:basalt_campsite_1",
+        3
+      ],
+      [
+        "nether_settlements:basalt_campsite_2",
+        3
+      ],
+      [
+        "nether_settlements:basalt_campsite_3",
+        3
+      ],
+      [
+        "nether_settlements:basalt_campsite_4",
+        3
+      ]
+    ]
+  }
+}
