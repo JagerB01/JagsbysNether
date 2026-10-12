@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {components, itemComponents, startup, world, system, intervals, jobs, flush} from './mock-server.mjs';
+import {components, itemComponents, startup, world, system, intervals, jobs, flush, entities} from './mock-server.mjs';
 import {worldFixture, playerFixture} from './fixtures.mjs';
 import {RECORD_PREFIX} from '../.build/behavior_pack/scripts/settlements/navigation.js';
 import '../.build/behavior_pack/scripts/main.js';
@@ -8,7 +8,7 @@ startup();
 
 test('one combined entry registers crop components and all subsystem schedules exactly once', () => {
   assert.deepEqual([...components.keys()].sort(), ['jagsby_nether:crop', 'jagsby_nether:farmland', 'jagsby_nether:tillable_soil']);
-  assert.deepEqual(intervals.map(i => i.ticks).sort((a,b) => a-b), [1,1,100]);
+  assert.deepEqual(intervals.map(i => i.ticks).sort((a,b) => a-b), [1,1,1,100]);
   assert.deepEqual([...itemComponents.keys()], ['jagsby_nether:lava_fishing_rod']);
   for (const {callback} of intervals) assert.doesNotThrow(callback);
 });
@@ -62,6 +62,7 @@ test('only tamed Crimson and Warped interactions retain storage', () => {
       world.afterEvents.playerInteractWithEntity.emit({target: {
         typeId: `jagsby_nether:${variant}_skitterchest`,
         getProperty() { return tamed; }, hasComponent() { return tamed; },
+        getDynamicProperty(key) {return key.endsWith(':storage_entity') ? 'pending-helper' : undefined;},
         triggerEvent(event) { retained.push(event); },
       }});
     }
@@ -79,6 +80,7 @@ test('crouching toggles tamed pets; standing storage never toggles sitting', () 
       typeId: 'jagsby_nether:crimson_skitterchest',
       getProperty(name) { return name.endsWith(':tamed') || sitting; },
       hasComponent() { return true; },
+      getDynamicProperty(key) {return key.endsWith(':storage_entity') ? 'pending-helper' : undefined;},
       triggerEvent(name) { calls.push(name); },
       dimension:{id:'minecraft:nether'},location:{x:0,y:0,z:0},getComponent(){},
     };
@@ -93,7 +95,7 @@ test('crouching toggles tamed pets; standing storage never toggles sitting', () 
     world.beforeEvents.playerInteractWithEntity.emit(crouching);
     flush();
     assert.equal(crouching.cancel, true);
-    assert.deepEqual(calls, ['jagsby_nether:retain_storage']);
+    assert.deepEqual(calls, []);
   }
 });
 
@@ -128,4 +130,22 @@ test('Skitterchest overhead labels are cleared without renaming unrelated mobs',
   const minecart={typeId:'minecraft:chest_minecart',nameTag:''};
   signal.emit({entity:minecart});assert.equal(minecart.nameTag,'');
  }
+});
+
+
+test('standing use of the hidden native container passes through; crouching routes to the actual pet',()=>{
+ const calls=[];
+ const pet={id:'native-routing-pet',typeId:'jagsby_nether:crimson_skitterchest',
+   getProperty(name){return name.endsWith(':tamed');},hasComponent(){return true;},
+   getDynamicProperty(key){return key.endsWith(':storage_entity')?'native-routing-box':key.endsWith(':storage_migrated')?true:undefined;},
+   triggerEvent(name){calls.push(name);},
+ };
+ const box={id:'native-routing-box',typeId:'jagsby_nether:skitterchest_storage',getDynamicProperty(){return pet.id;}};
+ entities.set(pet.id,pet);entities.set(box.id,box);
+ const standing={target:box,player:{isSneaking:false},cancel:false};
+ world.beforeEvents.playerInteractWithEntity.emit(standing);flush();
+ assert.equal(standing.cancel,false);assert.deepEqual(calls,[]);
+ const crouching={target:box,player:{isSneaking:true},cancel:false};
+ world.beforeEvents.playerInteractWithEntity.emit(crouching);flush();
+ assert.equal(crouching.cancel,true);assert(calls.includes('jagsby_nether:sit'));
 });

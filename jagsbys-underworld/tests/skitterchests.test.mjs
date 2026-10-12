@@ -93,3 +93,26 @@ for(const variant of ['crimson','warped'])test(`${variant} repeated sit/stand re
   assert(components['minecraft:behavior.follow_owner']);
  }
 });
+
+for(const variant of ['crimson','warped'])test(`${variant} repeated native inventory opens restore standing even when active-group additions are ignored`,()=>{
+ const e=load(`behavior_pack/entities/skitterchests/${variant}.json`)['minecraft:entity'];
+ const components={...e.components},active=new Set();
+ function apply(name){
+  for(const step of e.events[name].sequence??[e.events[name]]){
+   for(const group of step.remove?.component_groups??[]){
+    if(!active.delete(group))continue;
+    for(const component of Object.keys(e.component_groups[group]))delete components[component];
+   }
+   for(const group of step.add?.component_groups??[]){
+    if(active.has(group))continue;
+    active.add(group);Object.assign(components,e.component_groups[group]);
+   }
+  }
+ }
+ apply('minecraft:entity_spawned');apply('minecraft:on_tame');
+ for(let cycle=0;cycle<10;cycle++){
+  apply('jagsby_nether:pause_storage');apply('jagsby_nether:pause_storage');assert.equal(components['minecraft:movement'].value,0);
+  apply('jagsby_nether:resume_storage');apply('jagsby_nether:stand');assert.equal(components['minecraft:movement'].value,0.3);
+  assert.equal(components['minecraft:jump.static'].jump_power,0.42);assert(components['minecraft:behavior.follow_owner']);
+ }
+});

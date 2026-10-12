@@ -12,14 +12,16 @@ export class ItemStack {
 export const components = new Map();
 export const itemComponents = new Map();
 const properties = new Map();
+export const entities = new Map();
 export const world = {
+  getEntity(id){return entities.get(id);},
   getDimension() { return {getEntities() { return []; }}; },
   getPlayers() { return []; },
   getDynamicProperty(key) { return properties.get(key); },
   setDynamicProperty(key, value) { properties.set(key, value); },
   getDynamicPropertyIds() { return [...properties.keys()]; },
   getAllPlayers() { return []; },
-  beforeEvents: {playerInteractWithEntity: signal(), playerInteractWithBlock: signal()},
+  beforeEvents: {entityHurt: signal(), playerInteractWithEntity: signal(), playerInteractWithBlock: signal()},
   afterEvents: {entityContainerOpened: signal(), entityContainerClosed: signal(), entitySpawn: signal(), entityLoad: signal(), playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
 };
 const pending = [];

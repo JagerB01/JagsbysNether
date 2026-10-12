@@ -1,0 +1,44 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "jagsby_nether:skitterchest_storage",
+      "runtime_identifier": "minecraft:chest_minecart",
+      "is_spawnable": false,
+      "is_summonable": true
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "skitterchest_storage"
+        ]
+      },
+      "minecraft:inventory": {
+        "inventory_size": 27,
+        "container_type": "minecart_chest",
+        "private": false
+      },
+      "minecraft:collision_box": {
+        "width": 1.1,
+        "height": 1.3
+      },
+      "minecraft:physics": {
+        "has_gravity": false,
+        "has_collision": false
+      },
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": false
+      },
+      "minecraft:persistent": {},
+      "minecraft:fire_immune": {},
+      "minecraft:item_hopper": {},
+      "minecraft:experience_reward": {
+        "on_death": 0
+      },
+      "minecraft:skin_id": {
+        "value": 99137
+      }
+    }
+  }
+}

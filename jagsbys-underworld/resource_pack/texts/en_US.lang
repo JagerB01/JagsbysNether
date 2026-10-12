@@ -56,3 +56,5 @@ item.spawn_egg.entity.jagsby_nether:warped_skitterchest.name=Warped Skitterchest
 
 entity.jagsby_nether:blackstone_skitterchest.name=Blackstone Skitterchest
 item.spawn_egg.entity.jagsby_nether:blackstone_skitterchest.name=Blackstone Skitterchest Spawn Egg
+
+entity.jagsby_nether:skitterchest_storage.name=Skitterchest

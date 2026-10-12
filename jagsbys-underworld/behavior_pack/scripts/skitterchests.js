@@ -1,5 +1,5 @@
 import {world, system} from '@minecraft/server';
-import {openStorage} from './skitterchest_storage.js';
+import {STORAGE,storageOwner,ensureStorage} from './skitterchest_native_storage.js';
 
 const tameableChests = new Set([
   'jagsby_nether:crimson_skitterchest',
@@ -26,10 +26,16 @@ const isTamed = target => target.getProperty('jagsby_nether:tamed') === true
   || target.hasComponent('minecraft:is_tamed');
 
 world.beforeEvents.playerInteractWithEntity.subscribe(event => {
-  const {target, player, itemStack} = event;
+  const {player, itemStack} = event;
+  const proxy=event.target.typeId===STORAGE;
+  const target=proxy?storageOwner(event.target):event.target;
+  if(!target){event.cancel=true;return;}
   if (target.typeId === blackstone) { event.cancel = true; return; }
   if (!tameableChests.has(target.typeId)) return;
   const tamed = isTamed(target);
+  if(proxy && target.getDynamicProperty('jagsby_nether:storage_migrated')!==true){
+    event.cancel=true;system.run(()=>{try{ensureStorage(target);}catch(error){console.warn(`[Underworld native storage] ${error}`);}});return;
+  }
   // Wild chests can be tamed with Scrap while standing, but never opened.
   if (!tamed) {
     event.cancel = player.isSneaking || itemStack?.typeId !== 'minecraft:netherite_scrap';
@@ -37,13 +43,18 @@ world.beforeEvents.playerInteractWithEntity.subscribe(event => {
   }
   // Standing opens the storage menu; crouching toggles the seated pose.
   event.cancel = true;
-  if (!player.isSneaking) {system.run(() => openStorage(player, target)); return;}
+  if (!player.isSneaking) {
+    if(proxy){event.cancel=false;return;}
+    system.run(()=>{try{ensureStorage(target);}catch(error){console.warn(`[Underworld native storage] ${error}`);}});
+    return;
+  }
   const nextEvent = target.getProperty('jagsby_nether:sitting') === true
     ? 'jagsby_nether:stand' : 'jagsby_nether:sit';
   system.run(() => {
     try {
       target.triggerEvent('jagsby_nether:retain_storage');
       target.triggerEvent(nextEvent);
+      ensureStorage(target);
     } catch (error) { console.warn(`[Underworld Skitterchests] ${error}`); }
   });
 });
@@ -54,6 +65,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(({target}) => {
     if (isTamed(target)) {
       if(target.nameTag) target.nameTag='';
       target.triggerEvent('jagsby_nether:retain_storage');
+      ensureStorage(target);
     }
   } catch (error) { console.warn(`[Underworld Skitterchests] ${error}`); }
 });

@@ -1,0 +1,23 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "jagsby_nether:skitterchest_storage",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/skitterchests/crimson"
+      },
+      "geometry": {
+        "default": "geometry.jagsby_nether.skitterchest_storage"
+      },
+      "scripts": {
+        "scale": "0.0"
+      },
+      "render_controllers": [
+        "controller.render.jagsby_nether.skitterchest"
+      ]
+    }
+  }
+}

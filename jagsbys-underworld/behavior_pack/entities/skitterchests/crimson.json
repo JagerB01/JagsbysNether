@@ -68,7 +68,6 @@
         "minecraft:push_through": {
           "value": 1
         },
-        "minecraft:item_hopper": {},
         "minecraft:inventory": {
           "inventory_size": 27,
           "container_type": "minecart_chest"
@@ -141,6 +140,22 @@
           "base_value": 1.0,
           "controlled_value": 1.0,
           "jump_prevented_value": 0.5625
+        }
+      },
+      "jagsby_nether:inventory_open": {
+        "minecraft:movement": {
+          "value": 0
+        },
+        "minecraft:lava_movement": {
+          "value": 0
+        },
+        "minecraft:jump.static": {
+          "jump_power": 0
+        },
+        "minecraft:variable_max_auto_step": {
+          "base_value": 0,
+          "controlled_value": 0,
+          "jump_prevented_value": 0
         }
       }
     },
@@ -353,6 +368,35 @@
             }
           }
         ]
+      },
+      "jagsby_nether:pause_storage": {
+        "sequence": [
+          {
+            "remove": {
+              "component_groups": [
+                "jagsby_nether:inventory_open",
+                "jagsby_nether:standing",
+                "jagsby_nether:sitting"
+              ]
+            }
+          },
+          {
+            "add": {
+              "component_groups": [
+                "jagsby_nether:inventory_open"
+              ]
+            }
+          }
+        ]
+      },
+      "jagsby_nether:resume_storage": {
+        "remove": {
+          "component_groups": [
+            "jagsby_nether:inventory_open",
+            "jagsby_nether:standing",
+            "jagsby_nether:sitting"
+          ]
+        }
       }
     }
   }

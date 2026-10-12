@@ -1,57 +1,57 @@
-# Skitterchests — v0.2.36
+# Skitterchests — v0.2.37 native-screen test build
 
-Models, textures and original movement animations are adapted from the supplied
-NetherPlus Add-on MA v3 by BubbleStudio and MarcoGamer. Only its three chest pets
-and their visual dependencies are included. See SKITTERCHESTS_SOURCE.json.
+This build removes the custom ActionForm storage menu entirely. Standing
+interaction with a tamed Crimson/Warped opens a real native 27-slot container;
+crouching toggles sitting/standing. Native drag/drop, stacking, inventory hotbar
+and controller/touch handling are supplied by Minecraft, not scripted buttons.
+Blackstone remains untameable and cannot be opened.
 
-| Variant | Habitat | Wild behavior | Player-kill XP |
-| --- | --- | --- | --- |
-| Crimson | Crimson Forest | Attacks visible players within 4 blocks | 10 |
-| Warped | Warped Forest | Attacks visible players within 4 blocks | 10 |
-| Blackstone | Nether Wastes and Basalt Deltas | Flees players within 8 blocks | 30 |
+## Native storage architecture
 
-Crimson/Warped tame with Netherite Scrap (1/3 chance). Blackstone cannot be tamed
-and has no accessible storage. None can be ridden or bred. All use explicit
-custom spawn eggs and custom entity rendering, with no horse/minecart runtime
-inheritance. Automatic overhead names are removed, including labels from older
-builds when entities load. Blackstone is not included in storage interaction.
+The visible Skitterchest retains its custom model, ordinary mob runtime and AI.
+Each tamed pet receives a separate hidden, non-colliding native storage entity.
+The helper follows it every tick and presents the native interaction target. The
+pet pauses while the inventory is open, then resumes its previous seated or
+standing state. No player riding is enabled. Neither pet nor helper is assigned
+an overhead name. The native title may still use its default Minecart with Chest
+label; title customization is secondary to verifying the real inventory screen.
 
-## Controls and storage
+Existing 27-slot contents migrate slot-for-slot to the native container, including
+item data. Copying completes before original slots are cleared; interrupted
+copies can be retried. A persisted link identifies the container across reloads.
+An unavailable linked container is never silently replaced, preventing duplication
+or item loss from delayed chunk loading. Native container contents become the
+single authoritative storage after migration. On owner death, contents drop and
+the helper is removed. Failed death-drop operations leave remaining items in the
+helper with an owner-dead marker for retry after load. The native before-hurt event
+cancels hits to the helper and forwards calculated damage and attacker to the pet,
+so its own health, defense and XP rules remain in control.
 
-Stand and use Netherite Scrap to tame wild Crimson/Warped. Once tamed:
+Only this native-screen integration is new. Untamed Crimson/Warped retain their
+4-block hostile detection range and 10 XP player-kill reward. Blackstone flees
+within 8 blocks and gives 30 XP. Lava avoidance, fire immunity, one-block traversal,
+retracting legs, no breeding and no riding remain in place. Netherite Scrap tames
+Crimson/Warped with a 1/3 chance. Ambient/hurt/death use strider, glow squid and
+nautilus sounds. Real container access events play the selected LargeMeat.wav and
+RawLargeMeat.wav clips. Models and animations originate in the supplied NetherPlus
+archive; provenance and sound hashes are in docs/skitterchests.
 
-- Stand and interact to open the custom 27-slot storage menu.
-- Select a stored stack to withdraw it into your inventory.
-- Choose Store item, then select an inventory stack to deposit it.
-- Crouch and interact to toggle sitting/standing.
+## Required in-game checks
 
-The menu title is Skitterchest. This is an action-form menu, not the vanilla
-chest grid; the user approved this replacement to remove the runtime workaround.
-The same underlying 27-slot entity inventory is retained for existing contents,
-native death drops and persistence. Transfers preserve item data and leave
-unaccepted quantities in their source slots. Stale selections are rejected.
-Each player can have only one storage session active. The menu checks distance
-and dimension between operations. Sitting smoothly retracts the legs, settles
-the body onto the ground and stops both land and lava movement.
+This environment cannot run the Bedrock client. The native inventory backend is
+the same container type previously confirmed to open in-game, but the hidden
+helper and interaction overlap require an actual client check. This is a native
+screen test build, not a claim of verified gameplay restoration.
 
-## Sounds and lava
+1. Tame a fresh Crimson/Warped. Confirm custom model, movement and no visible helper.
+2. Stand and interact: confirm Minecraft's actual chest grid, player inventory,
+   drag/drop/stacking and normal controller behavior, with no ActionForm list.
+3. Crouch and interact: confirm sitting/standing and movement afterward.
+4. Confirm existing contents migrate once, persist after reload, and drop once on death.
+5. Hit the chest: confirm its health, hurt/death sounds and XP are correct.
+6. Test multiple viewers, native open/close sounds and resuming motion after closing.
 
-Ambient: strider idle. Hurt: glow squid. Death: nautilus. The full user-selected
-LargeMeat.wav/RawLargeMeat.wav clips from Eating Animations And Sounds SE V1.9.4
-are converted to Ogg for opening/closing the storage menu. Source paths and hashes
-are in docs/skitterchests/SOUND_SOURCE_METADATA.json. No global sounds are changed.
+Requires Bedrock 26.50+ and stable server 2.10.0 (target: user version 26.52).
+No server-ui dependency, horse runtime on the mob, or custom storage menu remains.
 
-All variants are fire immune, actively avoid lava and do not plan paths through it. If pushed in, they remain fire immune and buoyant. No riding or breeding components are present.
-
-## Playtest
-
-Test fresh eggs and existing pets: chest model, no overhead name, land/lava
-movement, wild behavior, taming, standing storage, item deposit/withdraw and
-crouching sit/stand. Confirm stored items persist and drop on death, with 10/30 XP
-for player-attributed kills. GUI presentation and gameplay require Bedrock testing.
-Requires Bedrock 26.50+, stable server 2.8.0 and stable server-ui 2.0.0; target
-user version is 26.52.
-
-Standing explicitly restores movement, lava movement and jump components after the sitting group is removed. Loaded tamed pets marked as standing receive the repair event.
-
-One-block traversal uses explicit navigation can_jump, normal jump power 0.42 and a one-block auto-step height. Sitting sets stepping to zero; standing restores jumping and stepping explicitly.
+The helper’s unique skin marker 99137 selects zero client render scale, including the inherited vanilla chest-minecart client definition. Normal chest minecarts retain scale 1. This does not shrink the server interaction hitbox or assign an overhead name. Invisibility potion effects are not required.
