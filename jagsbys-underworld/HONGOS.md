@@ -1,4 +1,4 @@
-# Hongos — v0.2.53
+# Hongos — v0.2.54
 
 Two normal tameable mushroom mobs from NetherPlus: Crimson Hongo and Warped
 Hongo. Their original model, texture, idle/setup and walk animations and egg
