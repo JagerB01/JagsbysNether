@@ -14,6 +14,11 @@
             "sound": "jagsby_nether.skitterchest.close",
             "volume": 1.0,
             "pitch": 1.0
+          },
+          "death": {
+            "sound": "mob.spider.death",
+            "volume": 1.0,
+            "pitch": 1.0
           }
         }
       },
@@ -28,6 +33,22 @@
           },
           "chest.closed": {
             "sound": "jagsby_nether.skitterchest.close",
+            "volume": 1.0,
+            "pitch": 1.0
+          },
+          "death": {
+            "sound": "mob.spider.death",
+            "volume": 1.0,
+            "pitch": 1.0
+          }
+        }
+      },
+      "jagsby_nether:blackstone_skitterchest": {
+        "volume": 1.0,
+        "pitch": 1.0,
+        "events": {
+          "death": {
+            "sound": "mob.spider.death",
             "volume": 1.0,
             "pitch": 1.0
           }

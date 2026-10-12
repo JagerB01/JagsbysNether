@@ -58,12 +58,15 @@ for (const variant of ['crimson', 'warped', 'blackstone']) {
 
 test('selected chest clips are scoped to Crimson and Warped native open/close events', () => {
   const entities = load('resource_pack/sounds.json').entity_sounds.entities;
-  assert.deepEqual(Object.keys(entities).sort(), ['jagsby_nether:crimson_skitterchest', 'jagsby_nether:warped_skitterchest']);
+  assert.deepEqual(Object.keys(entities).sort(), ['jagsby_nether:blackstone_skitterchest', 'jagsby_nether:crimson_skitterchest', 'jagsby_nether:warped_skitterchest']);
   const definitions = load('resource_pack/sounds/sound_definitions.json').sound_definitions;
-  for (const entity of Object.values(entities)) {
+  assert.deepEqual(Object.keys(entities['jagsby_nether:blackstone_skitterchest'].events), ['death']);
+  for (const variant of ['crimson', 'warped']) {
+    const entity = entities[`jagsby_nether:${variant}_skitterchest`];
     assert.equal(entity.events['chest.open'].sound, 'jagsby_nether.skitterchest.open');
     assert.equal(entity.events['chest.closed'].sound, 'jagsby_nether.skitterchest.close');
-    for (const entry of Object.values(entity.events)) {
+    for (const event of ['chest.open', 'chest.closed']) {
+      const entry = entity.events[event];
       for (const path of definitions[entry.sound].sounds) {
         const data = readFileSync(new URL(`../resource_pack/${path}.ogg`, import.meta.url));
         assert.equal(data.subarray(0, 4).toString(), 'OggS');
