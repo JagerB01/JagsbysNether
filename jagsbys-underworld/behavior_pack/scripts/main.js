@@ -5,5 +5,6 @@ import './agriculture/main.js';
 import './lava_fishing/main.js';
 import './skitterchests.js';
 import './hongos.js';
+import './soul_lights.js';
 
-console.warn("[Jagsby's Underworld] v0.2.49 loaded.");
+console.warn("[Jagsby's Underworld] v0.2.50 loaded.");

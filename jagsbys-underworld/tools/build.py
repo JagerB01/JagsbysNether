@@ -116,7 +116,7 @@ def main():
     # Loose documents in a .mcaddon are treated as failed pack imports.
     docs = BUILD / 'behavior_pack/docs/underworld'
     docs.mkdir(parents=True, exist_ok=True)
-    for name in ('TESTING.txt', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json'):
+    for name in ('TESTING.txt', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md'):
         (docs / name).write_bytes((ROOT / name).read_bytes())
     (docs / 'SKITTERCHESTS.md').write_bytes((ROOT / 'SKITTERCHESTS.md').read_bytes())
     subprocess.run(['python3', 'tools/validate.py'], cwd=ROOT, check=True)

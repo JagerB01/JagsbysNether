@@ -45,3 +45,7 @@ export function startup() {
     },
   }});
 }
+
+export class BlockVolume {
+ constructor(from,to){this.from={...from};this.to={...to};}
+}
