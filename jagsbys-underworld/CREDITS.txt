@@ -1,4 +1,4 @@
-Jagsby's Underworld v0.2.24 — combined personal test build.
+Jagsby's Underworld v0.2.25 — combined personal test build.
 
 Village subsystem: Jagsby's Nether Settlements v0.8.24, including its original
 structures, source notices and license. The complete original release notes
@@ -24,3 +24,5 @@ native-physics casting, surface anchoring and particle-line techniques were
 reviewed. No AdvancedFishing assets, source code, fish or gear are bundled.
 
 Obsidian rod icon: user-supplied ObsidianFishingRod.png, copied unchanged from ObsidianFishingRod.zip.
+
+Skitterchest models, textures and animations adapted from the user-supplied NetherPlus Add-on MA v3 by BubbleStudio and MarcoGamer. Only the three chest pets and their visual dependencies are included.

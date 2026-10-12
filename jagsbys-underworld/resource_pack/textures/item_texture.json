@@ -73,6 +73,15 @@
     },
     "jagsby_lava_lava_lamprey": {
       "textures": "textures/items/lava_fishing/lava_lamprey"
+    },
+    "jagsby_crimson_skitterchest_spawn_egg": {
+      "textures": "textures/items/skitterchests/crimson_spawn_egg"
+    },
+    "jagsby_warped_skitterchest_spawn_egg": {
+      "textures": "textures/items/skitterchests/warped_spawn_egg"
+    },
+    "jagsby_blackstone_skitterchest_spawn_egg": {
+      "textures": "textures/items/skitterchests/blackstone_spawn_egg"
     }
   }
 }

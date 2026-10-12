@@ -1,0 +1,41 @@
+{
+  "source": "NetherPlus Add-on MA v3.mcaddon",
+  "authors": [
+    "BubbleStudio",
+    "MarcoGamer"
+  ],
+  "scope": "Three chest pets and their visual dependencies only; adapted as Skitterchests. No riding or breeding.",
+  "assets": [
+    {
+      "source": "RP/textures/entity/chest/crismonpatitas.png",
+      "destination": "resource_pack/textures/entity/skitterchests/crimson.png",
+      "sha256": "0538cddfb7c3dab6d42eff6977989a699a84ded38acfdb52046245fced70ad60"
+    },
+    {
+      "source": "RP/textures/items/patitascarmesi.png",
+      "destination": "resource_pack/textures/items/skitterchests/crimson_spawn_egg.png",
+      "sha256": "e42d96afe5d2b5dcc37a782afbea46ea2271c9aff7586a86d77208a7f3b373e0"
+    },
+    {
+      "source": "RP/textures/entity/chest/twistedpatitas.png",
+      "destination": "resource_pack/textures/entity/skitterchests/warped.png",
+      "sha256": "107f4971571670d8c627129286b7452a5f137f9da1a1fa3a6cddd1c91f502f62"
+    },
+    {
+      "source": "RP/textures/items/patitastwisted.png",
+      "destination": "resource_pack/textures/items/skitterchests/warped_spawn_egg.png",
+      "sha256": "428c85efc7ec5aa948e7cfc04d746aabf138761a01e08d21bd2b26ebdeb6995c"
+    },
+    {
+      "source": "RP/textures/entity/blackchest.png",
+      "destination": "resource_pack/textures/entity/skitterchests/blackstone.png",
+      "sha256": "297dc2c5047b348c96f1cb037fe9b2652fe3cd4ff9b1e3de9af5ad2383ec9a99"
+    },
+    {
+      "source": "RP/textures/items/patitasblack.png",
+      "destination": "resource_pack/textures/items/skitterchests/blackstone_spawn_egg.png",
+      "sha256": "f00d0d3bf475da048833e5527fcf2f1a405b0191382e56effe9433d232d6ee37"
+    }
+  ],
+  "archive_sha256": "28c76ba68befaa75f8055cbeeb9ce555464336a3d340cfdadaadaab9c6c97ead"
+}

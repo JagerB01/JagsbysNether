@@ -118,6 +118,7 @@ def main():
     docs.mkdir(parents=True, exist_ok=True)
     for name in ('TESTING.txt', 'FISHING.md'):
         (docs / name).write_bytes((ROOT / name).read_bytes())
+    (docs / 'SKITTERCHESTS.md').write_bytes((ROOT / 'SKITTERCHESTS.md').read_bytes())
     subprocess.run(['python3', 'tools/validate.py'], cwd=ROOT, check=True)
     subprocess.run(['node', '--import', './tests/register-mock.mjs', '--test',
                     *[str(p.relative_to(ROOT)) for p in sorted((ROOT / 'tests').glob('*.test.mjs'))]],

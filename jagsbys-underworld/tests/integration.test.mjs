@@ -54,3 +54,17 @@ test('instant rod global and component use events launch once and ignore other i
  world.afterEvents.itemUse.emit({source:player,itemStack:{typeId:'minecraft:stick'}});assert.equal(removed,0);
  world.afterEvents.playerLeave.emit({playerId:player.id});assert.equal(removed,1);
 });
+
+test('using Skitterchest storage retains each variant without affecting other mobs', () => {
+  const retained = [];
+  for (const variant of ['crimson', 'warped', 'blackstone']) {
+    world.afterEvents.playerInteractWithEntity.emit({target: {
+      typeId: `jagsby_nether:${variant}_skitterchest`,
+      triggerEvent(event) { retained.push(event); },
+    }});
+  }
+  world.afterEvents.playerInteractWithEntity.emit({target: {
+    typeId: 'minecraft:cow', triggerEvent() { assert.fail('unrelated mob changed'); },
+  }});
+  assert.deepEqual(retained, Array(3).fill('jagsby_nether:retain_storage'));
+});

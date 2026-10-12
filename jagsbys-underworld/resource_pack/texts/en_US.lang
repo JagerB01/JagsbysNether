@@ -47,3 +47,12 @@ item.jagsby_nether:scaly_foot_snail.name=Scaly Foot Snail
 item.jagsby_nether:yeti_crab.name=Yeti Crab
 
 item.jagsby_nether:lava_lamprey.name=Lava Lamprey
+
+entity.jagsby_nether:crimson_skitterchest.name=Crimson Skitterchest
+item.spawn_egg.entity.jagsby_nether:crimson_skitterchest.name=Crimson Skitterchest Spawn Egg
+
+entity.jagsby_nether:warped_skitterchest.name=Warped Skitterchest
+item.spawn_egg.entity.jagsby_nether:warped_skitterchest.name=Warped Skitterchest Spawn Egg
+
+entity.jagsby_nether:blackstone_skitterchest.name=Blackstone Skitterchest
+item.spawn_egg.entity.jagsby_nether:blackstone_skitterchest.name=Blackstone Skitterchest Spawn Egg

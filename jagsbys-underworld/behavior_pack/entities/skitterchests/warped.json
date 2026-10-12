@@ -1,0 +1,348 @@
+{
+  "format_version": "1.16.200",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "jagsby_nether:warped_skitterchest",
+      "is_spawnable": true,
+      "is_summonable": true,
+      "is_experimental": false
+    },
+    "component_groups": {
+      "minecraft:wolf_adult": {
+        "minecraft:experience_reward": {
+          "on_death": "query.last_hit_by_player?math.random(1,3):0"
+        }
+      },
+      "minecraft:wolf_angry": {
+        "minecraft:angry": {
+          "duration": 25,
+          "broadcast_anger": true,
+          "broadcast_range": 20,
+          "calm_event": {
+            "event": "minecraft:on_calm",
+            "target": "self"
+          }
+        },
+        "minecraft:on_target_acquired": {}
+      },
+      "minecraft:wolf_wild": {
+        "minecraft:behavior.avoid_mob_type": {
+          "priority": 3,
+          "entity_types": [
+            {
+              "filters": {
+                "test": "is_family",
+                "subject": "other",
+                "value": "llama"
+              },
+              "max_dist": 24,
+              "walk_speed_multiplier": 1.5,
+              "sprint_speed_multiplier": 1.5
+            }
+          ],
+          "probability_per_strength": 0.14
+        },
+        "minecraft:tameable": {
+          "probability": 0.33,
+          "tame_items": "netherite_scrap",
+          "tame_event": {
+            "event": "minecraft:on_tame",
+            "target": "self"
+          }
+        },
+        "minecraft:behavior.nearest_attackable_target": {
+          "priority": 4,
+          "reselect_targets": true,
+          "must_see": true,
+          "entity_types": [
+            {
+              "filters": {
+                "any_of": [
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "skeleton"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "sheep"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "rabbit"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "fox"
+                  }
+                ]
+              },
+              "max_dist": 16
+            },
+            {
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "baby_turtle"
+                  },
+                  {
+                    "test": "in_water",
+                    "subject": "other",
+                    "operator": "!=",
+                    "value": true
+                  }
+                ]
+              },
+              "max_dist": 16
+            },
+            {
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "skeleton"
+                  },
+                  {
+                    "test": "is_underwater",
+                    "subject": "other",
+                    "operator": "!=",
+                    "value": true
+                  }
+                ]
+              },
+              "max_dist": 16
+            }
+          ]
+        },
+        "minecraft:on_target_acquired": {
+          "event": "minecraft:become_angry",
+          "target": "self"
+        }
+      },
+      "minecraft:wolf_tame": {
+        "minecraft:is_tamed": {},
+        "minecraft:health": {
+          "value": 60,
+          "max": 60
+        },
+        "minecraft:sittable": {},
+        "minecraft:behavior.follow_owner": {
+          "priority": 6,
+          "speed_multiplier": 1,
+          "start_distance": 10,
+          "stop_distance": 2
+        },
+        "minecraft:attack": {
+          "damage": 12
+        },
+        "minecraft:push_through": {
+          "value": 1
+        },
+        "minecraft:item_hopper": {},
+        "minecraft:inventory": {
+          "inventory_size": 27,
+          "container_type": "minecart_chest"
+        },
+        "minecraft:leashable": {
+          "soft_distance": 4,
+          "hard_distance": 6,
+          "max_distance": 10,
+          "on_leash": {
+            "event": "minecraft:on_leash",
+            "target": "self"
+          },
+          "on_unleash": {
+            "event": "minecraft:on_unleash",
+            "target": "self"
+          }
+        },
+        "minecraft:behavior.owner_hurt_by_target": {
+          "priority": 1
+        },
+        "minecraft:behavior.owner_hurt_target": {
+          "priority": 2
+        },
+        "minecraft:behavior.nearest_attackable_target": {
+          "priority": 5,
+          "must_see": true,
+          "entity_types": [
+            {
+              "filters": {
+                "test": "is_family",
+                "subject": "other",
+                "value": "skeleton"
+              },
+              "max_dist": 16
+            }
+          ]
+        },
+        "minecraft:persistent": {}
+      },
+      "jagsby_nether:persistent_storage": {
+        "minecraft:persistent": {}
+      }
+    },
+    "components": {
+      "minecraft:nameable": {},
+      "minecraft:type_family": {
+        "family": [
+          "skitterchest",
+          "warped_skitterchest",
+          "mob"
+        ]
+      },
+      "minecraft:breathable": {
+        "total_supply": 15,
+        "suffocate_time": 0
+      },
+      "minecraft:collision_box": {
+        "width": 0.6,
+        "height": 0.8
+      },
+      "minecraft:health": {
+        "value": 10,
+        "max": 10
+      },
+      "minecraft:movement": {
+        "value": 0.3
+      },
+      "minecraft:navigation.walk": {
+        "can_path_over_water": true,
+        "avoid_damage_blocks": true
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:jump.static": {},
+      "minecraft:can_climb": {},
+      "minecraft:attack": {
+        "damage": 10
+      },
+      "minecraft:healable": {
+        "items": [
+          {
+            "item": "warped_nylium",
+            "heal_amount": 3
+          },
+          {
+            "item": "warped_stem",
+            "heal_amount": 3
+          },
+          {
+            "item": "warped_wart_block",
+            "heal_amount": 10
+          },
+          {
+            "item": "minecraft:pumpkin",
+            "heal_amount": 3
+          }
+        ]
+      },
+      "minecraft:despawn": {
+        "despawn_from_distance": {}
+      },
+      "minecraft:behavior.float": {
+        "priority": 0
+      },
+      "minecraft:behavior.stay_while_sitting": {
+        "priority": 3
+      },
+      "minecraft:behavior.leap_at_target": {
+        "priority": 4,
+        "target_dist": 0.4
+      },
+      "minecraft:behavior.melee_attack": {
+        "priority": 5
+      },
+      "minecraft:behavior.random_stroll": {
+        "priority": 8,
+        "speed_multiplier": 1
+      },
+      "minecraft:behavior.look_at_player": {
+        "priority": 6,
+        "target_distance": 6,
+        "probability": 0.02
+      },
+      "minecraft:behavior.hurt_by_target": {
+        "priority": 3
+      },
+      "minecraft:physics": {},
+      "minecraft:pushable": {
+        "is_pushable": true,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:conditional_bandwidth_optimization": {
+        "default_values": {
+          "max_optimized_distance": 80,
+          "max_dropped_ticks": 10,
+          "use_motion_prediction_hints": true
+        }
+      },
+      "minecraft:inventory": {
+        "inventory_size": 27,
+        "container_type": "minecart_chest"
+      },
+      "minecraft:scale": {
+        "value": 1.4
+      },
+      "minecraft:fire_immune": {}
+    },
+    "events": {
+      "minecraft:entity_spawned": {
+        "add": {
+          "component_groups": [
+            "minecraft:wolf_adult",
+            "minecraft:wolf_wild"
+          ]
+        }
+      },
+      "minecraft:on_tame": {
+        "remove": {
+          "component_groups": [
+            "minecraft:wolf_wild"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "minecraft:wolf_tame"
+          ]
+        }
+      },
+      "minecraft:become_angry": {
+        "remove": {
+          "component_groups": [
+            "minecraft:wolf_wild"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "minecraft:wolf_angry"
+          ]
+        }
+      },
+      "minecraft:on_calm": {
+        "remove": {
+          "component_groups": [
+            "minecraft:wolf_angry"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "minecraft:wolf_wild"
+          ]
+        }
+      },
+      "jagsby_nether:retain_storage": {
+        "add": {
+          "component_groups": [
+            "jagsby_nether:persistent_storage"
+          ]
+        }
+      }
+    }
+  }
+}
