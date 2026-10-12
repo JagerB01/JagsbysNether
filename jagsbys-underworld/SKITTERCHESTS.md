@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.38 native-screen test build
+# Skitterchests — v0.2.39 native-screen test build
 
 This build removes the custom ActionForm storage menu entirely. Standing
 interaction with a tamed Crimson/Warped opens a real native 27-slot container;
@@ -29,7 +29,16 @@ helper with an owner-dead marker for retry after load. The native before-hurt ev
 cancels hits to the helper and forwards calculated damage and attacker to the pet,
 so its own health, defense and XP rules remain in control.
 
-v0.2.38 changes only the native window title. The user confirmed the v0.2.37
+v0.2.39 lowers each variant’s base walking/lava movement speed from 0.3 to
+0.2 (one third slower), including explicit standing restoration after sitting or
+opening storage. Follow-owner speed stays at 1×; existing flee/avoidance
+multipliers remain. A zero-volume entity sound mapping suppresses movement and
+other native sounds for the hidden storage helper only; normal minecart mappings
+and the visible mobs’ strider/glow-squid/nautilus sounds are unchanged. Scripted
+chest open/close clips still play separately. Native rolling-sound suppression
+needs an in-game check because this environment cannot run Bedrock.
+
+The previous v0.2.38 changed only the native window title. The user confirmed the v0.2.37
 native inventory and other behavior work in-game. Untamed Crimson/Warped retain their
 4-block hostile detection range and 10 XP player-kill reward. Blackstone flees
 within 8 blocks and gives 30 XP. Lava avoidance, fire immunity, one-block traversal,
@@ -42,7 +51,7 @@ archive; provenance and sound hashes are in docs/skitterchests.
 ## Required in-game checks
 
 This environment cannot run the Bedrock client. The user confirmed the native
-inventory works in v0.2.37. The v0.2.38 blank title still needs client
+inventory works in v0.2.37. The blank title and v0.2.39 helper sound suppression need client
 verification: confirm the Minecart with Chest heading is gone, no overhead text
 appears, and a regular chest minecart keeps its normal title. Automated checks
 cannot verify the engine renders a formatting-only name as blank.

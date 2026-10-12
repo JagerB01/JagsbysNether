@@ -87,8 +87,8 @@ for(const variant of ['crimson','warped'])test(`${variant} repeated sit/stand re
  apply('minecraft:entity_spawned');apply('minecraft:on_tame');
  for(let cycle=0;cycle<10;cycle++){
   apply('jagsby_nether:sit');assert.equal(components['minecraft:movement'].value,0);
-  apply('jagsby_nether:stand');assert.equal(components['minecraft:movement'].value,0.3);
-  assert.equal(components['minecraft:lava_movement'].value,0.3);
+  apply('jagsby_nether:stand');assert.equal(components['minecraft:movement'].value,0.2);
+  assert.equal(components['minecraft:lava_movement'].value,0.2);
   assert.deepEqual(components['minecraft:jump.static'],{jump_power:0.42});
   assert(components['minecraft:behavior.follow_owner']);
  }
@@ -112,7 +112,7 @@ for(const variant of ['crimson','warped'])test(`${variant} repeated native inven
  apply('minecraft:entity_spawned');apply('minecraft:on_tame');
  for(let cycle=0;cycle<10;cycle++){
   apply('jagsby_nether:pause_storage');apply('jagsby_nether:pause_storage');assert.equal(components['minecraft:movement'].value,0);
-  apply('jagsby_nether:resume_storage');apply('jagsby_nether:stand');assert.equal(components['minecraft:movement'].value,0.3);
+  apply('jagsby_nether:resume_storage');apply('jagsby_nether:stand');assert.equal(components['minecraft:movement'].value,0.2);
   assert.equal(components['minecraft:jump.static'].jump_power,0.42);assert(components['minecraft:behavior.follow_owner']);
  }
 });

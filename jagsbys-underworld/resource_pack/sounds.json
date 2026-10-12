@@ -63,6 +63,17 @@
             "pitch": 1.0
           }
         }
+      },
+      "jagsby_nether:skitterchest_storage": {
+        "volume": 0.0,
+        "pitch": 1.0,
+        "events": {
+          "step": "",
+          "move": "",
+          "ambient": "",
+          "hurt": "",
+          "death": ""
+        }
       }
     }
   }
