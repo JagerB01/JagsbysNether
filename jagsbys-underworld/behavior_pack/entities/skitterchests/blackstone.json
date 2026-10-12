@@ -5,19 +5,7 @@
       "identifier": "jagsby_nether:blackstone_skitterchest",
       "is_spawnable": true,
       "is_summonable": true,
-      "is_experimental": false,
-      "runtime_identifier": "minecraft:chest_minecart",
-      "properties": {
-        "jagsby_nether:sitting": {
-          "type": "bool",
-          "default": false,
-          "client_sync": true
-        },
-        "jagsby_nether:tamed": {
-          "type": "bool",
-          "default": false
-        }
-      }
+      "is_experimental": false
     },
     "component_groups": {
       "minecraft:wolf_adult": {
@@ -128,17 +116,6 @@
           "event": "minecraft:become_angry",
           "target": "self"
         }
-      },
-      "jagsby_nether:persistent_storage": {
-        "minecraft:persistent": {}
-      },
-      "jagsby_nether:sitting": {
-        "minecraft:movement": {
-          "value": 0
-        },
-        "minecraft:jump.static": {
-          "jump_power": 0
-        }
       }
     },
     "components": {
@@ -232,10 +209,6 @@
           "use_motion_prediction_hints": true
         }
       },
-      "minecraft:inventory": {
-        "inventory_size": 27,
-        "container_type": "minecart_chest"
-      },
       "minecraft:scale": {
         "value": 1.7
       },
@@ -273,49 +246,6 @@
             "minecraft:wolf_wild"
           ]
         }
-      },
-      "jagsby_nether:retain_storage": {
-        "add": {
-          "component_groups": [
-            "jagsby_nether:persistent_storage"
-          ]
-        }
-      },
-      "jagsby_nether:sit": {
-        "sequence": [
-          {
-            "filters": {
-              "test": "is_tamed",
-              "value": true
-            },
-            "add": {
-              "component_groups": [
-                "jagsby_nether:sitting"
-              ]
-            },
-            "set_property": {
-              "jagsby_nether:sitting": true
-            }
-          }
-        ]
-      },
-      "jagsby_nether:stand": {
-        "sequence": [
-          {
-            "filters": {
-              "test": "is_tamed",
-              "value": true
-            },
-            "remove": {
-              "component_groups": [
-                "jagsby_nether:sitting"
-              ]
-            },
-            "set_property": {
-              "jagsby_nether:sitting": false
-            }
-          }
-        ]
       }
     }
   }

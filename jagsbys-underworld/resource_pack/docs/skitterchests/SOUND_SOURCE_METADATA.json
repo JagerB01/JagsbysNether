@@ -1,0 +1,18 @@
+{
+  "archive": "Eating Animations And Sounds SE V1.9.4-42602-1-9-4-1668786874.7z",
+  "files": [
+    {
+      "source": "Eating Animations And Sounds SE V1.9.4/sound/fx/TaberuSound/LargeMeat.wav",
+      "source_sha256": "a699c2c6997fc39db97f051ce6cf83a490a0f7610506f2d323f0501f8160d389",
+      "destination": "resource_pack/sounds/skitterchests/open.ogg",
+      "processing": "Converted to mono Ogg Vorbis, preserving full duration, speed and pitch."
+    },
+    {
+      "source": "Eating Animations And Sounds SE V1.9.4/sound/fx/TaberuSound/RawLargeMeat.wav",
+      "source_sha256": "bbef567fc6d27a965106b2f0a21f66094e5e0b72f6a94b8b86f25b7c1eb7e6cf",
+      "destination": "resource_pack/sounds/skitterchests/close.ogg",
+      "processing": "Converted to mono Ogg Vorbis, preserving full duration, speed and pitch."
+    }
+  ],
+  "archive_sha256": "72c28c5f9d086198115d40b30eb250d47db20283f69c15d664dd5c4f15df3f6f"
+}

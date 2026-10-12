@@ -55,18 +55,21 @@ test('instant rod global and component use events launch once and ignore other i
  world.afterEvents.playerLeave.emit({playerId:player.id});assert.equal(removed,1);
 });
 
-test('using Skitterchest storage retains each variant without affecting other mobs', () => {
+test('only tamed Crimson and Warped interactions retain storage', () => {
   const retained = [];
   for (const variant of ['crimson', 'warped', 'blackstone']) {
-    world.afterEvents.playerInteractWithEntity.emit({target: {
-      typeId: `jagsby_nether:${variant}_skitterchest`,
-      triggerEvent(event) { retained.push(event); },
-    }});
+    for (const tamed of [false, true]) {
+      world.afterEvents.playerInteractWithEntity.emit({target: {
+        typeId: `jagsby_nether:${variant}_skitterchest`,
+        getProperty() { return tamed; }, hasComponent() { return tamed; },
+        triggerEvent(event) { retained.push(event); },
+      }});
+    }
   }
   world.afterEvents.playerInteractWithEntity.emit({target: {
     typeId: 'minecraft:cow', triggerEvent() { assert.fail('unrelated mob changed'); },
   }});
-  assert.deepEqual(retained, Array(3).fill('jagsby_nether:retain_storage'));
+  assert.deepEqual(retained, Array(2).fill('jagsby_nether:retain_storage'));
 });
 
 test('standing use toggles tamed pets without opening storage; crouching keeps native access', () => {
@@ -105,7 +108,7 @@ test('Scrap taming stays available while Blackstone and other mobs cannot enter 
     assert.equal(use.cancel, variant === 'blackstone');
     const crouching = {...use, player: {isSneaking: true}, cancel: false};
     world.beforeEvents.playerInteractWithEntity.emit(crouching);
-    assert.equal(crouching.cancel, false);
+    assert.equal(crouching.cancel, true);
   }
   const cow = {target: target('minecraft:cow'), player: {isSneaking: false}, cancel: false};
   world.beforeEvents.playerInteractWithEntity.emit(cow);

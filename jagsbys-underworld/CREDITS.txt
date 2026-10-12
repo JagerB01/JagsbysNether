@@ -1,4 +1,4 @@
-Jagsby's Underworld v0.2.26 — combined personal test build.
+Jagsby's Underworld v0.2.27 — combined personal test build.
 
 Village subsystem: Jagsby's Nether Settlements v0.8.24, including its original
 structures, source notices and license. The complete original release notes
@@ -26,3 +26,5 @@ reviewed. No AdvancedFishing assets, source code, fish or gear are bundled.
 Obsidian rod icon: user-supplied ObsidianFishingRod.png, copied unchanged from ObsidianFishingRod.zip.
 
 Skitterchest models, textures and animations adapted from the user-supplied NetherPlus Add-on MA v3 by BubbleStudio and MarcoGamer. Only the three chest pets and their visual dependencies are included.
+
+Skitterchest opening/closing audio: LargeMeat.wav and RawLargeMeat.wav from the user-supplied Eating Animations And Sounds SE V1.9.4 archive (Nexus mod 42602). See docs/skitterchests/SOUND_SOURCE_METADATA.json for original filenames and hashes.

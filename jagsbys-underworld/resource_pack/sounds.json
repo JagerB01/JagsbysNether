@@ -1,0 +1,38 @@
+{
+  "entity_sounds": {
+    "entities": {
+      "jagsby_nether:crimson_skitterchest": {
+        "volume": 1.0,
+        "pitch": 1.0,
+        "events": {
+          "chest.open": {
+            "sound": "jagsby_nether.skitterchest.open",
+            "volume": 1.0,
+            "pitch": 1.0
+          },
+          "chest.closed": {
+            "sound": "jagsby_nether.skitterchest.close",
+            "volume": 1.0,
+            "pitch": 1.0
+          }
+        }
+      },
+      "jagsby_nether:warped_skitterchest": {
+        "volume": 1.0,
+        "pitch": 1.0,
+        "events": {
+          "chest.open": {
+            "sound": "jagsby_nether.skitterchest.open",
+            "volume": 1.0,
+            "pitch": 1.0
+          },
+          "chest.closed": {
+            "sound": "jagsby_nether.skitterchest.close",
+            "volume": 1.0,
+            "pitch": 1.0
+          }
+        }
+      }
+    }
+  }
+}

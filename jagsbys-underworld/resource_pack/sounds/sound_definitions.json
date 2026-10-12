@@ -1,0 +1,17 @@
+{
+  "format_version": "1.14.0",
+  "sound_definitions": {
+    "jagsby_nether.skitterchest.open": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/skitterchests/open"
+      ]
+    },
+    "jagsby_nether.skitterchest.close": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/skitterchests/close"
+      ]
+    }
+  }
+}

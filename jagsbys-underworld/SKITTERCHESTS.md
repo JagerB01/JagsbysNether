@@ -1,32 +1,48 @@
-# Skitterchests — v0.2.26
+# Skitterchests — v0.2.27
 
 Only the three chest pets and their models, textures, animations and spawn eggs
 are adapted from the supplied NetherPlus Add-on MA v3 by BubbleStudio and
 MarcoGamer. Asset hashes and provenance are in SKITTERCHESTS_SOURCE.json.
 
-| Mob | Natural habitat | Taming |
+| Mob | Natural habitat | Taming and storage |
 | --- | --- | --- |
-| Crimson Skitterchest | Crimson Forest | Netherite Scrap, 1/3 chance |
-| Warped Skitterchest | Warped Forest | Netherite Scrap, 1/3 chance |
-| Blackstone Skitterchest | Nether Wastes (rare), Basalt Deltas | Cannot be tamed |
+| Crimson Skitterchest | Crimson Forest | Netherite Scrap, 1/3 chance; 27 slots once tamed |
+| Warped Skitterchest | Warped Forest | Netherite Scrap, 1/3 chance; 27 slots once tamed |
+| Blackstone Skitterchest | Nether Wastes (rare), Basalt Deltas | Cannot be tamed or opened |
 
-Each has a native 27-slot chest inventory and a creative spawn egg. No variant
-can be ridden or bred; natural spawns are adults. Crimson and Warped retain
-following, sitting, healing and defense after taming. Once a Skitterchest is
-interacted with, it becomes persistent to protect stored items from distance
-despawning. Inventories drop their contents on death. They are fire immune.
+All have creative spawn eggs and are fire immune. No variant can be ridden or
+bred; natural spawns are adults. Tamed Crimson and Warped retain following,
+healing and defense. Their inventories drop their contents on death. Tamed pets
+are persistent, so distance despawning cannot remove the player's stored goods.
+Wild mobs have no accessible storage; Blackstone has no inventory component.
 
-Spawn rules retain the source weights and difficulty ranges. Crimson can spawn
-on crimson nylium, correcting the source's exclusion of its own biome floor.
-Spawn rules apply to suitable Nether terrain; existing explored chunks can spawn
-these mobs too. Commands use jagsby_nether:crimson_skitterchest,
-jagsby_nether:warped_skitterchest and jagsby_nether:blackstone_skitterchest.
+## Controls
 
-In-game checks: spawn each egg, open and fill all three chests, tame Crimson and
-Warped with Netherite Scrap, confirm Blackstone stays untameable, confirm no
-riding prompt or breeding, and leave/reload to check stored items. Natural
-spawning, storage UI and pet interactions require Bedrock playtesting.
+Stand and use Netherite Scrap to tame wild Crimson or Warped. Once tamed,
+standing interaction toggles their sit/stand state; crouching interaction opens
+the native 27-slot storage screen without changing that state. Sitting prevents
+walking and jumping. The chest-minecart runtime supplies the container
+interaction; custom mob navigation remains in place, with no riding component.
 
-## Storage controls
+## Opening and closing sounds
 
-Crouch and interact to open the native 27-slot chest screen, including on Blackstone. Standing interaction toggles sit/stand on tamed Crimson and Warped. Wild Crimson/Warped still tame with Netherite Scrap while standing. Sitting prevents walking and jumping; crouching storage access leaves that state unchanged. No rideable component is present. The native chest-minecart runtime is used only to supply container interaction; movement remains the custom mob navigation. Verify this runtime combination in Bedrock, including existing pets after updating.
+The exact user-selected clips from Eating Animations And Sounds SE V1.9.4
+(Nexus mod 42602) are registered as:
+
+- LargeMeat.wav → jagsby_nether.skitterchest.open
+- RawLargeMeat.wav → jagsby_nether.skitterchest.close
+
+They are mapped to the native chest.open and chest.closed sound events on
+Crimson and Warped only. Full clips are preserved, converted to mono Ogg Vorbis
+without changing duration, pitch or speed. No global vanilla chest sounds are
+replaced. Original paths and SHA-256 hashes are in
+resource_pack/docs/skitterchests/SOUND_SOURCE_METADATA.json.
+
+## Playtest
+
+Confirm wild mobs and Blackstone cannot open storage, tame Crimson and Warped,
+then check standing sit/stand, crouching storage, both selected sounds, inventory
+persistence and natural spawning. Native container interaction and sound-event
+routing require verification in Bedrock; the cloud environment has no game
+runtime. Spawn rules preserve source weights/difficulty ranges, except Crimson
+can spawn on crimson nylium, correcting the source's exclusion of its own floor.

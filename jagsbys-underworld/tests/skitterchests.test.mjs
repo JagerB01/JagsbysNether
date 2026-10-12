@@ -16,20 +16,28 @@ for (const variant of ['crimson', 'warped', 'blackstone']) {
       }
     }
     const components = () => Object.assign({}, entity.components, ...[...active].map(g => entity.component_groups[g]));
-    for (const name of ['minecraft:entity_spawned', 'minecraft:become_angry', 'minecraft:on_calm', 'jagsby_nether:retain_storage']) {
+    for (const name of ['minecraft:entity_spawned', 'minecraft:become_angry', 'minecraft:on_calm']) {
       event(name);
-      assert.equal(components()['minecraft:inventory'].inventory_size, 27);
+      assert.equal(components()['minecraft:inventory'], undefined);
     }
-    assert.deepEqual(components()['minecraft:persistent'], {});
     if (variant !== 'blackstone') {
       assert.equal(components()['minecraft:tameable'].tame_items, 'netherite_scrap');
       event('minecraft:on_tame');
+      event('jagsby_nether:retain_storage');
+      assert.deepEqual(components()['minecraft:persistent'], {});
       assert.deepEqual(components()['minecraft:is_tamed'], {});
       assert.equal(components()['minecraft:inventory'].inventory_size, 27);
+      assert.equal(entity.description.runtime_identifier, 'minecraft:chest_minecart');
+    } else {
+      assert.equal(entity.description.runtime_identifier, undefined);
+      assert.equal(entity.events['jagsby_nether:retain_storage'], undefined);
     }
     for (const cs of [entity.components, ...Object.values(entity.component_groups)]) {
       for (const banned of ['minecraft:rideable', 'minecraft:behavior.mount_pathing', 'minecraft:breedable', 'minecraft:behavior.breed']) assert.equal(cs[banned], undefined);
-      if (variant === 'blackstone') assert.equal(cs['minecraft:tameable'], undefined);
+      if (variant === 'blackstone') {
+        assert.equal(cs['minecraft:tameable'], undefined);
+        assert.equal(cs['minecraft:inventory'], undefined);
+      }
     }
     const client = load(`resource_pack/entity/skitterchests/${variant}.json`)['minecraft:client_entity'].description;
     assert.equal(client.identifier, entity.description.identifier);
@@ -47,3 +55,19 @@ for (const variant of ['crimson', 'warped', 'blackstone']) {
     assert.equal(load(`behavior_pack/spawn_rules/skitterchests/${variant}.json`)['minecraft:spawn_rules'].description.identifier, client.identifier);
   });
 }
+
+test('selected chest clips are scoped to Crimson and Warped native open/close events', () => {
+  const entities = load('resource_pack/sounds.json').entity_sounds.entities;
+  assert.deepEqual(Object.keys(entities).sort(), ['jagsby_nether:crimson_skitterchest', 'jagsby_nether:warped_skitterchest']);
+  const definitions = load('resource_pack/sounds/sound_definitions.json').sound_definitions;
+  for (const entity of Object.values(entities)) {
+    assert.equal(entity.events['chest.open'].sound, 'jagsby_nether.skitterchest.open');
+    assert.equal(entity.events['chest.closed'].sound, 'jagsby_nether.skitterchest.close');
+    for (const entry of Object.values(entity.events)) {
+      for (const path of definitions[entry.sound].sounds) {
+        const data = readFileSync(new URL(`../resource_pack/${path}.ogg`, import.meta.url));
+        assert.equal(data.subarray(0, 4).toString(), 'OggS');
+      }
+    }
+  }
+});
