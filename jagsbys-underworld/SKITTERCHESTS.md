@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.33
+# Skitterchests — v0.2.34
 
 Only the three chest pets and their models, textures, animations and spawn eggs
 are adapted from the supplied NetherPlus Add-on MA v3 by BubbleStudio and
@@ -65,3 +65,15 @@ All three variants use mob.strider.idle as their periodic ambient sound, with th
 Crimson and Warped now use an animal runtime instead of the chest-minecart runtime that interfered with normal mob walking. Nameable is removed from all variants so naming interaction and nameable-driven display are disabled; the internal default name remains for the storage title. Native container layout, overhead-name behavior and locomotion must be checked in Bedrock for this runtime combination.
 
 This build requires Bedrock 26.50+ (tested target: user version 26.52) and stable server 2.8.0 for the native container access events.
+
+## Wild behavior and death XP
+
+Untamed Crimson and Warped acquire visible player targets within four blocks. Their wild targeting group is removed upon taming, retaining normal pet following and defensive behavior. No group anger broadcasting is used. Blackstone flees players within eight blocks, moving at 1.5x walking or 2x sprinting speed, and has no attack or retaliation goals. Player-attributed kills award 10 XP for Crimson/Warped and 30 XP for Blackstone, using native XP rewards. Environmental deaths without player attribution award no XP, as in vanilla.
+
+## v0.2.34 wild behavior, lava and spawn eggs
+
+Creative eggs are explicit entity_placer items targeting the custom Skitterchest identifiers, replacing automatically generated eggs that could inherit the animal runtime’s spawning behavior. The internal animal runtime remains for native inventory/movement support; eggs do not target minecraft:horse.
+
+All three can path through and across lava, do not treat lava as a forbidden damage block, do not sink, and have explicit lava movement speed 0.3. The sitting group overrides lava movement to zero. These settings follow the vanilla strider navigation pattern.
+
+Lava buoyancy keeps them at the surface and allows stepping back onto land. The old generic jumping-in-liquid goal is removed so it does not compete with lava navigation. Buoyancy has no wave motion.

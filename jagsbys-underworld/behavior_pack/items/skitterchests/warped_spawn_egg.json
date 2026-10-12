@@ -1,0 +1,27 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:item": {
+    "description": {
+      "identifier": "jagsby_nether:warped_skitterchest_spawn_egg",
+      "menu_category": {
+        "category": "nature"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "item.spawn_egg.entity.jagsby_nether:warped_skitterchest.name"
+      },
+      "minecraft:icon": {
+        "textures": {
+          "default": "jagsby_warped_skitterchest_spawn_egg"
+        }
+      },
+      "minecraft:max_stack_size": 64,
+      "minecraft:entity_placer": {
+        "entity": "jagsby_nether:warped_skitterchest",
+        "use_on": [],
+        "dispense_on": []
+      }
+    }
+  }
+}

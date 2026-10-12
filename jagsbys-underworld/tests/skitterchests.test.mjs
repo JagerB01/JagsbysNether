@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 const load = path => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url)));
 
 for (const variant of ['crimson', 'warped', 'blackstone']) {
-  test(`${variant} storage survives its spawn, anger, calm and retention events`, () => {
+  test(`${variant} storage remains inaccessible until taming and persists after retention`, () => {
     const entity = load(`behavior_pack/entities/skitterchests/${variant}.json`)['minecraft:entity'];
     const active = new Set();
     function event(name) {
@@ -16,7 +16,7 @@ for (const variant of ['crimson', 'warped', 'blackstone']) {
       }
     }
     const components = () => Object.assign({}, entity.components, ...[...active].map(g => entity.component_groups[g]));
-    for (const name of ['minecraft:entity_spawned', 'minecraft:become_angry', 'minecraft:on_calm']) {
+    for (const name of ['minecraft:entity_spawned']) {
       event(name);
       assert.equal(components()['minecraft:inventory'], undefined);
     }
@@ -41,7 +41,10 @@ for (const variant of ['crimson', 'warped', 'blackstone']) {
     }
     const client = load(`resource_pack/entity/skitterchests/${variant}.json`)['minecraft:client_entity'].description;
     assert.equal(client.identifier, entity.description.identifier);
-    assert.equal(entity.description.is_spawnable, true);
+    assert.equal(entity.description.is_spawnable, false);
+    const egg = load(`behavior_pack/items/skitterchests/${variant}_spawn_egg.json`)['minecraft:item'];
+    assert.equal(egg.components['minecraft:entity_placer'].entity, entity.description.identifier);
+    assert.deepEqual(egg.components['minecraft:entity_placer'].use_on, []);
     const model = load(`resource_pack/models/entity/skitterchests/${variant}.geo.json`)['minecraft:geometry'][0];
     assert.equal(model.description.identifier, client.geometry.default);
     const animations = load(`resource_pack/animations/skitterchests/${variant}.json`).animations;
