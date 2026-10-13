@@ -363,3 +363,9 @@ casting physics and catches are unchanged. Check smoothness in Minecraft.
 ## v0.2.29 lava XP bonus
 
 Successful lava catches roll vanilla fishing’s 1–6 XP and multiply by 1.5. Half points round up/down with equal probability, for an exact 1.5× average (5.25 XP per catch, possible integer rewards 1–9). XP still uses native orbs for Mending. Failed and empty reels give no XP.
+
+## Obsidian fishing rod crafting
+
+The crafting-table layout is `  O` / ` BS` / `O C`: two obsidian,
+one blaze rod, one string and one crying obsidian produce one obsidian rod.
+Spaces are empty slots.

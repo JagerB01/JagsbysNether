@@ -8,19 +8,22 @@
       "crafting_table"
     ],
     "pattern": [
-      "  i",
-      " is",
-      "t s"
+      "  O",
+      " BS",
+      "O C"
     ],
     "key": {
-      "i": {
+      "O": {
         "item": "minecraft:obsidian"
       },
-      "s": {
+      "B": {
+        "item": "minecraft:blaze_rod"
+      },
+      "S": {
         "item": "minecraft:string"
       },
-      "t": {
-        "item": "minecraft:stick"
+      "C": {
+        "item": "minecraft:crying_obsidian"
       }
     },
     "result": {
