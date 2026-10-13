@@ -19,7 +19,7 @@ function run(radius,automatic=false){
  finally{world.structureManager=manager;}
  return {placed,spawned,notifications,writes,completed,region};
 }
-for(const automatic of [false,true])for(const [radius,houses] of [[12,0],[10,1],[18,2]]){
+for(const automatic of [false,true])for(const [radius,houses] of [[12,0],[10,1],[15,2]]){
  test(`${automatic?'natural':'command'} planning rejects ${houses} houses without world writes or records`,()=>{
   const before=world.getDynamicPropertyIds(),f=run(radius,automatic);
   assert(f.notifications.some(m=>m.startsWith(`Only ${houses} residential houses fit:`)));
@@ -29,8 +29,8 @@ for(const automatic of [false,true])for(const [radius,houses] of [[12,0],[10,1],
  });
 }
 test('a real layout with exactly three residential houses still places and records a village',()=>{
- const f=run(40,true);
- assert(f.notifications.some(m=>m.includes('3 houses, 3 amenities')));
+ const f=run(16,true);
+ assert(f.notifications.some(m=>m.includes('3 houses, 0 amenities')));
  assert(f.writes>0);assert(f.placed.length>0);
  assert.equal(f.spawned.filter(id=>id==='minecraft:villager_v2').length,3);
  assert.equal(world.getDynamicProperty(f.region),true);

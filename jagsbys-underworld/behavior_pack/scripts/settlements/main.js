@@ -154,7 +154,7 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
     const center={piece:best.piece,rotation:best.rotation,origin:best.origin,baseY:best.baseY,plan:verifiedPlan};
     boxes.push({...best.origin,sx:best.sx,sz:best.sz});
     queue.push(...best.exits.map(c=>({...c,depth:1})));
-    while (queue.length && buildings<size.houses && boxes.length<1+size.houses+size.roads) {
+    while (queue.length && (houses<size.houses||farms===0) && buildings<size.houses+3 && boxes.length<1+size.houses+3+size.roads) {
       // Attach nearby houses before extending more roads.
       queue.sort((a,b)=>(a.pool.endsWith('/houses')?0:1)-(b.pool.endsWith('/houses')?0:1));
       const parent=queue.shift();
@@ -168,10 +168,20 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
       // until one fits. Keep the normal weighted order within each category.
       if(wantsHouse && houses>=3 && farms===0)
         ordered.sort((a,b)=>Number(b.includes('_farm_'))-Number(a.includes('_farm_')));
+      else if(wantsHouse && houses<6)
+        ordered.sort((a,b)=>Number(catalog[a].countsAsHouse===false)-Number(catalog[b].countsAsHouse===false));
+      if(!wantsHouse){
+        const merit=id=>catalog[id].connectors.filter(c=>c.pool.endsWith('/houses')).length*3+
+          catalog[id].connectors.filter(c=>c.pool.endsWith('/streets')).length;
+        ordered.sort((a,b)=>merit(b)-merit(a));
+      }
       for (const id of ordered) {
         const piece=catalog[id];
         // Secure real buildings first; amenities cannot establish a village alone.
         if (wantsHouse && houses<3 && piece.countsAsHouse===false) continue;
+        if(wantsHouse && farms>=1 && id.includes('_farm_'))continue;
+        if(wantsHouse && houses>=size.houses && piece.countsAsHouse!==false)continue;
+        if(wantsHouse && piece.countsAsHouse===false && !id.includes('_farm_') && buildings-houses-farms>=2)continue;
         const offset=Math.floor(rng()*4);
         for (let step=0;step<4;step++) {
           const rotation=(step+offset)%4;
@@ -297,7 +307,7 @@ export function* automaticSearch(seed) {
       lease=chunkLease(dimension,'village');
       try{
         generationStatus=`Loading site ${candidate.x}, ${candidate.z}.`;
-        yield* lease.load({x:candidate.x-56,y:0,z:candidate.z-56},[113,128,113]);
+        yield* lease.load({x:candidate.x-72,y:0,z:candidate.z-72},[145,128,145]);
         // The loaded survey can contain a player; only actual planned building
         // footprints are excluded. Do not reject the entire 113-block square.
         const near=candidate.floor??64;

@@ -107,7 +107,7 @@ def main():
                 target.write_bytes(path.read_bytes())
         (BUILD / directory / 'pack_icon.png').write_bytes(icon)
     # Intentional population/generation overrides and wart-only structure edits.
-    overrides = {'scripts/settlements/population.js', 'scripts/settlements/main.js'}
+    overrides = {'scripts/settlements/population.js', 'scripts/settlements/main.js', 'scripts/settlements/sizing.js'}
     # Weighted pools and their matching roll probabilities are changed together
     # so interesting structures rise while marginal tent attempt rates stay fixed.
     for name in ('basalt', 'crimson_camp', 'warped_camp', 'soul', 'nether_brick', 'outpost'):

@@ -70,3 +70,16 @@ Loaded local sites retain their surveyed floor height.
 Use `/scriptevent nether_settlements:status` in the Nether to see whether the
 search is loading, planning, idle, or rejected because insufficient houses fit.
 The three-house requirement, terrain checks and existing village spacing remain.
+
+## Residential growth — v0.2.68
+
+Village targets now count residential houses only: small 6–8, medium 9–11,
+large 12–14. One farm and up to two other amenities have separate slots. Roads
+with building entrances are preferred, with longer branches and 40/48/56-block
+layout radii. Farms are prioritized after three homes fit; the planner continues
+trying for a first farm even after reaching its residential target. Terrain can
+still prevent a farm or truncate a village; the minimum remains three homes.
+
+Remote survey footprints grow to 145×145 blocks, covering layout radius plus
+site offsets while touching at most 100 Bedrock chunks. Changes affect new
+villages only; existing villages are not expanded or rebuilt.
