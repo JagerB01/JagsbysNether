@@ -49,8 +49,8 @@ test('natural placement saves completion, supports actual foundations and cannot
  const f=fixture(),old=world.structureManager;world.structureManager={place:(id,dim,pos)=>f.placed.push({id,pos})};
  const c={...candidateAt('giant',100,100,124),id:'large_arena',selectionRoll:.1};
  try{
-  finish(generateLandmark(c,f.dimension),1500000);const record=JSON.parse(world.getDynamicProperty(c.key));assert.equal(record.state,'built');assert.equal(record.next,NATURAL_ARENAS.dragon_arena.sections.length);assert(f.fills.length>0);
-  assert.equal(f.placed.length,NATURAL_ARENAS.dragon_arena.sections.length);
+  finish(generateLandmark(c,f.dimension),1500000);const record=JSON.parse(world.getDynamicProperty(c.key));assert.equal(record.state,'built');assert.equal(record.next,NATURAL_ARENAS.large_arena.sections.length);assert(f.fills.length>0);
+  assert.equal(f.placed.length,NATURAL_ARENAS.large_arena.sections.length);
   const nearby=[{dimension:f.dimension,location:{x:c.x+500,y:64,z:c.z}}];assert(!naturalCandidates(nearby,124).some(x=>x.key===c.key));
  }finally{world.structureManager=old;world.setDynamicProperty(c.key,undefined);}
 });
@@ -74,7 +74,7 @@ test('interrupted natural builds resume at the next tile without duplicating com
   for(let i=0;i<20000;i++){job.next();system.currentTick++;const saved=world.getDynamicProperty(c.key);if(saved&&JSON.parse(saved).next===1)break;if(i===19999)assert.fail('First tile not placed');}
   job.return();const saved=JSON.parse(world.getDynamicProperty(c.key));assert.equal(saved.state,'placing');assert.equal(saved.next,1);
   finish(generateLandmark({...c,saved},f.dimension),1500000);assert.equal(JSON.parse(world.getDynamicProperty(c.key)).state,'built');
-  assert.equal(f.placed.length,NATURAL_ARENAS.dragon_arena.sections.length);assert.equal(new Set(f.placed).size,f.placed.length);
+  assert.equal(f.placed.length,NATURAL_ARENAS.large_arena.sections.length);assert.equal(new Set(f.placed).size,f.placed.length);
  }finally{world.structureManager=old;world.setDynamicProperty(c.key,undefined);}
 });
 test('cancelling a queued worker before its first tick releases the shared queue',()=>{

@@ -1,9 +1,10 @@
+import {surveyModularFortress,modularCoreBox} from './modular_fortress.js';
 import {ARENAS} from './arena_catalog.js';
 import {surveyLandmark} from './landmark_terrain.js';
 export const GIANT_WEIGHTS={large_arena:60,dragon_arena:25,mega_fortress:15};
-// Temporary test-build override; normal weights remain available for restoration.
-export const TEST_ONLY_GIANT='dragon_arena';
-export const FIT_ORDER=['mega_fortress','dragon_arena','large_arena'];
+// Natural selection restored for all three giants.
+export const TEST_ONLY_GIANT=null;
+export const FIT_ORDER=['dragon_arena','large_arena','mega_fortress'];
 export function chooseFittingGiant(ids,roll){
  if(!FIT_ORDER.every(id=>ids.includes(id)))return undefined;
  if(TEST_ONLY_GIANT)return TEST_ONLY_GIANT;
@@ -31,10 +32,18 @@ export function footprintSurveyCache(d){
   return found;
  }};
 }
-export function* assessGiantSite(c,dimension,{progress=()=>{},allowed=()=>true,survey=surveyLandmark}={}){
+export function* surveyGiant(c,d,progress,cache){
+ if(c.id==='mega_fortress')return yield* surveyModularFortress(c,d,{progress,coreOnly:true,sampling:cache??d});
+ return yield* surveyLandmark(c,d,progress,cache);
+}
+export function giantStartingBox(c,id){
+ if(id==='mega_fortress')return modularCoreBox(c);
+ const a=ARENAS[id];return {x:c.x-Math.floor(a.size[0]/2),z:c.z-Math.floor(a.size[2]/2),sx:a.size[0],sz:a.size[2]};
+}
+export function* assessGiantSite(c,dimension,{progress=()=>{},allowed=()=>true,survey=surveyGiant}={}){
  const fits=new Map(),reasons=[],cache=footprintSurveyCache(dimension);
  for(const id of FIT_ORDER){
-  const a=ARENAS[id],box={x:c.x-Math.floor(a.size[0]/2),z:c.z-Math.floor(a.size[2]/2),sx:a.size[0],sz:a.size[2]};
+  const a=ARENAS[id],box=giantStartingBox(c,id);
   if(!allowed(id,box)){reasons.push(`${a.display_name}: spacing`);continue;}
   let plan;
   try{plan=yield* survey({...c,id},dimension,message=>progress(`Checking ${a.display_name}: ${message}`),cache);}

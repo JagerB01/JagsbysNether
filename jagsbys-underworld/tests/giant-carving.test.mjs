@@ -4,22 +4,32 @@ import {surveyLandmark,carveTile,CARVABLE,supportFor} from '../behavior_pack/scr
 import {spacingAllows,villageLandmarkClear} from '../behavior_pack/scripts/landmark_sites.js';
 import {GiantSearch} from '../behavior_pack/scripts/giant_search.js';
 function finish(job){for(let i=0;i<1500000;i++){const s=job.next();if(s.done)return s.value;}assert.fail('Survey stalled');}
-function scene({islands=true,protectedBlock=false}={}){
+function scene({islands=true,protectedBlock=false,ceiling=true}={}){
  const fills=[];
  const d={id:'minecraft:nether',runCommand(){},getBiome:()=>({id:'minecraft:hell'}),getBlock({x,y,z}){
   const island=islands&&x>20&&x<70;
-  const type=y<=4?'minecraft:netherrack':y<=31?(island?'minecraft:basalt':'minecraft:lava'):y>=60&&y<=90?'minecraft:netherrack':'minecraft:air';
+  const type=y<=4?'minecraft:netherrack':y<=31?(island?'minecraft:basalt':'minecraft:lava'):ceiling&&y>=60&&y<=90?'minecraft:netherrack':'minecraft:air';
   return {typeId:type,isAir:type==='minecraft:air',location:{x,y,z}};
  },containsBlock(volume,filter){
   if(protectedBlock&&volume.from.x<=0&&volume.to.x>=0&&volume.from.y<=50&&volume.to.y>=50&&volume.from.z<=0&&volume.to.z>=0)return true;
-  return !filter.excludeTypes.includes('minecraft:netherrack')&&volume.to.y>=60;
+  const types=filter.includeTypes;
+  const intersectsIsland=islands&&volume.from.x<70&&volume.to.x>20&&volume.from.y<=31&&volume.to.y>=5;
+  const intersectsCeiling=ceiling&&volume.to.y>=60&&volume.from.y<=90;
+  return types?((intersectsIsland&&types.includes('minecraft:basalt'))||(intersectsCeiling&&types.includes('minecraft:netherrack'))):((intersectsIsland&&!filter.excludeTypes.includes('minecraft:basalt'))||(intersectsCeiling&&!filter.excludeTypes.includes('minecraft:netherrack')));
  },fillBlocks(volume,type,options){fills.push({volume,type,options});}};
  return {d,fills};
 }
-test('giants accept partial islands and ordinary cavern terrain rather than requiring an empty box',()=>{
+test('giants reject islands and cavern terrain, but fit a completely open lava footprint without carving',()=>{
  for(const id of ['large_arena','dragon_arena','mega_fortress']){
-  const f=scene(),plan=finish(surveyLandmark({id,x:0,z:0},f.d));assert.equal(plan.outcome,'ready');assert(plan.carve);assert(plan.coverage<1);assert.equal(f.fills.length,0,'Survey must not carve before complete size selection');
+  assert.equal(finish(surveyLandmark({id,x:0,z:0},scene().d)).outcome,'unsuitable');
+  const f=scene({islands:false,ceiling:false}),plan=finish(surveyLandmark({id,x:0,z:0},f.d));
+  assert.equal(plan.outcome,'ready');assert.equal(plan.carve,false);assert(plan.solidFoundation);assert.equal(plan.coverage,1);assert.equal(f.fills.length,0);
  }
+});
+test('exact lava footprint queries reject a single island block between old sample points',()=>{
+ const f=scene({islands:false,ceiling:false});
+ f.d.containsBlock=(v,filter)=>v.from.y<=31&&v.to.y>=31&&v.from.x<=10&&v.to.x>=10&&v.from.z<=10&&v.to.z>=10&&!filter.excludeTypes.includes('minecraft:basalt');
+ const plan=finish(surveyLandmark({id:'dragon_arena',x:0,z:0},f.d));assert.equal(plan.outcome,'unsuitable');assert.match(plan.reason,/full footprint/);
 });
 test('protected blocks still prevent carving; completely dry terrain is not an ocean site',()=>{
  assert.equal(finish(surveyLandmark({id:'mega_fortress',x:0,z:0},scene({protectedBlock:true}).d)).outcome,'unsuitable');
@@ -46,16 +56,16 @@ test('older strict-policy failed cells reopen once; new-policy failures stay per
  const m=new Map(),store={getDynamicProperty:k=>m.get(k),setDynamicProperty:(k,v)=>m.set(k,v)},c={family:'giant',gx:0,gz:0,x:32,z:32,key:'underworld_landmarks:site_giant_0_0'};
  m.set('underworld_landmarks:search_0_0',JSON.stringify({version:1,failed:['0,0']}));const search=new GiantSearch(store);assert(!search.failed(c));search.reject(c,'Protected block');assert(new GiantSearch(store).failed(c));
 });
-test('carving precedes template placement, supports follow it, and interrupted supports resume without replacing the tile',async()=>{
+test('open-ocean placement never carves, and interrupted foundations resume without replacing the tile',async()=>{
  const {world}=await import('./mock-server.mjs');const {generateLandmark}=await import('../behavior_pack/scripts/landmarks.js');const {candidateAt}=await import('../behavior_pack/scripts/landmark_sites.js');
- const c={...candidateAt('giant',940,940,123),id:'large_arena',selectionRoll:.1},f=scene({islands:false}),events=[],old=world.structureManager;
+ const c={...candidateAt('giant',940,940,123),id:'large_arena',selected:true,selectionRoll:.1},f=scene({islands:false,ceiling:false}),events=[],old=world.structureManager;
  f.d.fillBlocks=(volume,type)=>events.push(type==='minecraft:air'?'carve':'support');world.structureManager={place:id=>events.push(`place:${id}`)};
  try{
   const job=generateLandmark(c,f.d);let saved;
   for(let i=0;i<50000;i++){job.next();saved=JSON.parse(world.getDynamicProperty(c.key)??'null');if(saved?.tilePlaced)break;if(i===49999)assert.fail('No placed tile checkpoint');}
   for(let i=0;i<1000&&!events.includes('support');i++)job.next();
   assert(saved.tilePlaced,'A supported tile must remain checkpointed while its foundation is unfinished');
-  const lastCarve=events.lastIndexOf('carve');assert.deepEqual(events.slice(lastCarve,lastCarve+3).map(e=>e.startsWith('place:')?'place':e),['carve','place','support']);
+  assert(!events.includes('carve'));assert.deepEqual(events.slice(0,2).map(e=>e.startsWith('place:')?'place':e),['place','support']);
   job.return();const first=events.filter(e=>e.startsWith('place:')).at(-1);finish(generateLandmark({...c,saved},f.d));
   assert.equal(events.filter(e=>e===first).length,1);assert.equal(JSON.parse(world.getDynamicProperty(c.key)).state,'built');
  }finally{world.structureManager=old;world.setDynamicProperty(c.key,undefined);}
