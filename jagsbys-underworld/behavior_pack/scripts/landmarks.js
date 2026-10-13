@@ -93,14 +93,14 @@ export function* generateLandmark(c,dimension){
     if(!record.incremental)break;
     while(record.expansionNext<fortressModuleCount){
      const next=record.expansionNext;
-     if(!record.modules.includes(fortressParent(next))){record.expansionNext++;save(c,record);continue;}
+     if(!record.modules.includes(fortressParent(next))||(record.carvingStops??[]).includes(fortressParent(next))){record.expansionNext++;save(c,record);continue;}
      const box=pendingModuleBox(c,record);
      if(!playersClear(players(),box,32)){pauseForPlayer(c);status='Landmark paused: player approached the next module.';return;}
      const result=yield* surveyFortressModule(c,dimension,record,next,{progress,allowed:box=>spacingAllows(c,box,landmarkRecords(),villageBoxes())});
      if(result.outcome==='deferred'){retries.set(attemptKey(c),system.currentTick+1200);status=`Landmark deferred: ${result.reason}`;return;}
      if(result.outcome==='unsuitable'&&fortressModuleRequired(next)){retries.set(attemptKey(c),system.currentTick+1200);status=`Landmark paused: required lower chamber ${next} is blocked: ${result.reason}`;return;}
      record.expansionNext++;
-     if(result.outcome==='ready'){record.modules.push(next);record.box=extendFortressBox(record.box,result.box);save(c,record);break;}
+     if(result.outcome==='ready'){record.modules.push(next);if(result.stopExpansion){record.carvingStops??=[];record.carvingStops.push(next);}record.box=extendFortressBox(record.box,result.box);save(c,record);break;}
      save(c,record);
     }
     arena={display_name:'Mega Fortress',sections:modularSections(record.modules)};

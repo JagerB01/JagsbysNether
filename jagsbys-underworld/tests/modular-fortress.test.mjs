@@ -62,3 +62,37 @@ test('foundations extend authored pier feet while leaving bridge decks and upper
  }
  assert(FORTRESS_MODULES[0].sections.some(s=>s.foundationColumns.length>0));
 });
+
+test('optional modules allow small trims, end moderate-carve branches and reject mountains with bounded counting',async()=>{
+ const {surveyFortressModule}=await import('../behavior_pack/scripts/modular_fortress.js');
+ for(const [amount,outcome,stop] of [[0,'ready',false],[20,'ready',false],[200,'ready',true],[10000,'unsuitable',undefined]]){
+  let counted=0;const d={id:'minecraft:nether',runCommand(){},getBlock:()=>({typeId:'minecraft:air'}),containsBlock:(volume,filter)=>!!filter.includeTypes&&amount>0,
+   getBlocks:()=>({*getBlockLocationIterator(){for(let i=0;i<amount;i++){counted++;yield {x:i,y:64,z:0};}}})};
+  const result=finish(surveyFortressModule({x:0,z:0},d,{origin:{x:0,y:30,z:0},surface:31},5));
+  assert.equal(result.outcome,outcome);assert.equal(result.stopExpansion,stop);
+  assert(counted<=225,'Over-budget mountain counting must stop early');
+  if(outcome==='unsuitable')assert.match(result.reason,/Excessive carving/);
+ }
+ const d={id:'minecraft:nether',runCommand(){},getBlock:()=>({typeId:'minecraft:air'}),containsBlock:(volume,filter)=>!!filter.includeTypes,getBlocks(){throw Error('Unloaded terrain');}};
+ assert.equal(finish(surveyFortressModule({x:0,z:0},d,{origin:{x:0,y:30,z:0},surface:31},5)).outcome,'deferred');
+ assert.equal(finish(surveyFortressModule({x:0,z:0},d,{origin:{x:0,y:30,z:0},surface:31},1)).outcome,'ready','Required lower chambers retain carving permission');
+});
+test('carving branch stops survive interrupted builds while other directions continue expanding',async()=>{
+ const {world}=await import('./mock-server.mjs'),{generateLandmark}=await import('../behavior_pack/scripts/landmarks.js'),{candidateAt}=await import('../behavior_pack/scripts/landmark_sites.js');
+ const c={...candidateAt('giant',943,943,12),id:'mega_fortress',selected:true},old=world.structureManager;
+ const m=FORTRESS_MODULES[5],s=m.sections[0],tx=c.x+s.offset[0],tz=c.z+s.offset[2];
+ const d={id:'minecraft:nether',runCommand(){},getBlock:({y})=>({typeId:y<=4?'minecraft:netherrack':y<=31?'minecraft:lava':'minecraft:air'}),
+  containsBlock:(v,filter)=>!!filter.includeTypes&&v.from.x===tx&&v.from.z===tz,
+  getBlocks:()=>({*getBlockLocationIterator(){for(let i=0;i<200;i++)yield {x:tx,y:60,z:tz};}}),fillBlocks(){}};
+ world.structureManager={place(){}};let job=generateLandmark(c,d);
+ try{
+  let saved;
+  for(let i=0;i<1500000;i++){const r=job.next();system.currentTick++;const value=world.getDynamicProperty(c.key);if(value){saved=JSON.parse(value);if(saved.carvingStops?.includes(5))break;}if(r.done)assert.fail('Branch stop not saved');}
+  assert(saved.carvingStops.includes(5));job.return();
+  job=generateLandmark({...c,saved},d);finish(job);
+  saved=JSON.parse(world.getDynamicProperty(c.key));assert.equal(saved.state,'built');assert(saved.modules.includes(5));
+  assert(!saved.modules.includes(13),'Child beyond moderate carving must be pruned');
+  assert(saved.modules.includes(14),'An independent open branch should keep expanding');
+  assert(saved.carvingStops.includes(5));
+ }finally{job.return();world.structureManager=old;world.setDynamicProperty(c.key,undefined);}
+});
