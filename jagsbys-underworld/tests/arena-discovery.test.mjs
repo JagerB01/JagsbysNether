@@ -29,3 +29,16 @@ test('protected block diagnostics identify material and position',()=>{
  const d={containsBlock:()=>true,getBlocks:()=>({*getBlockLocationIterator(){yield {x:1,y:40,z:2};}}),getBlock:()=>({typeId:'minecraft:chest'})};
  assert.equal(finish(clearVolume(d,{x:0,y:33,z:0},[16,18,16],31,true)),false);assert.match(obstructionReason(),/minecraft:chest at 1, 40, 2/);
 });
+
+test('natural Nether mushrooms, glowstone and fossils can be cleared but containers remain protected',()=>{
+ for(const type of ['minecraft:red_mushroom','minecraft:brown_mushroom','minecraft:glowstone','minecraft:bone_block','minecraft:chest']){
+  const d={containsBlock:(_volume,filter)=>!filter.excludeTypes.includes(type),getBlock:()=>({typeId:type})};
+  assert.equal(finish(clearVolume(d,{x:0,y:33,z:0},[16,18,16],31,true)),type!=='minecraft:chest');
+ }
+});
+test('older mushroom rejection records are reopened under the new policy',()=>{
+ const c=candidateAt('giant',10,10,123),m=new Map();
+ m.set(`underworld_landmarks:search_${c.gx}_${c.gz}`,JSON.stringify({policy:3,failed:['0,0']}));
+ const search=new GiantSearch({getDynamicProperty:k=>m.get(k),setDynamicProperty:(k,v)=>m.set(k,v)});
+ assert.equal(search.state(c).failed.size,0);search.reject(c,'Protected chest');assert(search.failed(c));
+});

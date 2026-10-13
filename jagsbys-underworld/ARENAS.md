@@ -154,3 +154,5 @@ Old giant and Small Arena failed sites reopen once under search policy 3. Comple
 ```
 
 Arena support searches can now reach up to 128 blocks down (stopping above Y0), rather than rejecting deeper lava columns at 64 blocks. Giant biome queries are removed entirely; Small Arena and ruin biome queries retain their rules and report unavailable data explicitly.
+
+Version 0.2.79 allows natural glowstone, bone fossils, and red and brown mushrooms to be cleared for arena placement. Search policy 4 reopens prior rejected arena sites once; completed structures and village rejection records are preserved.
