@@ -177,7 +177,7 @@ Version 0.2.87 removes imported soul lanterns, soul torches, and soul campfires 
 
 | Structure | Native mob spawners |
 |---|---|
-| Small Arena | 5 Zombified Piglin, 2 Magma Cube, 1 Skeleton |
+| Small Arena | 5 Wither Skeleton, 2 Magma Cube, 1 Skeleton |
 | Large Arena | 12 Wither Skeleton, 10 Skeleton |
 | Dragon Arena | 4 Wither Skeleton, 3 Blaze, 3 Magma Cube |
 | Grave Yard | 1 Wither Skeleton |
@@ -191,3 +191,5 @@ Optional branches determine actual Mega Fortress totals. These counts exclude tr
 Version 0.2.88 replaces hanging soul lanterns with shroomlights and other removed soul lights with supported redstone torches. A torch without support is moved down to a suitable floor or wall inside its module. Neither replacement activates soul-light suppression; normal vanilla lighting rules still apply. Existing world placements are not edited. Spawner totals are unchanged.
 
 Version 0.2.89 uses attached glow lichen for hanging replacement lights, lit red candles on supported floors, and three-candle groups at former soul campfires. Wall-only lights retain redstone torches. Foundations follow each module’s actual structural underside; non-core modules use solid polished blackstone bricks down to existing solid blocks, without excavation. The four starting side modules containing lower chambers are required completion steps: conflicts pause and retry rather than pruning these rooms. Core-only initiation and one-module-at-a-time staging remain. Completed older builds are not modified.
+
+Version 0.2.90 changes Small Arena Zombified Piglin spawners to Wither Skeletons. Trial block inventory: Large Arena has 4 trial spawners and 4 vaults; Dragon Arena has 3 trial spawners and 3 vaults. Imported Java trial encounter configurations remain unported.

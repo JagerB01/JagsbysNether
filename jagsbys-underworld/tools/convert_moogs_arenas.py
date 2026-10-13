@@ -264,7 +264,7 @@ def block_entity(name,source,pos,arena):
             e['PlantBlock']=(10,block_state('minecraft:'+plant,{},json.loads(SCHEMA.read_text())['blocks']))
     elif ids[name]=='Music':e.update({'note':(1,0),'powered':(1,0)})
     elif ids[name]=='MobSpawner':
-        targets={'small_arena':['minecraft:zombie_pigman','minecraft:magma_cube','minecraft:skeleton'],
+        targets={'small_arena':['minecraft:wither_skeleton','minecraft:magma_cube','minecraft:skeleton'],
                  'large_arena':['minecraft:wither_skeleton','minecraft:skeleton'],
                  'dragon_arena':['minecraft:wither_skeleton','minecraft:blaze','minecraft:magma_cube']}
         choices=targets.get(arena,['minecraft:wither_skeleton','minecraft:blaze','minecraft:magma_cube'] if arena=='mega_fortress' else ['minecraft:wither_skeleton'])

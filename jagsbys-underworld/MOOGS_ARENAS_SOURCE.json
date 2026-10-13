@@ -4080,5 +4080,14 @@
     "reference_release": "4b0d849",
     "scope": "imported manual/natural/modular structures; spawners unchanged",
     "soul_campfires": "three lit red candles"
+  },
+  "small_arena_spawners": {
+    "version": "0.2.90",
+    "counts": {
+      "minecraft:wither_skeleton": 5,
+      "minecraft:magma_cube": 2,
+      "minecraft:skeleton": 1
+    },
+    "change": "replace zombie_pigman spawners; source reference NBT retained"
   }
 }
