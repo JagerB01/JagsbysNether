@@ -24,3 +24,23 @@ test('actual distant village job force-loads a remote survey then cleans up when
  finally{world.getPlayers=old;}
  assert(calls[0].startsWith('tickingarea add '));assert(calls[0].endsWith(' true'));assert(calls.at(-1).startsWith('tickingarea remove '));assert.deepEqual(writes,[]);
 });
+test('automatic generation succeeds even with the player inside its survey square',async()=>{
+ const {automaticSearch}=await import('../.build/behavior_pack/scripts/settlements/main.js');
+ const oldPlayers=world.getPlayers,oldManager=world.structureManager,placed=[],spawned=[];
+ const keys=world.getDynamicPropertyIds();let forced=false;
+ const dimension={id:'minecraft:nether',getBiome:()=>({id:'minecraft:crimson_forest'}),
+  isChunkLoaded({x,z}){return forced||(x>=-16&&x<32&&z>=-16&&z<32);},
+  runCommand(c){forced=c.startsWith('tickingarea add ');},
+  getBlock({x,y,z}){return {typeId:y<=64?'minecraft:netherrack':'minecraft:air',isAir:y>64,isLiquid:false,location:{x,y,z},setType(){},setPermutation(){}};},
+  spawnEntity(type){spawned.push(type);return {id:'resident',triggerEvent(){}};}};
+ const p=player();p.dimension=dimension;world.getPlayers=()=>[p];world.structureManager={place:id=>placed.push(id)};
+ try{
+  const job=automaticSearch(31011);for(let i=0;i<100000;i++){const s=job.next();if(s.done)break;system.currentTick++;if(i===99999)assert.fail('Job stalled');}
+  assert(placed.length,'The real village planner must place structures');
+  assert(spawned.filter(t=>t==='minecraft:villager_v2').length>=3);
+  assert.equal(forced,false,'Temporary area must be removed');
+ }finally{
+  world.getPlayers=oldPlayers;world.structureManager=oldManager;
+  for(const key of world.getDynamicPropertyIds())if(!keys.includes(key))world.setDynamicProperty(key,undefined);
+ }
+});

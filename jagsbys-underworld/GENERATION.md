@@ -56,3 +56,17 @@ The stable server 2.10 API's ticking-area load promise confirms completion befor
 block probes and placement. Command fallback requests preload and waits for
 actual availability up to 30 seconds. API areas left after a world closes mid-job
 and tracked fallback command areas are cleaned on the next startup.
+
+## Village retry correction — v0.2.67
+
+A player inside the temporary survey square no longer rejects the whole site;
+only actual building footprints must clear players. Each automatic search can
+try eight terrain-ranked local sites and two remote regions before giving up.
+Failed local sites have a one-minute per-cell cooldown, not a ten-minute ban on
+the whole region. Failed remote region probes retry after two minutes. The
+scheduler checks every five seconds while idle, keeping one search job active.
+Loaded local sites retain their surveyed floor height.
+
+Use `/scriptevent nether_settlements:status` in the Nether to see whether the
+search is loading, planning, idle, or rejected because insufficient houses fit.
+The three-house requirement, terrain checks and existing village spacing remain.

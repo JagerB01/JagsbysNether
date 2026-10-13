@@ -18,6 +18,7 @@ const ROTATIONS=[StructureRotation.None,StructureRotation.Rotate90,
 let busy=false;
 const cooldowns=new Map(),localCooldowns=new Map();
 let nextRemoteAttempt=0;
+let generationStatus='Waiting for a Nether player.';
 function random(seed) {
   let value=seed>>>0;
   return () => {value=(Math.imul(value,1664525)+1013904223)>>>0;return value/4294967296;};
@@ -243,11 +244,12 @@ function start(dimension,x,z,near,theme,seed,notify,regionKey) {
 }
 
 system.afterEvents.scriptEventReceive.subscribe(event=>{
-  if (!['nether_settlements:test','nether_settlements:find'].includes(event.id)) return;
+  if (!['nether_settlements:test','nether_settlements:find','nether_settlements:status'].includes(event.id)) return;
   const player=event.sourceEntity;
   if (!player || player.typeId!=='minecraft:player') return;
   const notify=message=>player.sendMessage(`[Nether Settlements] ${message}`);
   if (player.dimension.id!=='minecraft:nether') {notify('Run this command in the Nether.');return;}
+  if(event.id==='nether_settlements:status'){notify(`${busy?'Working':'Idle'}: ${generationStatus}`);return;}
   if (event.id==='nether_settlements:find') {
     const mode=event.message.trim().toLowerCase();
     if (!['','nearest','village','site'].includes(mode)) {notify('Use nearest, village, or site.');return;}
@@ -285,20 +287,31 @@ export function* automaticSearch(seed) {
     // region candidates when the loaded neighborhood has no eligible good site.
     const local=yield* accessibleSites(dimension,players,world,seed,localCooldowns,system.currentTick);
     const nearby=local.map(site=>{const region=candidateAt(Math.floor(site.x/SPACING),Math.floor(site.z/SPACING),seed);return {...region,...site};})
-      .find(site=>(cooldowns.get(site.key)??0)<=system.currentTick);
-    const candidate=nearby??distantCandidates(world,players,seed,cooldowns,system.currentTick)[0];
-    if(!candidate)return;
-    // A failed site stays eligible but is not repeatedly force-loaded every scan.
-    cooldowns.set(candidate.key,system.currentTick+12000);
-    localCooldowns.set(`${Math.floor(candidate.x/24)},${Math.floor(candidate.z/24)}`,system.currentTick+12000);
-    lease=chunkLease(dimension,'village');
-    yield* lease.load({x:candidate.x-56,y:0,z:candidate.z-56},[113,128,113]);
-    const current=world.getPlayers();
-    if(!outsidePlayerBuffer(current,{x:candidate.x-56,z:candidate.z-56,sx:113,sz:113}))return;
-    const near=Math.max(33,Math.min(100,Math.floor(players[0].location.y)-1));
-    yield* village(dimension,candidate.x,candidate.z,near,'',candidate.seed,undefined,candidate.key,()=>{});
+      .filter(site=>(cooldowns.get(site.key)??0)<=system.currentTick).slice(0,8);
+    const remote=distantCandidates(world,players,seed,cooldowns,system.currentTick).filter(c=>!nearby.some(s=>s.key===c.key)).slice(0,2);
+    const candidates=[...nearby,...remote];
+    if(!candidates.length){generationStatus='No unchecked eligible sites; explore farther.';return;}
+    for(const candidate of candidates){
+      const cell=`${Math.floor(candidate.x/24)},${Math.floor(candidate.z/24)}`;
+      localCooldowns.set(cell,system.currentTick+1200);
+      lease=chunkLease(dimension,'village');
+      try{
+        generationStatus=`Loading site ${candidate.x}, ${candidate.z}.`;
+        yield* lease.load({x:candidate.x-56,y:0,z:candidate.z-56},[113,128,113]);
+        // The loaded survey can contain a player; only actual planned building
+        // footprints are excluded. Do not reject the entire 113-block square.
+        const near=candidate.floor??64;
+        generationStatus=`Planning site ${candidate.x}, ${candidate.z}.`;
+        yield* village(dimension,candidate.x,candidate.z,near,'',candidate.seed,
+          message=>{generationStatus=message;},candidate.key,()=>{});
+        if(world.getDynamicProperty(candidate.key))return;
+        if(candidate.floor===undefined)cooldowns.set(candidate.key,system.currentTick+2400);
+      }catch(error){generationStatus=`Site failed: ${error.message}`;console.warn(`[Nether Settlements] ${generationStatus}`);}
+      finally{lease.release();lease=undefined;}
+      yield;
+    }
   } catch (error) {
-    console.warn(`[Nether Settlements] Distant generation stopped: ${error}`);
+    generationStatus=`Search failed: ${error.message}`;console.warn(`[Nether Settlements] ${generationStatus}`);
   } finally {
     try{lease?.release();}catch(error){console.warn(`[Nether Settlements] Temporary area cleanup failed: ${error}`);}
     busy=false;
@@ -311,6 +324,6 @@ system.runInterval(()=>{
   let seed=world.getDynamicProperty('nether_settlements:terrain_seed');
   if (typeof seed!=='number') {seed=Math.floor(Math.random()*2147483647);world.setDynamicProperty('nether_settlements:terrain_seed',seed);}
   if(system.currentTick<nextRemoteAttempt)return;
-  nextRemoteAttempt=system.currentTick+600;
+  nextRemoteAttempt=system.currentTick+100;
   busy=true;system.runJob(automaticSearch(seed));
 },100);
