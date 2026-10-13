@@ -90,3 +90,9 @@ See PERFORMANCE.md for the profile findings, per-plan terrain caching, bounded
 job scheduling, and permanent area-based terrain rejection. Village layouts
 and size targets are unchanged. Rejected areas do not become eligible through
 mining; incomplete or player-blocked assessments are not permanent rejections.
+
+## Regional village comparison — v0.2.74
+
+Automatic searches compare up to six distinct regions before placing any village: up to two strong loaded sites plus candidates distributed across the 0–768-block search range. Every comparison area is temporarily loaded and assessed for connected terrain, building headroom and slope. Completed assessments are retained in a bounded 512-entry cache; full layouts and final placements still read current terrain. Equal-quality areas use deterministic seeded ordering, not player distance or loaded-first preference. No portal exclusion radius is added.
+
+Only fully assessed absence of floor is persisted as unsuitable. Incomplete comparison data/loading errors defer that region and prevent placement during that comparison batch. Cached completed comparisons do not reload their footprints; construction still loads and verifies the selected area. The selected area still uses the existing detailed village planner and three-house minimum; failed layouts can fall back to the next compared area. The shared queue and per-tick budget remain. Comparison adds some initial wait, with loading and comparison counts shown in status.

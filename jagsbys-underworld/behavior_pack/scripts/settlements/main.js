@@ -1,3 +1,4 @@
+import {comparisonCandidates,compareVillageSite,rankComparedSites,cachedVillageAssessment} from './regional_selection.js';
 import {observeLoadedArea} from '../terrain_survey.js';
 import {runGenerationJob,generationBusy} from '../generation_queue.js';
 import {villageLandmarkClear,landmarkRecords} from '../landmark_sites.js';
@@ -306,15 +307,35 @@ export function* automaticSearch(seed) {
     const players=world.getPlayers().filter(p=>p.dimension.id==='minecraft:nether' && p.location.y<120);
     if (!players.length) return;
     const dimension=players[0].dimension;
-    // Preserve the existing terrain-ranked local survey; extend it with remote
-    // region candidates when the loaded neighborhood has no eligible good site.
+    // Compare loaded and distant regions together; loaded terrain has no automatic priority.
     const local=yield* accessibleSites(dimension,players,world,seed,localCooldowns,system.currentTick);
     const nearby=local.map(site=>{const region=candidateAt(Math.floor(site.x/SPACING),Math.floor(site.z/SPACING),seed);return {...region,...site};})
-      .filter(site=>(cooldowns.get(site.key)??0)<=system.currentTick).slice(0,8);
-    const remote=distantCandidates(world,players,seed,cooldowns,system.currentTick).filter(c=>!nearby.some(s=>s.key===c.key)).slice(0,2);
-    const candidates=[...nearby,...remote];
+      .filter(site=>(cooldowns.get(site.key)??0)<=system.currentTick);
+    const candidates=comparisonCandidates(nearby,distantCandidates(world,players,seed,cooldowns,system.currentTick));
     if(!candidates.length){generationStatus='No unchecked eligible sites; explore farther.';return;}
-    for(const candidate of candidates){
+    const compared=[];let incomplete=false;
+    // Complete the bounded regional comparison before any village block writes.
+    for(const [index,candidate] of candidates.entries()){
+      if(rejectedSites.blocksPoint(candidate.x,candidate.z))continue;
+      const cached=cachedVillageAssessment(candidate);
+      if(cached){compared.push({...candidate,assessment:cached});continue;}
+      lease=chunkLease(dimension,'village_compare');
+      try{
+        generationStatus=`Loading comparison area ${index+1}/${candidates.length}: ${candidate.x}, ${candidate.z}.`;
+        yield* lease.load({x:candidate.x-72,y:0,z:candidate.z-72},[145,128,145]);
+        yield* observeLoadedArea(dimension,{x:candidate.x-72,z:candidate.z-72},[145,128,145]);
+        generationStatus=`Comparing terrain area ${index+1}/${candidates.length}.`;
+        const result=yield* compareVillageSite(dimension,candidate);
+        if(result.outcome==='ready')compared.push({...candidate,assessment:result.assessment});
+        else if(result.outcome==='unsuitable')rejectedSites.reject({x:candidate.x-72,z:candidate.z-72,sx:145,sz:145},result.reason);
+        else {incomplete=true;cooldowns.set(candidate.key,system.currentTick+2400);}
+      }catch(error){incomplete=true;cooldowns.set(candidate.key,system.currentTick+2400);generationStatus=`Comparison deferred: ${error.message}`;}
+      finally{lease.release();lease=undefined;}
+      yield;
+    }
+    if(incomplete){generationStatus='Regional comparison incomplete; deferred areas will retry. No village placed.';return;}
+    if(!compared.length){generationStatus='Regional comparison completed: no suitable floor found in the checked areas.';return;}
+    for(const candidate of rankComparedSites(compared)){
       if(rejectedSites.blocksPoint(candidate.x,candidate.z))continue;
       const cell=`${Math.floor(candidate.x/24)},${Math.floor(candidate.z/24)}`;
       localCooldowns.set(cell,system.currentTick+1200);

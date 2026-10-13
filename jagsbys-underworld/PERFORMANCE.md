@@ -71,3 +71,7 @@ Villages, manual templates and natural landmarks use a single budgeted queue. On
 Giants reuse persistent lava-surface observations from already-loaded village neighborhoods and distant survey footprints. Each sampled column is checked once per bounded session cache; missing reads are not remembered as dry terrain. Other sites use bounded coarse probes. Confirmed unsuitable giant search cells are persisted without excluding their entire region. Region structure completion remains unique.
 
 All giant sizes are assessed before selection; incomplete checks defer selection. Assessments share a bounded 60,000-block snapshot cache and clear-volume proofs across sizes. Native volume strips align to world chunks so smaller contained checks can reuse clear results. Obstructed volumes are not assumed obstructed for smaller footprints. Final construction always validates live blocks. This preserves the job budget, chunk lease limits and shared queue.
+
+## v0.2.74 regional comparison
+
+Village placement waits for a bounded six-area comparison rather than committing to the first valid loaded area. Coarse connected-floor assessments are cached (maximum 512 sites), and complete layouts are still planned only as needed in ranked order. The shared work budget and temporary loading limits remain unchanged. This trades additional initial surveying for better regional site choice; actual FPS and wait time require client measurements.
