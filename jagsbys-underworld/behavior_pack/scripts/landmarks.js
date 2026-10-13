@@ -59,6 +59,7 @@ export function* generateLandmark(c,dimension){
  const progress=message=>{status=`${c.family==='giant'&&!c.saved&&!c.selected?'Giant site':ARENAS[c.id].display_name}: ${message} (${Math.floor((system.currentTick-started)/20)}s).`;};
  try{
   let record=c.saved,plan;
+  if(record)c={...c,id:record.id};
   if(!record){
    const records=landmarkRecords(),villages=villageBoxes();
    const smallest=c.family==='giant'?{...c,id:'large_arena'}:c;

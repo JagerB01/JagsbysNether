@@ -1,8 +1,12 @@
 import {ARENAS} from './arena_catalog.js';
 import {surveyLandmark} from './landmark_terrain.js';
 export const GIANT_WEIGHTS={large_arena:60,dragon_arena:25,mega_fortress:15};
+// Temporary test-build override; normal weights remain available for restoration.
+export const TEST_ONLY_GIANT='mega_fortress';
 export const FIT_ORDER=['mega_fortress','dragon_arena','large_arena'];
 export function chooseFittingGiant(ids,roll){
+ if(!FIT_ORDER.every(id=>ids.includes(id)))return undefined;
+ if(TEST_ONLY_GIANT)return TEST_ONLY_GIANT;
  const entries=Object.entries(GIANT_WEIGHTS).filter(([id])=>ids.includes(id));
  if(!entries.length)return undefined;
  let pick=roll*entries.reduce((n,[,weight])=>n+weight,0);
@@ -39,6 +43,6 @@ export function* assessGiantSite(c,dimension,{progress=()=>{},allowed=()=>true,s
   if(plan.outcome==='ready')fits.set(id,plan);else reasons.push(`${a.display_name}: ${plan.reason}`);
  }
  const id=chooseFittingGiant([...fits.keys()],c.selectionRoll??.5);
- if(!id)return {outcome:'unsuitable',reason:`No giant fits. ${reasons.join('; ')}`};
+ if(!id)return {outcome:'unsuitable',reason:`Site must fit all three giants. ${reasons.join('; ')}`};
  return {...fits.get(id),id,fitting:[...fits.keys()]};
 }

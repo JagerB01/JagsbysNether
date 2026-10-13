@@ -16,15 +16,15 @@ test('incomplete largest assessment defers selection even if smaller builds coul
  const calls=[];function* survey(c){calls.push(c.id);return c.id==='mega_fortress'?{outcome:'deferred',reason:'Unloaded'}:{outcome:'ready'};}
  const result=finish(assessGiantSite({x:0,z:0,selectionRoll:0},{},{survey}));assert.equal(result.outcome,'deferred');assert.equal(result.id,undefined);assert.deepEqual(calls,['mega_fortress']);
 });
-test('confirmed size failures allow fitting alternatives, but later incomplete checks still defer',()=>{
+test('confirmed size failures prevent placement, and incomplete checks defer',()=>{
  const calls=[];function* survey(c){calls.push(c.id);return c.id==='mega_fortress'?{outcome:'unsuitable',reason:'Ocean too small'}:{outcome:'ready'};}
- const result=finish(assessGiantSite({x:0,z:0,selectionRoll:.8},{},{survey}));assert.deepEqual(calls,FIT_ORDER);assert.equal(result.id,'dragon_arena');assert.deepEqual(result.fitting,['dragon_arena','large_arena']);
+ const result=finish(assessGiantSite({x:0,z:0,selectionRoll:.8},{},{survey}));assert.deepEqual(calls,FIT_ORDER);assert.equal(result.id,undefined);assert.equal(result.outcome,'unsuitable');assert.match(result.reason,/all three giants/);
  function* incomplete(c){return c.id==='large_arena'?{outcome:'deferred',reason:'Loading timed out'}:{outcome:'ready'};}
  assert.equal(finish(assessGiantSite({x:0,z:0,selectionRoll:.99},{},{survey:incomplete})).outcome,'deferred');
 });
-test('weights are 60/25/15 with all fits and normalized only over confirmed fitting sizes',()=>{
- const all=['large_arena','dragon_arena','mega_fortress'];assert.equal(chooseFittingGiant(all,.599),'large_arena');assert.equal(chooseFittingGiant(all,.6),'dragon_arena');assert.equal(chooseFittingGiant(all,.85),'mega_fortress');
- assert.equal(chooseFittingGiant(['large_arena','dragon_arena'],60/85-.0001),'large_arena');assert.equal(chooseFittingGiant(['large_arena','dragon_arena'],60/85+.0001),'dragon_arena');assert.equal(chooseFittingGiant(['large_arena'],.99),'large_arena');assert.equal(chooseFittingGiant([],0),undefined);
+test('test build always selects Mega Fortress after all three sizes fit',()=>{
+ const all=['large_arena','dragon_arena','mega_fortress'];assert.equal(chooseFittingGiant(all,.599),'mega_fortress');assert.equal(chooseFittingGiant(all,.6),'mega_fortress');assert.equal(chooseFittingGiant(all,.85),'mega_fortress');
+ assert.equal(chooseFittingGiant(['large_arena','dragon_arena'],.8),undefined);assert.equal(chooseFittingGiant(['large_arena'],.99),undefined);assert.equal(chooseFittingGiant([],0),undefined);
 });
 test('clear-volume proofs are reused for contained queries, with different filters and obstructions rechecked',()=>{
  let reads=0,queries=0;const d={getBlock:p=>{reads++;return {typeId:'minecraft:air'};},containsBlock(){queries++;return false;}};

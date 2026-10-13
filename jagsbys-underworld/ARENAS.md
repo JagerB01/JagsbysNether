@@ -162,3 +162,7 @@ Version 0.2.80 shortens player-approach placement pauses to 200 ticks (10 second
 Version 0.2.81 gives newly reserved Small Arenas and giants solid foundations: a one-block blackstone perimeter and netherrack interior. Each column fills only air/lava below the structure origin until the first existing solid, without excavation. Scans and writes yield through the shared budget. Existing completed and partially placed structures retain their previous foundation policy.
 
 Version 0.2.82 restricts new natural Small Arena placement to Basalt Deltas only. Existing structures remain. Spacing is unchanged: 600 blocks between Small Arena centres, 150 from giant centres, and 32 blocks between footprints (including villages), with one Small Arena per 600×600 region.
+
+Version 0.2.83 requires a candidate to fit all three giants before selection. Any confirmed size failure rejects that search cell; incomplete assessments defer it. Eligible sites use the fixed Large/Dragon/Mega weights 60/25/15, with no smaller-only fallback. Natural terrain carving remains permitted.
+
+Temporary v0.2.83 testing override: only Mega Fortress can be selected from eligible giant sites. All-three-fit eligibility remains enforced, and natural Small Arenas/ruins are unchanged. Normal 60/25/15 weights are retained in code for restoration.

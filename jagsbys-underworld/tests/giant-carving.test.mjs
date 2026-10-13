@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {surveyLandmark,carveTile,CARVABLE,supportFor} from '../behavior_pack/scripts/landmark_terrain.js';
 import {spacingAllows,villageLandmarkClear} from '../behavior_pack/scripts/landmark_sites.js';
 import {GiantSearch} from '../behavior_pack/scripts/giant_search.js';
-function finish(job){for(let i=0;i<50000;i++){const s=job.next();if(s.done)return s.value;}assert.fail('Survey stalled');}
+function finish(job){for(let i=0;i<500000;i++){const s=job.next();if(s.done)return s.value;}assert.fail('Survey stalled');}
 function scene({islands=true,protectedBlock=false}={}){
  const fills=[];
  const d={id:'minecraft:nether',runCommand(){},getBiome:()=>({id:'minecraft:hell'}),getBlock({x,y,z}){

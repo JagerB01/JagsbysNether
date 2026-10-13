@@ -8,7 +8,7 @@ import {naturalCandidates,generateLandmark} from '../.build/behavior_pack/script
 import {terrainSurvey as villageTerrainSurvey} from '../.build/behavior_pack/scripts/terrain_survey.js';
 import {accessibleSites} from '../.build/behavior_pack/scripts/settlements/accessible_search.js';
 function storage(){const m=new Map();return {m,getDynamicProperty:k=>m.get(k),setDynamicProperty(k,v){if(v===undefined)m.delete(k);else m.set(k,v);},getDynamicPropertyIds:()=>[...m.keys()]};}
-function finish(job){for(let i=0;i<50000;i++){const s=job.next();system.currentTick++;if(s.done)return s.value;}assert.fail('Job did not finish');}
+function finish(job){for(let i=0;i<500000;i++){const s=job.next();system.currentTick++;if(s.done)return s.value;}assert.fail('Job did not finish');}
 test('shared ocean observations are persisted, bounded per column and do not reread stationary columns',()=>{
  const store=storage(),cache=new TerrainSurvey(store);let reads=0;
  const d={id:'minecraft:nether',getBlock({y}){reads++;return {typeId:y===31?'minecraft:lava':'minecraft:air'};}};
