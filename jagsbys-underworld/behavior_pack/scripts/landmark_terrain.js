@@ -139,3 +139,23 @@ export function carveTile(dimension,pos,size){
  const volume=new BlockVolume(pos,{x:pos.x+size[0]-1,y:pos.y+size[1]-1,z:pos.z+size[2]-1});
  dimension.fillBlocks(volume,'minecraft:air',{blockFilter:{includeTypes:CARVABLE}});
 }
+
+// Fill only empty space and lava beneath the footprint; existing solids end
+// each column. Yield during scans and after writes to keep generation staged.
+export function* fillSolidFoundation(dimension,pos,size,box,top,guard=()=>true){
+ for(let x=pos.x;x<pos.x+size[0];x++)for(let z=pos.z;z<pos.z+size[2];z++){
+  if(!guard())throw Error('Player approached the foundation');
+  let bottom=top+1;
+  for(let y=top;y>=1;y--){
+   const type=block(dimension,{x,y,z}).typeId;
+   if(!['minecraft:air',...FLUID].includes(type))break;
+   bottom=y;if((top-y)%8===7)yield;
+  }
+  if(bottom<=top){
+   if(!guard())throw Error('Player approached the foundation');
+   const edge=x===box.x||z===box.z||x===box.x+box.sx-1||z===box.z+box.sz-1;
+   dimension.fillBlocks(new BlockVolume({x,y:bottom,z},{x,y:top,z}),edge?'minecraft:blackstone':'minecraft:netherrack',{blockFilter:{includeTypes:['minecraft:air',...FLUID]}});
+  }
+  yield;
+ }
+}

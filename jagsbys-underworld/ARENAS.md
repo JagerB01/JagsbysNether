@@ -158,3 +158,5 @@ Arena support searches can now reach up to 128 blocks down (stopping above Y0), 
 Version 0.2.79 allows natural glowstone, bone fossils, and red and brown mushrooms to be cleared for arena placement. Search policy 4 reopens prior rejected arena sites once; completed structures and village rejection records are preserved.
 
 Version 0.2.80 shortens player-approach placement pauses to 200 ticks (10 seconds), using a one-shot timer created only when an active build pauses. No additional recurring check is registered. Normal discovery retains its 100-tick cadence, the 32-block player clearance remains required, and obstruction retry delays remain 1200 ticks.
+
+Version 0.2.81 gives newly reserved Small Arenas and giants solid foundations: a one-block blackstone perimeter and netherrack interior. Each column fills only air/lava below the structure origin until the first existing solid, without excavation. Scans and writes yield through the shared budget. Existing completed and partially placed structures retain their previous foundation policy.
