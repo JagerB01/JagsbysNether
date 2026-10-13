@@ -7,6 +7,20 @@ def generate():
     arenas=json.loads((ROOT/'behavior_pack/scripts/arena_catalog.js').read_text().split(' = ',1)[1].rstrip(';\n'));catalog={}
     for name,a in arenas.items():
         sections=[]
+        # Dragon Arena has an authored irregular terrain island, not a solid
+        # rectangular plinth. Read its lowest two layers once, offline.
+        base={}
+        if name=='dragon_arena':
+            for source in a['sections']:
+                r=NBT((ROOT/'behavior_pack/structures'/f"{source['id'].replace(':','/')}.mcstructure").read_bytes());r.read('B');r.string();root=r.payload(10)
+                st=root['structure'][1];names=[b['name'][1] for b in st['palette'][1]['default'][1]['block_palette'][1][1]]
+                layer=st['block_indices'][1][1][0][1];sx,sy,sz=source['size'];ox,oy,oz=source['offset']
+                for x in range(sx):
+                    for z in range(sz):
+                        for y in range(min(sy,max(0,2-oy))):
+                            i=layer[(x*sy+y)*sz+z]
+                            if i>=0 and names[i] not in {'minecraft:air','minecraft:lava','minecraft:water','minecraft:flowing_lava','minecraft:flowing_water'}:
+                                base[x+ox,z+oz]=y+oy;break
         for section in a['sections']:
             reader=NBT((ROOT/'behavior_pack/structures'/f"{section['id'].replace(':','/')}.mcstructure").read_bytes())
             reader.read('B');reader.string();root=reader.payload(10)
@@ -25,7 +39,12 @@ def generate():
                     ox,oy,oz=section['offset'];identifier=f'jagsby_nether:arenas_natural/{name}/tile_{ox+tx}_{oz+tz}'
                     path=ROOT/'behavior_pack/structures'/f"{identifier.replace(':','/')}.mcstructure";path.parent.mkdir(parents=True,exist_ok=True)
                     writer=NBT();writer.write('B',10);writer.put_string('');writer.put(10,data);path.write_bytes(writer.stream.getvalue())
-                    sections.append({'id':identifier,'offset':[ox+tx,oy,oz+tz],'size':[nx,sy,nz]})
+                    tile={'id':identifier,'offset':[ox+tx,oy,oz+tz],'size':[nx,sy,nz]}
+                    if name=='dragon_arena':
+                        tile['foundationColumns']=[[x,z,base[x+ox+tx,z+oz+tz]-oy,
+                            any((x+ox+tx+dx,z+oz+tz+dz) not in base for dx,dz in [(1,0),(-1,0),(0,1),(0,-1)])]
+                            for x in range(nx) for z in range(nz) if (x+ox+tx,z+oz+tz) in base]
+                    sections.append(tile)
         catalog[name]={**a,'sections':sections}
     (ROOT/'behavior_pack/scripts/natural_arena_catalog.js').write_text('export const NATURAL_ARENAS = '+json.dumps(catalog,separators=(',',':'))+';\n')
 if __name__=='__main__':generate()

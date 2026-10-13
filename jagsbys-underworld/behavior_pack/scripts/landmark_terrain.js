@@ -144,7 +144,7 @@ export function carveTile(dimension,pos,size){
 // each column. Yield during scans and after writes to keep generation staged.
 export function* fillSolidFoundation(dimension,pos,size,box,top,guard=()=>true,material=undefined,columns=undefined){
  const footprint=columns??(function*(){for(let x=0;x<size[0];x++)for(let z=0;z<size[2];z++)yield [x,z];})();
- for(const [cx,cz,floor] of footprint){
+ for(const [cx,cz,floor,perimeter] of footprint){
   const x=pos.x+cx,z=pos.z+cz,columnTop=floor===undefined?top:pos.y+floor-1;
   if(!guard())throw Error('Player approached the foundation');
   let bottom=columnTop+1;
@@ -155,7 +155,7 @@ export function* fillSolidFoundation(dimension,pos,size,box,top,guard=()=>true,m
   }
   if(bottom<=columnTop){
    if(!guard())throw Error('Player approached the foundation');
-   const edge=x===box.x||z===box.z||x===box.x+box.sx-1||z===box.z+box.sz-1;
+   const edge=perimeter??(x===box.x||z===box.z||x===box.x+box.sx-1||z===box.z+box.sz-1);
    dimension.fillBlocks(new BlockVolume({x,y:bottom,z},{x,y:columnTop,z}),material??(edge?'minecraft:blackstone':'minecraft:netherrack'),{blockFilter:{includeTypes:['minecraft:air',...FLUID]}});
   }
   yield;

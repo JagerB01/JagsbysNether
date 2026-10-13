@@ -19,3 +19,11 @@ test('raised branch foundations begin beneath actual floor columns and stop at e
  finish(fillSolidFoundation(d,{x:0,y:20,z:0},[2,40,2],{x:0,z:0,sx:2,sz:2},5,()=>true,'minecraft:polished_blackstone_bricks',[[0,0,10]]));
  assert.equal(writes.length,1);assert.equal(writes[0].v.from.y,16);assert.equal(writes[0].v.to.y,29);assert.equal(writes[0].type,'minecraft:polished_blackstone_bricks');
 });
+
+test('irregular masks leave gaps empty and use their true perimeter instead of the tile rectangle',()=>{
+ const writes=[],d={getBlock:({y})=>({typeId:y<=1?'minecraft:bedrock':'minecraft:air'}),fillBlocks:(v,type)=>writes.push({v,type})};
+ finish(fillSolidFoundation(d,{x:16,y:6,z:16},[3,5,3],{x:0,z:0,sx:129,sz:120},5,()=>true,undefined,[[0,0,0,true],[1,0,0,false]]));
+ assert.equal(writes.length,2);assert.equal(writes[0].type,'minecraft:blackstone');assert.equal(writes[1].type,'minecraft:netherrack');
+ assert.equal(writes[0].v.from.y,2);assert.equal(writes[0].v.to.y,5);
+ assert.deepEqual(writes.map(w=>[w.v.from.x,w.v.from.z]),[[16,16],[17,16]]);
+});

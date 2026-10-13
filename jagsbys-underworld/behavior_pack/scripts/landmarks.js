@@ -133,7 +133,7 @@ export function* generateLandmark(c,dimension){
     world.structureManager.place(section.id,dimension,pos,{includeEntities:false,includeBlocks:true});
     record.tilePlaced=true;save(c,record);
    }
-   if(record.solidFoundation)yield* fillSolidFoundation(dimension,pos,section.size,section.foundation?{...section.foundation,x:record.origin.x+section.foundation.x,z:record.origin.z+section.foundation.z}:record.box,record.origin.y-1,()=>playersClear(players(),activeBox,32),record.modular&&section.foundation.moduleIndex!==0?'minecraft:polished_blackstone_bricks':undefined,record.modular?section.foundationColumns:undefined);
+   if(record.solidFoundation)yield* fillSolidFoundation(dimension,pos,section.size,section.foundation?{...section.foundation,x:record.origin.x+section.foundation.x,z:record.origin.z+section.foundation.z}:record.box,record.origin.y-1,()=>playersClear(players(),activeBox,32),record.modular&&section.foundation.moduleIndex!==0?'minecraft:polished_blackstone_bricks':undefined,(record.modular||record.id==='dragon_arena')?section.foundationColumns:undefined);
    else yield* fillSupports(dimension,supports,()=>playersClear(players(),activeBox,32),record.carve??false);
    record.next=index+1;record.supporting=false;record.tilePlaced=false;save(c,record);world.setDynamicProperty(supportKey(c,index),undefined);
    lease.release();lease=undefined;yield {waitTicks:2};

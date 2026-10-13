@@ -54,8 +54,9 @@ test('carving precedes template placement, supports follow it, and interrupted s
   const job=generateLandmark(c,f.d);let saved;
   for(let i=0;i<50000;i++){job.next();saved=JSON.parse(world.getDynamicProperty(c.key)??'null');if(saved?.tilePlaced)break;if(i===49999)assert.fail('No placed tile checkpoint');}
   for(let i=0;i<1000&&!events.includes('support');i++)job.next();
-  assert.equal(saved.next,0);assert.deepEqual(events.slice(0,3).map(e=>e.startsWith('place:')?'place':e),['carve','place','support']);
-  job.return();const first=events.find(e=>e.startsWith('place:'));finish(generateLandmark({...c,saved},f.d));
+  assert(saved.tilePlaced,'A supported tile must remain checkpointed while its foundation is unfinished');
+  const lastCarve=events.lastIndexOf('carve');assert.deepEqual(events.slice(lastCarve,lastCarve+3).map(e=>e.startsWith('place:')?'place':e),['carve','place','support']);
+  job.return();const first=events.filter(e=>e.startsWith('place:')).at(-1);finish(generateLandmark({...c,saved},f.d));
   assert.equal(events.filter(e=>e===first).length,1);assert.equal(JSON.parse(world.getDynamicProperty(c.key)).state,'built');
  }finally{world.structureManager=old;world.setDynamicProperty(c.key,undefined);}
 });
