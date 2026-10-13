@@ -64,8 +64,13 @@ def main():
     crop_sites = {}
     changed_structures = set()
     block_conversions = {}
+    source_edits = {}
+    removed_assets = []
     for label, source in [('agriculture', agriculture), ('settlements', settlements)]:
         for name, content in source.items():
+            if label == 'settlements' and 'large_farm' in name:
+                removed_assets.append(name)
+                continue
             if name in ('manifest.json', 'pack_icon.png'):
                 continue
             if name.startswith('scripts/'):
@@ -75,6 +80,28 @@ def main():
                 name = f'docs/{label}/' + name
             assert name not in combined, f'Asset collision: {name}'
             expected[name] = content
+            if label == 'settlements' and b'large_farm' in content and name.endswith(('.js', '.json')):
+                if name == 'scripts/settlements/catalog.js':
+                    declarations = []
+                    for line in content.decode().splitlines():
+                        prefix, value = line.split(' = ', 1)
+                        data = json.loads(value.rstrip(';'))
+                        if prefix == 'export const catalog':
+                            data = {key: item for key, item in data.items() if 'large_farm' not in key}
+                        else:
+                            data = {key: [item for item in entries if 'large_farm' not in item[0]] for key, entries in data.items()}
+                        declarations.append(prefix + ' = ' + json.dumps(data, separators=(',', ':')) + ';')
+                    content = ('\n'.join(declarations) + '\n').encode()
+                else:
+                    data = json.loads(content)
+                    if name.startswith('features/'):
+                        entries = data['minecraft:weighted_random_feature']['features']
+                        data['minecraft:weighted_random_feature']['features'] = [item for item in entries if 'large_farm' not in item[0]]
+                    else:
+                        entries = data['minecraft:template_pool']['elements']
+                        data['minecraft:template_pool']['elements'] = [item for item in entries if 'large_farm' not in item['element']['location']]
+                    content = (json.dumps(data, indent=2) + '\n').encode()
+                source_edits[name] = content
             if name.endswith('.mcstructure'):
                 content, positions = strip_wart(content)
                 content, conversion = convert_structure_blocks(content, '/villages/' in name, '/villages/' in name and '_farm_' in name)
@@ -114,6 +141,9 @@ def main():
         overrides.add(f'features/{name}_weighted.json')
         overrides.add(f'feature_rules/{name}.json')
     for name, content in expected.items():
+        if name in source_edits:
+            assert (BUILD / 'behavior_pack' / name).read_bytes() == source_edits[name], name
+            continue
         if name in overrides:
             assert (BUILD / 'behavior_pack' / name).read_bytes() == (ROOT / 'behavior_pack' / name).read_bytes()
             continue
@@ -161,7 +191,7 @@ def main():
         pack = files(check[f'Jagsbys_Underworld_{suffix}.mcpack'])
         assert pack['pack_icon.png'] == icon
         assert json.loads(pack['manifest.json'])['header']['version'] == version
-    print(f'Preserved all {len(expected)-len(overrides)-len(changed_structures)} original behavior assets/scripts byte-for-byte (population/generation overridden; wart/lighting/jigsaw/loot conversion applied to {len(changed_structures)} structures); built {output} ({output.stat().st_size:,} bytes)')
+    print(f'Preserved all {len(expected)-len(overrides)-len(changed_structures)-len(source_edits)} original behavior assets/scripts byte-for-byte (population/generation overridden; large farms removed; wart/lighting/jigsaw/loot conversion applied to {len(changed_structures)} structures); built {output} ({output.stat().st_size:,} bytes)')
     if placeholder:
         print('LOCAL VERIFICATION ONLY: user cover PNG still required; no release download was produced.')
 

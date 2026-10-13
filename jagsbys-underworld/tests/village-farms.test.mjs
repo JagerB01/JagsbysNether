@@ -37,3 +37,19 @@ test('new village sites require 256 blocks from existing centers, including olde
  try{assert.equal(farEnough(world,255,0),false);assert.equal(farEnough(world,256,0),true);assert.equal(farEnough(world,0,-255),false);}
  finally{world.setDynamicProperty(key,undefined);}
 });
+
+test('large farms are absent from village catalogs, pools and packed template assets',async()=>{
+ const {catalog}=await import('../.build/behavior_pack/scripts/settlements/catalog.js');
+ const {readdirSync,readFileSync}=await import('node:fs');
+ assert(Object.keys(catalog).every(id=>!id.includes('large_farm')));
+ assert(Object.values(pools).every(entries=>entries.every(([id])=>!id.includes('large_farm'))));
+ for(const theme of ['crimson','warped']){
+  assert(Object.keys(catalog).some(id=>id.includes(`/villages/${theme}/`)&&id.includes('small_farm')));
+  for(const base of ['terrain/villages','villages']){
+   const path=new URL(`../.build/behavior_pack/structures/nether_settlements/${base}/${theme}/houses/`,import.meta.url);
+   assert(readdirSync(path).every(name=>!name.includes('large_farm')));
+  }
+  for(const file of [`features/${theme}_weighted.json`,`worldgen/template_pools/${theme}_houses.json`])
+   assert(!readFileSync(new URL('../.build/behavior_pack/'+file,import.meta.url),'utf8').includes('large_farm'));
+ }
+});

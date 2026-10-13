@@ -98,3 +98,5 @@ Automatic searches compare up to six distinct regions before placing any village
 Only fully assessed absence of floor is persisted as unsuitable. Incomplete comparison data/loading errors defer that region and prevent placement during that comparison batch. Cached completed comparisons do not reload their footprints; construction still loads and verifies the selected area. The selected area still uses the existing detailed village planner and three-house minimum; failed layouts can fall back to the next compared area. The shared queue and per-tick budget remain. Comparison adds some initial wait, with loading and comparison counts shown in status.
 
 Version 0.2.94 requires at least four residential houses and one farm before any village blocks are placed. Farm templates use soul soil instead of soul sand; planted crops use soul-soil farmland. New village centers must be at least 256 blocks from recorded villages. Existing villages are not rebuilt.
+
+Version 0.2.95 removes the Crimson and Warped large-farm templates and all their pool/feature entries. Villages still require four residential houses and a farm, using the small-farm template.

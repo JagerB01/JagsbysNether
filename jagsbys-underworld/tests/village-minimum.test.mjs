@@ -4,7 +4,7 @@ import {world} from './mock-server.mjs';
 import {village} from '../.build/behavior_pack/scripts/settlements/main.js';
 import {RECORD_PREFIX} from '../.build/behavior_pack/scripts/settlements/navigation.js';
 // Real catalog planning on finite Nether terrain: these floor sizes fit 0–3 homes.
-function run(radius,automatic=false){
+function run(radius,automatic=false,seed=123){
  const placed=[],spawned=[],notifications=[];let writes=0,completed=false;
  const manager=world.structureManager;
  world.structureManager={place(id){placed.push(id);}};
@@ -15,7 +15,7 @@ function run(radius,automatic=false){
    setType(){writes++;},setPermutation(){writes++;}};
  },spawnEntity(type){spawned.push(type);return {id:'test-resident',getProperty(){return 1;},triggerEvent(){},remove(){}};}};
  const region=automatic?`test:minimum_region_${radius}`:undefined;
- try{for(const _ of village(dimension,0,0,65,'crimson',123,m=>notifications.push(m),region,()=>{completed=true;})){};}
+ try{for(const _ of village(dimension,0,0,65,'crimson',seed,m=>notifications.push(m),region,()=>{completed=true;})){};}
  finally{world.structureManager=manager;}
  return {placed,spawned,notifications,writes,completed,region};
 }
@@ -29,7 +29,7 @@ for(const automatic of [false,true])for(const [radius,houses] of [[12,0],[10,1],
  });
 }
 test('a real layout with exactly three houses is rejected before any world writes',()=>{
- const before=world.getDynamicPropertyIds(),f=run(16,true);
+ const before=world.getDynamicPropertyIds(),f=run(16,true,3);
  assert(f.notifications.some(m=>m.startsWith('Only 3 residential houses fit:')));
  assert.equal(f.writes,0);assert.deepEqual(f.placed,[]);assert.deepEqual(f.spawned,[]);
  assert.deepEqual(world.getDynamicPropertyIds(),before);assert.equal(f.completed,true);

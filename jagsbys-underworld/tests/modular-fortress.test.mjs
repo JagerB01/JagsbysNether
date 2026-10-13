@@ -45,3 +45,20 @@ test('blocked required lower chambers pause without pruning, then resume after t
   blocked=false;run(generateLandmark({...c,saved},d));saved=JSON.parse(world.getDynamicProperty(c.key));assert.equal(saved.state,'built');for(const index of [0,1,2,3,4])assert(saved.modules.includes(index));
  }finally{world.structureManager=old;world.setDynamicProperty(c.key,undefined);}
 });
+
+test('foundations extend authored pier feet while leaving bridge decks and upper pieces unsupported',()=>{
+ const bridge=FORTRESS_MODULES.find(m=>m.source.some(s=>s.endsWith('/roofless_single_straight_5')));
+ const feet=bridge.sections.flatMap(s=>s.foundationColumns.map(([x,z,y])=>[s.offset[0]-bridge.offset[0]+x,s.offset[2]-bridge.offset[2]+z,s.offset[1]-bridge.offset[1]+y]));
+ assert(feet.some(([x,z,y])=>x===6&&z===3&&y===0),'Authored central pier foot needs its foundation');
+ assert(!feet.some(([x,z])=>x===0&&z===3),'Raised bridge deck must remain open underneath');
+ assert(feet.length>0&&feet.length<16*7);
+ for(const m of FORTRESS_MODULES){
+  for(const s of m.sections)for(const [x,z,y] of s.foundationColumns){
+   assert(s.offset[1]-m.offset[1]+y<=1,'Only authored base layers can initiate foundations');
+   assert(x>=0&&x<s.size[0]&&z>=0&&z<s.size[2]);
+  }
+  if(m.source.some(src=>src.includes('/ends/')||src.includes('staircase_upper')||src.includes('staircase_side')))
+   assert(m.sections.every(s=>s.foundationColumns.length===0),'Elevated stairs/end caps must not acquire foundations');
+ }
+ assert(FORTRESS_MODULES[0].sections.some(s=>s.foundationColumns.length>0));
+});
