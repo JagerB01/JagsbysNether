@@ -12,7 +12,7 @@ export function candidateAt(family,gx,gz,seed){
  if(family==='giant')id=roll<.6?'large_arena':roll<.85?'dragon_arena':'mega_fortress';
  else if(family==='small'){id='small_arena';biome=roll<.8?'basalt_deltas':'nether_wastes';}
  else id=roll<.08?'grave_yard':roll<.14?'large_blackstone_pillars':roll<.18?'large_blackstone_walls':undefined;
- return {family,gx,gz,x,z,id,biome,seed:n,key:`${LANDMARK_PREFIX}${family}_${gx}_${gz}`};
+ return {family,gx,gz,x,z,id,biome,selectionRoll:roll,seed:n,key:`${LANDMARK_PREFIX}${family}_${gx}_${gz}`};
 }
 export function boxGap(a,b){
  const dx=Math.max(0,a.x-(b.x+b.sx-1),b.x-(a.x+a.sx-1));

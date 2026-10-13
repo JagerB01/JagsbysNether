@@ -1,3 +1,4 @@
+import {terrainSurvey} from '../terrain_survey.js';
 import {rejectedSites} from './rejected_sites.js';
 import {read,floorAt,replaceable} from './terrain.js';
 import {SPACING,candidateAt,farEnough,recordedSites,outsidePlayerBuffer} from './navigation.js';
@@ -37,6 +38,7 @@ export function* accessibleSites(dimension,players,world,seed,cooldowns,tick) {
       farEnough(world,x,z,recorded) && outsidePlayerBuffer(players,{x,z,sx:1,sz:1});
     const accessible=loaded(x,near,z);
     if(accessible) {
+      terrainSurvey.observeLoadedColumn(dimension,x,z);
       for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]])enqueue(cx+dx,cz+dz,near);
       if(eligible) {
         const surveyKey=`${dimension.id}:${x},${z},${near}`;
@@ -64,5 +66,6 @@ export function* accessibleSites(dimension,players,world,seed,cooldowns,tick) {
   }
   // Terrain quality alone determines the shortlist; player distance is not scored.
   sites.sort((a,b)=>b.score-a.score || a.x-b.x || a.z-b.z);
+  terrainSurvey.flush();
   return sites;
 }

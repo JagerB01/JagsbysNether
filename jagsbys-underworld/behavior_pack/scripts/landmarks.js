@@ -5,6 +5,9 @@ import {chunkLease} from './chunk_loading.js';
 import {runGenerationJob} from './generation_queue.js';
 import {candidateAt,GIANTS,landmarkRecords,villageBoxes,spacingAllows,LANDMARK_PREFIX} from './landmark_sites.js';
 import {surveyLandmark,clearVolume,fillSupports} from './landmark_terrain.js';
+import {terrainSurvey} from './terrain_survey.js';
+import {giantSearch,giantSites,attemptKey} from './giant_search.js';
+import {assessGiantSite} from './giant_fit.js';
 const retries=new Map();let busy=false,status='Waiting for unchecked landmark sites.';
 const SUPPORT_PREFIX='underworld_landmarks:support_';
 const players=()=>world.getPlayers().filter(p=>p.dimension.id==='minecraft:nether'&&p.location.y<120);
@@ -13,41 +16,52 @@ export function playersClear(online,box,margin=32){return online.every(p=>{
  const x=Math.max(box.x,Math.min(p.location.x,box.x+box.sx-1)),z=Math.max(box.z,Math.min(p.location.z,box.z+box.sz-1));return Math.hypot(p.location.x-x,p.location.z-z)>=margin;
 });}
 export function naturalCandidates(online,seed,tick=system.currentTick){
- const all=new Map();
+ const all=new Map(),visited=new Set(),observations=terrainSurvey.nearby(online);
  for(const player of online)for(const [family,size] of [['giant',1600],['small',600],['ruin',192]]){
   const gx=Math.floor(player.location.x/size),gz=Math.floor(player.location.z/size),radius=Math.ceil(768/size);
   for(let x=gx-radius;x<=gx+radius;x++)for(let z=gz-radius;z<=gz+radius;z++){
-   const c=candidateAt(family,x,z,seed);if(!c.id||(retries.get(c.key)??0)>tick)continue;
-   const distance=Math.min(...online.map(p=>Math.hypot(c.x-p.location.x,c.z-p.location.z)));
-   if(distance>768)continue;
-   let saved;try{saved=JSON.parse(world.getDynamicProperty(c.key)??'null');}catch{}
-   if(saved&&saved.state!=='placing')continue;
-   if(!playersClear(online,saved?.box??boxFor(c),GIANTS.includes(c.id)?128:64))continue;
-   all.set(c.key,{...c,saved,distance});
+   const region=candidateAt(family,x,z,seed);if(!region.id||visited.has(region.key))continue;visited.add(region.key);
+   let saved;try{saved=JSON.parse(world.getDynamicProperty(region.key)??'null');}catch{}
+   if(saved&&saved.state!=='placing'&&(family!=='giant'||saved.state!=='rejected'))continue;
+   const sites=saved?.state==='placing'?[{...region,id:saved.id,x:saved.x,z:saved.z,saved}]:
+     family==='giant'?giantSites(region,observations):[region];
+   const eligible=[];
+   for(const c of sites){
+    if((retries.get(attemptKey(c))??0)>tick||(!c.saved&&family==='giant'&&giantSearch.failed(c)))continue;
+    const distance=Math.min(...online.map(p=>Math.hypot(c.x-p.location.x,c.z-p.location.z)));
+    if(distance>768||!playersClear(online,c.saved?.box??boxFor(c.family==='giant'?{...c,id:'mega_fortress'}:c),GIANTS.includes(c.id)?128:64))continue;
+    eligible.push({...c,distance,priority:c.saved?0:c.observed?1:family==='giant'?3:2});
+   }
+   eligible.sort((a,b)=>a.priority-b.priority||(b.score??0)-(a.score??0)||a.distance-b.distance||a.x-b.x||a.z-b.z);
+   if(eligible.length)all.set(region.key,eligible[0]);
   }
  }
- // Resume interrupted builds first, then alternate families by deterministic distance.
- return [...all.values()].sort((a,b)=>Number(!!b.saved)-Number(!!a.saved)||a.distance-b.distance||a.key.localeCompare(b.key));
+ return [...all.values()].sort((a,b)=>a.priority-b.priority||a.distance-b.distance||a.key.localeCompare(b.key));
 }
 function save(c,r){world.setDynamicProperty(c.key,JSON.stringify(r));}
+function reject(c,reason){if(c.family==='giant')giantSearch.reject(c,reason);else save(c,{state:'rejected',reason});}
 function supportKey(c,index){return `${SUPPORT_PREFIX}${c.family}_${c.gx}_${c.gz}_${index}`;}
 export function* generateLandmark(c,dimension){
- let lease;
+ let lease;const started=system.currentTick;
+ const progress=message=>{status=`${c.family==='giant'&&!c.saved&&!c.selected?'Giant site':ARENAS[c.id].display_name}: ${message} (${Math.floor((system.currentTick-started)/20)}s).`;};
  try{
   let record=c.saved,plan;
   if(!record){
-   if(!spacingAllows(c,boxFor(c),landmarkRecords(),villageBoxes())){
-    save(c,{state:'rejected',reason:'Spacing from an existing structure or village'});return;
+   const records=landmarkRecords(),villages=villageBoxes();
+   const smallest=c.family==='giant'?{...c,id:'large_arena'}:c;
+   if(!spacingAllows(smallest,boxFor(smallest),records,villages)){
+    reject(c,'Spacing from an existing structure or village');return;
    }
    status=`Surveying ${ARENAS[c.id].display_name} at ${c.x}, ${c.z}.`;
-   plan=yield* surveyLandmark(c,dimension);
+   plan=c.family==='giant'?yield* assessGiantSite(c,dimension,{progress,allowed:(id,box)=>spacingAllows({...c,id},box,records,villages)}):yield* surveyLandmark(c,dimension,progress);
    if(plan.outcome!=='ready'){
-    if(plan.outcome==='unsuitable')save(c,{state:'rejected',reason:plan.reason});
-    else retries.set(c.key,system.currentTick+1200);
+    if(plan.outcome==='unsuitable')reject(c,plan.reason);
+    else retries.set(attemptKey(c),system.currentTick+1200);
     status=`${ARENAS[c.id].display_name}: ${plan.reason}.`;return;
    }
+   if(plan.id)c={...c,id:plan.id,selected:true};
    if(!spacingAllows(c,plan.box,landmarkRecords(),villageBoxes())||!playersClear(players(),plan.box,32)){
-    retries.set(c.key,system.currentTick+1200);return;
+    retries.set(attemptKey(c),system.currentTick+1200);return;
    }
    const supports=plan.supports.flat();
    for(const [i,section] of NATURAL_ARENAS[c.id].sections.entries()){
@@ -61,21 +75,23 @@ export function* generateLandmark(c,dimension){
   for(let index=record.next;index<arena.sections.length;index++){
    const section=arena.sections[index],[x,y,z]=section.offset;
    const pos={x:record.origin.x+x,y:record.origin.y+y,z:record.origin.z+z};
+   progress(`Loading placement tile ${index+1}/${arena.sections.length}`);
    lease=chunkLease(dimension,'landmark');yield* lease.load(pos,section.size);
-   if(!playersClear(players(),record.box,32)){retries.set(c.key,system.currentTick+1200);status='Landmark paused: player approached its footprint.';return;}
-   if(!(yield* clearVolume(dimension,pos,section.size,record.surface,record.ocean,record.supporting?['minecraft:polished_blackstone']:[]))){status='Landmark paused: terrain changed before placement.';retries.set(c.key,system.currentTick+1200);return;}
+   progress(`Placing tile ${index+1}/${arena.sections.length}`);
+   if(!playersClear(players(),record.box,32)){retries.set(attemptKey(c),system.currentTick+1200);status='Landmark paused: player approached its footprint.';return;}
+   if(!(yield* clearVolume(dimension,pos,section.size,record.surface,record.ocean,record.supporting?['minecraft:polished_blackstone']:[]))){status='Landmark paused: terrain changed before placement.';retries.set(attemptKey(c),system.currentTick+1200);return;}
    // Persist before foundation writes so a restart can finish this section.
    record.supporting=true;save(c,record);
    const supports=JSON.parse(world.getDynamicProperty(supportKey(c,index))??'[]');
    yield* fillSupports(dimension,supports,()=>playersClear(players(),record.box,32));
    // No yield between the final player check, native placement and progress record.
-   if(!playersClear(players(),record.box,32)){retries.set(c.key,system.currentTick+1200);return;}
+   if(!playersClear(players(),record.box,32)){retries.set(attemptKey(c),system.currentTick+1200);return;}
    world.structureManager.place(section.id,dimension,pos,{includeEntities:false,includeBlocks:true});
    record.next=index+1;record.supporting=false;save(c,record);world.setDynamicProperty(supportKey(c,index),undefined);
    lease.release();lease=undefined;yield {waitTicks:2};
   }
   record.state='built';save(c,record);status=`${arena.display_name} generated at ${record.origin.x}, ${record.origin.y}, ${record.origin.z}.`;
- }catch(error){retries.set(c.key,system.currentTick+1200);status=`Landmark deferred: ${error.message}`;console.warn(`[Underworld landmarks] ${status}`);}
+ }catch(error){retries.set(attemptKey(c),system.currentTick+1200);status=`Landmark deferred: ${error.message}`;console.warn(`[Underworld landmarks] ${status}`);}
  finally{lease?.release();}
 }
 export function* naturalSearch(){
@@ -84,6 +100,7 @@ export function* naturalSearch(){
   let seed=world.getDynamicProperty('nether_settlements:terrain_seed');
   if(typeof seed!=='number'){seed=Math.floor(Math.random()*2147483647);world.setDynamicProperty('nether_settlements:terrain_seed',seed);}
   const c=naturalCandidates(online,seed)[0];if(c)yield* generateLandmark(c,online[0].dimension);
+  else status='No unchecked or retry-ready sites currently in range; explore farther.';
  }finally{busy=false;}
 }
 system.runInterval(()=>{

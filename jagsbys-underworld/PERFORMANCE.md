@@ -65,3 +65,9 @@ Fishing enumerates players once at startup; spawn and incoming-rod inventory eve
 ## v0.2.72 natural landmarks
 
 Villages, manual templates and natural landmarks use a single budgeted queue. Only deterministic unchecked candidates are surveyed; unsuitable candidates are persisted, with temporary errors deferred. Surveys use native filtered block volumes in 16-block-wide strips, temporary section loads and sparse foundation anchors, instead of inspecting every block through JavaScript. Natural placement tiles are at most 16 by 16 horizontally, with two-tick pauses and saved progress. Manual templates retain their original sections. Village landmark exclusion records are loaded once per layout plan. Engine lighting/rendering work still requires in-game profiling.
+
+## v0.2.73 shared giant discovery
+
+Giants reuse persistent lava-surface observations from already-loaded village neighborhoods and distant survey footprints. Each sampled column is checked once per bounded session cache; missing reads are not remembered as dry terrain. Other sites use bounded coarse probes. Confirmed unsuitable giant search cells are persisted without excluding their entire region. Region structure completion remains unique.
+
+All giant sizes are assessed before selection; incomplete checks defer selection. Assessments share a bounded 60,000-block snapshot cache and clear-volume proofs across sizes. Native volume strips align to world chunks so smaller contained checks can reuse clear results. Obstructed volumes are not assumed obstructed for smaller footprints. Final construction always validates live blocks. This preserves the job budget, chunk lease limits and shared queue.

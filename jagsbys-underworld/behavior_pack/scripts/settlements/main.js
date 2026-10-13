@@ -1,3 +1,4 @@
+import {observeLoadedArea} from '../terrain_survey.js';
 import {runGenerationJob,generationBusy} from '../generation_queue.js';
 import {villageLandmarkClear,landmarkRecords} from '../landmark_sites.js';
 import {planningCache} from './planning_cache.js';
@@ -321,6 +322,7 @@ export function* automaticSearch(seed) {
       try{
         generationStatus=`Loading site ${candidate.x}, ${candidate.z}.`;
         yield* lease.load({x:candidate.x-72,y:0,z:candidate.z-72},[145,128,145]);
+        yield* observeLoadedArea(dimension,{x:candidate.x-72,z:candidate.z-72},[145,128,145]);
         // The loaded survey can contain a player; only actual planned building
         // footprints are excluded. Do not reject the entire 113-block square.
         const near=candidate.floor??64;

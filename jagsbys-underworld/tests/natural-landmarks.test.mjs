@@ -46,7 +46,7 @@ test('obstructed ceilings, insufficient oceans and unloaded reads cause no place
 });
 test('natural placement saves completion, supports actual foundations and cannot repeat its candidate',()=>{
  const f=fixture(),old=world.structureManager;world.structureManager={place:(id,dim,pos)=>f.placed.push({id,pos})};
- const c={...candidateAt('giant',100,100,124),id:'large_arena'};
+ const c={...candidateAt('giant',100,100,124),id:'large_arena',selectionRoll:.1};
  try{
   finish(generateLandmark(c,f.dimension));const record=JSON.parse(world.getDynamicProperty(c.key));assert.equal(record.state,'built');assert.equal(record.next,NATURAL_ARENAS.large_arena.sections.length);assert(f.fills.length>0);
   assert.equal(f.placed.length,NATURAL_ARENAS.large_arena.sections.length);
@@ -66,7 +66,7 @@ test('shared generation worker serializes jobs and releases ownership after fail
  for(let i=before;i<timeouts.length;i++)timeouts[i].callback();assert.deepEqual(trace,['first-start','first-end','second']);assert(!generationBusy());
 });
 test('interrupted natural builds resume at the next tile without duplicating completed tiles',()=>{
- const c={...candidateAt('giant',150,150,222),id:'large_arena'},f=fixture(),old=world.structureManager;
+ const c={...candidateAt('giant',150,150,222),id:'large_arena',selectionRoll:.1},f=fixture(),old=world.structureManager;
  world.structureManager={place:id=>f.placed.push(id)};
  try{
   const job=generateLandmark(c,f.dimension);

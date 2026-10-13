@@ -1,3 +1,4 @@
+import {terrainSurvey} from './terrain_survey.js';
 import {BlockVolume} from '@minecraft/server';
 import {ARENAS} from './arena_catalog.js';
 import {FOUNDATIONS} from './landmark_foundations.js';
@@ -26,9 +27,9 @@ export function* surfaceAt(d,x,z,ocean){
 // limited to a 16x16 column, and unloaded chunks are never silently ignored.
 export function* clearVolume(d,from,size,surface,ocean,extra=[]){
  if(typeof d.containsBlock!=='function')throw Error('Native block-volume query unavailable');
- for(let x=0;x<size[0];x+=16)for(let z=0;z<size[2];z+=16){
-  const start={x:from.x+x,y:Math.max(from.y,surface+1),z:from.z+z};
-  const end={x:from.x+Math.min(x+15,size[0]-1),y:from.y+size[1]-1,z:from.z+Math.min(z+15,size[2]-1)};
+ for(let x=Math.floor(from.x/16)*16;x<from.x+size[0];x+=16)for(let z=Math.floor(from.z/16)*16;z<from.z+size[2];z+=16){
+  const start={x:Math.max(x,from.x),y:Math.max(from.y,surface+1),z:Math.max(z,from.z)};
+  const end={x:Math.min(x+15,from.x+size[0]-1),y:from.y+size[1]-1,z:Math.min(z+15,from.z+size[2]-1)};
   if(start.y<=end.y&&d.containsBlock(new BlockVolume(start,end),{excludeTypes:[...AIR,...extra]},false))return false;
   if(ocean&&from.y<=surface){
    if(d.containsBlock(new BlockVolume({...start,y:from.y},{...end,y:surface}),{excludeTypes:[...AIR,...FLUID,...extra]},false))return false;
@@ -47,13 +48,17 @@ export function* supportFor(d,origin,anchor){
  }
  return false;
 }
-export function* surveyLandmark(candidate,dimension){
+export function* surveyLandmark(candidate,dimension,progress=()=>{},cache=undefined){
+ const sampling=cache??dimension;
  const arena=ARENAS[candidate.id],ocean=GIANTS.includes(candidate.id);
  let lease=chunkLease(dimension,'survey');
  try{
+  progress('Loading initial terrain probe');
   yield* lease.load({x:candidate.x-8,y:0,z:candidate.z-8},[17,128,17]);
-  const surface=yield* surfaceAt(dimension,candidate.x,candidate.z,ocean);
+  progress('Surveying initial terrain probe');
+  const surface=yield* surfaceAt(sampling,candidate.x,candidate.z,ocean);
   if(surface===undefined)return {outcome:'unsuitable',reason:ocean?'No open lava surface':'No exposed natural ground'};
+  if(ocean){terrainSurvey.ocean(candidate.x,candidate.z,surface);terrainSurvey.flush();}
   const biome=biomeName(dimension.getBiome({x:candidate.x,y:surface+1,z:candidate.z})?.id);
   if(!biome)return {outcome:'deferred',reason:'Biome unavailable'};
   if(!biomeAllows(candidate,biome))return {outcome:'unsuitable',reason:'Biome does not match'};
@@ -66,21 +71,23 @@ export function* surveyLandmark(candidate,dimension){
    const section=arena.sections[index],[ox,oy,oz]=section.offset;
    const from={x:origin.x+ox,y:origin.y+oy,z:origin.z+oz};
    lease=chunkLease(dimension,'survey');
+   progress(`Loading survey section ${index+1}/${arena.sections.length}`);
    yield* lease.load({...from,y:0},[section.size[0],128,section.size[2]]);
+   progress(`Surveying section ${index+1}/${arena.sections.length}`);
    // All sampled ground must be nearby in height; oceans must cover every sample.
    for(let x=0;x<section.size[0];x+=8)for(let z=0;z<section.size[2];z+=8){
-    if(ocean){if(!FLUID.includes(block(dimension,{x:from.x+x,y:surface,z:from.z+z}).typeId))return {outcome:'unsuitable',reason:'Lava ocean is too small'};}
+    if(ocean){if(!FLUID.includes(block(sampling,{x:from.x+x,y:surface,z:from.z+z}).typeId))return {outcome:'unsuitable',reason:'Lava ocean is too small'};}
     else{
      let found;
-     for(let y=surface;y>=surface-3;y--)if(GROUND.includes(block(dimension,{x:from.x+x,y,z:from.z+z}).typeId)){found=y;break;}
+     for(let y=surface;y>=surface-3;y--)if(GROUND.includes(block(sampling,{x:from.x+x,y,z:from.z+z}).typeId)){found=y;break;}
      if(found===undefined)return {outcome:'unsuitable',reason:'Ground is too uneven or unsupported'};
     }
     yield;
    }
-   if(!(yield* clearVolume(dimension,from,[section.size[0],section.size[1]+2,section.size[2]],surface,ocean)))return {outcome:'unsuitable',reason:'Cavern ceiling, terrain or existing blocks obstruct the footprint'};
+   if(!(yield* clearVolume(sampling,from,[section.size[0],section.size[1]+2,section.size[2]],surface,ocean)))return {outcome:'unsuitable',reason:'Cavern ceiling, terrain or existing blocks obstruct the footprint'};
    const sectionSupports=[];
    for(const anchor of FOUNDATIONS[candidate.id])if(anchor[0]>=ox&&anchor[0]<ox+section.size[0]&&anchor[2]>=oz&&anchor[2]<oz+section.size[2]){
-    const support=yield* supportFor(dimension,origin,anchor);
+    const support=yield* supportFor(sampling,origin,anchor);
     if(support===false)return {outcome:'unsuitable',reason:'Foundation cannot safely reach natural ground'};
     if(support)sectionSupports.push(support);
     yield;

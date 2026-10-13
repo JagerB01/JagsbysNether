@@ -1,4 +1,4 @@
-# Arena templates and natural landmarks — v0.2.72
+# Arena templates and natural landmarks — v0.2.73
 
 Small Arena, Large Arena and Dragon Arena are imported from the supplied Moogs
 Nether Structures 3.1.1 JAR using its Java 1.21 template variants. The template
@@ -97,11 +97,11 @@ The same loader supports the extended village search.
 
 ## Natural generation — v0.2.72
 
-All seven templates now have deterministic candidate locations. Each candidate is assessed once; unsuitable terrain is saved permanently, while unloaded terrain, unavailable biome queries and approached sites are deferred. This is one candidate per region, not continuous chunk scans. Existing explored terrain can generate a new landmark when first assessed by this version; surveys reject obstructing blocks but cannot distinguish player-placed natural terrain from world terrain.
+Small Arenas and ruins retain deterministic candidate locations. Giants now discover sites across each region, reusing lava observations from village surveys and probing unobserved areas on a bounded 128-block search grid. Rejected giant search cells (64 blocks wide) are persisted, while unloaded terrain, unavailable biome queries and approached sites are deferred. Rejecting one site does not discard the whole region. Existing explored terrain can generate a new landmark when first assessed by this version; surveys reject obstructing blocks but cannot distinguish player-placed natural terrain from world terrain.
 
 Small Arenas use 600-block regions: 80% of selections require Basalt Deltas, 20% require Nether Wastes. Actual placements depend on suitable terrain and will not necessarily have that same biome ratio. Arenas have at least 600 blocks between candidate centers.
 
-Giants use 1,600-block regions: Large Arena 60%, Dragon Arena 25%, Mega Fortress 15%. These percentages choose the structure, not the chance of a successful placement. All require a broad, open lava surface across the sampled footprint and clear overhead space. Large and Dragon Arena bases sit two blocks above lava; Mega Fortress lower foundations begin one block below its surface. Giants require 1,500 blocks between centers and at least 300 blocks between their footprint and village edges. Older villages use a conservative 113-block-square estimate; new villages store actual planned bounds. Future villages also respect recorded landmark footprints.
+Giants use 1,600-block regions with at most one giant per region. At a promising location all three sizes are assessed, largest first, using shared block snapshots and proven-clear volumes. A definite size or spacing failure excludes that size; any incomplete assessment defers the decision. Only after all size outcomes are known is the structure selected: Large Arena weight 60, Dragon Arena 25, Mega Fortress 15, normalized over the confirmed fitting options. With all three fitting, this is 60% / 25% / 15%; with just Large and Dragon fitting, it is 70.6% / 29.4%. These percentages choose the structure, not the chance of a successful placement. All require a broad, open lava surface across the sampled footprint and clear overhead space. Large and Dragon Arena bases sit two blocks above lava; Mega Fortress lower foundations begin one block below its surface. Giants require 1,500 blocks between centers and at least 300 blocks between their footprint and village edges. Older villages use a conservative 113-block-square estimate; new villages store actual planned bounds. Future villages also respect recorded landmark footprints.
 
 Small ruins use 192-block regions with one selection: Grave Yard 8%, Pillars 6%, Walls 4%, none 82%. Grave Yards require Soul Sand Valleys; pillars and walls require Basalt Deltas or Nether Wastes. Ruins have 150-block center separation and all landmarks require at least 32 blocks between footprints. Ground placements allow up to three blocks of sampled variation and add supports at actual template foundation anchors. Sites are not excavated to make room.
 
@@ -121,3 +121,11 @@ To regenerate the derived placement assets after template changes:
 PYTHONDONTWRITEBYTECODE=1 python3 tools/generate_structure_foundations.py
 PYTHONDONTWRITEBYTECODE=1 python3 tools/generate_natural_landmarks.py
 ```
+
+## Shared discovery and complete size decisions — v0.2.73
+
+Village surveys contribute lava-surface hints from their loaded neighborhood and distant 145-block survey areas. Positive hints are retained per 128-block terrain tile and ranked by neighboring ocean observations. They are only hints: every selected giant footprint is checked against real terrain. Initially probes search other in-range positions on a 128-block grid; visiting new areas exposes additional search sites. No entire 1,600-block region is loaded at once.
+
+The old v0.2.72 region rejections are treated as failures of their original position; other positions in those regions become eligible. Completed and partially placed structures are retained, including their actual coordinates and saved tile progress.
+
+Failed 64-block search cells are never retried after terrain edits. Missing data does not reject a cell. Complete size assessments share at most 60,000 block snapshots and clear native-volume proofs for that one site. Final placement still uses live checks. The shared queue and all existing distance, separation, village-edge, support and clearance rules remain. Status now distinguishes initial loading, individual size checks, survey sections and placement tiles, with elapsed game time.
