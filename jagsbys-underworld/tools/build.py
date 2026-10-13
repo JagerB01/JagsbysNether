@@ -140,6 +140,7 @@ def main():
     subprocess.run(['python3', 'tools/test_structure_blocks.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/test_structure_loot.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/test_moogs_arenas.py'], cwd=ROOT, check=True)
+    subprocess.run(['python3', 'tools/test_natural_landmarks.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/validate.py'], cwd=ROOT, check=True)
     subprocess.run(['node', '--import', './tests/register-mock.mjs', '--test',
                     *[str(p.relative_to(ROOT)) for p in sorted((ROOT / 'tests').glob('*.test.mjs'))]],

@@ -61,3 +61,7 @@ Regression tests verify no repeated idle enumeration/raycast, restoration after 
 ## v0.2.71 fishing idle work
 
 Fishing enumerates players once at startup; spawn and incoming-rod inventory events migrate legacy rod properties. Tick updates only process tracked active casts. All fish status effects and their update loop have been removed. Spawn/startup clears obsolete persistent effect timers. Native hunger and saturation values remain unchanged. Bobber motion, bite timing, particles and catch behavior are unchanged. FPS improvement still requires in-game measurement.
+
+## v0.2.72 natural landmarks
+
+Villages, manual templates and natural landmarks use a single budgeted queue. Only deterministic unchecked candidates are surveyed; unsuitable candidates are persisted, with temporary errors deferred. Surveys use native filtered block volumes in 16-block-wide strips, temporary section loads and sparse foundation anchors, instead of inspecting every block through JavaScript. Natural placement tiles are at most 16 by 16 horizontally, with two-tick pauses and saved progress. Manual templates retain their original sections. Village landmark exclusion records are loaded once per layout plan. Engine lighting/rendering work still requires in-game profiling.

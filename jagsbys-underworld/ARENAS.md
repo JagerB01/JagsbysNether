@@ -1,9 +1,9 @@
-# Manual arena templates — v0.2.64
+# Arena templates and natural landmarks — v0.2.72
 
 Small Arena, Large Arena and Dragon Arena are imported from the supplied Moogs
 Nether Structures 3.1.1 JAR using its Java 1.21 template variants. The template
-list is `behavior_pack/scripts/arena_catalog.js`. These arenas have NO natural
-feature rules, placement probabilities or connections to village generation.
+list is `behavior_pack/scripts/arena_catalog.js`. Natural placement now uses the shared budgeted generation queue described below.
+The original manual commands remain available.
 
 In a Creative test world with cheats and both Underworld packs enabled:
 
@@ -83,8 +83,8 @@ axes, connections and door states along with their coordinates. Mob/boss pool
 attachments remain omitted.
 
 The footprint exceeds Bedrock's 100-chunk ticking-area limit, so placement loads
-and removes one section's temporary area at a time. No permanent ticking areas,
-feature rules, automatic placement or natural mob spawn overrides are added.
+and removes one section's temporary area at a time. The original import did not add natural placement; v0.2.72 adds it separately.
+No permanent ticking areas or natural mob spawn overrides are added.
 
 ## Chunk loading correction — v0.2.66
 
@@ -94,3 +94,30 @@ checked at a coordinate inside the requested footprint. Command fallback request
 preload explicitly and polls until available, with a 30-second limit. Failed
 loads stop before that section is placed and temporary areas are cleaned up.
 The same loader supports the extended village search.
+
+## Natural generation — v0.2.72
+
+All seven templates now have deterministic candidate locations. Each candidate is assessed once; unsuitable terrain is saved permanently, while unloaded terrain, unavailable biome queries and approached sites are deferred. This is one candidate per region, not continuous chunk scans. Existing explored terrain can generate a new landmark when first assessed by this version; surveys reject obstructing blocks but cannot distinguish player-placed natural terrain from world terrain.
+
+Small Arenas use 600-block regions: 80% of selections require Basalt Deltas, 20% require Nether Wastes. Actual placements depend on suitable terrain and will not necessarily have that same biome ratio. Arenas have at least 600 blocks between candidate centers.
+
+Giants use 1,600-block regions: Large Arena 60%, Dragon Arena 25%, Mega Fortress 15%. These percentages choose the structure, not the chance of a successful placement. All require a broad, open lava surface across the sampled footprint and clear overhead space. Large and Dragon Arena bases sit two blocks above lava; Mega Fortress lower foundations begin one block below its surface. Giants require 1,500 blocks between centers and at least 300 blocks between their footprint and village edges. Older villages use a conservative 113-block-square estimate; new villages store actual planned bounds. Future villages also respect recorded landmark footprints.
+
+Small ruins use 192-block regions with one selection: Grave Yard 8%, Pillars 6%, Walls 4%, none 82%. Grave Yards require Soul Sand Valleys; pillars and walls require Basalt Deltas or Nether Wastes. Ruins have 150-block center separation and all landmarks require at least 32 blocks between footprints. Ground placements allow up to three blocks of sampled variation and add supports at actual template foundation anchors. Sites are not excavated to make room.
+
+Candidates are considered within 768 blocks of a Nether player. Initial giant surveys require players at least 128 blocks outside the footprint; other landmarks require 64. Placement pauses if a player approaches within 32 blocks. This reduces nearby pop-in but cannot guarantee placement outside every client's render distance.
+
+Native block-volume queries survey 16-block-wide strips; sections load temporarily below the ticking-area limit. Natural builds place losslessly sliced 16 by 16 tiles with two-tick pauses, reserving their footprint and saving per-tile progress for restart recovery. Foundation supports extend down at most 64 blocks. Villages, natural landmarks and manual templates share one job queue with the existing per-tick work budget. Large block placement may still cause engine lighting/rendering work; live profiling is required.
+
+Commands:
+```
+/scriptevent jagsby_nether:structures_status
+/scriptevent jagsby_nether:structures_find
+```
+
+Natural generation does not add trial waves, custom bosses or trial rewards.
+To regenerate the derived placement assets after template changes:
+```
+PYTHONDONTWRITEBYTECODE=1 python3 tools/generate_structure_foundations.py
+PYTHONDONTWRITEBYTECODE=1 python3 tools/generate_natural_landmarks.py
+```

@@ -1,4 +1,5 @@
-import {runPlanningJob} from '../planning_jobs.js';
+import {runGenerationJob,generationBusy} from '../generation_queue.js';
+import {villageLandmarkClear,landmarkRecords} from '../landmark_sites.js';
 import {planningCache} from './planning_cache.js';
 import {rejectedSites} from './rejected_sites.js';
 import {world,system,StructureRotation} from '@minecraft/server';
@@ -107,6 +108,7 @@ function* place(dimension,piece,rotation,origin,baseY,plan,automatic=false,inVil
 }
 export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComplete,options={}) {
   const planning=options.cache===false?dimension:planningCache(dimension);let playerBlocked=false;
+  const landmarks=regionKey?landmarkRecords():[];
   const unsuitable=reason=>({outcome:planning.missing||playerBlocked?'deferred':'unsuitable',reason});
   const rng=random(seed),boxes=[],queue=[],layout=[];let houses=0,roads=0,buildings=0,farms=0;
   const size=villageSize(rng);
@@ -129,7 +131,7 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
           const origin={x:site.x-Math.floor(sx/2),z:site.z-Math.floor(sz/2)};
           for (const shift of [0,1,-1,2,-2,3]) {
             const baseY=site.floor+shift;
-            if(regionKey && rejectedSites.blocksBox({...origin,sx,sz})){playerBlocked=true;continue;}
+            if(regionKey && (rejectedSites.blocksBox({...origin,sx,sz})||!villageLandmarkClear({...origin,sx,sz},landmarks))){playerBlocked=true;continue;}
             if (regionKey && !outsidePlayerBuffer(world.getPlayers(),{...origin,sx,sz})) {playerBlocked=true;continue;}
             const plan=yield* planRigid(planning,piece,rotation,origin,baseY);
             if (!plan) continue;
@@ -201,7 +203,7 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
             if (Math.max(Math.abs(origin.x-x),Math.abs(origin.z-z),
               Math.abs(origin.x+sx-1-x),Math.abs(origin.z+sz-1-z))>size.radius) continue;
             if (boxes.some(old=>overlap(old,box))) continue;
-            if(regionKey && rejectedSites.blocksBox(box)){playerBlocked=true;continue;}
+            if(regionKey && (rejectedSites.blocksBox(box)||!villageLandmarkClear(box,landmarks))){playerBlocked=true;continue;}
             if (regionKey && !outsidePlayerBuffer(world.getPlayers(),box)) {playerBlocked=true;continue;}
             const baseY=parent.y-connector.y;
             const plan=piece.kind==='road' ?
@@ -245,7 +247,10 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
     // Place the center last so an interrupted job cannot leave an empty center.
     for (const item of chosen) yield* place(dimension,item.piece,item.rotation,item.origin,item.baseY,item.plan,!!regionKey,true);
     world.setDynamicProperty(`${RECORD_PREFIX}${x}_${z}`,JSON.stringify({
-      x,y:best.baseY+1,z,theme,houses,roads}));
+      x,y:best.baseY+1,z,theme,houses,roads,bounds:{
+        x:Math.min(...boxes.map(b=>b.x)),z:Math.min(...boxes.map(b=>b.z)),
+        sx:Math.max(...boxes.map(b=>b.x+b.sx))-Math.min(...boxes.map(b=>b.x)),
+        sz:Math.max(...boxes.map(b=>b.z+b.sz))-Math.min(...boxes.map(b=>b.z))}}));
     if (regionKey) world.setDynamicProperty(regionKey,true);
     yield* populate(dimension,chosen,notify);
     notify?.(`${theme} ${size.name} terrain village: ${roads} road pieces, ${houses} houses, ${buildings-houses} amenities. Steep or blocked branches were skipped.`);
@@ -257,7 +262,7 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
 function start(dimension,x,z,near,theme,seed,notify,regionKey) {
   if (busy) {notify?.('A village is already being assembled. Try again shortly.');return;}
   notify?.('Comparing nearby village sites, then assembling the best fit...');
-  busy=true;runPlanningJob(village(dimension,x,z,near,theme,seed,notify,regionKey));
+  busy=true;runGenerationJob(village(dimension,x,z,near,theme,seed,notify,regionKey));
 }
 
 system.afterEvents.scriptEventReceive.subscribe(event=>{
@@ -337,12 +342,12 @@ export function* automaticSearch(seed) {
   }
 }
 system.runInterval(()=>{
-  if (busy) return;
+  if (busy || generationBusy()) return;
   for(const map of [cooldowns,localCooldowns])for(const [key,until] of map)if(until<=system.currentTick)map.delete(key);
   if (!world.getPlayers().some(p=>p.dimension.id==='minecraft:nether' && p.location.y<120)) return;
   let seed=world.getDynamicProperty('nether_settlements:terrain_seed');
   if (typeof seed!=='number') {seed=Math.floor(Math.random()*2147483647);world.setDynamicProperty('nether_settlements:terrain_seed',seed);}
   if(system.currentTick<nextRemoteAttempt)return;
   nextRemoteAttempt=system.currentTick+100;
-  busy=true;runPlanningJob(automaticSearch(seed));
+  busy=true;runGenerationJob(automaticSearch(seed));
 },100);

@@ -27,7 +27,7 @@ class MoogsArenas(unittest.TestCase):
     def test_native_sections_fit_limits_have_valid_states_and_cover_layout_without_overlap(self):
         for arena in ARENAS:
             data=self.metadata['converted_templates'][arena];volume=0;rectangles=[]
-            self.assertFalse(data['spawn_enabled'])
+            self.assertTrue(data['spawn_enabled'])
             for section in data['sections']:
                 path=ROOT/'behavior_pack/structures'/Path(section['id'].replace(':','/')).with_suffix('.mcstructure')
                 r=NBT(path.read_bytes());self.assertEqual(r.read('B'),10);r.string();root=r.payload(10);self.assertFalse(r.stream.read())

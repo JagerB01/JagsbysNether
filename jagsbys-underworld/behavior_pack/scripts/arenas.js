@@ -1,4 +1,4 @@
-import {runPlanningJob} from './planning_jobs.js';
+import {runGenerationJob} from './generation_queue.js';
 import {world,system} from '@minecraft/server';
 import {ARENAS} from './arena_catalog.js';
 import {chunkLease} from './chunk_loading.js';
@@ -33,12 +33,12 @@ export function* placeArena({id,arena,dimension,origin},notify=()=>{}){
    yield;
    if(perSection)clear();
   }
-  notify(`${arena.display_name} placed. Natural spawning is disabled.`);
+  notify(`${arena.display_name} placed. Manual template placement complete.`);
  }finally{
   try{clear();}catch(error){console.warn(`[Underworld templates] Temporary area cleanup failed: ${error}`);}
  }
 }
-// The only entry point is an explicit test command below.
+// Manual testing remains separate from natural terrain surveys.
 system.afterEvents.scriptEventReceive.subscribe(({id,message,sourceEntity:player})=>{
  if(!['jagsby_nether:arena','jagsby_nether:template'].includes(id)||player?.typeId!=='minecraft:player')return;
  const notify=message=>player.sendMessage(`[Underworld arenas] ${message}`);
@@ -46,5 +46,5 @@ system.afterEvents.scriptEventReceive.subscribe(({id,message,sourceEntity:player
  if(busy){notify('An arena is already being placed.');return;}
  let request;try{request=arenaRequest(message,player);}catch(error){notify(String(error.message));return;}
  busy=true;
- runPlanningJob((function*(){try{yield* placeArena(request,notify);}catch(error){notify(`Placement stopped: ${error.message}`);console.warn(`[Underworld arenas] ${error}`);}finally{busy=false;}})());
+ runGenerationJob((function*(){try{yield* placeArena(request,notify);}catch(error){notify(`Placement stopped: ${error.message}`);console.warn(`[Underworld arenas] ${error}`);}finally{busy=false;}})());
 });

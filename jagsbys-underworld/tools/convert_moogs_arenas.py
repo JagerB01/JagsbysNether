@@ -312,7 +312,7 @@ def convert(arena,schema):
             w=NBT();w.write('B',10);w.put_string('');w.put(10,root);tile=f'section_{x0//64}_{z0//64}'
             (out/f'{tile}.mcstructure').write_bytes(w.stream.getvalue())
             sections.append({'id':f'jagsby_nether:arenas/{arena}/{tile}','offset':[x0,0,z0],'size':list(size)})
-    return {'display_name':arena.replace('_',' ').title(),'size':list(total),'spawn_enabled':False,'sections':sections,
+    return {'display_name':arena.replace('_',' ').title(),'size':list(total),'spawn_enabled':True,'sections':sections,
             'source_pieces':[{'location':loc,'offset':list(sub(o,low)),'rotation':r*90} for loc,o,r,d in pieces],
             'joins':joints,'omitted_encounter_pools':omitted,'conversion_counts':dict(stats)}
 
@@ -357,7 +357,7 @@ def main():
     schema=json.loads(SCHEMA.read_text())['blocks'];catalog={a:convert(a,schema) for a in ARENAS}
     metadata.update({'mod':'Moogs Nether Structures','version':'3.1.1','authors':['FinnDog','Phantax (structure builder)'],
                      'upstream':'https://github.com/FinnSetchell/MoogsNetherStructures2','license':'LGPL-3.0',
-                     'scope':'Seven Java 1.21 structure layouts for manual Bedrock testing only; no natural placement/spawn rules.',
+                     'scope':'Seven Java 1.21 architecture imports; natural placement is implemented separately in Underworld scripts.',
                      'limitations':['Custom Java boss/mob encounter pools omitted.','Java trial-spawner and vault configurations are not ported; blocks retain default native behavior.',
                                     'Java terrain carving and 128-block support pillar processors are not run.',
                                     'Chests/barrels use Underworld loot. Vanilla spawners use native Nether mobs. Java item-frame entity omitted.',

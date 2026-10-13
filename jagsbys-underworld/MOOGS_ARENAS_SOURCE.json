@@ -371,7 +371,7 @@
   ],
   "upstream": "https://github.com/FinnSetchell/MoogsNetherStructures2",
   "license": "LGPL-3.0",
-  "scope": "Seven Java 1.21 structure layouts for manual Bedrock testing only; no natural placement/spawn rules.",
+  "scope": "Seven Java 1.21 architecture imports; natural placement is implemented separately in Underworld scripts.",
   "limitations": [
     "Custom Java boss/mob encounter pools omitted.",
     "Java trial-spawner and vault configurations are not ported; blocks retain default native behavior.",
@@ -387,7 +387,7 @@
         18,
         93
       ],
-      "spawn_enabled": false,
+      "spawn_enabled": true,
       "sections": [
         {
           "id": "jagsby_nether:arenas/small_arena/section_0_0",
@@ -536,7 +536,7 @@
         47,
         99
       ],
-      "spawn_enabled": false,
+      "spawn_enabled": true,
       "sections": [
         {
           "id": "jagsby_nether:arenas/large_arena/section_0_0",
@@ -744,7 +744,7 @@
         45,
         120
       ],
-      "spawn_enabled": false,
+      "spawn_enabled": true,
       "sections": [
         {
           "id": "jagsby_nether:arenas/dragon_arena/section_0_0",
@@ -1392,7 +1392,7 @@
         8,
         10
       ],
-      "spawn_enabled": false,
+      "spawn_enabled": true,
       "sections": [
         {
           "id": "jagsby_nether:arenas/grave_yard/section_0_0",
@@ -1434,7 +1434,7 @@
         11,
         13
       ],
-      "spawn_enabled": false,
+      "spawn_enabled": true,
       "sections": [
         {
           "id": "jagsby_nether:arenas/large_blackstone_pillars/section_0_0",
@@ -1472,7 +1472,7 @@
         10,
         5
       ],
-      "spawn_enabled": false,
+      "spawn_enabled": true,
       "sections": [
         {
           "id": "jagsby_nether:arenas/large_blackstone_walls/section_0_0",
@@ -1510,7 +1510,7 @@
         56,
         248
       ],
-      "spawn_enabled": false,
+      "spawn_enabled": true,
       "sections": [
         {
           "id": "jagsby_nether:arenas/mega_fortress/section_0_0",
@@ -4031,5 +4031,11 @@
         "omitted_java_minecraft:item_frame": 1
       }
     }
+  },
+  "natural_generation": {
+    "introduced_in": "0.2.72",
+    "implementation": "scripts/landmarks.js",
+    "placement_tiles": "Generated losslessly from converted sections by tools/generate_natural_landmarks.py; maximum 16 by 16 horizontal blocks",
+    "foundations": "Anchors generated from existing solid template blocks by tools/generate_structure_foundations.py"
   }
 }

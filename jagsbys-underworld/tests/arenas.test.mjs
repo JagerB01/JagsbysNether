@@ -14,7 +14,7 @@ test('arena list includes all seven manual templates; absolute coordinates and h
  assert.deepEqual(Object.keys(ARENAS),['small_arena','large_arena','dragon_arena','grave_yard','large_blackstone_pillars','large_blackstone_walls','mega_fortress']);
  const f=fixture();assert.deepEqual(arenaRequest('small_arena',f.player).origin,{x:8,y:31,z:8});
  assert.deepEqual(arenaRequest('dragon_arena 100 32 100',f.player).origin,{x:100,y:32,z:100});
- for(const name of Object.keys(ARENAS))assert.equal(ARENAS[name].spawn_enabled,false);
+ for(const name of Object.keys(ARENAS))assert.equal(ARENAS[name].spawn_enabled,true);
  for(const input of ['unknown','small_arena 1 2','small_arena 1.5 32 0','large_arena 0 100 0'])assert.throws(()=>arenaRequest(input,f.player));
 });
 test('manual placement uses exact section offsets and removes temporary ticking area',()=>{
