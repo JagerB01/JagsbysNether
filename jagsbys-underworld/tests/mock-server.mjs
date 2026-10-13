@@ -24,7 +24,7 @@ export const world = {
   setDynamicProperty(key, value) { properties.set(key, value); },
   getDynamicPropertyIds() { return [...properties.keys()]; },
   getAllPlayers() { return []; },
-  beforeEvents: {entityHurt: signal(), playerInteractWithEntity: signal(), playerInteractWithBlock: signal()},
+  beforeEvents: {playerBreakBlock: signal(), explosion: signal(), entityHurt: signal(), playerInteractWithEntity: signal(), playerInteractWithBlock: signal()},
   afterEvents: {playerSpawn: signal(), playerHotbarSelectedSlotChange: signal(), playerInventoryItemChange: signal(), entityContainerOpened: signal(), entityContainerClosed: signal(), entitySpawn: signal(), entityLoad: signal(), playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
 };
 const pending = [];
