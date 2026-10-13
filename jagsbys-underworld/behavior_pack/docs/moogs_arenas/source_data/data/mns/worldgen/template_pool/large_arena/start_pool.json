@@ -1,0 +1,20 @@
+{
+  "name": "mns:large_arena/start_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "moogs_structures:versioned_single_pool_element",
+        "location": "mns:1_21_9/large_arena/r1",
+        "locations": {
+          "1.21-1.21.3": "mns:1_21_0/large_arena/r1",
+          "1.21.4-1.21.8": "mns:1_21_4/large_arena/r1",
+          "1.21.9-26.3": "mns:1_21_9/large_arena/r1"
+        },
+        "processors": "mns:large_arena_pillars",
+        "projection": "rigid"
+      }
+    }
+  ]
+}

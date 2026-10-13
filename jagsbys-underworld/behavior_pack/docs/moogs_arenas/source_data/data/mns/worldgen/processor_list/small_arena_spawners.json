@@ -1,0 +1,18 @@
+{
+  "processors": [
+    {
+      "processor_type": "moogs_structures:spawner_randomizing_processor",
+      "weighted_entities": [
+        { "entity": "minecraft:zombified_piglin", "weight": 5 },
+        { "entity": "minecraft:magma_cube", "weight": 3 },
+        { "entity": "minecraft:skeleton", "weight": 2 }
+      ],
+      "min_spawn_delay": 250,
+      "max_spawn_delay": 900,
+      "spawn_count": 3,
+      "max_nearby_entities": 4,
+      "required_player_range": 16,
+      "spawn_range": 4
+    }
+  ]
+}

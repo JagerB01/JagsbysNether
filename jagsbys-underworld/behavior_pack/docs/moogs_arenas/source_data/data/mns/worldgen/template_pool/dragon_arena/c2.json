@@ -1,0 +1,19 @@
+{
+  "name": "mns:dragon_arena/c2",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "mns:1_21_5/dragon_arena/c2",
+        "locations": {
+          "1.21-1.21.4": "mns:1_21_0/dragon_arena/c2",
+          "1.21.5-26.3": "mns:1_21_5/dragon_arena/c2"
+        },
+        "processors": "mns:dragon_arena_pillars",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    }
+  ]
+}

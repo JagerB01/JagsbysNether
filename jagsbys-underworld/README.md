@@ -137,3 +137,11 @@ Adult villagers accept dropped Sorgum and Polyps for breeding food: 12 per
 parent, within 1.5 blocks, with normal bed and mobGriefing requirements. The
 active villager AI/appearance/trades stay intact. See [VILLAGER_FOOD.md](VILLAGER_FOOD.md).
 Automatic Nether Wastes villages explicitly use the Crimson style.
+
+## Manual arena templates
+
+Small Arena, Large Arena and Dragon Arena from Moogs Nether Structures are
+available for testing with `/scriptevent jagsby_nether:arena <arena_name>`.
+Use `small_arena`, `large_arena` or `dragon_arena`, optionally followed by
+absolute X Y Z coordinates. No natural placement rules or spawn weights are
+assigned. See [ARENAS.md](ARENAS.md) for sizes, commands and conversion limits.

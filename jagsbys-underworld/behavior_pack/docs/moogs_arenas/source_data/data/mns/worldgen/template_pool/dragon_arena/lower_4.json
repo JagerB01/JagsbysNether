@@ -1,0 +1,18 @@
+{
+  "name": "mns:dragon_arena/lower_4",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "mns:1_21_0/dragon_arena/lower_4",
+        "locations": {
+          "1.21-26.3": "mns:1_21_0/dragon_arena/lower_4"
+        },
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    }
+  ]
+}

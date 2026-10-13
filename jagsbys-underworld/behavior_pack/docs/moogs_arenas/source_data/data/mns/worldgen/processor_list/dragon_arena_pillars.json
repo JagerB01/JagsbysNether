@@ -1,0 +1,75 @@
+{
+  "processors": [
+    {
+      "processor_type": "moogs_structures:pillar_processor",
+      "direction": "down",
+      "pillar_length": 128,
+      "original_replaced_block": {
+        "Name": "minecraft:chiseled_deepslate"
+      },
+      "pillar_trigger_and_replacements": [
+        {
+          "trigger": {
+            "Name": "minecraft:orange_stained_glass"
+          },
+          "replacement": {
+            "Name": "minecraft:deepslate"
+          }
+        }
+      ],
+      "pillar_state_randomizer": {
+        "default": {
+          "Name": "minecraft:deepslate"
+        },
+        "entries": [
+          {
+            "block": {
+              "Name": "minecraft:magma_block"
+            },
+            "probability": 0.35,
+            "max_y": 32
+          },
+          {
+            "block": {
+              "Name": "minecraft:cobbled_deepslate"
+            },
+            "probability": 0.2
+          }
+        ]
+      }
+    },
+    {
+      "processor_type": "moogs_structures:spawner_randomizing_processor",
+      "weighted_entities": [
+        {
+          "entity": "minecraft:wither_skeleton",
+          "weight": 6
+        },
+        {
+          "entity": "minecraft:blaze",
+          "weight": 3
+        },
+        {
+          "entity": "minecraft:magma_cube",
+          "weight": 3
+        }
+      ],
+      "min_spawn_delay": 150,
+      "max_spawn_delay": 600,
+      "spawn_count": 5,
+      "max_nearby_entities": 8,
+      "required_player_range": 16,
+      "spawn_range": 4
+    },
+    {
+      "processor_type": "moogs_structures:trial_spawner_randomizing_processor",
+      "normal_config": "mns:dragon_arena/normal",
+      "ominous_config": "mns:dragon_arena/ominous"
+    },
+    {
+      "processor_type": "moogs_structures:vault_randomizing_processor",
+      "loot_table": "mns:vaults/dragon_arena/main",
+      "ominous_loot_table": "mns:vaults/dragon_arena/main_ominous"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "mns:large_arena/r2-r3",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "moogs_structures:versioned_single_pool_element",
+        "location": "mns:1_21_9/large_arena/r3",
+        "locations": {
+          "1.21-1.21.3": "mns:1_21_0/large_arena/r3",
+          "1.21.4": "mns:1_21_4/large_arena/r3",
+          "1.21.5-1.21.8": "mns:1_21_5/large_arena/r3",
+          "1.21.9-26.3": "mns:1_21_9/large_arena/r3"
+        },
+        "processors": "mns:large_arena_pillars",
+        "projection": "rigid"
+      }
+    }
+  ]
+}

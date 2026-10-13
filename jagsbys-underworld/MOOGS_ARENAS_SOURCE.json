@@ -1,0 +1,1097 @@
+{
+  "jar_file": "MoogsNetherStructures-universal-1.21-3.1.1.jar",
+  "jar_sha256": "46e0506264bd66df1ec6fb031f75d6b7f4660ad5f874b5df446dc1a3beebe7f6",
+  "source_files_sha256": {
+    "data/mns/structure/1_21_0/dragon_arena/c1.nbt": "25cf731f5d3b96757515ff45bee964ef00974738b8dfbb157df30d177da6f291",
+    "data/mns/structure/1_21_0/dragon_arena/c2.nbt": "bd915dbd526a7bc0fa46a0c384913e49bfc89b707e90b841f5a2c2343e588188",
+    "data/mns/structure/1_21_0/dragon_arena/head.nbt": "1700c0d77e7f217cf211c6e3e3f56816d185b916ed7b83a3191e970a50a7e8b3",
+    "data/mns/structure/1_21_0/dragon_arena/l1.nbt": "d469f02bdf2d1f535c0ac8af1e760afa49af429fdb3d4cd6d654316a1049909e",
+    "data/mns/structure/1_21_0/dragon_arena/l2.nbt": "8796b9a6c8b1b9a76e76d23f547426049c81c044702c526564c0659dfbba9f7d",
+    "data/mns/structure/1_21_0/dragon_arena/lower_1.nbt": "117e5a29f5717a3313ade2a184ab4c435d0be9ab52a3d2eb4876bdc1c466ddea",
+    "data/mns/structure/1_21_0/dragon_arena/lower_10.nbt": "43e918c22c0368ff3928d0579cffaf2c1290926284475aa91e00f3136ed8a544",
+    "data/mns/structure/1_21_0/dragon_arena/lower_11.nbt": "af7d2681fd61a1dd2eeade22052cd2bf824fc82d8f98e362b9ef1d6b8faa5c18",
+    "data/mns/structure/1_21_0/dragon_arena/lower_12.nbt": "bc82b81e2ccd85a2c50ae27ce884b03010dc14c64f936341746c6bd0f92beecf",
+    "data/mns/structure/1_21_0/dragon_arena/lower_13.nbt": "3aa257d6f63fa07e3ecd72ac408d6d0435415d2826d388e1d6ba3ff405f0e4c6",
+    "data/mns/structure/1_21_0/dragon_arena/lower_14.nbt": "5cc32c5f2c7f1ca556e1d76aadce74f5365569740baa661cdb8e09102e6d93d9",
+    "data/mns/structure/1_21_0/dragon_arena/lower_2.nbt": "5cc32c5f2c7f1ca556e1d76aadce74f5365569740baa661cdb8e09102e6d93d9",
+    "data/mns/structure/1_21_0/dragon_arena/lower_3.nbt": "85ce5ad9073cd18fc24069d4cf462083a079e9cb1e1d59b2b6e68e8eac2efa57",
+    "data/mns/structure/1_21_0/dragon_arena/lower_4.nbt": "8c88b52a325098ec10aff6611d8dc8720bf4ef5ef5d811f67542bdbfab808785",
+    "data/mns/structure/1_21_0/dragon_arena/lower_5.nbt": "59c99137af32e1193259eb9f4910c2f9b2e158e6c3c8e328458ef6bde396e3f9",
+    "data/mns/structure/1_21_0/dragon_arena/lower_6.nbt": "987a8fb60d9c15e8a0aa11382ba18ee81e0e22e82bf3af728eb60c40063a89d0",
+    "data/mns/structure/1_21_0/dragon_arena/lower_7.nbt": "b02f014d5e62b904a7ac43bf50403794c2c8e3a5861e009e80824710f658a612",
+    "data/mns/structure/1_21_0/dragon_arena/lower_8.nbt": "6ae40d3a9af2f806cd52c8eaa75e7f576a37006e87e550a86fca3bc17c170b8e",
+    "data/mns/structure/1_21_0/dragon_arena/lower_9.nbt": "2f45fc94f778c871aad44d48ccc4c4bc5a9746686835fbc98f19f9c47cd957b9",
+    "data/mns/structure/1_21_0/dragon_arena/r1.nbt": "40775af5c7897588d344fb68891c5132055c99bb683cb3ebda6cfd136969ea70",
+    "data/mns/structure/1_21_0/dragon_arena/r2.nbt": "f1993aa87d364e9f7bb330c625d84175b0d76b3af0686bc383dd0719086c0e9c",
+    "data/mns/structure/1_21_0/large_arena/l1.nbt": "1337b4254a925cac9bacc297b8679e83a15b262ba61f8d5e08eca8d1cbc4a7b8",
+    "data/mns/structure/1_21_0/large_arena/l2.nbt": "a0d3a1302f4d2dcb14123e735481a7b68bdb1357119ec8ed1a6afd8774019550",
+    "data/mns/structure/1_21_0/large_arena/l3.nbt": "c13230922d761905ea9956f899b7d96a00d196094aae7b83d098af69a1603060",
+    "data/mns/structure/1_21_0/large_arena/r1.nbt": "1bc5c2a50ea818eb8fd840688a4a9f7e9ec1ea482a1bf2baa567c7396e2899c6",
+    "data/mns/structure/1_21_0/large_arena/r2.nbt": "794124ce4dc9d35de237c384684c8047f3cbacd58e38cbe4bbb6ee5d91919799",
+    "data/mns/structure/1_21_0/large_arena/r3.nbt": "8299abd7f22922b5f841a1ba4702dfbdaca63c53213126982436f1d02c946d67",
+    "data/mns/structure/1_21_0/small_arena/back.nbt": "8c953427ebeff737398a7f006a356e7bf9d6f275a9341abc450f3b9162dd277a",
+    "data/mns/structure/1_21_0/small_arena/front.nbt": "f54311e84a7f9287649d43a05200c3746e2dc8b0fd426bd360957ffba8f9f0b9",
+    "data/mns/structure/1_21_0/small_arena/left.nbt": "23a28c488e4672fe1cffc481ca2f5b0ec8b9fdfd4c88a808b631396d2259f95a",
+    "data/mns/structure/1_21_0/small_arena/middle.nbt": "974019ca85c906462a90ebe42db9509d05735864b17ad100c232175f28ca3254",
+    "data/mns/worldgen/processor_list/dragon_arena_pillars.json": "0fc5497bb2757532dc5e5d5903a37d30aa2ba4f80b9813baf0235ec3a7927e07",
+    "data/mns/worldgen/processor_list/large_arena_pillars.json": "f390004462e189187d19500170c6f5ddbc4a7c3e44cd57cbc062cb1d74f5eba2",
+    "data/mns/worldgen/processor_list/small_arena_spawners.json": "14e62029fa81de2a5b27b02dc879382bedecc5634d5dcff2b69b5d6eb650f260",
+    "data/mns/worldgen/structure/dragon_arena.json": "b0ccbf1dfc7c1ad5529c51b9369dc3f4e81533c248360a78dc3bcb864406eeae",
+    "data/mns/worldgen/structure/large_arena.json": "9d0a9e173cd9571859949b1ab9de28f71d094e564499391470cf316d46265b1c",
+    "data/mns/worldgen/structure/small_arena.json": "803b3d96eadccf2d77d0c4ab8e95ff1eed09f208bef4f6be786d1245bf9baa51",
+    "data/mns/worldgen/template_pool/dragon_arena/c1.json": "0a77b2a54e19f28a43a2d4b660692870d1644b584bda3221adc8414b6540f175",
+    "data/mns/worldgen/template_pool/dragon_arena/c2.json": "594a1c76358a5ad61d54a48a84c2dee742470e3f55b51984b5366ffbece89088",
+    "data/mns/worldgen/template_pool/dragon_arena/l1.json": "a2e877e40d8460c6c6e886ecfa9a90cbce0b035d27e3f64c24fd138f0ac571ee",
+    "data/mns/worldgen/template_pool/dragon_arena/l2.json": "3478d3716c1fcff5b84add49466ce58cb9f667819e57fb2c3f656fc2145fccc8",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_1.json": "98f29cb3c31ee80655cb4b13e6312abfdabe50049aa3381ba60b38184bfeb05c",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_10.json": "36a82261ae14cb96d13b1635c753b1745b6f40a32b32af6f9946633def47cac0",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_11.json": "863e8eb8439fe0a84ab599e54e7875317b627c40d65430eb433ed3d3339b5742",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_12.json": "39e368caaeaa7a665712c589584d928e1867a72dd8631bcd6c9276e2bd9f4aec",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_13.json": "783b16163033a7895a07998ede94bd37f6ba1c2b5015cb2f1301b7f91ddc56f0",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_14.json": "76a1ee55f20dee5000a01a156f46c8c0d7b559a0df547b106e728ff28792c45e",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_2.json": "435990137b9b0ef748ba34d33907ab6d158798c9a38eae74c46a7af60df95426",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_3.json": "98cf9d20ae82fdc3b820c5659b287c95949ad3e08971b6c4ac5db68f2a4cc8f4",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_4.json": "496ff457c5cfa7aa831b7323f3d277f09fd7eaf849dd048d869eddb1e2b7e89f",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_5.json": "9a60a24d5604308b6322351f20389fb8b422582fe8012e88046b95871e8bf437",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_6.json": "72e0d13623e072b38ee1797087420b70e5ca0a5bef878f4fa9ef8e920150a239",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_7.json": "117501e5521306a2f40b7a75b0a5a83b3f81e9ea1dd23afc7c75a6ab3bb42ad7",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_8.json": "2e08cc8c0c338c7c55ab23e839638b8784057ae93de1175b40c70564e630b038",
+    "data/mns/worldgen/template_pool/dragon_arena/lower_9.json": "340954007e0fadcd8ed84a0ee08a94f0adcdb104ff5adb557a2e461329a0b2aa",
+    "data/mns/worldgen/template_pool/dragon_arena/r1.json": "d23636fbc23fc019a4adb02cb78dc74d29d9e4fa782e193dda7e041731bdbc2b",
+    "data/mns/worldgen/template_pool/dragon_arena/r2.json": "36e2e2d113f1bb89437348d50d29b4dbf85e1232a6805e86de785b54f472d58f",
+    "data/mns/worldgen/template_pool/dragon_arena/start_pool.json": "a882a30b56e2670d996ee7917684974b327954f57c61d618e5a6d3c27f4b2321",
+    "data/mns/worldgen/template_pool/large_arena/l1-l2.json": "4eefbc3f58db7cdd1ca7bf35a66565d928a389f5bffa57a43cf62a29560d162c",
+    "data/mns/worldgen/template_pool/large_arena/l2-l3.json": "163018e6de70dc7306525975abe2fe2b71d20c130ee6b7d4f735bfb471ad7006",
+    "data/mns/worldgen/template_pool/large_arena/r1-l1.json": "bf352e32c4a18b8421144cafa362a4cad191e52801ef0c58d0064cb9142510e6",
+    "data/mns/worldgen/template_pool/large_arena/r1-r2.json": "1cc3d6d8cbc7716fca89cbbfe77d3a9283a0a1234067766f38ba47c09bdcb23b",
+    "data/mns/worldgen/template_pool/large_arena/r2-r3.json": "efd947aa3d563e4be8e617051e2b519e27b7b979b2513da1d649017b02a0d8e7",
+    "data/mns/worldgen/template_pool/large_arena/start_pool.json": "ac61c915eaaa12a127e93016dfed1b866999bcb52ba7fc463e64396920de07c0",
+    "data/mns/worldgen/template_pool/small_arena/back.json": "a31c47ecd66a4a9a6b004cb69b1ae3f20e7efb7a042e98764141150a7e9880f1",
+    "data/mns/worldgen/template_pool/small_arena/front.json": "3e0e9c1dbe0b2bdf46431963b61d0058d796126c8aea0c3427f683c8dc586545",
+    "data/mns/worldgen/template_pool/small_arena/left.json": "4844e17214d9a2644d6425cd91e7dda9346b1357c51a4d28c08df3d3525d4d93",
+    "data/mns/worldgen/template_pool/small_arena/start_pool.json": "0a7404b79412d5840a96437ba05115d5be7d10e36010d09d9a91808dca83a3ee"
+  },
+  "mod": "Moogs Nether Structures",
+  "version": "3.1.1",
+  "authors": [
+    "FinnDog",
+    "Phantax (structure builder)"
+  ],
+  "upstream": "https://github.com/FinnSetchell/MoogsNetherStructures2",
+  "license": "LGPL-3.0",
+  "scope": "Three Java 1.21 arena layouts for manual Bedrock testing only; no natural placement/spawn rules.",
+  "limitations": [
+    "Custom Java boss/mob encounter pools omitted.",
+    "Java trial-spawner and vault configurations are not ported; blocks retain default native behavior.",
+    "Java terrain carving and 128-block support pillar processors are not run.",
+    "Chests/barrels use Underworld loot. Vanilla spawners use native Nether mobs. Java item-frame entity omitted.",
+    "Nether Wart plants removed; Nether Wart construction blocks retained."
+  ],
+  "converted_templates": {
+    "small_arena": {
+      "display_name": "Small Arena",
+      "size": [
+        56,
+        18,
+        93
+      ],
+      "spawn_enabled": false,
+      "sections": [
+        {
+          "id": "jagsby_nether:arenas/small_arena/section_0_0",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            56,
+            18,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/small_arena/section_0_1",
+          "offset": [
+            0,
+            0,
+            64
+          ],
+          "size": [
+            56,
+            18,
+            29
+          ]
+        }
+      ],
+      "source_pieces": [
+        {
+          "location": "mns:1_21_0/small_arena/middle",
+          "offset": [
+            0,
+            0,
+            41
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/small_arena/front",
+          "offset": [
+            16,
+            0,
+            0
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/small_arena/left",
+          "offset": [
+            48,
+            0,
+            41
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/small_arena/back",
+          "offset": [
+            11,
+            0,
+            89
+          ],
+          "rotation": 0
+        }
+      ],
+      "joins": [
+        {
+          "from": "mns:1_21_0/small_arena/middle",
+          "pool": "mns:small_arena/front",
+          "parent": [
+            28,
+            2,
+            0
+          ],
+          "child": [
+            28,
+            2,
+            -1
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/small_arena/middle",
+          "pool": "mns:small_arena/left",
+          "parent": [
+            47,
+            2,
+            14
+          ],
+          "child": [
+            48,
+            2,
+            14
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/small_arena/middle",
+          "pool": "mns:small_arena/back",
+          "parent": [
+            31,
+            3,
+            47
+          ],
+          "child": [
+            31,
+            3,
+            48
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "omitted_encounter_pools": {
+        "mns:mega_arenas/mobs/mob_any": 7,
+        "mns:mega_arenas/mobs/pit_brute": 1
+      },
+      "conversion_counts": {
+        "wart_removed": 16,
+        "native_Chest": 22,
+        "jigsaw_markers_resolved": 14,
+        "native_Banner": 16,
+        "native_MobSpawner": 8,
+        "native_Dispenser": 4,
+        "native_Barrel": 6,
+        "native_Lectern": 1,
+        "native_Hopper": 4
+      }
+    },
+    "large_arena": {
+      "display_name": "Large Arena",
+      "size": [
+        62,
+        47,
+        99
+      ],
+      "spawn_enabled": false,
+      "sections": [
+        {
+          "id": "jagsby_nether:arenas/large_arena/section_0_0",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            62,
+            47,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/large_arena/section_0_1",
+          "offset": [
+            0,
+            0,
+            64
+          ],
+          "size": [
+            62,
+            47,
+            35
+          ]
+        }
+      ],
+      "source_pieces": [
+        {
+          "location": "mns:1_21_0/large_arena/r1",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/large_arena/r2",
+          "offset": [
+            0,
+            0,
+            48
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/large_arena/l1",
+          "offset": [
+            31,
+            0,
+            0
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/large_arena/r3",
+          "offset": [
+            0,
+            0,
+            71
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/large_arena/l2",
+          "offset": [
+            31,
+            0,
+            48
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/large_arena/l3",
+          "offset": [
+            31,
+            0,
+            71
+          ],
+          "rotation": 0
+        }
+      ],
+      "joins": [
+        {
+          "from": "mns:1_21_0/large_arena/r1",
+          "pool": "mns:large_arena/r1-r2",
+          "parent": [
+            5,
+            1,
+            47
+          ],
+          "child": [
+            5,
+            1,
+            48
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/large_arena/r1",
+          "pool": "mns:large_arena/r1-l1",
+          "parent": [
+            30,
+            3,
+            0
+          ],
+          "child": [
+            31,
+            3,
+            0
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/large_arena/r2",
+          "pool": "mns:large_arena/r2-r3",
+          "parent": [
+            6,
+            1,
+            70
+          ],
+          "child": [
+            6,
+            1,
+            71
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/large_arena/l1",
+          "pool": "mns:large_arena/l1-l2",
+          "parent": [
+            56,
+            1,
+            47
+          ],
+          "child": [
+            56,
+            1,
+            48
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/large_arena/l2",
+          "pool": "mns:large_arena/l2-l3",
+          "parent": [
+            55,
+            1,
+            70
+          ],
+          "child": [
+            55,
+            1,
+            71
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "omitted_encounter_pools": {
+        "mns:mega_arenas/mobs/mob_any": 18,
+        "mns:mega_arenas/mobs/arena_gladiator": 1
+      },
+      "conversion_counts": {
+        "wart_removed": 33,
+        "jigsaw_markers_resolved": 29,
+        "native_Chest": 33,
+        "unported_vault_configuration": 4,
+        "native_Banner": 36,
+        "native_MobSpawner": 22,
+        "native_BlastFurnace": 1,
+        "unported_trial_spawner_configuration": 4,
+        "native_Dispenser": 4,
+        "native_Barrel": 2,
+        "native_Comparator": 2,
+        "native_Dropper": 2
+      }
+    },
+    "dragon_arena": {
+      "display_name": "Dragon Arena",
+      "size": [
+        129,
+        45,
+        120
+      ],
+      "spawn_enabled": false,
+      "sections": [
+        {
+          "id": "jagsby_nether:arenas/dragon_arena/section_0_0",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            64,
+            45,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/dragon_arena/section_0_1",
+          "offset": [
+            0,
+            0,
+            64
+          ],
+          "size": [
+            64,
+            45,
+            56
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/dragon_arena/section_1_0",
+          "offset": [
+            64,
+            0,
+            0
+          ],
+          "size": [
+            64,
+            45,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/dragon_arena/section_1_1",
+          "offset": [
+            64,
+            0,
+            64
+          ],
+          "size": [
+            64,
+            45,
+            56
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/dragon_arena/section_2_0",
+          "offset": [
+            128,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            45,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/dragon_arena/section_2_1",
+          "offset": [
+            128,
+            0,
+            64
+          ],
+          "size": [
+            1,
+            45,
+            56
+          ]
+        }
+      ],
+      "source_pieces": [
+        {
+          "location": "mns:1_21_0/dragon_arena/head",
+          "offset": [
+            12,
+            4,
+            26
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/lower_1",
+          "offset": [
+            0,
+            0,
+            23
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/lower_2",
+          "offset": [
+            18,
+            0,
+            71
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/lower_13",
+          "offset": [
+            48,
+            0,
+            23
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/r1",
+          "offset": [
+            31,
+            4,
+            73
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/c1",
+          "offset": [
+            60,
+            4,
+            26
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/lower_10",
+          "offset": [
+            48,
+            0,
+            62
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/lower_3",
+          "offset": [
+            20,
+            0,
+            80
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/lower_4",
+          "offset": [
+            68,
+            0,
+            72
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/r2",
+          "offset": [
+            79,
+            4,
+            73
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/lower_11",
+          "offset": [
+            68,
+            0,
+            62
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/l1",
+          "offset": [
+            49,
+            4,
+            2
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/c2",
+          "offset": [
+            81,
+            4,
+            26
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/lower_12",
+          "offset": [
+            30,
+            0,
+            14
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/l2",
+          "offset": [
+            97,
+            4,
+            0
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/lower_7",
+          "offset": [
+            106,
+            0,
+            14
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/lower_5",
+          "offset": [
+            106,
+            0,
+            54
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/lower_6",
+          "offset": [
+            123,
+            0,
+            38
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/lower_9",
+          "offset": [
+            58,
+            0,
+            14
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/dragon_arena/lower_8",
+          "offset": [
+            75,
+            0,
+            0
+          ],
+          "rotation": 0
+        }
+      ],
+      "joins": [
+        {
+          "from": "mns:1_21_0/dragon_arena/head",
+          "pool": "mns:dragon_arena/lower_1",
+          "parent": [
+            1,
+            0,
+            26
+          ],
+          "child": [
+            1,
+            -1,
+            26
+          ],
+          "direction": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/head",
+          "pool": "mns:dragon_arena/lower_2",
+          "parent": [
+            16,
+            0,
+            46
+          ],
+          "child": [
+            16,
+            -1,
+            46
+          ],
+          "direction": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/head",
+          "pool": "mns:dragon_arena/lower_13",
+          "parent": [
+            41,
+            0,
+            0
+          ],
+          "child": [
+            41,
+            -1,
+            0
+          ],
+          "direction": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/head",
+          "pool": "mns:dragon_arena/r1",
+          "parent": [
+            38,
+            1,
+            46
+          ],
+          "child": [
+            38,
+            1,
+            47
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/head",
+          "pool": "mns:dragon_arena/c1",
+          "parent": [
+            47,
+            1,
+            32
+          ],
+          "child": [
+            48,
+            1,
+            32
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/r1",
+          "pool": "mns:dragon_arena/lower_10",
+          "parent": [
+            45,
+            0,
+            52
+          ],
+          "child": [
+            45,
+            -1,
+            52
+          ],
+          "direction": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/r1",
+          "pool": "mns:dragon_arena/lower_3",
+          "parent": [
+            47,
+            0,
+            88
+          ],
+          "child": [
+            47,
+            -1,
+            88
+          ],
+          "direction": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/r1",
+          "pool": "mns:dragon_arena/lower_4",
+          "parent": [
+            58,
+            0,
+            51
+          ],
+          "child": [
+            58,
+            -1,
+            51
+          ],
+          "direction": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/r1",
+          "pool": "mns:dragon_arena/r2",
+          "parent": [
+            66,
+            1,
+            70
+          ],
+          "child": [
+            67,
+            1,
+            70
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/c1",
+          "pool": "mns:dragon_arena/lower_11",
+          "parent": [
+            58,
+            0,
+            41
+          ],
+          "child": [
+            58,
+            -1,
+            41
+          ],
+          "direction": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/c1",
+          "pool": "mns:dragon_arena/l1",
+          "parent": [
+            51,
+            2,
+            0
+          ],
+          "child": [
+            51,
+            2,
+            -1
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/c1",
+          "pool": "mns:dragon_arena/c2",
+          "parent": [
+            68,
+            2,
+            32
+          ],
+          "child": [
+            69,
+            2,
+            32
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/l1",
+          "pool": "mns:dragon_arena/lower_12",
+          "parent": [
+            41,
+            0,
+            -11
+          ],
+          "child": [
+            41,
+            -1,
+            -11
+          ],
+          "direction": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/l1",
+          "pool": "mns:dragon_arena/l2",
+          "parent": [
+            84,
+            4,
+            -3
+          ],
+          "child": [
+            85,
+            4,
+            -3
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/c2",
+          "pool": "mns:dragon_arena/lower_7",
+          "parent": [
+            100,
+            0,
+            6
+          ],
+          "child": [
+            100,
+            -1,
+            6
+          ],
+          "direction": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/c2",
+          "pool": "mns:dragon_arena/lower_5",
+          "parent": [
+            100,
+            0,
+            42
+          ],
+          "child": [
+            100,
+            -1,
+            42
+          ],
+          "direction": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/c2",
+          "pool": "mns:dragon_arena/lower_6",
+          "parent": [
+            114,
+            0,
+            39
+          ],
+          "child": [
+            114,
+            -1,
+            39
+          ],
+          "direction": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/l2",
+          "pool": "mns:dragon_arena/lower_9",
+          "parent": [
+            91,
+            0,
+            -11
+          ],
+          "child": [
+            91,
+            -1,
+            -11
+          ],
+          "direction": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/dragon_arena/l2",
+          "pool": "mns:dragon_arena/lower_8",
+          "parent": [
+            95,
+            0,
+            -17
+          ],
+          "child": [
+            95,
+            -1,
+            -17
+          ],
+          "direction": [
+            0,
+            -1,
+            0
+          ]
+        }
+      ],
+      "omitted_encounter_pools": {
+        "mns:mega_arenas/mobs/mob_any": 17,
+        "mns:mega_arenas/mobs/drakebone_tyrant": 1
+      },
+      "conversion_counts": {
+        "wart_removed": 6,
+        "jigsaw_markers_resolved": 56,
+        "native_MobSpawner": 10,
+        "native_Campfire": 1,
+        "unported_trial_spawner_configuration": 3,
+        "native_Chest": 9,
+        "unported_vault_configuration": 3,
+        "omitted_java_minecraft:item_frame": 1
+      }
+    }
+  }
+}

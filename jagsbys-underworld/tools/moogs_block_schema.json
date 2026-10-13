@@ -1,0 +1,1710 @@
+{
+  "source": "https://raw.githubusercontent.com/Mojang/bedrock-samples/main/metadata/vanilladata_modules/mojang-blocks.json",
+  "blocks": {
+    "minecraft:air": {},
+    "minecraft:ancient_debris": {},
+    "minecraft:andesite_double_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:andesite_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:barrel": {
+      "facing_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "open_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:basalt": {
+      "pillar_axis": {
+        "type": "string",
+        "values": [
+          "y",
+          "x",
+          "z"
+        ]
+      }
+    },
+    "minecraft:blackstone": {},
+    "minecraft:blackstone_stairs": {
+      "minecraft:corner": {
+        "type": "string",
+        "values": [
+          "none",
+          "inner_left",
+          "inner_right",
+          "outer_left",
+          "outer_right"
+        ]
+      },
+      "upside_down_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "weirdo_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "minecraft:blast_furnace": {
+      "minecraft:cardinal_direction": {
+        "type": "string",
+        "values": [
+          "south",
+          "west",
+          "north",
+          "east"
+        ]
+      }
+    },
+    "minecraft:bone_block": {
+      "deprecated": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "pillar_axis": {
+        "type": "string",
+        "values": [
+          "y",
+          "x",
+          "z"
+        ]
+      }
+    },
+    "minecraft:cauldron": {
+      "cauldron_liquid": {
+        "type": "string",
+        "values": [
+          "water",
+          "lava",
+          "powder_snow"
+        ]
+      },
+      "fill_level": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    "minecraft:chest": {
+      "minecraft:cardinal_direction": {
+        "type": "string",
+        "values": [
+          "south",
+          "west",
+          "north",
+          "east"
+        ]
+      }
+    },
+    "minecraft:chiseled_deepslate": {},
+    "minecraft:chiseled_nether_bricks": {},
+    "minecraft:coal_block": {},
+    "minecraft:cobbled_deepslate": {},
+    "minecraft:cobbled_deepslate_double_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:cobbled_deepslate_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:cobbled_deepslate_stairs": {
+      "minecraft:corner": {
+        "type": "string",
+        "values": [
+          "none",
+          "inner_left",
+          "inner_right",
+          "outer_left",
+          "outer_right"
+        ]
+      },
+      "upside_down_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "weirdo_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "minecraft:cobbled_deepslate_wall": {
+      "wall_connection_type_east": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_north": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_south": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_west": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_post_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:cobblestone": {},
+    "minecraft:cracked_deepslate_bricks": {},
+    "minecraft:cracked_deepslate_tiles": {},
+    "minecraft:cracked_nether_bricks": {},
+    "minecraft:crafting_table": {},
+    "minecraft:crimson_fence": {
+      "minecraft:connection_east": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_north": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_south": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_west": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:crimson_fungus": {},
+    "minecraft:crimson_hyphae": {
+      "pillar_axis": {
+        "type": "string",
+        "values": [
+          "y",
+          "x",
+          "z"
+        ]
+      }
+    },
+    "minecraft:crimson_nylium": {},
+    "minecraft:crimson_roots": {},
+    "minecraft:crimson_stairs": {
+      "minecraft:corner": {
+        "type": "string",
+        "values": [
+          "none",
+          "inner_left",
+          "inner_right",
+          "outer_left",
+          "outer_right"
+        ]
+      },
+      "upside_down_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "weirdo_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "minecraft:crimson_stem": {
+      "pillar_axis": {
+        "type": "string",
+        "values": [
+          "y",
+          "x",
+          "z"
+        ]
+      }
+    },
+    "minecraft:crimson_trapdoor": {
+      "direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "open_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "upside_down_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:crying_obsidian": {},
+    "minecraft:damaged_anvil": {
+      "minecraft:cardinal_direction": {
+        "type": "string",
+        "values": [
+          "south",
+          "west",
+          "north",
+          "east"
+        ]
+      }
+    },
+    "minecraft:deepslate": {
+      "pillar_axis": {
+        "type": "string",
+        "values": [
+          "y",
+          "x",
+          "z"
+        ]
+      }
+    },
+    "minecraft:deepslate_brick_double_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:deepslate_brick_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:deepslate_brick_stairs": {
+      "minecraft:corner": {
+        "type": "string",
+        "values": [
+          "none",
+          "inner_left",
+          "inner_right",
+          "outer_left",
+          "outer_right"
+        ]
+      },
+      "upside_down_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "weirdo_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "minecraft:deepslate_brick_wall": {
+      "wall_connection_type_east": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_north": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_south": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_west": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_post_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:deepslate_bricks": {},
+    "minecraft:deepslate_tile_double_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:deepslate_tile_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:deepslate_tile_stairs": {
+      "minecraft:corner": {
+        "type": "string",
+        "values": [
+          "none",
+          "inner_left",
+          "inner_right",
+          "outer_left",
+          "outer_right"
+        ]
+      },
+      "upside_down_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "weirdo_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "minecraft:deepslate_tile_wall": {
+      "wall_connection_type_east": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_north": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_south": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_west": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_post_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:deepslate_tiles": {},
+    "minecraft:dispenser": {
+      "facing_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "triggered_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:dropper": {
+      "facing_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "triggered_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:gold_block": {},
+    "minecraft:gravel": {},
+    "minecraft:grindstone": {
+      "attachment": {
+        "type": "string",
+        "values": [
+          "standing",
+          "hanging",
+          "side",
+          "multiple"
+        ]
+      },
+      "direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "minecraft:hanging_roots": {},
+    "minecraft:honey_block": {},
+    "minecraft:hopper": {
+      "facing_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "toggle_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:infested_deepslate": {
+      "pillar_axis": {
+        "type": "string",
+        "values": [
+          "y",
+          "x",
+          "z"
+        ]
+      }
+    },
+    "minecraft:iron_bars": {
+      "minecraft:connection_east": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_north": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_south": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_west": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:iron_chain": {
+      "pillar_axis": {
+        "type": "string",
+        "values": [
+          "y",
+          "x",
+          "z"
+        ]
+      }
+    },
+    "minecraft:jigsaw": {
+      "facing_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "rotation": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "minecraft:lava": {
+      "liquid_depth": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      }
+    },
+    "minecraft:lectern": {
+      "minecraft:cardinal_direction": {
+        "type": "string",
+        "values": [
+          "south",
+          "west",
+          "north",
+          "east"
+        ]
+      },
+      "powered_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:light_weighted_pressure_plate": {
+      "redstone_signal": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      }
+    },
+    "minecraft:lodestone": {},
+    "minecraft:magma": {},
+    "minecraft:mangrove_roots": {},
+    "minecraft:mangrove_trapdoor": {
+      "direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "open_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "upside_down_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:mob_spawner": {},
+    "minecraft:muddy_mangrove_roots": {
+      "pillar_axis": {
+        "type": "string",
+        "values": [
+          "y",
+          "x",
+          "z"
+        ]
+      }
+    },
+    "minecraft:nether_brick": {},
+    "minecraft:nether_brick_fence": {
+      "minecraft:connection_east": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_north": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_south": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_west": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:nether_brick_wall": {
+      "wall_connection_type_east": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_north": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_south": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_west": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_post_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:nether_gold_ore": {},
+    "minecraft:nether_wart": {
+      "age": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      }
+    },
+    "minecraft:nether_wart_block": {},
+    "minecraft:netherrack": {},
+    "minecraft:observer": {
+      "minecraft:facing_direction": {
+        "type": "string",
+        "values": [
+          "down",
+          "up",
+          "north",
+          "south",
+          "west",
+          "east"
+        ]
+      },
+      "powered_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:obsidian": {},
+    "minecraft:orange_stained_glass": {},
+    "minecraft:piston_arm_collision": {
+      "facing_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    "minecraft:pointed_dripstone": {
+      "dripstone_thickness": {
+        "type": "string",
+        "values": [
+          "tip",
+          "frustum",
+          "middle",
+          "base",
+          "merge"
+        ]
+      },
+      "hanging": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:polished_blackstone_bricks": {},
+    "minecraft:polished_blackstone_button": {
+      "button_pressed_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "facing_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    "minecraft:polished_deepslate": {},
+    "minecraft:polished_deepslate_stairs": {
+      "minecraft:corner": {
+        "type": "string",
+        "values": [
+          "none",
+          "inner_left",
+          "inner_right",
+          "outer_left",
+          "outer_right"
+        ]
+      },
+      "upside_down_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "weirdo_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "minecraft:powered_comparator": {
+      "minecraft:cardinal_direction": {
+        "type": "string",
+        "values": [
+          "south",
+          "west",
+          "north",
+          "east"
+        ]
+      },
+      "output_lit_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "output_subtract_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:powered_repeater": {
+      "minecraft:cardinal_direction": {
+        "type": "string",
+        "values": [
+          "south",
+          "west",
+          "north",
+          "east"
+        ]
+      },
+      "repeater_delay": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "minecraft:purple_stained_glass": {},
+    "minecraft:purple_stained_glass_pane": {
+      "minecraft:connection_east": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_north": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_south": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_west": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:quartz_ore": {},
+    "minecraft:raw_gold_block": {},
+    "minecraft:red_nether_brick": {},
+    "minecraft:red_nether_brick_double_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:red_nether_brick_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:red_nether_brick_stairs": {
+      "minecraft:corner": {
+        "type": "string",
+        "values": [
+          "none",
+          "inner_left",
+          "inner_right",
+          "outer_left",
+          "outer_right"
+        ]
+      },
+      "upside_down_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "weirdo_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "minecraft:redstone_torch": {
+      "torch_facing_direction": {
+        "type": "string",
+        "values": [
+          "unknown",
+          "west",
+          "east",
+          "north",
+          "south",
+          "top"
+        ]
+      }
+    },
+    "minecraft:redstone_wire": {
+      "redstone_signal": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      }
+    },
+    "minecraft:reinforced_deepslate": {},
+    "minecraft:respawn_anchor": {
+      "respawn_anchor_charge": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      }
+    },
+    "minecraft:shroomlight": {},
+    "minecraft:smooth_basalt": {},
+    "minecraft:soul_campfire": {
+      "extinguished": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:cardinal_direction": {
+        "type": "string",
+        "values": [
+          "south",
+          "west",
+          "north",
+          "east"
+        ]
+      }
+    },
+    "minecraft:soul_lantern": {
+      "hanging": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:soul_sand": {},
+    "minecraft:soul_soil": {},
+    "minecraft:soul_torch": {
+      "torch_facing_direction": {
+        "type": "string",
+        "values": [
+          "unknown",
+          "west",
+          "east",
+          "north",
+          "south",
+          "top"
+        ]
+      }
+    },
+    "minecraft:sticky_piston": {
+      "facing_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    "minecraft:sticky_piston_arm_collision": {
+      "facing_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    "minecraft:stone": {},
+    "minecraft:stone_brick_double_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:stone_brick_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:stone_brick_stairs": {
+      "minecraft:corner": {
+        "type": "string",
+        "values": [
+          "none",
+          "inner_left",
+          "inner_right",
+          "outer_left",
+          "outer_right"
+        ]
+      },
+      "upside_down_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "weirdo_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "minecraft:stone_brick_wall": {
+      "wall_connection_type_east": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_north": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_south": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_connection_type_west": {
+        "type": "string",
+        "values": [
+          "none",
+          "short",
+          "tall"
+        ]
+      },
+      "wall_post_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:stone_button": {
+      "button_pressed_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "facing_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    "minecraft:stone_pressure_plate": {
+      "redstone_signal": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      }
+    },
+    "minecraft:stonecutter_block": {
+      "minecraft:cardinal_direction": {
+        "type": "string",
+        "values": [
+          "south",
+          "west",
+          "north",
+          "east"
+        ]
+      }
+    },
+    "minecraft:suspicious_gravel": {
+      "brushed_progress": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "hanging": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:tinted_glass": {},
+    "minecraft:tnt": {
+      "explode_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:trapped_chest": {
+      "minecraft:cardinal_direction": {
+        "type": "string",
+        "values": [
+          "south",
+          "west",
+          "north",
+          "east"
+        ]
+      }
+    },
+    "minecraft:trial_spawner": {
+      "ominous": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "trial_spawner_state": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    "minecraft:trip_wire": {
+      "attached_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "disarmed_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_east": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_north": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_south": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "minecraft:connection_west": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "powered_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "suspended_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:tripwire_hook": {
+      "attached_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "powered_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:tuff": {},
+    "minecraft:tuff_double_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:tuff_slab": {
+      "minecraft:vertical_half": {
+        "type": "string",
+        "values": [
+          "bottom",
+          "top"
+        ]
+      }
+    },
+    "minecraft:unlit_redstone_torch": {
+      "torch_facing_direction": {
+        "type": "string",
+        "values": [
+          "unknown",
+          "west",
+          "east",
+          "north",
+          "south",
+          "top"
+        ]
+      }
+    },
+    "minecraft:unpowered_comparator": {
+      "minecraft:cardinal_direction": {
+        "type": "string",
+        "values": [
+          "south",
+          "west",
+          "north",
+          "east"
+        ]
+      },
+      "output_lit_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "output_subtract_bit": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      }
+    },
+    "minecraft:unpowered_repeater": {
+      "minecraft:cardinal_direction": {
+        "type": "string",
+        "values": [
+          "south",
+          "west",
+          "north",
+          "east"
+        ]
+      },
+      "repeater_delay": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "minecraft:vault": {
+      "minecraft:cardinal_direction": {
+        "type": "string",
+        "values": [
+          "south",
+          "west",
+          "north",
+          "east"
+        ]
+      },
+      "ominous": {
+        "type": "bool",
+        "values": [
+          false,
+          true
+        ]
+      },
+      "vault_state": {
+        "type": "string",
+        "values": [
+          "inactive",
+          "active",
+          "unlocking",
+          "ejecting"
+        ]
+      }
+    },
+    "minecraft:wall_banner": {
+      "facing_direction": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    "minecraft:warped_roots": {},
+    "minecraft:water": {
+      "liquid_depth": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      }
+    },
+    "minecraft:weeping_vines": {
+      "weeping_vines_age": {
+        "type": "int",
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25
+        ]
+      }
+    }
+  }
+}
