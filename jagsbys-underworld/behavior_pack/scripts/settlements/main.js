@@ -95,7 +95,7 @@ function* place(dimension,piece,rotation,origin,baseY,plan,automatic=false,inVil
   }
 }
 export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComplete) {
-  const rng=random(seed),boxes=[],queue=[],layout=[];let houses=0,roads=0,buildings=0;
+  const rng=random(seed),boxes=[],queue=[],layout=[];let houses=0,roads=0,buildings=0,farms=0;
   const size=villageSize(rng);
   try {
     const requestedTheme=theme;
@@ -155,7 +155,12 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
       if (!wantsHouse && roads>=size.roads) continue;
       const [dx,dz]=directions[parent.dir];let attached=false;
       const entries=pools[parent.pool];if (!entries) continue;
-      for (const id of weightedOrder(entries,rng)) {
+      const ordered=weightedOrder(entries,rng);
+      // Once three homes fit, try every farm candidate before other buildings
+      // until one fits. Keep the normal weighted order within each category.
+      if(wantsHouse && houses>=3 && farms===0)
+        ordered.sort((a,b)=>Number(b.includes('_farm_'))-Number(a.includes('_farm_')));
+      for (const id of ordered) {
         const piece=catalog[id];
         // Secure real buildings first; amenities cannot establish a village alone.
         if (wantsHouse && houses<3 && piece.countsAsHouse===false) continue;
@@ -179,6 +184,7 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
               yield* planRigid(dimension,piece,rotation,origin,baseY);
             if (!plan) continue;
             layout.push({piece,rotation,origin,baseY,plan,entry:{x:parent.x+dx,z:parent.z+dz}});
+            if(id.includes('_farm_'))farms++;
             boxes.push(box);if (piece.kind==='house') {buildings++;if (piece.countsAsHouse!==false) houses++;}else roads++;
             if (piece.kind==='road') queue.push(...connectors(piece,rotation,origin,baseY,plan,connector)
               .map(c=>({...c,depth:parent.depth+1})));

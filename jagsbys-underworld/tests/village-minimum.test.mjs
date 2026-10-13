@@ -8,7 +8,7 @@ function run(radius,automatic=false){
  const placed=[],spawned=[],notifications=[];let writes=0,completed=false;
  const manager=world.structureManager;
  world.structureManager={place(id){placed.push(id);}};
- const dimension={id:'minecraft:nether',getBlock({x,y,z}){
+ const dimension={id:'minecraft:nether',getBiome:()=>({id:'minecraft:crimson_forest'}),getBlock({x,y,z}){
   const inside=Math.abs(x)<=radius&&Math.abs(z)<=radius;
   const typeId=y<=64?(inside?'minecraft:netherrack':'minecraft:lava'):'minecraft:air';
   return {typeId,isAir:typeId==='minecraft:air',isLiquid:typeId==='minecraft:lava',location:{x,y,z},

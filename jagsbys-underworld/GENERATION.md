@@ -23,3 +23,9 @@ These are attempts, not guaranteed successful placements. Terrain constraints
 can reject a selected structure, and additional structures can affect available
 space. Actual successful counts and appearance need a Bedrock terrain survey.
 The scripted village planner, three-house minimum and village spacing are unchanged.
+
+Village planning now prioritizes a first farm after three residential houses
+fit. Both farm sizes are attempted ahead of other building choices until one
+fits, while preserving terrain, collision and village-size checks. Farms still
+do not count toward the three-house minimum, and blocked layouts may lack one.
+This affects new generation only; existing villages are not modified.
