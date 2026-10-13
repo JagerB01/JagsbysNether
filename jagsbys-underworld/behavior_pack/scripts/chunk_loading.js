@@ -48,7 +48,7 @@ export function chunkLease(dimension,label='structure'){
    if(error)throw error;
    if(ready&&loaded(dimension,from,size))return;
    if(system.currentTick>=deadline)throw Error('Chunk loading timed out before placement. The temporary area will be removed.');
-   const poll=system.currentTick+2;while(system.currentTick<poll)yield;
+   yield {waitTicks:2};
   }
  }
  return {identifier,load,release};

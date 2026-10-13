@@ -1,3 +1,6 @@
+import {runPlanningJob} from '../planning_jobs.js';
+import {planningCache} from './planning_cache.js';
+import {rejectedSites} from './rejected_sites.js';
 import {world,system,StructureRotation} from '@minecraft/server';
 import {catalog,pools} from './catalog.js';
 import {villageSize} from './sizing.js';
@@ -59,7 +62,7 @@ function* place(dimension,piece,rotation,origin,baseY,plan,automatic=false,inVil
     const deadline=system.currentTick+1200;
     while(!outsidePlayerBuffer(world.getPlayers(),{...origin,sx,sz})){
       if(system.currentTick>=deadline)throw Error('Village placement stopped after a player remained nearby for one minute.');
-      const next=system.currentTick+20;while(system.currentTick<next)yield;
+      yield {waitTicks:20};
     }
   }
   yield* guard();
@@ -102,18 +105,20 @@ function* place(dimension,piece,rotation,origin,baseY,plan,automatic=false,inVil
     yield;
   }
 }
-export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComplete) {
+export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComplete,options={}) {
+  const planning=options.cache===false?dimension:planningCache(dimension);let playerBlocked=false;
+  const unsuitable=reason=>({outcome:planning.missing||playerBlocked?'deferred':'unsuitable',reason});
   const rng=random(seed),boxes=[],queue=[],layout=[];let houses=0,roads=0,buildings=0,farms=0;
   const size=villageSize(rng);
   try {
     const requestedTheme=theme;
-    const candidates=yield* rankSites(dimension,x,z,near,size.radius);
-    if (!candidates.length) {notify?.('No open Nether floor found within 12 blocks (lava, unloaded terrain, or no three-block opening).');return;}
+    const candidates=yield* rankSites(planning,x,z,near,size.radius);
+    if (!candidates.length) {notify?.('No open Nether floor found within 12 blocks (lava, unloaded terrain, or no three-block opening).');return unsuitable('No suitable floor');}
     let best;
     // Compare every surveyed site before writing anything to the world.
     for (const site of candidates) {
-      if (regionKey && (!farEnough(world,site.x,site.z) || !outsidePlayerBuffer(world.getPlayers(),{x:site.x,z:site.z,sx:1,sz:1}))) continue;
-      const siteTheme=requestedTheme || themeAt(dimension,site.x,site.floor,site.z);
+      if(regionKey && (!farEnough(world,site.x,site.z)||!outsidePlayerBuffer(world.getPlayers(),{x:site.x,z:site.z,sx:1,sz:1}))){playerBlocked=true;continue;}
+      const siteTheme=requestedTheme || themeAt(planning,site.x,site.floor,site.z);
       const centerPool=`nether_settlements:villages/${siteTheme}/town_centers`;
       const usableCenters=pools[centerPool].filter(([id])=>
         catalog[id].connectors.some(connector=>pools[connector.pool]));
@@ -124,15 +129,16 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
           const origin={x:site.x-Math.floor(sx/2),z:site.z-Math.floor(sz/2)};
           for (const shift of [0,1,-1,2,-2,3]) {
             const baseY=site.floor+shift;
-            if (regionKey && !outsidePlayerBuffer(world.getPlayers(),{...origin,sx,sz})) continue;
-            const plan=yield* planRigid(dimension,piece,rotation,origin,baseY);
+            if(regionKey && rejectedSites.blocksBox({...origin,sx,sz})){playerBlocked=true;continue;}
+            if (regionKey && !outsidePlayerBuffer(world.getPlayers(),{...origin,sx,sz})) {playerBlocked=true;continue;}
+            const plan=yield* planRigid(planning,piece,rotation,origin,baseY);
             if (!plan) continue;
             const exits=connectors(piece,rotation,origin,baseY);
             let viableExits=0;
             for (const exit of exits) {
               if (!pools[exit.pool]) continue;
               const [dx,dz]=directions[exit.dir];
-              const floor=floorAt(dimension,exit.x+dx,exit.z+dz,exit.y-1,4,3);
+              const floor=floorAt(planning,exit.x+dx,exit.z+dz,exit.y-1,4,3);
               if (floor!==undefined && Math.abs(floor-(exit.y-1))<=1) viableExits++;
             }
             const score=site.score+viableExits*30-plan.supports.length*0.05-
@@ -145,7 +151,7 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
       }
       yield;
     }
-    if (!best) {notify?.('No center fits the surveyed sites: lava, unloaded terrain, a solid ceiling, or a large cliff blocks placement.');return;}
+    if (!best) {notify?.('No center fits the surveyed sites: lava, unloaded terrain, a solid ceiling, or a large cliff blocks placement.');return unsuitable('No center fits');}
     x=best.site.x;z=best.site.z;theme=best.theme;
     // The survey yields across ticks; verify the selected footprint is still usable.
     const verifiedPlan=yield* planRigid(dimension,best.piece,best.rotation,best.origin,best.baseY);
@@ -195,11 +201,12 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
             if (Math.max(Math.abs(origin.x-x),Math.abs(origin.z-z),
               Math.abs(origin.x+sx-1-x),Math.abs(origin.z+sz-1-z))>size.radius) continue;
             if (boxes.some(old=>overlap(old,box))) continue;
-            if (regionKey && !outsidePlayerBuffer(world.getPlayers(),box)) continue;
+            if(regionKey && rejectedSites.blocksBox(box)){playerBlocked=true;continue;}
+            if (regionKey && !outsidePlayerBuffer(world.getPlayers(),box)) {playerBlocked=true;continue;}
             const baseY=parent.y-connector.y;
             const plan=piece.kind==='road' ?
-              yield* planRoad(dimension,piece,rotation,origin,baseY,{x:parent.x+dx,z:parent.z+dz}) :
-              yield* planRigid(dimension,piece,rotation,origin,baseY);
+              yield* planRoad(planning,piece,rotation,origin,baseY,{x:parent.x+dx,z:parent.z+dz}) :
+              yield* planRigid(planning,piece,rotation,origin,baseY);
             if (!plan) continue;
             layout.push({piece,rotation,origin,baseY,plan,entry:{x:parent.x+dx,z:parent.z+dz}});
             if(id.includes('_farm_'))farms++;
@@ -215,8 +222,8 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
       yield;
     }
     if (houses<3) {
-      notify?.(`Only ${houses} residential houses fit: at least 3 are required. Nothing was placed, and this region remains eligible.`);
-      return;
+      notify?.(`Only ${houses} residential houses fit: at least 3 are required. Nothing was placed.`);
+      return unsuitable(`Only ${houses} houses fit`);
     }
     const chosen=[...layout.filter(item=>item.piece.kind==='house'),
       ...layout.filter(item=>item.piece.kind==='road'),center];
@@ -250,7 +257,7 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
 function start(dimension,x,z,near,theme,seed,notify,regionKey) {
   if (busy) {notify?.('A village is already being assembled. Try again shortly.');return;}
   notify?.('Comparing nearby village sites, then assembling the best fit...');
-  busy=true;system.runJob(village(dimension,x,z,near,theme,seed,notify,regionKey));
+  busy=true;runPlanningJob(village(dimension,x,z,near,theme,seed,notify,regionKey));
 }
 
 system.afterEvents.scriptEventReceive.subscribe(event=>{
@@ -302,6 +309,7 @@ export function* automaticSearch(seed) {
     const candidates=[...nearby,...remote];
     if(!candidates.length){generationStatus='No unchecked eligible sites; explore farther.';return;}
     for(const candidate of candidates){
+      if(rejectedSites.blocksPoint(candidate.x,candidate.z))continue;
       const cell=`${Math.floor(candidate.x/24)},${Math.floor(candidate.z/24)}`;
       localCooldowns.set(cell,system.currentTick+1200);
       lease=chunkLease(dimension,'village');
@@ -312,9 +320,10 @@ export function* automaticSearch(seed) {
         // footprints are excluded. Do not reject the entire 113-block square.
         const near=candidate.floor??64;
         generationStatus=`Planning site ${candidate.x}, ${candidate.z}.`;
-        yield* village(dimension,candidate.x,candidate.z,near,'',candidate.seed,
+        const result=yield* village(dimension,candidate.x,candidate.z,near,'',candidate.seed,
           message=>{generationStatus=message;},candidate.key,()=>{});
         if(world.getDynamicProperty(candidate.key))return;
+        if(result?.outcome==='unsuitable')rejectedSites.reject({x:candidate.x-72,z:candidate.z-72,sx:145,sz:145},result.reason);
         if(candidate.floor===undefined)cooldowns.set(candidate.key,system.currentTick+2400);
       }catch(error){generationStatus=`Site failed: ${error.message}`;console.warn(`[Nether Settlements] ${generationStatus}`);}
       finally{lease.release();lease=undefined;}
@@ -335,5 +344,5 @@ system.runInterval(()=>{
   if (typeof seed!=='number') {seed=Math.floor(Math.random()*2147483647);world.setDynamicProperty('nether_settlements:terrain_seed',seed);}
   if(system.currentTick<nextRemoteAttempt)return;
   nextRemoteAttempt=system.currentTick+100;
-  busy=true;system.runJob(automaticSearch(seed));
+  busy=true;runPlanningJob(automaticSearch(seed));
 },100);

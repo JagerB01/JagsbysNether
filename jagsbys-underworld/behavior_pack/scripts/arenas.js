@@ -1,3 +1,4 @@
+import {runPlanningJob} from './planning_jobs.js';
 import {world,system} from '@minecraft/server';
 import {ARENAS} from './arena_catalog.js';
 import {chunkLease} from './chunk_loading.js';
@@ -45,5 +46,5 @@ system.afterEvents.scriptEventReceive.subscribe(({id,message,sourceEntity:player
  if(busy){notify('An arena is already being placed.');return;}
  let request;try{request=arenaRequest(message,player);}catch(error){notify(String(error.message));return;}
  busy=true;
- system.runJob((function*(){try{yield* placeArena(request,notify);}catch(error){notify(`Placement stopped: ${error.message}`);console.warn(`[Underworld arenas] ${error}`);}finally{busy=false;}})());
+ runPlanningJob((function*(){try{yield* placeArena(request,notify);}catch(error){notify(`Placement stopped: ${error.message}`);console.warn(`[Underworld arenas] ${error}`);}finally{busy=false;}})());
 });

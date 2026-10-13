@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {components, itemComponents, startup, world, system, intervals, jobs, flush, entities} from './mock-server.mjs';
+import {components, itemComponents, startup, world, system, intervals, jobs, timeouts, flush, entities} from './mock-server.mjs';
 import {worldFixture, playerFixture} from './fixtures.mjs';
 import {RECORD_PREFIX} from '../.build/behavior_pack/scripts/settlements/navigation.js';
 import '../.build/behavior_pack/scripts/main.js';
@@ -21,10 +21,10 @@ test('agriculture starter command is handled once without scheduling a village',
 });
 test('village command reaches settlement generator without giving a crop kit', () => {
   const {dimension} = worldFixture(); const {player, gifts} = playerFixture(dimension);
-  const count = jobs.length;
+  const count = timeouts.length;
   system.afterEvents.scriptEventReceive.emit({id:'nether_settlements:test', message:'crimson', sourceEntity:player});
-  assert.equal(jobs.length, count+1); assert.equal(gifts.length, 0);
-  assert.equal(typeof jobs.at(-1).next, 'function');
+  assert.equal(timeouts.length, count+1); assert.equal(gifts.length, 0);
+  assert.equal(typeof timeouts.at(-1).callback, 'function');
 });
 test('village lookup and crop kit coexist on the same player', () => {
   const {dimension} = worldFixture(); const {player, gifts, messages} = playerFixture(dimension);

@@ -18,22 +18,23 @@ test('player collision clearance is measured from the nearest footprint edge',()
 test('actual distant village job force-loads a remote survey then cleans up when no valid village fits',async()=>{
  const {automaticSearch}=await import('../.build/behavior_pack/scripts/settlements/main.js');
  const calls=[],writes=[];let forced=false;
- const dimension={id:'minecraft:nether',isChunkLoaded:()=>forced,runCommand(c){calls.push(c);forced=true;},getBlock({y}){return {typeId:y===0?'minecraft:bedrock':'minecraft:air',isAir:y!==0,isLiquid:false,setType:id=>writes.push(id)};}};
+ const dimension={id:'minecraft:nether',isChunkLoaded:()=>forced,runCommand(c){calls.push(c);forced=c.startsWith('tickingarea add ');},getBlock({y}){return {typeId:y===0?'minecraft:bedrock':'minecraft:air',isAir:y!==0,isLiquid:false,setType:id=>writes.push(id)};}};
  const p=player();p.dimension=dimension;const old=world.getPlayers;world.getPlayers=()=>[p];
  try{const job=automaticSearch(123);for(let i=0;i<20000;i++){const s=job.next();if(s.done)break;system.currentTick++;if(i===19999)assert.fail('Job did not finish');}}
  finally{world.getPlayers=old;}
  assert(calls[0].startsWith('tickingarea add '));assert(calls[0].endsWith(' true'));assert(calls.at(-1).startsWith('tickingarea remove '));assert.deepEqual(writes,[]);
+ assert(world.getDynamicPropertyIds().some(key=>key.startsWith('nether_settlements:rejected_area_')),'A complete unsuitable assessment must persist');
 });
 test('automatic generation succeeds even with the player inside its survey square',async()=>{
  const {automaticSearch}=await import('../.build/behavior_pack/scripts/settlements/main.js');
  const oldPlayers=world.getPlayers,oldManager=world.structureManager,placed=[],spawned=[];
  const keys=world.getDynamicPropertyIds();let forced=false;
  const dimension={id:'minecraft:nether',getBiome:()=>({id:'minecraft:crimson_forest'}),
-  isChunkLoaded({x,z}){return forced||(x>=-16&&x<32&&z>=-16&&z<32);},
+  isChunkLoaded({x,z}){return forced||(x>=4080&&x<4128&&z>=4080&&z<4128);},
   runCommand(c){forced=c.startsWith('tickingarea add ');},
   getBlock({x,y,z}){return {typeId:y<=64?'minecraft:netherrack':'minecraft:air',isAir:y>64,isLiquid:false,location:{x,y,z},setType(){},setPermutation(){}};},
   spawnEntity(type){spawned.push(type);return {id:'resident',triggerEvent(){}};}};
- const p=player();p.dimension=dimension;world.getPlayers=()=>[p];world.structureManager={place:id=>placed.push(id)};
+ const p=player(4096,4096);p.dimension=dimension;world.getPlayers=()=>[p];world.structureManager={place:id=>placed.push(id)};
  try{
   const job=automaticSearch(31011);for(let i=0;i<100000;i++){const s=job.next();if(s.done)break;system.currentTick++;if(i===99999)assert.fail('Job stalled');}
   assert(placed.length,'The real village planner must place structures');

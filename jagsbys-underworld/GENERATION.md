@@ -83,3 +83,10 @@ still prevent a farm or truncate a village; the minimum remains three homes.
 Remote survey footprints grow to 145×145 blocks, covering layout radius plus
 site offsets while touching at most 100 Bedrock chunks. Changes affect new
 villages only; existing villages are not expanded or rebuilt.
+
+## Performance and durable unsuitable sites — v0.2.69
+
+See PERFORMANCE.md for the profile findings, per-plan terrain caching, bounded
+job scheduling, and permanent area-based terrain rejection. Village layouts
+and size targets are unchanged. Rejected areas do not become eligible through
+mining; incomplete or player-blocked assessments are not permanent rejections.

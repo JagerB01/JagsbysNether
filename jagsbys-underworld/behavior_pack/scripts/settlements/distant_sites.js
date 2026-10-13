@@ -1,3 +1,4 @@
+import {rejectedSites} from './rejected_sites.js';
 import {SPACING,candidateAt,farEnough,outsidePlayerBuffer} from './navigation.js';
 export const DISTANT_MIN=0,DISTANT_MAX=768,VILLAGE_PLAYER_CLEARANCE=1;
 export function distantCandidates(world,players,seed,skip=new Map(),tick=0){
@@ -8,7 +9,7 @@ export function distantCandidates(world,players,seed,skip=new Map(),tick=0){
    const c=candidateAt(x,z,seed);
    const distances=eligible.map(p=>Math.hypot(c.x-p.location.x,c.z-p.location.z));
    const nearest=Math.min(...distances);
-   if(nearest<DISTANT_MIN||nearest>DISTANT_MAX||world.getDynamicProperty(c.key)||(skip.get(c.key)??0)>tick||!farEnough(world,c.x,c.z))continue;
+   if(rejectedSites.blocksPoint(c.x,c.z)||nearest<DISTANT_MIN||nearest>DISTANT_MAX||world.getDynamicProperty(c.key)||(skip.get(c.key)??0)>tick||!farEnough(world,c.x,c.z))continue;
    sites.set(c.key,{...c,distance:nearest});
   }
  }

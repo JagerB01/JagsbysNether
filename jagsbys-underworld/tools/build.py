@@ -107,7 +107,7 @@ def main():
                 target.write_bytes(path.read_bytes())
         (BUILD / directory / 'pack_icon.png').write_bytes(icon)
     # Intentional population/generation overrides and wart-only structure edits.
-    overrides = {'scripts/settlements/population.js', 'scripts/settlements/main.js', 'scripts/settlements/sizing.js'}
+    overrides = {'scripts/settlements/population.js', 'scripts/settlements/main.js', 'scripts/settlements/sizing.js', 'scripts/settlements/terrain.js', 'scripts/settlements/accessible_search.js'}
     # Weighted pools and their matching roll probabilities are changed together
     # so interesting structures rise while marginal tent attempt rates stay fixed.
     for name in ('basalt', 'crimson_camp', 'warped_camp', 'soul', 'nether_brick', 'outpost'):
@@ -131,7 +131,7 @@ def main():
     # Loose documents in a .mcaddon are treated as failed pack imports.
     docs = BUILD / 'behavior_pack/docs/underworld'
     docs.mkdir(parents=True, exist_ok=True)
-    for name in ('TESTING.txt', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md', 'GENERATION.md', 'VILLAGER_FOOD.md', 'CONQUEST_COMPATIBILITY.json', 'ARENAS.md', 'MOOGS_ARENAS_SOURCE.json'):
+    for name in ('TESTING.txt', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md', 'GENERATION.md', 'VILLAGER_FOOD.md', 'CONQUEST_COMPATIBILITY.json', 'ARENAS.md', 'MOOGS_ARENAS_SOURCE.json', 'PERFORMANCE.md'):
         (docs / name).write_bytes((ROOT / name).read_bytes())
     (docs / 'SKITTERCHESTS.md').write_bytes((ROOT / 'SKITTERCHESTS.md').read_bytes())
     (docs / 'STRUCTURE_BLOCK_CONVERSIONS.json').write_text(json.dumps(block_conversions, indent=2) + '\n')

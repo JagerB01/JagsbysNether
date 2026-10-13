@@ -28,10 +28,11 @@ export const world = {
   afterEvents: {entityContainerOpened: signal(), entityContainerClosed: signal(), entitySpawn: signal(), entityLoad: signal(), playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
 };
 const pending = [];
-export const intervals = [], jobs = [];
+export const intervals = [], jobs = [], timeouts = [];
 export const StructureRotation = {None: "None", Rotate90: "Rotate90", Rotate180: "Rotate180", Rotate270: "Rotate270"};
 export const system = {
   currentTick: 0,
+  runTimeout(callback,ticks=1){timeouts.push({callback,due:this.currentTick+ticks});return timeouts.length;},
   runInterval(callback, ticks) { intervals.push({callback, ticks}); return intervals.length; },
   runJob(job) { jobs.push(job); return jobs.length; },
   beforeEvents: {startup: signal()},
