@@ -85,3 +85,12 @@ attachments remain omitted.
 The footprint exceeds Bedrock's 100-chunk ticking-area limit, so placement loads
 and removes one section's temporary area at a time. No permanent ticking areas,
 feature rules, automatic placement or natural mob spawn overrides are added.
+
+## Chunk loading correction — v0.2.66
+
+Manual templates now use the stable API ticking-area loader and await its
+completion instead of assuming chunks load in two ticks. Every touched chunk is
+checked at a coordinate inside the requested footprint. Command fallback requests
+preload explicitly and polls until available, with a 30-second limit. Failed
+loads stop before that section is placed and temporary areas are cleaned up.
+The same loader supports the extended village search.

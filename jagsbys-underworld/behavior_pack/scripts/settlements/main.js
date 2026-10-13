@@ -3,18 +3,21 @@ import {catalog,pools} from './catalog.js';
 import {villageSize} from './sizing.js';
 import {roadMaterial} from './road_material.js';
 import {rankSites,siteOffsets} from './site_selection.js';
-import {SPACING,RECORD_PREFIX,candidateAt,nearestRecorded,nearestCandidate,farEnough,outsidePlayerBuffer} from './navigation.js';
+import {SPACING,RECORD_PREFIX,candidateAt,nearestRecorded,farEnough} from './navigation.js';
 import {populate} from './population.js';
 import {plantStructureCrops} from './village_crops.js';
 import {accessibleSites} from './accessible_search.js';
+import {distantCandidates,distantClear} from './distant_sites.js';
+import {chunkLease} from '../chunk_loading.js';
+const outsidePlayerBuffer=distantClear;
 import {directions,read,replaceable,floorAt,rotate,rotateDirection,dimensions,overlap,
   planRoad,planRigid} from './terrain.js';
 
 const ROTATIONS=[StructureRotation.None,StructureRotation.Rotate90,
   StructureRotation.Rotate180,StructureRotation.Rotate270];
 let busy=false;
-let scanTick=0;
-const cooldowns=new Map();
+const cooldowns=new Map(),localCooldowns=new Map();
+let nextRemoteAttempt=0;
 function random(seed) {
   let value=seed>>>0;
   return () => {value=(Math.imul(value,1664525)+1013904223)>>>0;return value/4294967296;};
@@ -50,15 +53,19 @@ function connectors(piece,rotation,origin,baseY,roadPlan,skip) {
 }
 function* place(dimension,piece,rotation,origin,baseY,plan,automatic=false,inVillage=false) {
   const [sx,,sz]=dimensions(piece,rotation);
-  const guard=()=>{
-    if (automatic && !outsidePlayerBuffer(world.getPlayers(),{...origin,sx,sz}))
-      throw new Error('Placement paused because a player approached the planned building. The region remains eligible.');
-  };
-  guard();
+  function* guard(){
+    if(!automatic)return;
+    const deadline=system.currentTick+1200;
+    while(!outsidePlayerBuffer(world.getPlayers(),{...origin,sx,sz})){
+      if(system.currentTick>=deadline)throw Error('Village placement stopped after a player remained nearby for one minute.');
+      const next=system.currentTick+20;while(system.currentTick<next)yield;
+    }
+  }
+  yield* guard();
   if (piece.kind==='road') {
     let operations=0;
     for (const cell of plan.cells) {
-      if (operations%8===0) guard();
+      if (operations%8===0) yield* guard();
       for (let y=cell.naturalY+1;y<cell.y;y++) {
         const support=read(dimension,cell.x,y,cell.z);
         if (!support) throw new Error('Terrain unloaded during road support placement.');
@@ -81,13 +88,13 @@ function* place(dimension,piece,rotation,origin,baseY,plan,automatic=false,inVil
     // Structures stay rigid; short foundations support small terrain differences.
     let operations=0;
     for (const support of plan.supports) {
-      if (operations%16===0) guard();
+      if (operations%16===0) yield* guard();
       const block=read(dimension,support.x,support.y,support.z);
       if (!block) throw new Error('Terrain unloaded during foundation placement.');
       block.setType('minecraft:blackstone');
       if (++operations%16===0) yield;
     }
-    guard();
+    yield* guard();
     world.structureManager.place(piece.id,dimension,{...origin,y:baseY},
       {rotation:ROTATIONS[rotation],includeEntities:true,includeBlocks:true});
     yield* plantStructureCrops(dimension,piece,rotation,origin,baseY,inVillage);
@@ -256,7 +263,7 @@ system.afterEvents.scriptEventReceive.subscribe(event=>{
     }
     let seed=world.getDynamicProperty('nether_settlements:terrain_seed');
     if (typeof seed!=='number') {seed=Math.floor(Math.random()*2147483647);world.setDynamicProperty('nether_settlements:terrain_seed',seed);}
-    const candidate=nearestCandidate(world,x,z,seed);
+    const candidate=distantCandidates(world,world.getPlayers(),seed,cooldowns,system.currentTick)[0];
     if (!candidate) {notify('No unchecked village sites nearby. Explore farther into the Nether.');return;}
     notify(`Potential village site: X ${candidate.x}, Z ${candidate.z} (${Math.round(candidate.distance)} blocks horizontally).`);
     notify('These coordinates mark an unchecked region, not a confirmed village. Automatic generation surveys accessible terrain and chooses suitable sites.');
@@ -268,34 +275,42 @@ system.afterEvents.scriptEventReceive.subscribe(event=>{
   start(player.dimension,Math.floor(x),Math.floor(z),Math.floor(y)-1,theme,Date.now(),notify);
 });
 
-function* automaticSearch(seed) {
+export function* automaticSearch(seed) {
+  let lease;
   try {
     const players=world.getPlayers().filter(p=>p.dimension.id==='minecraft:nether' && p.location.y<120);
     if (!players.length) return;
     const dimension=players[0].dimension;
-    const sites=yield* accessibleSites(dimension,players,world,seed,cooldowns,scanTick);
-    // Survey all reachable chunks first, then try the most promising terrain.
-    // Failed layouts do not prevent another surveyed site from being considered.
-    for (const site of sites.slice(0,8)) {
-      if (!outsidePlayerBuffer(world.getPlayers(),{x:site.x,z:site.z,sx:1,sz:1}) || !farEnough(world,site.x,site.z)) continue;
-      const candidate=candidateAt(Math.floor(site.x/SPACING),Math.floor(site.z/SPACING),seed);
-      if (world.getDynamicProperty(candidate.key)) continue;
-      const cell=`${Math.floor(site.x/24)},${Math.floor(site.z/24)}`;
-      cooldowns.set(cell,scanTick+120);
-      yield* village(dimension,site.x,site.z,site.floor,'',candidate.seed,undefined,candidate.key,()=>{});
-      if (world.getDynamicProperty(candidate.key)) return;
-      yield;
-    }
+    // Preserve the existing terrain-ranked local survey; extend it with remote
+    // region candidates when the loaded neighborhood has no eligible good site.
+    const local=yield* accessibleSites(dimension,players,world,seed,localCooldowns,system.currentTick);
+    const nearby=local.map(site=>{const region=candidateAt(Math.floor(site.x/SPACING),Math.floor(site.z/SPACING),seed);return {...region,...site};})
+      .find(site=>(cooldowns.get(site.key)??0)<=system.currentTick);
+    const candidate=nearby??distantCandidates(world,players,seed,cooldowns,system.currentTick)[0];
+    if(!candidate)return;
+    // A failed site stays eligible but is not repeatedly force-loaded every scan.
+    cooldowns.set(candidate.key,system.currentTick+12000);
+    localCooldowns.set(`${Math.floor(candidate.x/24)},${Math.floor(candidate.z/24)}`,system.currentTick+12000);
+    lease=chunkLease(dimension,'village');
+    yield* lease.load({x:candidate.x-56,y:0,z:candidate.z-56},[113,128,113]);
+    const current=world.getPlayers();
+    if(!outsidePlayerBuffer(current,{x:candidate.x-56,z:candidate.z-56,sx:113,sz:113}))return;
+    const near=Math.max(33,Math.min(100,Math.floor(players[0].location.y)-1));
+    yield* village(dimension,candidate.x,candidate.z,near,'',candidate.seed,undefined,candidate.key,()=>{});
   } catch (error) {
-    console.warn(`[Nether Settlements] Accessible-terrain search stopped: ${error}`);
-  } finally {busy=false;}
+    console.warn(`[Nether Settlements] Distant generation stopped: ${error}`);
+  } finally {
+    try{lease?.release();}catch(error){console.warn(`[Nether Settlements] Temporary area cleanup failed: ${error}`);}
+    busy=false;
+  }
 }
 system.runInterval(()=>{
-  scanTick++;
   if (busy) return;
-  for (const [key,until] of cooldowns) if (until<=scanTick) cooldowns.delete(key);
+  for(const map of [cooldowns,localCooldowns])for(const [key,until] of map)if(until<=system.currentTick)map.delete(key);
   if (!world.getPlayers().some(p=>p.dimension.id==='minecraft:nether' && p.location.y<120)) return;
   let seed=world.getDynamicProperty('nether_settlements:terrain_seed');
   if (typeof seed!=='number') {seed=Math.floor(Math.random()*2147483647);world.setDynamicProperty('nether_settlements:terrain_seed',seed);}
+  if(system.currentTick<nextRemoteAttempt)return;
+  nextRemoteAttempt=system.currentTick+600;
   busy=true;system.runJob(automaticSearch(seed));
 },100);

@@ -1,5 +1,6 @@
 import {world,system} from '@minecraft/server';
 import {ARENAS} from './arena_catalog.js';
+import {chunkLease} from './chunk_loading.js';
 let busy=false;
 export function arenaRequest(message,player){
  const [id,...coordinates]=message.trim().split(/\s+/);
@@ -13,15 +14,9 @@ export function arenaRequest(message,player){
  return {id,arena,dimension,origin:{x:origin[0],y:origin[1],z:origin[2]}};
 }
 export function* placeArena({id,arena,dimension,origin},notify=()=>{}){
- const area=`underworld_template_${system.currentTick}`;let forced=false;
- const clear=()=>{if(forced){dimension.runCommand(`tickingarea remove ${area}`);forced=false;}};
- function* load(from,size){
-  const end={x:from.x+size[0]-1,y:from.y+size[1]-1,z:from.z+size[2]-1};
-  dimension.runCommand(`tickingarea add ${from.x} ${from.y} ${from.z} ${end.x} ${end.y} ${end.z} ${area}`);forced=true;
-  const ready=system.currentTick+2;while(system.currentTick<ready)yield;
-  for(let x=Math.floor(from.x/16)*16;x<=end.x;x+=16)for(let z=Math.floor(from.z/16)*16;z<=end.z;z+=16)
-   if(!dimension.getBlock({x,y:from.y,z}))throw Error('Some template chunks are still unloaded. Retry after they load.');
- }
+ const lease=chunkLease(dimension,'template');
+ const clear=()=>lease.release();
+ function* load(from,size){yield* lease.load(from,size);}
  try{
   const endX=origin.x+arena.size[0]-1,endZ=origin.z+arena.size[2]-1;
   const chunks=(Math.floor(endX/16)-Math.floor(origin.x/16)+1)*(Math.floor(endZ/16)-Math.floor(origin.z/16)+1);
@@ -39,7 +34,7 @@ export function* placeArena({id,arena,dimension,origin},notify=()=>{}){
   }
   notify(`${arena.display_name} placed. Natural spawning is disabled.`);
  }finally{
-  if(forced)try{clear();}catch(error){console.warn(`[Underworld templates] Temporary area cleanup failed: ${error}`);}
+  try{clear();}catch(error){console.warn(`[Underworld templates] Temporary area cleanup failed: ${error}`);}
  }
 }
 // The only entry point is an explicit test command below.

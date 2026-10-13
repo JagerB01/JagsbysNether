@@ -38,3 +38,21 @@ Scarberries or Polyps equally, giving 1–3 (1.25% per crop per container). No N
 in this table. Existing intentional container contents/loot tables are preserved.
 Loot is attached to the template's native block-entity data; no scanning or
 periodic refill script runs. Existing placed containers are not changed.
+
+## Extended village search — v0.2.66
+
+Automatic village generation can now inspect eligible regions up to 768 blocks
+from a Nether player. The existing terrain-ranked survey of loaded nearby sites is retained.
+When it has no eligible site, the planner tries a farther region; there is no
+minimum distance band. Existing terrain scoring and the three-house requirement remain
+in effect. One candidate at a time is temporarily loaded in a 113×113-block
+survey footprint (at most 64 chunks), then fully planned before placement.
+Failed sites stay eligible with a ten-minute retry cooldown; new attempts start
+no more often than every 30 seconds. Owned temporary areas are released after
+completion/failure. This extends reach; it does not guarantee distant placement
+or remove visible construction for nearby eligible sites.
+
+The stable server 2.10 API's ticking-area load promise confirms completion before
+block probes and placement. Command fallback requests preload and waits for
+actual availability up to 30 seconds. API areas left after a world closes mid-job
+and tracked fallback command areas are cleaned on the next startup.

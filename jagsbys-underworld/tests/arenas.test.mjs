@@ -9,7 +9,7 @@ function fixture(){
  const player={location:{x:0,y:32,z:0},dimension};
  return {dimension,player,calls,places};
 }
-function finish(job){for(let i=0;i<200;i++){const s=job.next();if(s.done)return;system.currentTick++;}throw Error('Placement did not finish');}
+function finish(job){for(let i=0;i<1000;i++){const s=job.next();if(s.done)return;system.currentTick++;}throw Error('Placement did not finish');}
 test('arena list includes all seven manual templates; absolute coordinates and height are checked',()=>{
  assert.deepEqual(Object.keys(ARENAS),['small_arena','large_arena','dragon_arena','grave_yard','large_blackstone_pillars','large_blackstone_walls','mega_fortress']);
  const f=fixture();assert.deepEqual(arenaRequest('small_arena',f.player).origin,{x:8,y:31,z:8});
