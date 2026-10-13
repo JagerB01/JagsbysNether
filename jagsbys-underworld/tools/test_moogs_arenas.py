@@ -11,6 +11,14 @@ class MoogsArenas(unittest.TestCase):
         cls.metadata=json.loads((ROOT/'MOOGS_ARENAS_SOURCE.json').read_text())
         cls.schema=json.loads(SCHEMA.read_text())['blocks']
 
+    def test_imported_templates_contain_no_spawn_suppressing_soul_lights(self):
+        lights={'minecraft:soul_lantern','minecraft:soul_torch','minecraft:soul_campfire'}
+        for group in ('arenas','arenas_natural'):
+            for path in (ROOT/'behavior_pack/structures/jagsby_nether'/group).rglob('*.mcstructure'):
+                r=NBT(path.read_bytes());r.read('B');r.string();root=r.payload(10)
+                palette=root['structure'][1]['palette'][1]['default'][1]['block_palette'][1][1]
+                self.assertFalse(lights.intersection(b['name'][1] for b in palette),str(path))
+
     def test_original_source_files_match_recorded_hashes(self):
         for name,digest in self.metadata['source_files_sha256'].items():
             self.assertEqual(hashlib.sha256((SOURCE/name).read_bytes()).hexdigest(),digest,name)

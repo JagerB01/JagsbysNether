@@ -4053,5 +4053,15 @@
     ],
     "modules": 81,
     "policy": "mandatory centre and roof; optional connected branches pruned at conflicts; fixed source rotations retained"
+  },
+  "removed_spawn_suppressing_lights": {
+    "version": "0.2.87",
+    "blocks": [
+      "minecraft:soul_lantern",
+      "minecraft:soul_torch",
+      "minecraft:soul_campfire"
+    ],
+    "scope": "imported manual, natural, and modular structures only; source reference NBT retained",
+    "method": "replace with air and remove associated block entities"
   }
 }

@@ -172,3 +172,18 @@ Version 0.2.84 lowers sampled lava coverage to 20% Large Arena, 15% Dragon Arena
 Version 0.2.85 replaces natural fixed Mega Fortress placement with 81 source-connected modules. The required centre plus roof is 43×56×43; 80 modules are optional and descendants require their parent. Only the core must qualify to initiate; the previous all-three-full-footprints rule is superseded for the Mega-only test build. Optional protected/spacing/ceiling conflicts prune that branch, while incomplete loading defers the survey. Exposed lava at the core centre sets elevation; no footprint lava percentage is required for modular fortress placement. Each accepted module is carved and placed in 16-block tiles with its own blackstone/netherrack foundation footprint. Selection and checkpoints persist module indices. Existing fixed-layout builds retain their original plan; manual Mega Fortress commands still place the original full template.
 
 Version 0.2.86 builds the modular Mega Fortress incrementally. Only the core is surveyed and reserved initially; each connected module is surveyed and reserved after the previous module finishes. Player checks apply to the current/next module rather than the aggregate fortress rectangle. Temporary player/loading interruptions retry the same module; confirmed protected/spacing/ceiling conflicts omit that branch. Records persist expansion progress, accepted modules and tile checkpoints. No new idle polling is introduced.
+
+Version 0.2.87 removes imported soul lanterns, soul torches, and soul campfires from fixed/manual, natural, and modular templates to avoid Underworld soul-light spawn suppression. Existing placed lights are unchanged.
+
+| Structure | Native mob spawners |
+|---|---|
+| Small Arena | 5 Zombified Piglin, 2 Magma Cube, 1 Skeleton |
+| Large Arena | 12 Wither Skeleton, 10 Skeleton |
+| Dragon Arena | 4 Wither Skeleton, 3 Blaze, 3 Magma Cube |
+| Grave Yard | 1 Wither Skeleton |
+| Large Blackstone Pillars | None |
+| Large Blackstone Walls | None |
+| Mega Fortress required core | 4 Wither Skeleton, 1 Magma Cube |
+| Mega Fortress complete module layout | 5 Wither Skeleton, 5 Magma Cube, 2 Blaze |
+
+Optional branches determine actual Mega Fortress totals. These counts exclude trial spawners and Java encounter pools, which were not ported as configured encounters.

@@ -157,7 +157,7 @@ def assemble_fortress():
 
 def block_state(name,props,schema):
     original=name;short=name.split(':')[1]
-    if short in ('nether_wart','jigsaw','cave_air','void_air'):name='minecraft:air';props={}
+    if short in ('nether_wart','jigsaw','cave_air','void_air','soul_lantern','soul_torch','soul_wall_torch','soul_campfire'):name='minecraft:air';props={}
     elif short=='structure_void':return None
     elif short.endswith('_bed'):name='minecraft:bed'
     elif short.startswith('potted_'):name='minecraft:flower_pot'
