@@ -4,11 +4,16 @@ import {NATURAL_ARENAS} from './natural_arena_catalog.js';
 import {chunkLease} from './chunk_loading.js';
 import {runGenerationJob} from './generation_queue.js';
 import {candidateAt,GIANTS,landmarkRecords,villageBoxes,spacingAllows,LANDMARK_PREFIX} from './landmark_sites.js';
-import {surveyLandmark,clearVolume,fillSupports,carveTile} from './landmark_terrain.js';
+import {surveyLandmark,clearVolume,fillSupports,carveTile,obstructionReason} from './landmark_terrain.js';
 import {terrainSurvey} from './terrain_survey.js';
-import {giantSearch,giantSites,attemptKey} from './giant_search.js';
+import {giantSearch,giantSites,smallSites,attemptKey} from './giant_search.js';
 import {assessGiantSite} from './giant_fit.js';
 const retries=new Map();let busy=false,status='Waiting for unchecked landmark sites.';
+let diagnostics;
+function recordDiagnostic(c,outcome,reason){
+ if(!diagnostics){try{diagnostics=JSON.parse(world.getDynamicProperty('underworld_landmarks:diagnostics')??'[]');}catch{diagnostics=[];}}
+ diagnostics.push({id:c.id,x:c.x,z:c.z,outcome,reason});diagnostics=diagnostics.slice(-8);world.setDynamicProperty('underworld_landmarks:diagnostics',JSON.stringify(diagnostics));
+}
 const SUPPORT_PREFIX='underworld_landmarks:support_';
 const players=()=>world.getPlayers().filter(p=>p.dimension.id==='minecraft:nether'&&p.location.y<120);
 const boxFor=c=>({x:c.x-Math.floor(ARENAS[c.id].size[0]/2),z:c.z-Math.floor(ARENAS[c.id].size[2]/2),sx:ARENAS[c.id].size[0],sz:ARENAS[c.id].size[2]});
@@ -16,20 +21,20 @@ export function playersClear(online,box,margin=32){return online.every(p=>{
  const x=Math.max(box.x,Math.min(p.location.x,box.x+box.sx-1)),z=Math.max(box.z,Math.min(p.location.z,box.z+box.sz-1));return Math.hypot(p.location.x-x,p.location.z-z)>=margin;
 });}
 export function naturalCandidates(online,seed,tick=system.currentTick){
- const all=new Map(),visited=new Set(),observations=terrainSurvey.nearby(online);
+ const all=new Map(),visited=new Set(),observations=terrainSurvey.nearby(online),ground=terrainSurvey.nearbyGround(online);
  for(const player of online)for(const [family,size] of [['giant',1600],['small',600],['ruin',192]]){
   const gx=Math.floor(player.location.x/size),gz=Math.floor(player.location.z/size),radius=Math.ceil(768/size);
   for(let x=gx-radius;x<=gx+radius;x++)for(let z=gz-radius;z<=gz+radius;z++){
    const region=candidateAt(family,x,z,seed);if(!region.id||visited.has(region.key))continue;visited.add(region.key);
    let saved;try{saved=JSON.parse(world.getDynamicProperty(region.key)??'null');}catch{}
-   if(saved&&saved.state!=='placing'&&(family!=='giant'||saved.state!=='rejected'))continue;
+   if(saved&&saved.state!=='placing'&&(!['giant','small'].includes(family)||saved.state!=='rejected'))continue;
    const sites=saved?.state==='placing'?[{...region,id:saved.id,x:saved.x,z:saved.z,saved}]:
-     family==='giant'?giantSites(region,observations):[region];
+     family==='giant'?giantSites(region,observations):family==='small'?smallSites(region,ground):[region];
    const eligible=[];
    for(const c of sites){
-    if((retries.get(attemptKey(c))??0)>tick||(!c.saved&&family==='giant'&&giantSearch.failed(c)))continue;
+    if((retries.get(attemptKey(c))??0)>tick||(!c.saved&&['giant','small'].includes(family)&&giantSearch.failed(c)))continue;
     const distance=Math.min(...online.map(p=>Math.hypot(c.x-p.location.x,c.z-p.location.z)));
-    if(distance>768||!playersClear(online,c.saved?.box??boxFor(c.family==='giant'?{...c,id:'mega_fortress'}:c),GIANTS.includes(c.id)?128:64))continue;
+    if(distance>768||!playersClear(online,c.saved?.box??boxFor(c.family==='giant'?{...c,id:'large_arena'}:c),32))continue;
     eligible.push({...c,distance,priority:c.saved?0:c.observed?1:family==='giant'?3:2});
    }
    eligible.sort((a,b)=>a.priority-b.priority||(b.score??0)-(a.score??0)||a.distance-b.distance||a.x-b.x||a.z-b.z);
@@ -39,7 +44,7 @@ export function naturalCandidates(online,seed,tick=system.currentTick){
  return [...all.values()].sort((a,b)=>a.priority-b.priority||a.distance-b.distance||a.key.localeCompare(b.key));
 }
 function save(c,r){world.setDynamicProperty(c.key,JSON.stringify(r));}
-function reject(c,reason){if(c.family==='giant')giantSearch.reject(c,reason);else save(c,{state:'rejected',reason});}
+function reject(c,reason){if(['giant','small'].includes(c.family))giantSearch.reject(c,reason);else save(c,{state:'rejected',reason});}
 function supportKey(c,index){return `${SUPPORT_PREFIX}${c.family}_${c.gx}_${c.gz}_${index}`;}
 export function* generateLandmark(c,dimension){
  let lease;const started=system.currentTick;
@@ -50,14 +55,14 @@ export function* generateLandmark(c,dimension){
    const records=landmarkRecords(),villages=villageBoxes();
    const smallest=c.family==='giant'?{...c,id:'large_arena'}:c;
    if(!spacingAllows(smallest,boxFor(smallest),records,villages)){
-    reject(c,'Spacing from an existing structure or village');return;
+    reject(c,'Spacing from an existing structure or village');recordDiagnostic(c,'rejected','Spacing from an existing structure or village');return {outcome:'rejected'};
    }
    status=`Surveying ${ARENAS[c.id].display_name} at ${c.x}, ${c.z}.`;
-   plan=c.family==='giant'?yield* assessGiantSite(c,dimension,{progress,allowed:(id,box)=>spacingAllows({...c,id},box,records,villages)}):yield* surveyLandmark(c,dimension,progress);
+   plan=c.family==='giant'?yield* assessGiantSite(c,dimension,{progress,allowed:(id,box)=>spacingAllows({...c,id},box,records,villages)&&playersClear(players(),box,32)}):yield* surveyLandmark(c,dimension,progress);
    if(plan.outcome!=='ready'){
     if(plan.outcome==='unsuitable')reject(c,plan.reason);
     else retries.set(attemptKey(c),system.currentTick+1200);
-    status=`${ARENAS[c.id].display_name}: ${plan.reason}.`;return;
+    status=`${ARENAS[c.id].display_name}: ${plan.reason}.`;recordDiagnostic(c,plan.outcome,plan.reason);return {outcome:plan.outcome};
    }
    if(plan.id)c={...c,id:plan.id,selected:true};
    if(!spacingAllows(c,plan.box,landmarkRecords(),villageBoxes())||!playersClear(players(),plan.box,32)){
@@ -81,7 +86,7 @@ export function* generateLandmark(c,dimension){
    if(!playersClear(players(),record.box,32)){retries.set(attemptKey(c),system.currentTick+1200);status='Landmark paused: player approached its footprint.';return;}
    const supports=JSON.parse(world.getDynamicProperty(supportKey(c,index))??'[]');
    if(!record.tilePlaced){
-    if(!(yield* clearVolume(dimension,pos,section.size,record.surface,record.ocean,record.supporting?['minecraft:polished_blackstone']:[],record.carve??false))){status='Landmark paused: protected blocks appeared before placement.';retries.set(attemptKey(c),system.currentTick+1200);return;}
+    if(!(yield* clearVolume(dimension,pos,section.size,record.surface,record.ocean,record.supporting?['minecraft:polished_blackstone']:[],record.carve??false))){status=`Landmark paused: ${obstructionReason()}`;retries.set(attemptKey(c),system.currentTick+1200);return;}
     record.supporting=true;save(c,record);
     if(record.carve)carveTile(dimension,pos,section.size);
     // Persist native placement before yielding for supports; restart cannot
@@ -94,8 +99,8 @@ export function* generateLandmark(c,dimension){
    record.next=index+1;record.supporting=false;record.tilePlaced=false;save(c,record);world.setDynamicProperty(supportKey(c,index),undefined);
    lease.release();lease=undefined;yield {waitTicks:2};
   }
-  record.state='built';save(c,record);status=`${arena.display_name} generated at ${record.origin.x}, ${record.origin.y}, ${record.origin.z}.`;
- }catch(error){retries.set(attemptKey(c),system.currentTick+1200);status=`Landmark deferred: ${error.message}`;console.warn(`[Underworld landmarks] ${status}`);}
+  record.state='built';save(c,record);status=`${arena.display_name} generated at ${record.origin.x}, ${record.origin.y}, ${record.origin.z}.`;recordDiagnostic(c,'built',status);return {outcome:'built'};
+ }catch(error){retries.set(attemptKey(c),system.currentTick+1200);status=`Landmark deferred: ${error.message}`;console.warn(`[Underworld landmarks] ${status}`);recordDiagnostic(c,'deferred',error.message);return {outcome:'deferred'};}
  finally{lease?.release();}
 }
 export function* naturalSearch(){
@@ -103,8 +108,12 @@ export function* naturalSearch(){
   const online=players();if(!online.length)return;
   let seed=world.getDynamicProperty('nether_settlements:terrain_seed');
   if(typeof seed!=='number'){seed=Math.floor(Math.random()*2147483647);world.setDynamicProperty('nether_settlements:terrain_seed',seed);}
-  const c=naturalCandidates(online,seed)[0];if(c)yield* generateLandmark(c,online[0].dimension);
-  else status='No unchecked or retry-ready sites currently in range; explore farther.';
+  for(let attempt=0;attempt<4;attempt++){
+   const c=naturalCandidates(online,seed)[0];
+   if(!c){status='No unchecked or retry-ready sites currently in range; explore farther.';break;}
+   const result=yield* generateLandmark(c,online[0].dimension);
+   if(result?.outcome!=='rejected'&&result?.outcome!=='unsuitable')break;
+  }
  }finally{busy=false;}
 }
 system.runInterval(()=>{
@@ -115,6 +124,10 @@ system.runInterval(()=>{
 },100);
 system.afterEvents.scriptEventReceive.subscribe(({id,sourceEntity:player})=>{
  if(player?.typeId!=='minecraft:player')return;
+ if(id==='jagsby_nether:structures_diagnostics'){
+  let history;try{history=JSON.parse(world.getDynamicProperty('underworld_landmarks:diagnostics')??'[]');}catch{history=[];}
+  player.sendMessage(history.length?history.slice(-4).map(r=>`${r.id} at ${r.x}, ${r.z}: ${r.outcome} — ${r.reason}`).join('\n'):'No completed landmark assessments recorded yet.');
+ }
  if(id==='jagsby_nether:structures_status')player.sendMessage(`[Underworld structures] ${status}`);
  if(id==='jagsby_nether:structures_find'){
   const records=landmarkRecords().filter(r=>r.state==='built').sort((a,b)=>Math.hypot(a.x-player.location.x,a.z-player.location.z)-Math.hypot(b.x-player.location.x,b.z-player.location.z));

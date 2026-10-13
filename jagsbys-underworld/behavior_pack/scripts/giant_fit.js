@@ -13,7 +13,7 @@ export function chooseFittingGiant(ids,roll){
 // always validates against the real dimension, never this snapshot.
 export function footprintSurveyCache(d){
  const blocks=new Map(),clear=new Map();
- return {id:d.id,getBlock(p){
+ return {id:d.id,getBlocks:d.getBlocks?.bind(d),getBlock(p){
   const key=`${p.x},${p.y},${p.z}`;if(blocks.has(key))return blocks.get(key);
   const b=d.getBlock(p);if(!b)return undefined;
   const value={typeId:b.typeId,isAir:b.isAir,isLiquid:b.isLiquid,location:{...p}};

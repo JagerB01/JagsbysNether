@@ -79,3 +79,7 @@ Village placement waits for a bounded six-area comparison rather than committing
 ## v0.2.75 terrain carving
 
 Giant fitting checks now allow whitelisted natural terrain and partial islands, retaining filtered native-volume queries and shared size-assessment snapshots. Actual carving uses a native filtered fill in each existing 16-block tile, followed by template placement and supports. No per-block carving loop or new idle polling is added. Increased lighting/block-update work during carving still requires in-game profiling.
+
+## v0.2.78 arena discovery
+
+Small Arena searches reuse a bounded 8,192-point ground-observation cache from existing village surveys. Confirmed failures are remembered by search cell. A queue turn advances through at most four rejected points, still using the same 24-step / approximately 2ms work budget. Incomplete jobs stop the batch. Diagnostic block lookups run only when an obstruction is detected; there is no new per-tick scan.

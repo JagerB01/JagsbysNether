@@ -3,7 +3,7 @@ const PREFIX='underworld_terrain:ocean_';
 // Shared observations are hints, never authorization to place a structure.
 // Positive ocean observations survive restart; unloaded reads are never recorded.
 export class TerrainSurvey {
- constructor(storage=world){this.storage=storage;this.tiles=new Map();this.probed=new Set();this.dirty=new Set();}
+ constructor(storage=world){this.groundPoints=new Map();this.storage=storage;this.tiles=new Map();this.probed=new Set();this.dirty=new Set();}
  tile(tx,tz){
   const key=`${tx}_${tz}`;
   if(!this.tiles.has(key)){
@@ -29,6 +29,12 @@ export class TerrainSurvey {
    if(['minecraft:lava','minecraft:flowing_lava'].includes(base.typeId)&&above.typeId==='minecraft:air')this.ocean(x,z,31);
   }catch{}
  }
+ ground(x,z,y,score,material){
+  const key=`${Math.floor(x/16)},${Math.floor(z/16)}`;
+  if(this.groundPoints.size>=8192)this.groundPoints.delete(this.groundPoints.keys().next().value);
+  this.groundPoints.set(key,[x,z,y,score,material]);
+ }
+ nearbyGround(online,range=768){return [...this.groundPoints.values()].filter(([x,z])=>online.some(p=>Math.hypot(x-p.location.x,z-p.location.z)<=range));}
  nearby(online,range=768){
   const keys=new Set(),points=[];
   for(const p of online){

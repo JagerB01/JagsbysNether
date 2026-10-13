@@ -139,3 +139,18 @@ Giants no longer need an empty rectangular volume or lava at every sample. After
 Carving is performed only after selection and immediately before each tile's native placement. Supports are planned to reach below the carving plane and placed after the template, so its air does not erase them. Per-tile placement is checkpointed before support work; recovery finishes supports without replacing an already-placed tile. Existing partially built structures retain their original non-carving policy.
 
 Stricter pre-v0.2.75 giant search-cell failures reopen once for assessment under these new rules. New confirmed failures remain permanent. Village rejection history and completed structures are retained. Ordinary natural blocks placed by players are indistinguishable from generated terrain and may be carved; recognized constructed blocks and recorded structure spacing are protected. Ocean-observation density still ranks discovered sites before full assessments. Larger carving operations require live performance verification.
+
+## Arena search and diagnostics — v0.2.78
+
+Small Arenas now search multiple 64-block cells per 600-block region, reusing loaded-ground observations from village surveys. Basalt/blackstone ground observations are ranked ahead of other ground; both actual Basalt Deltas and Nether Wastes are accepted rather than preassigning a biome to one region coordinate. This replaces the old 80/20 biome-target roll; observed terrain and eligibility determine the resulting distribution. At most one Small Arena is completed per region.
+
+Small Arenas can carve ordinary terrain and tolerate nearby floor differences of twelve blocks, requiring natural ground near at least half their sampled footprint. Other small ruins retain their existing ground rules. Giant ocean coverage and agreed structure spacing are unchanged. Surveys check usable heights up to the actual template height limit and down to Y8, using available floor/lava hints first. Giants no longer require any biome-classifier result because all Nether biomes are eligible.
+
+Initial arena surveys use the smallest relevant footprint and the same 32-block player clearance as placement, replacing the extra 64/128-block survey exclusions. Larger options occupied by players are excluded for that attempt; no tile is carved within the placement safety gap. Searches can advance through four confirmed unsuitable candidates per queue turn, stopping on construction or incomplete data.
+
+Old giant and Small Arena failed sites reopen once under search policy 3. Completed and reserved structures remain unchanged. Confirmed new failures remain permanent. Recent assessment coordinates and reasons are saved in an eight-entry journal; protected-block failures report their type and position when native query results are available:
+```
+/scriptevent jagsby_nether:structures_diagnostics
+```
+
+Arena support searches can now reach up to 128 blocks down (stopping above Y0), rather than rejecting deeper lava columns at 64 blocks. Giant biome queries are removed entirely; Small Arena and ruin biome queries retain their rules and report unavailable data explicitly.

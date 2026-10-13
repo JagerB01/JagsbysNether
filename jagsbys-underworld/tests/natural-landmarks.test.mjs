@@ -22,7 +22,7 @@ test('region choices and biome preferences are deterministic with agreed selecti
  }
  assert(Math.abs(large/10000-.6)<.03);assert(Math.abs(dragon/10000-.25)<.03);assert(Math.abs(mega/10000-.15)<.03);assert(Math.abs(basalt/10000-.8)<.03);
  assert(biomeAllows({id:'small_arena',biome:'basalt_deltas'},biomeName('minecraft:basalt_deltas')));
- assert(!biomeAllows({id:'small_arena',biome:'basalt_deltas'},'nether_wastes'));
+ assert(biomeAllows({id:'small_arena',biome:'basalt_deltas'},'nether_wastes'));
  assert(biomeAllows({id:'grave_yard'},'soulsand_valley'));assert(!biomeAllows({id:'grave_yard'},'crimson_forest'));
 });
 test('spacing is measured between giants, arenas and actual village edges',()=>{
@@ -55,7 +55,7 @@ test('natural placement saves completion, supports actual foundations and cannot
 });
 test('fully surveyed failures are permanently excluded while unavailable biomes defer',()=>{
  const bad={...candidateAt('small',120,120,111),id:'small_arena',biome:'basalt_deltas'},f=fixture(false,'minecraft:crimson_forest');
- finish(generateLandmark(bad,f.dimension));assert.equal(JSON.parse(world.getDynamicProperty(bad.key)).state,'rejected');
+ finish(generateLandmark(bad,f.dimension));assert.equal(world.getDynamicProperty(bad.key),undefined);
  const c={...candidateAt('small',121,121,111),id:'small_arena',biome:'basalt_deltas'};f.dimension.getBiome=()=>undefined;finish(generateLandmark(c,f.dimension));assert.equal(world.getDynamicProperty(c.key),undefined);
  world.setDynamicProperty(bad.key,undefined);
 });

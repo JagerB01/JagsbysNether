@@ -58,6 +58,7 @@ export function* accessibleSites(dimension,players,world,seed,cooldowns,tick) {
           const site={x,z,floor,score:space*4+headroom*6-slope*.5};
           if(surveys.size>=SURVEY_LIMIT)surveys.delete(surveys.keys().next().value);
           surveys.set(surveyKey,site);
+          terrainSurvey.ground(x,z,floor,site.score,read(dimension,x,floor,z)?.typeId);
           sites.push({...site});
         }
       }
