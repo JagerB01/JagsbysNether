@@ -19,3 +19,18 @@ test('a protected block in the required core rejects the site',()=>{
 test('incomplete modular surveys defer instead of recording a failed site',()=>{
  const d=scene();d.getBlock=()=>undefined;const p=finish(surveyModularFortress({x:0,z:0},d));assert.equal(p.outcome,'deferred');
 });
+
+test('core-only initiation reserves no distant module footprints',()=>{
+ const p=finish(surveyModularFortress({x:0,z:0},scene(),{coreOnly:true}));assert.equal(p.outcome,'ready');assert.deepEqual(p.modules,[0]);assert.deepEqual(p.box,{x:-21,z:-21,sx:43,sz:43});
+});
+test('a player near a future branch does not prevent core placement',async()=>{
+ const {world}=await import('./mock-server.mjs'),{generateLandmark}=await import('../behavior_pack/scripts/landmarks.js'),{candidateAt}=await import('../behavior_pack/scripts/landmark_sites.js');
+ const c=candidateAt('giant',903,903,12),oldPlayers=world.getPlayers,oldStructures=world.structureManager,placed=[];
+ const d={id:'minecraft:nether',runCommand(){},getBlock:({y})=>({typeId:y<=4?'minecraft:netherrack':y<=31?'minecraft:lava':'minecraft:air'}),containsBlock:()=>false,fillBlocks(){}};
+ world.getPlayers=()=>[{dimension:d,location:{x:c.x+65,y:64,z:c.z}}];world.structureManager={place:id=>placed.push(id)};
+ const job=generateLandmark(c,d);
+ try{
+  for(let i=0;i<20000&&!placed.length;i++){job.next();system.currentTick++;}
+  assert.equal(placed.length,1);const saved=JSON.parse(world.getDynamicProperty(c.key));assert.deepEqual(saved.modules,[0]);assert.equal(saved.box.sx,43);assert.equal(saved.box.sz,43);assert(saved.incremental);
+ }finally{job.return();world.getPlayers=oldPlayers;world.structureManager=oldStructures;world.setDynamicProperty(c.key,undefined);}
+});
