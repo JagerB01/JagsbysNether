@@ -9,6 +9,7 @@ import zipfile
 from pathlib import Path
 from structure_crops import strip_wart
 from structure_blocks import convert_structure_blocks
+from structure_loot import populate_structure_containers
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parent
@@ -77,6 +78,7 @@ def main():
             if name.endswith('.mcstructure'):
                 content, positions = strip_wart(content)
                 content, conversion = convert_structure_blocks(content, '/villages/' in name)
+                content, _ = populate_structure_containers(content)
                 if any(conversion.values()):
                     block_conversions[name] = conversion
                 if content != expected[name]:
@@ -118,6 +120,7 @@ def main():
         if name in changed_structures:
             rebuilt, _ = strip_wart(content)
             rebuilt, _ = convert_structure_blocks(rebuilt, '/villages/' in name)
+            rebuilt, _ = populate_structure_containers(rebuilt)
             assert (BUILD / 'behavior_pack' / name).read_bytes() == rebuilt, name
             continue
         assert (BUILD / 'behavior_pack' / name).read_bytes() == content, name
@@ -135,6 +138,7 @@ def main():
     assert not (BUILD / 'behavior_pack/entities/villager_v2.json').exists(), 'Food integration must not override C&C villagers'
     assert not (BUILD / 'resource_pack/entity/villager_v2.entity.json').exists()
     subprocess.run(['python3', 'tools/test_structure_blocks.py'], cwd=ROOT, check=True)
+    subprocess.run(['python3', 'tools/test_structure_loot.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/validate.py'], cwd=ROOT, check=True)
     subprocess.run(['node', '--import', './tests/register-mock.mjs', '--test',
                     *[str(p.relative_to(ROOT)) for p in sorted((ROOT / 'tests').glob('*.test.mjs'))]],
@@ -155,7 +159,7 @@ def main():
         pack = files(check[f'Jagsbys_Underworld_{suffix}.mcpack'])
         assert pack['pack_icon.png'] == icon
         assert json.loads(pack['manifest.json'])['header']['version'] == version
-    print(f'Preserved all {len(expected)-len(overrides)-len(changed_structures)} original behavior assets/scripts byte-for-byte (population/generation overridden; wart/lighting/jigsaw conversion applied to {len(changed_structures)} structures); built {output} ({output.stat().st_size:,} bytes)')
+    print(f'Preserved all {len(expected)-len(overrides)-len(changed_structures)} original behavior assets/scripts byte-for-byte (population/generation overridden; wart/lighting/jigsaw/loot conversion applied to {len(changed_structures)} structures); built {output} ({output.stat().st_size:,} bytes)')
     if placeholder:
         print('LOCAL VERIFICATION ONLY: user cover PNG still required; no release download was produced.')
 
