@@ -10,6 +10,14 @@ import {giantSearch,giantSites,smallSites,attemptKey} from './giant_search.js';
 import {assessGiantSite} from './giant_fit.js';
 const retries=new Map();let busy=false,status='Waiting for unchecked landmark sites.';
 let diagnostics;
+function pauseForPlayer(c){
+ retries.set(attemptKey(c),system.currentTick+200);
+ // A one-shot retry exists only after an active build pauses for a player.
+ system.runTimeout(()=>{
+  if(busy||!players().length)return;
+  busy=true;runGenerationJob(naturalSearch());
+ },200);
+}
 function recordDiagnostic(c,outcome,reason){
  if(!diagnostics){try{diagnostics=JSON.parse(world.getDynamicProperty('underworld_landmarks:diagnostics')??'[]');}catch{diagnostics=[];}}
  diagnostics.push({id:c.id,x:c.x,z:c.z,outcome,reason});diagnostics=diagnostics.slice(-8);world.setDynamicProperty('underworld_landmarks:diagnostics',JSON.stringify(diagnostics));
@@ -83,7 +91,7 @@ export function* generateLandmark(c,dimension){
    progress(`Loading placement tile ${index+1}/${arena.sections.length}`);
    lease=chunkLease(dimension,'landmark');yield* lease.load(pos,section.size);
    progress(`Placing tile ${index+1}/${arena.sections.length}`);
-   if(!playersClear(players(),record.box,32)){retries.set(attemptKey(c),system.currentTick+1200);status='Landmark paused: player approached its footprint.';return;}
+   if(!playersClear(players(),record.box,32)){pauseForPlayer(c);status='Landmark paused: player approached its footprint.';return;}
    const supports=JSON.parse(world.getDynamicProperty(supportKey(c,index))??'[]');
    if(!record.tilePlaced){
     if(!(yield* clearVolume(dimension,pos,section.size,record.surface,record.ocean,record.supporting?['minecraft:polished_blackstone']:[],record.carve??false))){status=`Landmark paused: ${obstructionReason()}`;retries.set(attemptKey(c),system.currentTick+1200);return;}
@@ -91,7 +99,7 @@ export function* generateLandmark(c,dimension){
     if(record.carve)carveTile(dimension,pos,section.size);
     // Persist native placement before yielding for supports; restart cannot
     // replace an already placed tile or mistake its architecture for terrain.
-    if(!playersClear(players(),record.box,32)){retries.set(attemptKey(c),system.currentTick+1200);return;}
+    if(!playersClear(players(),record.box,32)){pauseForPlayer(c);return;}
     world.structureManager.place(section.id,dimension,pos,{includeEntities:false,includeBlocks:true});
     record.tilePlaced=true;save(c,record);
    }
