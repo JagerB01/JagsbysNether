@@ -44,12 +44,12 @@ The biome is read at the bobber, independently of village styles or nearby block
 
 | Catch | Availability | Raw food behavior |
 | --- | --- | --- |
-| Jetrapier | Any lava | 2 hunger; Fire Resistance 15 seconds |
+| Jetrapier | Any lava | 2 hunger |
 | Calderwyrm | Any lava | 2 hunger |
 | Prismfin | Nether Wastes only | 2 hunger |
-| Wickerel | Crimson Forest only | 2 hunger; Endless Flame approximation 120 seconds |
+| Wickerel | Crimson Forest only | 2 hunger |
 | Lava Lamprey | Warped Forest only | 2 hunger |
-| Gloamwing | Soul Sand Valley only | 2 hunger; Lava Walker approximation 15 seconds |
+| Gloamwing | Soul Sand Valley only | 2 hunger |
 | Ashrime | Basalt Deltas only | 1 hunger |
 
 Raw foods use the original 0.1 saturation modifier. There are no additional
@@ -68,12 +68,7 @@ the line uses a short-lived world-space particle curve. The controller does not 
 open-sky speed modifiers are not reproduced. The original rod/cast textures are
 included, but the inventory icon does not switch while a cast is active.
 
-The mod's custom food status effects are approximated without extra effect or
-potion items: Wickerel keeps the eater burning; Gloamwing lifts/supports the
-eater at the lava surface unless sneaking. Java's unarmed fire-punch spreading
-and lava mining-speed bonus are omitted. These timers use wall-clock expiry,
-including across disconnects. Test movement carefully: Gloamwing does
-not grant Fire Resistance.
+Raw fish provide hunger and saturation only. Custom food buffs are reserved for future development.
 
 ## Required live checks
 

@@ -2,7 +2,6 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createAnglingController,lavaCatchXp,clearLegacyRodProperties,rodTip,linePoints,catchFish,fishPool,FISH,ROD} from '../.build/behavior_pack/scripts/lava_fishing/angling.js';
-import {applyFishFood,updateFishEffects} from '../.build/behavior_pack/scripts/lava_fishing/fish.js';
 const json=file=>JSON.parse(readFileSync(new URL(file,import.meta.url)));
 function fixture({dimension='minecraft:nether',biome=1,mode='Survival',damage=0,maxDurability=256,chance=100,lure=0,unbreaking=0}={}){
  const properties=new Map(),rodProperties=new Map(),caught=[],caughtDrops=[],xpOrbs=[],sounds=[],particles=[],positions=[],impulses=[],animations=[],cooldowns=[],castCooldowns=[],messages=[],effects=[],fires=[],experience=[],damageTaken=[];
@@ -102,12 +101,13 @@ test('normal fishing uses bobber dips and splash cues without action-bar prompts
  assert.equal(f.messages.length,0);assert(f.bobber.location.y<c.sessions.get(f.player.id).target.y-0.15);
  assert(f.sounds.some(s=>s.id==='random.splash'));c.use(f.player,135);assert.equal(f.messages.length,0);
 });
-test('fish food preserves native durations and scoped custom effects expire',()=>{
- const f=fixture();applyFishFood(f.player,'jagsby_nether:obsidian_sword_fish',100);
- assert.deepEqual(f.effects,[['fire_resistance',300]]);assert.deepEqual(f.fires,[]);
- applyFishFood(f.player,'jagsby_nether:agni_fish',100);applyFishFood(f.player,'jagsby_nether:steam_flying_fish',100);
- assert.equal(f.properties.get('jagsby_nether:endless_flame_until'),120100);assert.equal(f.properties.get('jagsby_nether:lava_walker_until'),15100);
- updateFishEffects([f.player],20,120101);assert.equal(f.properties.get('jagsby_nether:endless_flame_until'),undefined);assert.equal(f.properties.get('jagsby_nether:lava_walker_until'),undefined);
+test('all seven catch items retain native hunger and saturation without food effects',()=>{
+ for(const id of FISH){
+  const components=json(`../behavior_pack/items/lava_fishing/${id}.json`)['minecraft:item'].components;
+  const food=components['minecraft:food'];
+  assert.equal(food.nutrition,id==='yeti_crab'?1:2);assert.equal(food.saturation_modifier,0.1);
+  assert.equal(food.effects,undefined);
+ }
 });
 test('fishing adds only catch items and the required bobber, with no living fish definitions',()=>{
  const entities=readdirSync(new URL('../behavior_pack/entities/lava_fishing/',import.meta.url));

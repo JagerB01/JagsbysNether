@@ -57,3 +57,7 @@ Hoe targeting now tracks spawn, selected-slot, inventory-change and leave events
 Preliminary village rankings use a bounded 8,192-entry cache keyed by dimension, position and survey height. Eligibility is rechecked each search. Full planning and final placement still inspect current terrain. Missing central floors are not cached. This removes repeated successful preliminary surveys, while unfinished plans and deferred sites may still require work.
 
 Regression tests verify no repeated idle enumeration/raycast, restoration after hoe deselection, and identical repeated survey results without additional block reads. In-game profiling is required to measure frame-time improvement.
+
+## v0.2.71 fishing idle work
+
+Fishing enumerates players once at startup; spawn and incoming-rod inventory events migrate legacy rod properties. Tick updates only process tracked active casts. All fish status effects and their update loop have been removed. Spawn/startup clears obsolete persistent effect timers. Native hunger and saturation values remain unchanged. Bobber motion, bite timing, particles and catch behavior are unchanged. FPS improvement still requires in-game measurement.
