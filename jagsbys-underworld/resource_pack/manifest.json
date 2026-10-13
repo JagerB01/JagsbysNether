@@ -1,13 +1,13 @@
 {
   "format_version": 2,
   "header": {
-    "name": "Jagsby's Underworld v0.2.57 Resources",
+    "name": "Jagsby's Underworld v0.2.58 Resources",
     "description": "Crop textures and models for Jagsby's Underworld.",
     "uuid": "b4249cc4-f8b3-509a-b401-93e665cef571",
     "version": [
       0,
       2,
-      57
+      58
     ],
     "min_engine_version": [
       1,
@@ -22,7 +22,7 @@
       "version": [
         0,
         2,
-        57
+        58
       ]
     }
   ]

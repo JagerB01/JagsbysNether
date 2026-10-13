@@ -2,9 +2,15 @@ import {system} from '@minecraft/server';
 import {cropSites} from './crop_sites.js';
 import {rotate} from './terrain.js';
 
-// Stable server 2.0.0 has no biome query. Native entity filters read the actual
-// biome, including biome boundaries, without guessing from blocks or pack style.
+// Direct stable biome queries classify each planting position independently.
+// Retain the native-filter probe only for runtimes without getBiome.
 export function* villageCrop(dimension,location) {
+ if(dimension.getBiome){
+  const id=dimension.getBiome(location)?.id;
+  if(['minecraft:hell','minecraft:nether_wastes','minecraft:crimson_forest'].includes(id))return 'sorgum';
+  if(['minecraft:warped_forest','minecraft:soulsand_valley','minecraft:soul_sand_valley'].includes(id))return 'polyps';
+  return undefined;
+ }
  const probe=dimension.spawnEntity('jagsby_nether:crop_biome_probe',location);
  try {
   probe.triggerEvent('jagsby_nether:classify');

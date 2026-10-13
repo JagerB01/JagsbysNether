@@ -51,3 +51,8 @@ test('real planting coordinates rotate correctly and each spot uses its own biom
 test('standalone structures never receive crops or biome probes',()=>{
  const f=fixture([1]);finish(plantStructureCrops(f.dimension,piece,0,origin,baseY,false));assert.deepEqual(f.counts(),{spawned:0,removed:0});
 });
+test('direct biome queries select village crops without probes',()=>{
+ for(const [id,expected] of [['minecraft:hell','sorgum'],['minecraft:crimson_forest','sorgum'],['minecraft:warped_forest','polyps'],['minecraft:soulsand_valley','polyps'],['minecraft:basalt_deltas',undefined]]){
+  const f=fixture([]);f.dimension.getBiome=()=>({id});assert.equal(finish(villageCrop(f.dimension,origin)),expected);assert.equal(f.counts().spawned,0);
+ }
+});

@@ -9,3 +9,5 @@ import './soul_lights.js';
 import './villager_crop_food.js';
 
 console.warn("[Jagsby's Underworld] v0.2.57 loaded.");
+
+import './villager_farming.js';
