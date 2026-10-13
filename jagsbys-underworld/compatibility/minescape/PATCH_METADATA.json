@@ -1,0 +1,20 @@
+{
+  "source_sha256": "a66baf4d702bfe166057eb1853592f293e9a4a28612a0cf5afdb945f5c18cb0e",
+  "base_version": "1.5.18",
+  "import_version": [
+    1,
+    5,
+    19
+  ],
+  "header_uuid_retained": "b3d0b980-7d84-483f-857e-41c763f8695d",
+  "changed_original_files": [
+    "manifest.json",
+    "scripts/perks.js"
+  ],
+  "added_scripts": [
+    "scripts/underworld_food_buffs.js",
+    "scripts/underworld_food_buff_state.js"
+  ],
+  "scope": "primary percentage perks only; secondary perks, XP and skill tiers unchanged",
+  "resource_pack": "existing MineScape 1.5.18 RP retained; original dependency unchanged"
+}

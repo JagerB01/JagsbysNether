@@ -2,7 +2,7 @@
   "source": "User-supplied FoodBuff.zip",
   "archive_sha256": "eafbd143ab95d06fc01e5cccd901fa2e50e9096618c11e54375b2774a3cdcfac",
   "introduced_in": "0.2.76",
-  "scope": "Five item placeholders with original textures, gold names, stack limit 16 and shaped crafting-table recipes. Consumption, nutrition and effects are not implemented.",
+  "scope": "Five edible foods with original textures, gold names, stack limit 16, shaped recipes, and one 20-minute MineScape primary passive buff per player.",
   "assets": [
     {
       "name": "Scarbisque",
@@ -40,5 +40,13 @@
       "texture_file": "textures/items/food_buffs/wickspit.png"
     }
   ],
-  "recipes_added_in": "0.2.77"
+  "recipes_added_in": "0.2.77",
+  "implementation": {
+    "version": "0.2.91",
+    "duration_minutes": 20,
+    "max_active_buffs": 1,
+    "bonus": "2x current selected MineScape primary skill perk percentages",
+    "compatibility_pack_required": true,
+    "scope": "recipes retained, native food consumption, main passive bonuses; no XP increase"
+  }
 }
