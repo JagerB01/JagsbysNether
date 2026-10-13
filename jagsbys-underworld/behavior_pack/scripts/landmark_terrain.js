@@ -13,7 +13,7 @@ function block(d,p){const b=d.getBlock(p);if(!b)throw Error('Terrain is unloaded
 export function biomeName(id){return ({'minecraft:hell':'nether_wastes','minecraft:nether_wastes':'nether_wastes','minecraft:crimson_forest':'crimson_forest','minecraft:warped_forest':'warped_forest','minecraft:soulsand_valley':'soulsand_valley','minecraft:soul_sand_valley':'soulsand_valley','minecraft:basalt_deltas':'basalt_deltas'})[id];}
 export function biomeAllows(c,biome){
  if(GIANTS.includes(c.id))return !!biome;
- if(c.id==='small_arena')return biome==='basalt_deltas'||biome==='nether_wastes';
+ if(c.id==='small_arena')return biome==='basalt_deltas';
  if(c.id==='grave_yard')return biome==='soulsand_valley';
  return biome==='basalt_deltas'||biome==='nether_wastes';
 }

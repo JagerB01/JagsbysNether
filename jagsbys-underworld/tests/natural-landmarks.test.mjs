@@ -20,9 +20,9 @@ test('region choices and biome preferences are deterministic with agreed selecti
   if(c.id==='large_arena')large++;else if(c.id==='dragon_arena')dragon++;else mega++;
   if(candidateAt('small',x,-2,123).biome==='basalt_deltas')basalt++;
  }
- assert(Math.abs(large/10000-.6)<.03);assert(Math.abs(dragon/10000-.25)<.03);assert(Math.abs(mega/10000-.15)<.03);assert(Math.abs(basalt/10000-.8)<.03);
+ assert(Math.abs(large/10000-.6)<.03);assert(Math.abs(dragon/10000-.25)<.03);assert(Math.abs(mega/10000-.15)<.03);assert.equal(basalt,10000);
  assert(biomeAllows({id:'small_arena',biome:'basalt_deltas'},biomeName('minecraft:basalt_deltas')));
- assert(biomeAllows({id:'small_arena',biome:'basalt_deltas'},'nether_wastes'));
+ assert(!biomeAllows({id:'small_arena',biome:'basalt_deltas'},'nether_wastes'));
  assert(biomeAllows({id:'grave_yard'},'soulsand_valley'));assert(!biomeAllows({id:'grave_yard'},'crimson_forest'));
 });
 test('spacing is measured between giants, arenas and actual village edges',()=>{
