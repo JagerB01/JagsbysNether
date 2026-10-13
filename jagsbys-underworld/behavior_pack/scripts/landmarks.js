@@ -7,7 +7,7 @@ import {candidateAt,GIANTS,landmarkRecords,villageBoxes,spacingAllows,LANDMARK_P
 import {surveyLandmark,clearVolume,fillSupports,fillSolidFoundation,carveTile,obstructionReason} from './landmark_terrain.js';
 import {terrainSurvey} from './terrain_survey.js';
 import {giantSearch,giantSites,smallSites,attemptKey} from './giant_search.js';
-import {assessGiantSite} from './giant_fit.js';
+import {surveyModularFortress,modularSections,modularCoreBox} from './modular_fortress.js';
 const retries=new Map();let busy=false,status='Waiting for unchecked landmark sites.';
 let diagnostics;
 function pauseForPlayer(c){
@@ -42,7 +42,7 @@ export function naturalCandidates(online,seed,tick=system.currentTick){
    for(const c of sites){
     if((retries.get(attemptKey(c))??0)>tick||(!c.saved&&['giant','small'].includes(family)&&giantSearch.failed(c)))continue;
     const distance=Math.min(...online.map(p=>Math.hypot(c.x-p.location.x,c.z-p.location.z)));
-    if(distance>768||!playersClear(online,c.saved?.box??boxFor(c.family==='giant'?{...c,id:'large_arena'}:c),32))continue;
+    if(distance>768||!playersClear(online,c.saved?.box??(c.family==='giant'?modularCoreBox(c):boxFor(c)),32))continue;
     eligible.push({...c,distance,priority:c.saved?0:c.observed?1:family==='giant'?3:2});
    }
    eligible.sort((a,b)=>a.priority-b.priority||(b.score??0)-(a.score??0)||a.distance-b.distance||a.x-b.x||a.z-b.z);
@@ -63,29 +63,29 @@ export function* generateLandmark(c,dimension){
   if(!record){
    const records=landmarkRecords(),villages=villageBoxes();
    const smallest=c.family==='giant'?{...c,id:'large_arena'}:c;
-   if(!spacingAllows(smallest,boxFor(smallest),records,villages)){
+   if(!spacingAllows(smallest,c.family==='giant'?modularCoreBox(c):boxFor(smallest),records,villages)){
     reject(c,'Spacing from an existing structure or village');recordDiagnostic(c,'rejected','Spacing from an existing structure or village');return {outcome:'rejected'};
    }
    status=`Surveying ${ARENAS[c.id].display_name} at ${c.x}, ${c.z}.`;
-   plan=c.family==='giant'?yield* assessGiantSite(c,dimension,{progress,allowed:(id,box)=>spacingAllows({...c,id},box,records,villages)&&playersClear(players(),box,32)}):yield* surveyLandmark(c,dimension,progress);
+   plan=c.family==='giant'?yield* surveyModularFortress(c,dimension,{progress,allowed:box=>spacingAllows({...c,id:'mega_fortress'},box,records,villages)&&playersClear(players(),box,32)}):yield* surveyLandmark(c,dimension,progress);
    if(plan.outcome!=='ready'){
     if(plan.outcome==='unsuitable')reject(c,plan.reason);
     else retries.set(attemptKey(c),system.currentTick+1200);
     status=`${ARENAS[c.id].display_name}: ${plan.reason}.`;recordDiagnostic(c,plan.outcome,plan.reason);return {outcome:plan.outcome};
    }
    if(plan.id)c={...c,id:plan.id,selected:true};
-   if(!spacingAllows(c,plan.box,landmarkRecords(),villageBoxes())||!playersClear(players(),plan.box,32)){
+   if(!plan.modular&&(!spacingAllows(c,plan.box,landmarkRecords(),villageBoxes())||!playersClear(players(),plan.box,32))){
     retries.set(attemptKey(c),system.currentTick+1200);return;
    }
    const supports=plan.supports.flat();
-   for(const [i,section] of NATURAL_ARENAS[c.id].sections.entries()){
+   for(const [i,section] of (plan.sections??NATURAL_ARENAS[c.id].sections).entries()){
     const x=plan.origin.x+section.offset[0],z=plan.origin.z+section.offset[2];
     world.setDynamicProperty(supportKey(c,i),JSON.stringify(supports.filter(p=>p.x>=x&&p.x<x+section.size[0]&&p.z>=z&&p.z<z+section.size[2])));
    }
-   record={state:'placing',id:c.id,family:c.family,x:c.x,z:c.z,origin:plan.origin,box:plan.box,surface:plan.surface,ocean:plan.ocean,carve:plan.carve??false,solidFoundation:plan.carve??false,next:0};
+   record={state:'placing',id:c.id,family:c.family,x:c.x,z:c.z,origin:plan.origin,box:plan.box,surface:plan.surface,ocean:plan.ocean,carve:plan.carve??false,solidFoundation:plan.carve??false,modular:plan.modular??false,modules:plan.modules,next:0};
    save(c,record);
   }
-  const arena=NATURAL_ARENAS[c.id];
+  const arena=record.modular?{display_name:'Mega Fortress',sections:modularSections(record.modules)}:NATURAL_ARENAS[c.id];
   for(let index=record.next;index<arena.sections.length;index++){
    const section=arena.sections[index],[x,y,z]=section.offset;
    const pos={x:record.origin.x+x,y:record.origin.y+y,z:record.origin.z+z};
@@ -104,12 +104,12 @@ export function* generateLandmark(c,dimension){
     world.structureManager.place(section.id,dimension,pos,{includeEntities:false,includeBlocks:true});
     record.tilePlaced=true;save(c,record);
    }
-   if(record.solidFoundation)yield* fillSolidFoundation(dimension,pos,section.size,record.box,record.origin.y-1,()=>playersClear(players(),record.box,32));
+   if(record.solidFoundation)yield* fillSolidFoundation(dimension,pos,section.size,section.foundation?{...section.foundation,x:record.origin.x+section.foundation.x,z:record.origin.z+section.foundation.z}:record.box,record.origin.y-1,()=>playersClear(players(),record.box,32));
    else yield* fillSupports(dimension,supports,()=>playersClear(players(),record.box,32),record.carve??false);
    record.next=index+1;record.supporting=false;record.tilePlaced=false;save(c,record);world.setDynamicProperty(supportKey(c,index),undefined);
    lease.release();lease=undefined;yield {waitTicks:2};
   }
-  record.state='built';save(c,record);status=`${arena.display_name} generated at ${record.origin.x}, ${record.origin.y}, ${record.origin.z}.`;recordDiagnostic(c,'built',status);return {outcome:'built'};
+  record.state='built';save(c,record);status=`${arena.display_name} generated at ${record.origin.x}, ${record.origin.y}, ${record.origin.z}.`;if(record.modular)status+=` (${record.modules.length} connected modules).`;recordDiagnostic(c,'built',status);return {outcome:'built'};
  }catch(error){if(error.message==='Player approached the foundation')pauseForPlayer(c);else retries.set(attemptKey(c),system.currentTick+1200);status=`Landmark deferred: ${error.message}`;console.warn(`[Underworld landmarks] ${status}`);recordDiagnostic(c,'deferred',error.message);return {outcome:'deferred'};}
  finally{lease?.release();}
 }

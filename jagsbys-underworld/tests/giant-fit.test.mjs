@@ -39,3 +39,8 @@ test('shared size assessment preserves the selected plan while reducing native r
  function* uncached(c,d,progress){return yield* surveyLandmark(c,d,progress);}
  const a=finish(assessGiantSite(c,baseline.d,{survey:uncached})),b=finish(assessGiantSite(c,cached.d));assert.deepEqual(b,a);assert(cached.reads<baseline.reads);assert(cached.queries<baseline.queries);
 });
+
+test('a narrow lava opening surrounded by carveable terrain qualifies all three giant sizes',()=>{
+ const d={id:'minecraft:nether',runCommand(){},getBlock:({x,y})=>({typeId:y<=4?'minecraft:netherrack':Math.abs(x)<=16?(y<=31?'minecraft:lava':'minecraft:air'):(y<=90?'minecraft:netherrack':'minecraft:air')}),containsBlock:()=>false};
+ const result=finish(assessGiantSite({x:0,z:0,selectionRoll:0},d));assert.equal(result.outcome,'ready');assert.equal(result.id,'mega_fortress');assert.deepEqual(result.fitting,FIT_ORDER);assert(result.coverage<.35);assert(result.coverage>=.10);
+});

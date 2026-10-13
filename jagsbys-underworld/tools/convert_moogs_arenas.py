@@ -266,8 +266,9 @@ def block_entity(name,source,pos,arena):
                   'SpawnCount':(2,3),'MaxNearbyEntities':(2,6),'RequiredPlayerRange':(2,16),'SpawnRange':(2,4)})
     return e
 
-def convert(arena,schema):
-    pieces,joints,omitted=assemble(arena);points=[]
+def convert(arena,schema,layout=None,asset_folder=None):
+    pieces,joints,omitted=assemble(arena) if layout is None else layout
+    asset_folder=asset_folder or arena;points=[]
     for _,o,r,d in pieces:
         size=d['size'][1][1]
         points.extend(add(o,rotation((x,y,z),r)) for x in [0,size[0]-1] for y in [0,size[1]-1] for z in [0,size[2]-1])
@@ -294,7 +295,7 @@ def convert(arena,schema):
             if name in ('minecraft:trial_spawner','minecraft:vault'):stats['unported_'+name.split(':')[1]+'_configuration']+=1
         for ent in value(d,'entities',(10,[]))[1]:stats['omitted_java_'+value(ent['nbt'][1],'id','unknown')]+=1
     sections=[]
-    out=ROOT/'behavior_pack/structures/jagsby_nether/arenas'/arena;out.mkdir(parents=True,exist_ok=True)
+    out=ROOT/'behavior_pack/structures/jagsby_nether/arenas'/asset_folder;out.mkdir(parents=True,exist_ok=True)
     for x0 in range(0,total[0],64):
         for z0 in range(0,total[2],64):
             size=(min(64,total[0]-x0),total[1],min(64,total[2]-z0));volume=math.prod(size);primary=[-1]*volume;secondary=[-1]*volume;position_data={}
@@ -311,7 +312,7 @@ def convert(arena,schema):
                                   'palette':(10,{'default':(10,{'block_palette':(9,(10,palette)),'block_position_data':(10,position_data)})})})}
             w=NBT();w.write('B',10);w.put_string('');w.put(10,root);tile=f'section_{x0//64}_{z0//64}'
             (out/f'{tile}.mcstructure').write_bytes(w.stream.getvalue())
-            sections.append({'id':f'jagsby_nether:arenas/{arena}/{tile}','offset':[x0,0,z0],'size':list(size)})
+            sections.append({'id':f'jagsby_nether:arenas/{asset_folder}/{tile}','offset':[x0,0,z0],'size':list(size)})
     return {'display_name':arena.replace('_',' ').title(),'size':list(total),'spawn_enabled':True,'sections':sections,
             'source_pieces':[{'location':loc,'offset':list(sub(o,low)),'rotation':r*90} for loc,o,r,d in pieces],
             'joins':joints,'omitted_encounter_pools':omitted,'conversion_counts':dict(stats)}

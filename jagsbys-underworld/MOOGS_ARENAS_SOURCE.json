@@ -4041,5 +4041,17 @@
     "discovery": "Shared village lava-surface observations plus regional exploration; complete size assessments before weighted selection among confirmed fits",
     "terrain_policy_updated_in": "0.2.75",
     "terrain_policy": "Filtered ordinary Nether terrain carving; ocean coverage 60% Large / 55% Dragon / 35% Mega; supports placed after templates"
+  },
+  "modular_fortress": {
+    "version": "0.2.85",
+    "generator": "tools/generate_modular_fortress.py",
+    "source": "same credited source pieces and original connector graph",
+    "required_core": [
+      43,
+      56,
+      43
+    ],
+    "modules": 81,
+    "policy": "mandatory centre and roof; optional connected branches pruned at conflicts; fixed source rotations retained"
   }
 }
