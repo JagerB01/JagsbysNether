@@ -62,3 +62,5 @@ export function extendFortressBox(box,next){
  const x=Math.min(box.x,next.x),z=Math.min(box.z,next.z);
  return {x,z,sx:Math.max(box.x+box.sx,next.x+next.sx)-x,sz:Math.max(box.z+box.sz,next.z+next.sz)-z};
 }
+
+export function fortressModuleRequired(index){return index>=0&&index<=4;}

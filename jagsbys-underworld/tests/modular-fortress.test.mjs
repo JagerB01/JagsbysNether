@@ -34,3 +34,14 @@ test('a player near a future branch does not prevent core placement',async()=>{
   assert.equal(placed.length,1);const saved=JSON.parse(world.getDynamicProperty(c.key));assert.deepEqual(saved.modules,[0]);assert.equal(saved.box.sx,43);assert.equal(saved.box.sz,43);assert(saved.incremental);
  }finally{job.return();world.getPlayers=oldPlayers;world.structureManager=oldStructures;world.setDynamicProperty(c.key,undefined);}
 });
+test('blocked required lower chambers pause without pruning, then resume after the obstruction is removed',async()=>{
+ const {world}=await import('./mock-server.mjs'),{generateLandmark}=await import('../behavior_pack/scripts/landmarks.js'),{candidateAt}=await import('../behavior_pack/scripts/landmark_sites.js');
+ const c=candidateAt('giant',923,923,12),old=world.structureManager;let blocked=true;
+ const d={id:'minecraft:nether',runCommand(){},getBlock:({y})=>({typeId:y<=4?'minecraft:netherrack':y<=31?'minecraft:lava':'minecraft:air'}),containsBlock:v=>blocked&&v.from.x<=c.x-30&&v.to.x>=c.x-30&&v.from.z<=c.z&&v.to.z>=c.z&&v.from.y<=60&&v.to.y>=60,fillBlocks(){}};
+ world.structureManager={place(){}};
+ function run(job){for(let i=0;i<1500000;i++){const r=job.next();system.currentTick++;if(r.done)return;}assert.fail('Build stalled');}
+ try{
+  run(generateLandmark(c,d));let saved=JSON.parse(world.getDynamicProperty(c.key));assert.equal(saved.state,'placing');assert.equal(saved.expansionNext,1);assert.deepEqual(saved.modules,[0]);
+  blocked=false;run(generateLandmark({...c,saved},d));saved=JSON.parse(world.getDynamicProperty(c.key));assert.equal(saved.state,'built');for(const index of [0,1,2,3,4])assert(saved.modules.includes(index));
+ }finally{world.structureManager=old;world.setDynamicProperty(c.key,undefined);}
+});

@@ -7,7 +7,7 @@ import {candidateAt,GIANTS,landmarkRecords,villageBoxes,spacingAllows,LANDMARK_P
 import {surveyLandmark,clearVolume,fillSupports,fillSolidFoundation,carveTile,obstructionReason} from './landmark_terrain.js';
 import {terrainSurvey} from './terrain_survey.js';
 import {giantSearch,giantSites,smallSites,attemptKey} from './giant_search.js';
-import {surveyModularFortress,modularSections,modularCoreBox,pendingModuleBox,surveyFortressModule,fortressModuleCount,fortressParent,extendFortressBox} from './modular_fortress.js';
+import {surveyModularFortress,modularSections,modularCoreBox,pendingModuleBox,surveyFortressModule,fortressModuleCount,fortressParent,fortressModuleRequired,extendFortressBox} from './modular_fortress.js';
 const retries=new Map();let busy=false,status='Waiting for unchecked landmark sites.';
 let diagnostics;
 function pauseForPlayer(c){
@@ -96,6 +96,7 @@ export function* generateLandmark(c,dimension){
      if(!playersClear(players(),box,32)){pauseForPlayer(c);status='Landmark paused: player approached the next module.';return;}
      const result=yield* surveyFortressModule(c,dimension,record,next,{progress,allowed:box=>spacingAllows(c,box,landmarkRecords(),villageBoxes())});
      if(result.outcome==='deferred'){retries.set(attemptKey(c),system.currentTick+1200);status=`Landmark deferred: ${result.reason}`;return;}
+     if(result.outcome==='unsuitable'&&fortressModuleRequired(next)){retries.set(attemptKey(c),system.currentTick+1200);status=`Landmark paused: required lower chamber ${next} is blocked: ${result.reason}`;return;}
      record.expansionNext++;
      if(result.outcome==='ready'){record.modules.push(next);record.box=extendFortressBox(record.box,result.box);save(c,record);break;}
      save(c,record);
@@ -121,7 +122,7 @@ export function* generateLandmark(c,dimension){
     world.structureManager.place(section.id,dimension,pos,{includeEntities:false,includeBlocks:true});
     record.tilePlaced=true;save(c,record);
    }
-   if(record.solidFoundation)yield* fillSolidFoundation(dimension,pos,section.size,section.foundation?{...section.foundation,x:record.origin.x+section.foundation.x,z:record.origin.z+section.foundation.z}:record.box,record.origin.y-1,()=>playersClear(players(),activeBox,32));
+   if(record.solidFoundation)yield* fillSolidFoundation(dimension,pos,section.size,section.foundation?{...section.foundation,x:record.origin.x+section.foundation.x,z:record.origin.z+section.foundation.z}:record.box,record.origin.y-1,()=>playersClear(players(),activeBox,32),record.modular&&section.foundation.moduleIndex!==0?'minecraft:polished_blackstone_bricks':undefined,record.modular?section.foundationColumns:undefined);
    else yield* fillSupports(dimension,supports,()=>playersClear(players(),activeBox,32),record.carve??false);
    record.next=index+1;record.supporting=false;record.tilePlaced=false;save(c,record);world.setDynamicProperty(supportKey(c,index),undefined);
    lease.release();lease=undefined;yield {waitTicks:2};

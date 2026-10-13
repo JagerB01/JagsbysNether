@@ -4052,7 +4052,15 @@
       43
     ],
     "modules": 81,
-    "policy": "mandatory centre and roof; optional connected branches pruned at conflicts; fixed source rotations retained"
+    "policy": "mandatory centre and roof; optional connected branches pruned at conflicts; fixed source rotations retained",
+    "foundation_policy": "per-column structural underside; solid polished blackstone bricks for non-core modules",
+    "required_completion_modules": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
   },
   "removed_spawn_suppressing_lights": {
     "version": "0.2.87",
@@ -4065,11 +4073,12 @@
     "method": "replace with air and remove associated block entities"
   },
   "replacement_lighting": {
-    "version": "0.2.88",
-    "hanging_soul_lanterns": "minecraft:shroomlight",
-    "other_soul_lights": "supported minecraft:redstone_torch",
+    "version": "0.2.89",
+    "hanging_soul_lanterns": "attached minecraft:glow_lichen",
+    "other_soul_lights": "lit red candles where floor-supported; wall-only redstone torches",
     "tool": "tools/restore_arena_dim_lights.py",
     "reference_release": "4b0d849",
-    "scope": "imported manual/natural/modular structures; spawners unchanged"
+    "scope": "imported manual/natural/modular structures; spawners unchanged",
+    "soul_campfires": "three lit red candles"
   }
 }

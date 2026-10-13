@@ -142,19 +142,21 @@ export function carveTile(dimension,pos,size){
 
 // Fill only empty space and lava beneath the footprint; existing solids end
 // each column. Yield during scans and after writes to keep generation staged.
-export function* fillSolidFoundation(dimension,pos,size,box,top,guard=()=>true){
- for(let x=pos.x;x<pos.x+size[0];x++)for(let z=pos.z;z<pos.z+size[2];z++){
+export function* fillSolidFoundation(dimension,pos,size,box,top,guard=()=>true,material=undefined,columns=undefined){
+ const footprint=columns??(function*(){for(let x=0;x<size[0];x++)for(let z=0;z<size[2];z++)yield [x,z];})();
+ for(const [cx,cz,floor] of footprint){
+  const x=pos.x+cx,z=pos.z+cz,columnTop=floor===undefined?top:pos.y+floor-1;
   if(!guard())throw Error('Player approached the foundation');
-  let bottom=top+1;
-  for(let y=top;y>=1;y--){
+  let bottom=columnTop+1;
+  for(let y=columnTop;y>=1;y--){
    const type=block(dimension,{x,y,z}).typeId;
    if(!['minecraft:air',...FLUID].includes(type))break;
-   bottom=y;if((top-y)%8===7)yield;
+   bottom=y;if((columnTop-y)%8===7)yield;
   }
-  if(bottom<=top){
+  if(bottom<=columnTop){
    if(!guard())throw Error('Player approached the foundation');
    const edge=x===box.x||z===box.z||x===box.x+box.sx-1||z===box.z+box.sz-1;
-   dimension.fillBlocks(new BlockVolume({x,y:bottom,z},{x,y:top,z}),edge?'minecraft:blackstone':'minecraft:netherrack',{blockFilter:{includeTypes:['minecraft:air',...FLUID]}});
+   dimension.fillBlocks(new BlockVolume({x,y:bottom,z},{x,y:columnTop,z}),material??(edge?'minecraft:blackstone':'minecraft:netherrack'),{blockFilter:{includeTypes:['minecraft:air',...FLUID]}});
   }
   yield;
  }

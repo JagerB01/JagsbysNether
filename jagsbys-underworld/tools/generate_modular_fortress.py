@@ -31,4 +31,7 @@ def generate():
    path.unlink() # only the small placement tiles are needed
   modules.append({'index':n,'parent':None if n==0 else mapping[parents[g[0]]],'offset':offset,'size':a['size'],'sections':sections,'source':[pieces[i][0] for i in g]})
  (ROOT/'behavior_pack/scripts/modular_fortress_catalog.js').write_text('export const FORTRESS_MODULES = '+json.dumps(modules,separators=(',',':'))+';\n');print(len(modules),'modules; core',modules[0]['size'])
-if __name__=='__main__':generate()
+if __name__=='__main__':
+ generate()
+ from update_modular_foundations import update
+ update()

@@ -158,10 +158,10 @@ def assemble_fortress():
 def block_state(name,props,schema):
     original=name;short=name.split(':')[1]
     if short in ('nether_wart','jigsaw','cave_air','void_air'):name='minecraft:air';props={}
-    elif short=='soul_lantern':name='minecraft:shroomlight' if props.get('hanging')=='true' else 'minecraft:redstone_torch';props={}
-    elif short in ('soul_torch','soul_wall_torch','soul_campfire'):
-        name='minecraft:redstone_torch'
-        if short=='soul_campfire':props={}
+    elif short=='soul_lantern':
+        name='minecraft:glow_lichen' if props.get('hanging')=='true' else 'minecraft:red_candle';props={'up':'true','lit':'true','candles':'1'}
+    elif short=='soul_campfire':name='minecraft:red_candle';props={'lit':'true','candles':'3'}
+    elif short in ('soul_torch','soul_wall_torch'):name='minecraft:redstone_torch'
     elif short=='structure_void':return None
     elif short.endswith('_bed'):name='minecraft:bed'
     elif short.startswith('potted_'):name='minecraft:flower_pot'
@@ -192,6 +192,9 @@ def block_state(name,props,schema):
         elif key=='redstone_signal':states[key]=int(props.get('power',15 if props.get('powered')=='true' else 0))
         elif key=='direction':
             states[key]=({'east':0,'west':1,'south':2,'north':3} if (name.endswith('_trapdoor') or name=='minecraft:trapdoor') else DIRECTION)[face]
+        elif key=='multi_face_direction_bits':states[key]=sum(bit for face,bit in [('down',1),('up',2),('north',4),('south',8),('west',16),('east',32)] if props.get(face)=='true')
+        elif key=='lit':states[key]=props.get('lit')=='true'
+        elif key=='candles':states[key]=int(props.get('candles','1'))-1
         elif key=='torch_facing_direction':states[key]={'east':'west','west':'east','north':'south','south':'north'}.get(face,'top')
         elif key=='ground_sign_direction':states[key]=int(props.get('rotation',0))
         elif key=='upper_block_bit':states[key]=props.get('half')=='upper'
