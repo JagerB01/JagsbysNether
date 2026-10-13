@@ -33,8 +33,8 @@ This affects new generation only; existing villages are not modified.
 New structure chests and barrels receive native randomized Nether loot. Each
 container has 4–7 supply rolls (gold nuggets, quartz, bones, coal, string, leather,
 glowstone dust, fungi, obsidian and soul torches), plus independent 12% gold
-ingot and 4% crying obsidian chances. A single 5% seed roll selects either
-Sorgum seeds or Murky Gourd seeds equally, giving 1–3. No Nether Wart appears
+ingot and 4% crying obsidian chances. A single 5% planting-item roll selects Sorgum seeds, Murky Gourd seeds,
+Scarberries or Polyps equally, giving 1–3 (1.25% per crop per container). No Nether Wart appears
 in this table. Existing intentional container contents/loot tables are preserved.
 Loot is attached to the template's native block-entity data; no scanning or
 periodic refill script runs. Existing placed containers are not changed.
