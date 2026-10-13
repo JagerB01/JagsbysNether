@@ -82,6 +82,21 @@
     },
     "jagsby_warped_hongo_spawn_egg": {
       "textures": "textures/items/hongos/warped_spawn_egg"
+    },
+    "jagsby_food_scarbisque": {
+      "textures": "textures/items/food_buffs/scarbisque"
+    },
+    "jagsby_food_murkbrew": {
+      "textures": "textures/items/food_buffs/murkbrew"
+    },
+    "jagsby_food_cragbake": {
+      "textures": "textures/items/food_buffs/cragbake"
+    },
+    "jagsby_food_gloamquill": {
+      "textures": "textures/items/food_buffs/gloamquill"
+    },
+    "jagsby_food_wickspit": {
+      "textures": "textures/items/food_buffs/wickspit"
     }
   }
 }

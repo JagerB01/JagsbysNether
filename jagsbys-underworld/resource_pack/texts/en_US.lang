@@ -62,3 +62,13 @@ item.spawn_egg.entity.jagsby_nether:crimson_hongo.name=Crimson Hongo Spawn Egg
 
 entity.jagsby_nether:warped_hongo.name=Warped Hongo
 item.spawn_egg.entity.jagsby_nether:warped_hongo.name=Warped Hongo Spawn Egg
+
+item.jagsby_nether:scarbisque.name=§6Scarbisque§r
+
+item.jagsby_nether:murkbrew.name=§6Murkbrew§r
+
+item.jagsby_nether:cragbake.name=§6Cragbake§r
+
+item.jagsby_nether:gloamquill.name=§6Gloamquill§r
+
+item.jagsby_nether:wickspit.name=§6Wickspit§r

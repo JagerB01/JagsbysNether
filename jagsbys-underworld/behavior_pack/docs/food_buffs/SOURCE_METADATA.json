@@ -1,0 +1,43 @@
+{
+  "source": "User-supplied FoodBuff.zip",
+  "archive_sha256": "eafbd143ab95d06fc01e5cccd901fa2e50e9096618c11e54375b2774a3cdcfac",
+  "introduced_in": "0.2.76",
+  "scope": "Five item placeholders with original textures and gold display names; consumption, nutrition, recipes and effects are not implemented.",
+  "assets": [
+    {
+      "name": "Scarbisque",
+      "identifier": "jagsby_nether:scarbisque",
+      "source_file": "Scarbisque.png",
+      "sha256": "d2cf95b7b6175d3038f0eb29c63e6eee30df7b0a606ea5257861f0f649e7087d",
+      "texture_file": "textures/items/food_buffs/scarbisque.png"
+    },
+    {
+      "name": "Murkbrew",
+      "identifier": "jagsby_nether:murkbrew",
+      "source_file": "Murkbrew.png",
+      "sha256": "bf88d4425a1cab3263be1b33bd602cacae9cccbc21d1abce6cc9095d02271bb6",
+      "texture_file": "textures/items/food_buffs/murkbrew.png"
+    },
+    {
+      "name": "Cragbake",
+      "identifier": "jagsby_nether:cragbake",
+      "source_file": "Cragbake.png",
+      "sha256": "97f3f68061ff817cad154499715b85dfa80d8f42927548fe65dd91ec2537d76f",
+      "texture_file": "textures/items/food_buffs/cragbake.png"
+    },
+    {
+      "name": "Gloamquill",
+      "identifier": "jagsby_nether:gloamquill",
+      "source_file": "Gloamquill.png",
+      "sha256": "e3506953920c63963f5b6abefc1cebb7ec716272ae3967fe678cfa6721644269",
+      "texture_file": "textures/items/food_buffs/gloamquill.png"
+    },
+    {
+      "name": "Wickspit",
+      "identifier": "jagsby_nether:wickspit",
+      "source_file": "Wickspit.png",
+      "sha256": "f50abbebdae5ba833f8da956f8623114239db1f3a38b610ca2dc37eeb9d8f08c",
+      "texture_file": "textures/items/food_buffs/wickspit.png"
+    }
+  ]
+}
