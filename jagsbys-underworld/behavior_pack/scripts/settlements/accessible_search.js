@@ -1,6 +1,10 @@
 import {rejectedSites} from './rejected_sites.js';
 import {read,floorAt,replaceable} from './terrain.js';
 import {SPACING,candidateAt,farEnough,recordedSites,outsidePlayerBuffer} from './navigation.js';
+// Preliminary rankings describe original terrain, not live placement validity.
+// Bound retained surveys; full plans and placement still inspect live blocks.
+const surveys = new Map();
+const SURVEY_LIMIT = 8192;
 // Yield regularly while following accessible neighboring chunks; no distance radius is assumed.
 export function* accessibleSites(dimension,players,world,seed,cooldowns,tick) {
   const queue=[],visited=new Set(),sites=[];
@@ -35,6 +39,9 @@ export function* accessibleSites(dimension,players,world,seed,cooldowns,tick) {
     if(accessible) {
       for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]])enqueue(cx+dx,cz+dz,near);
       if(eligible) {
+        const surveyKey=`${dimension.id}:${x},${z},${near}`;
+        const cached=surveys.get(surveyKey);
+        if(cached){sites.push({...cached});if(++checked%4===0)yield;continue;}
         const floor=floorAt(dimension,x,z,near,77,3);
         if(floor!==undefined) {
           let space=0,headroom=0,slope=0;
@@ -46,7 +53,10 @@ export function* accessibleSites(dimension,players,world,seed,cooldowns,tick) {
             if([4,5,6,7,8].every(dy=>replaceable(read(dimension,x+dx,y+dy,z+dz))))headroom++;
           }
           
-          sites.push({x,z,floor,score:space*4+headroom*6-slope*.5});
+          const site={x,z,floor,score:space*4+headroom*6-slope*.5};
+          if(surveys.size>=SURVEY_LIMIT)surveys.delete(surveys.keys().next().value);
+          surveys.set(surveyKey,site);
+          sites.push({...site});
         }
       }
     }

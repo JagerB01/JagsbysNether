@@ -47,3 +47,13 @@ Manual test generation can still be requested explicitly. This policy begins
 with assessments made by v0.2.69: failures from earlier versions were not saved
 and cannot be reconstructed retrospectively. There is no automatic expiry for
 rejected areas. Existing generated villages remain untouched.
+
+## v0.2.70 idle work
+
+The stationary follow-up profile attributes 77.3% of sampled script time to agriculture getAllPlayers and approximately 6.1% to village search. These are script samples, not total game CPU or FPS measurements.
+
+Hoe targeting now tracks spawn, selected-slot, inventory-change and leave events. One startup enumeration initializes connected players. Per-tick targeting runs only for tracked hoe holders, with a cleanup pass after deselection. The direct interaction fallback remains.
+
+Preliminary village rankings use a bounded 8,192-entry cache keyed by dimension, position and survey height. Eligibility is rechecked each search. Full planning and final placement still inspect current terrain. Missing central floors are not cached. This removes repeated successful preliminary surveys, while unfinished plans and deferred sites may still require work.
+
+Regression tests verify no repeated idle enumeration/raycast, restoration after hoe deselection, and identical repeated survey results without additional block reads. In-game profiling is required to measure frame-time improvement.
