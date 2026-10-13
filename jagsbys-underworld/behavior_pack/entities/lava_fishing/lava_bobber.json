@@ -10,7 +10,7 @@
           "type": "int",
           "range": [
             0,
-            4
+            5
           ],
           "default": 0,
           "client_sync": false
@@ -101,10 +101,6 @@
                 {
                   "test": "has_biome_tag",
                   "value": "crimson_forest"
-                },
-                {
-                  "test": "has_biome_tag",
-                  "value": "warped_forest"
                 }
               ]
             },
@@ -136,6 +132,19 @@
             },
             "set_property": {
               "jagsby_nether:fishing_biome": 4
+            }
+          },
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "has_biome_tag",
+                  "value": "warped_forest"
+                }
+              ]
+            },
+            "set_property": {
+              "jagsby_nether:fishing_biome": 5
             }
           }
         ]

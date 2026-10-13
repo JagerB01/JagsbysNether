@@ -8,24 +8,37 @@
   "assets_sha256": {
     "assets/lavafishing/textures/item/obsidian_fishing_rod.png": "68df56880707c04ea2cc67686be1380f0f5c2097dfdb73abd53c8f9e20c289d2",
     "assets/lavafishing/textures/item/obsidian_fishing_rod_cast.png": "6b1571819932f6cf5120cadec2a00067fefd9d07104db1a85ebf7922e050d4f1",
-    "assets/lavafishing/textures/item/flame_squat_lobster.png": "de53c6823969469c5361da129ee197b3474877fb42f0700fa5514cdfe90b1ee4",
     "assets/lavafishing/textures/item/obsidian_sword_fish.png": "f21ac3fbaa9898858e4aa017f757b650f1ce3eb637714739983d6739c2e85650",
     "assets/lavafishing/textures/item/steam_flying_fish.png": "0d982aaa5b3e03a12996df6388bec6efdf94f0f5513bf2aa9580bd441f392027",
     "assets/lavafishing/textures/item/agni_fish.png": "b3d061c2bd33bd582311adc3db1e663f5a0415cc1b54aa5c5cd1e85752eb7b52",
     "assets/lavafishing/textures/item/arowana_fish.png": "a095cc15e9f5731c0f19ea586c3adeef5969fdd1aacd6f580ed936ae1740283b",
     "assets/lavafishing/textures/item/quartz_fish.png": "960379ab61a5608c8fc1aca774dc71f4bb96bf2cf30175bea2b8a72e74cf3f4b",
-    "assets/lavafishing/textures/item/scaly_foot_snail.png": "0185c79f35ccb914269ab757b56c91a9b315a959caebb72b612aef05b40a86b0",
     "assets/lavafishing/textures/item/yeti_crab.png": "86a8591b42b3253dabd9fc57853b9818d4b080a4a761311ed7cacb45bd5afb2f",
     "assets/lavafishing/textures/item/lava_lamprey.png": "05819fa391fc82b32f31506a77e5f83d657b2db439f963f1190b63b233132ec2",
     "data/lavafishing/recipe/obsidian_fishing_rod.json": "76897e4e7eb2f8c4d46575c85d726c1162956a54915040dd044f25d66ade2f5f",
     "data/lavafishing/loot_table/gameplay/fishing/lava/fish.json": "780db434ec3864bdbafe2158225ac6bcd0a22a12fb0b0c2801f0fd64a5eb042e",
     "data/lavafishing/loot_table/gameplay/fishing/nether/fish.json": "28dfa112e1483303e6d34bbcd662c99ee2f0cca87f6fee2a896d2f110b33cb1a"
   },
-  "scope": "obsidian rod and nine catchable fish items only; no living fish, spawn eggs, hooks, buckets, gear, junk or treasure",
+  "scope": "obsidian rod and seven catchable fish items only; no living fish, spawn eggs, hooks, buckets, gear, junk or treasure",
   "asset_overrides": {
     "assets/lavafishing/textures/item/obsidian_fishing_rod.png": {
       "source": "User-supplied ObsidianFishingRod.zip / ObsidianFishingRod.png",
       "sha256": "0a2d2c5820086d24beb14da60cac3716df15900aa9a7bdbaee27cbb3fb914529"
     }
-  }
+  },
+  "removed_assets": {
+    "assets/lavafishing/textures/item/flame_squat_lobster.png": {
+      "status": "removed from Bedrock pack",
+      "reason": "Catch species removed at user request in v0.2.63"
+    },
+    "assets/lavafishing/textures/item/scaly_foot_snail.png": {
+      "status": "removed from Bedrock pack",
+      "reason": "Catch species removed at user request in v0.2.63"
+    }
+  },
+  "adaptation_notes": [
+    "Seven retained fish keep original identifiers and texture filenames; display names customized.",
+    "Catch weights use 60/25 common fish and 13 for the matching Nether biome specialist.",
+    "Original Java loot tables and recipe remain unchanged under docs/lava_fishing/source_data as reference, not active catch rules."
+  ]
 }

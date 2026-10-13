@@ -27,5 +27,5 @@ system.afterEvents.scriptEventReceive.subscribe(({id,sourceEntity:player})=>{
   const remainder=container.addItem(new ItemStack(id,1));
   if(remainder)player.dimension.spawnItem(remainder,player.location);
  }
- player.sendMessage('Obsidian rod and nine fish supplied. Use to cast toward lava, then use again when the bobber dips.');
+ player.sendMessage('Obsidian rod and seven fish supplied. Use to cast toward lava, then use again when the bobber dips.');
 });

@@ -85,6 +85,15 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
             name = 'nether_fish.json' if '/nether/' in source else 'lava_fish.json' if '/lava/' in source else name
             target = BP / 'docs/lava_fishing/source_data' / name
         assert hashlib.sha256(target.read_bytes()).hexdigest() == expected_hash, target
+    icons = load(RP / 'textures/item_texture.json')['texture_data']
+    lang = (RP / 'texts/en_US.lang').read_text()
+    for removed in metadata.get('removed_assets', {}):
+        fish = Path(removed).stem
+        assert removed not in metadata['assets_sha256']
+        assert not (RP / 'textures/items/lava_fishing' / Path(removed).name).exists()
+        assert not (BP / f'items/lava_fishing/{fish}.json').exists()
+        assert f'jagsby_lava_{fish}' not in icons
+        assert f'item.jagsby_nether:{fish}.name=' not in lang
     geometries = {g['description']['identifier'] for p in (RP / 'models').rglob('*.json')
                   for g in load(p).get('minecraft:geometry', [])}
     for path in (RP / 'entity/lava_fishing').glob('*.json'):
@@ -92,8 +101,8 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
         assert (BP / 'entities/lava_fishing' / (path.name.replace('.entity.json', '.json'))).is_file()
         assert all(identifier == 'geometry.fishing_hook' or identifier in geometries for identifier in client['geometry'].values()), path
         assert all(texture == 'textures/entity/fishhook' or (RP / (texture + '.png')).is_file() for texture in client['textures'].values()), path
-    fish_ids = {'flame_squat_lobster', 'obsidian_sword_fish', 'steam_flying_fish', 'agni_fish',
-                'arowana_fish', 'quartz_fish', 'scaly_foot_snail', 'yeti_crab', 'lava_lamprey'}
+    fish_ids = {'obsidian_sword_fish', 'steam_flying_fish', 'agni_fish',
+                'arowana_fish', 'quartz_fish', 'yeti_crab', 'lava_lamprey'}
     fishing_items = {p.stem for p in (BP / 'items/lava_fishing').glob('*.json')}
     assert fishing_items == fish_ids | {'obsidian_fishing_rod'}
     rod = load(BP / 'items/lava_fishing/obsidian_fishing_rod.json')['minecraft:item']['components']
@@ -106,7 +115,7 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
     assert not list((RP / 'textures/entity/lava_fishing').glob('*.png'))
     for fish in fish_ids:
         assert not (BP / f'entities/lava_fishing/{fish}.json').exists()
-    print(f'Validated {len(metadata["assets_sha256"])} verified fishing assets/data files (including user overrides), nine fish and one rod')
+    print(f'Validated {len(metadata["assets_sha256"])} verified fishing assets/data files (including user overrides), seven fish and one rod')
 
     terrain = load(RP / "textures/terrain_texture.json")["texture_data"]
     icons = load(RP / "textures/item_texture.json")["texture_data"]

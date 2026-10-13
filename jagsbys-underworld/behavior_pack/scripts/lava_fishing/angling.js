@@ -2,7 +2,7 @@
 // Fishing-only Bedrock adaptation of TeamSunset Lava Fishing 1.3.1.
 import {ItemStack} from '@minecraft/server';
 export const ROD='jagsby_nether:obsidian_fishing_rod';
-export const FISH=['flame_squat_lobster','obsidian_sword_fish','steam_flying_fish','agni_fish','arowana_fish','quartz_fish','scaly_foot_snail','yeti_crab','lava_lamprey'];
+export const FISH=['obsidian_sword_fish','steam_flying_fish','agni_fish','arowana_fish','quartz_fish','yeti_crab','lava_lamprey'];
 const LAVA=new Set(['minecraft:lava','minecraft:flowing_lava']);
 // XP is integral: randomly round half points to retain an exact 1.5x mean.
 export function lavaCatchXp(rng=Math.random){
@@ -11,16 +11,19 @@ export function lavaCatchXp(rng=Math.random){
 }
 export function isLava(block){return !!block && LAVA.has(block.typeId);}
 export function read(dimension,position){try{return dimension.getBlock({x:Math.floor(position.x),y:Math.floor(position.y),z:Math.floor(position.z)});}catch{return undefined;}}
+// Vanilla fish-table weights: cod 60, salmon 25, pufferfish 13.
+export const COMMON_FISH_WEIGHT=60;
+export const SECOND_COMMON_FISH_WEIGHT=25;
+export const BIOME_FISH_WEIGHT=13;
+const BIOME_FISH=new Map([[1,'quartz_fish'],[2,'agni_fish'],[3,'steam_flying_fish'],[4,'yeti_crab'],[5,'lava_lamprey']]);
 export function fishPool(dimension,biome){
- if(dimension!=='minecraft:nether')return [['flame_squat_lobster',34],['obsidian_sword_fish',33],['arowana_fish',33]];
- const pool=[['base',30],['lava_lamprey',12],['quartz_fish',12]];
- if(biome===2)pool.push(['agni_fish',10]);
- if(biome===3)pool.push(['steam_flying_fish',12]);
- if(biome===4)pool.push(['scaly_foot_snail',12],['yeti_crab',12]);
+ const pool=[['arowana_fish',COMMON_FISH_WEIGHT],['obsidian_sword_fish',SECOND_COMMON_FISH_WEIGHT]];
+ const specialist=dimension==='minecraft:nether' ? BIOME_FISH.get(biome) : undefined;
+ if(specialist)pool.push([specialist,BIOME_FISH_WEIGHT]);
  return pool;
 }
 export function weighted(pool,rng){let roll=rng()*pool.reduce((n,[,weight])=>n+weight,0);for(const [id,weight] of pool){roll-=weight;if(roll<0)return id;}return pool.at(-1)[0];}
-export function catchFish(dimension,biome,rng=Math.random){const fish=weighted(fishPool(dimension,biome),rng);return fish==='base'?weighted(fishPool('minecraft:overworld',0),rng):fish;}
+export function catchFish(dimension,biome,rng=Math.random){return weighted(fishPool(dimension,biome),rng);}
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);
 const range=(rng,min,max)=>min+Math.floor(rng()*(max-min+1));
 function held(player){const container=player.getComponent('minecraft:inventory')?.container;const slot=player.selectedSlotIndex;return {container,slot,item:container?.getItem(slot)};}
@@ -160,8 +163,8 @@ export function createAnglingController({rng=Math.random}={}){
      }else if(s.bobber.isOnGround){s.state='grounded';}
     }else if(s.state==='classifying' && tick>=s.deadline){
      try{s.biome=s.bobber.getProperty('jagsby_nether:fishing_biome');}catch{s.biome=undefined;}
-     if(![0,1,2,3,4].includes(s.biome) || (s.dimensionId==='minecraft:nether' && s.biome===0)){
-      if(tick>=s.classifyTimeout){s.biome=s.dimensionId==='minecraft:nether'?1:0;console.warn('[Underworld lava fishing] Biome unavailable; using common fish pool.');}
+     if(![0,1,2,3,4,5].includes(s.biome) || (s.dimensionId==='minecraft:nether' && s.biome===0)){
+      if(tick>=s.classifyTimeout){s.biome=0;console.warn('[Underworld lava fishing] Biome unavailable; using common fish pool.');}
       else s.biome=undefined;
      }
      if(s.biome!==undefined){s.state='waiting';s.deadline=tick+Math.max(20,range(rng,100,600)-s.lure*100);}

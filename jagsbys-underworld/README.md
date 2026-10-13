@@ -91,8 +91,8 @@ already placed in saved worlds are not retroactively edited.
 ## Lava fishing (v0.2.57 prototype)
 
 Fishing-only adaptation of the supplied Lava Fishing 1.3.1 Java mod: one
-Obsidian Fishing Rod and its nine catch species, with original textures,
-item artwork, recipe, durability and biome-dependent fish weights.
+Obsidian Fishing Rod and its seven catch species, with original textures,
+item artwork and durability, with a custom rod recipe and biome-specific catch weights.
 See [FISHING.md](FISHING.md) for controls, catches and Bedrock differences.
 No separate hooks, buckets, extra rods, tackle boxes, gear, junk or treasure
 are included. Native rod input and bobber/line rendering require a Bedrock playtest.

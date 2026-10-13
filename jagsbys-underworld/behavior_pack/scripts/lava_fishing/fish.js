@@ -5,7 +5,6 @@ export function applyFishFood(player,type,now=Date.now()){
  if(!player || player.typeId!=='minecraft:player')return;
  switch(type){
   case 'jagsby_nether:obsidian_sword_fish':player.addEffect('fire_resistance',300);break;
-  case 'jagsby_nether:flame_squat_lobster':player.addEffect('resistance',400);player.setOnFire(5,true);break;
   case 'jagsby_nether:agni_fish':player.setDynamicProperty('jagsby_nether:endless_flame_until',now+120000);break;
   case 'jagsby_nether:steam_flying_fish':player.setDynamicProperty('jagsby_nether:lava_walker_until',now+15000);break;
  }

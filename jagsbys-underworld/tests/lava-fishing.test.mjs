@@ -16,24 +16,33 @@ function fixture({dimension='minecraft:nether',biome=1,mode='Survival',damage=0,
  return {player,dim,bobber,lava,inventory,rod,durability,caught,caughtDrops,xpOrbs,experience,effects,fires,properties,rodProperties,positions,impulses,animations,cooldowns,castCooldowns,messages,sounds,particles,damageTaken};
 }
 function bite(controller,f,start=0){assert.equal(controller.use(f.player,start),true);for(const tick of [start+12,start+14,start+114,start+134])controller.update([f.player],tick);assert.equal(controller.sessions.get(f.player.id).state,'bite');}
-test('uploaded Java loot tables and fishing-only scope determine the pools',()=>{
- const lava=json('../behavior_pack/docs/lava_fishing/source_data/lava_fish.json');
- assert.deepEqual(fishPool('minecraft:overworld',0),lava.pools[0].entries.map(e=>[e.name.split(':')[1],e.weight]));
- const nether=json('../behavior_pack/docs/lava_fishing/source_data/nether_fish.json');
- for(const biome of [1,2,3,4]){
-  const expected=nether.pools[0].entries.filter(e=>!e.conditions || (biome===2&&e.name.endsWith('agni_fish')) || (biome===3&&e.name.endsWith('steam_flying_fish')) || (biome===4&&['scaly_foot_snail','yeti_crab'].some(f=>e.name.endsWith(f)))).map(e=>[e.type==='minecraft:loot_table'?'base':e.name.split(':')[1],e.weight]).sort();
-  assert.deepEqual(fishPool('minecraft:nether',biome).sort(),expected);
+test('common fish and each Nether specialist have exactly the requested weights',()=>{
+ const common=[['arowana_fish',60],['obsidian_sword_fish',25]];
+ for(const dimension of ['minecraft:overworld','minecraft:the_end','custom:dimension'])
+  for(const biome of [0,1,2,3,4,5,99])assert.deepEqual(fishPool(dimension,biome),common);
+ for(const [biome,name] of [[1,'quartz_fish'],[2,'agni_fish'],[3,'steam_flying_fish'],[4,'yeti_crab'],[5,'lava_lamprey']]){
+  assert.deepEqual(fishPool('minecraft:nether',biome),[...common,[name,13]]);
+  const counts=new Map();
+  for(let i=0;i<98;i++){const fish=catchFish('minecraft:nether',biome,()=> (i+.5)/98);counts.set(fish,(counts.get(fish)??0)+1);}
+  assert.deepEqual([...counts],[['arowana_fish',60],['obsidian_sword_fish',25],[name,13]]);
  }
- assert.equal(FISH.length,9);
+ for(const biome of [0,undefined,99])assert.deepEqual(fishPool('minecraft:nether',biome),common);
+ assert.equal(FISH.length,7);assert.equal(new Set(FISH).size,7);
 });
-test('nested base table retains 34/33/33 weights and excludes Nether specialists outside Nether',()=>{
- for(const [value,name] of [[0,'flame_squat_lobster'],[0.34,'obsidian_sword_fish'],[0.67,'arowana_fish']])assert.equal(catchFish('minecraft:overworld',4,()=>value),name);
- let rolls=[0,0.8];assert.equal(catchFish('minecraft:nether',1,()=>rolls.shift()),'arowana_fish');
- for(const [biome,name] of [[2,'agni_fish'],[3,'steam_flying_fish'],[4,'yeti_crab']])assert.equal(catchFish('minecraft:nether',biome,()=>0.999),name);
+test('common catch boundaries use a single weighted roll without a nested base group',()=>{
+ for(const [value,name] of [[0,'arowana_fish'],[59.999/85,'arowana_fish'],[60/85,'obsidian_sword_fish'],[.999,'obsidian_sword_fish']])
+  assert.equal(catchFish('minecraft:overworld',5,()=>value),name);
+ let rolls=0;assert.equal(catchFish('minecraft:nether',1,()=>{rolls++;return .999;}),'quartz_fish');assert.equal(rolls,1);
+});
+test('bobber native biome classifier separates all five Nether biomes',()=>{
+ const e=json('../behavior_pack/entities/lava_fishing/lava_bobber.json')['minecraft:entity'];
+ assert.deepEqual(e.description.properties['jagsby_nether:fishing_biome'].range,[0,5]);
+ assert.deepEqual(e.events['jagsby_nether:classify'].sequence.map(step=>[step.filters.any_of.map(f=>f.value),step.set_property['jagsby_nether:fishing_biome']]),
+  [[['nether_wastes'],1],[['crimson_forest'],2],[['soulsand_valley'],3],[['basalt_deltas'],4],[['warped_forest'],5]]);
 });
 test('cast, classify, approach, bite and reel give exactly one fish, XP and one durability',()=>{
  const f=fixture(),controller=createAnglingController({rng:()=>0});bite(controller,f);
- assert.equal(controller.use(f.player,135),true);assert.equal(f.caught.length,1);assert.equal(f.caught[0].typeId,'jagsby_nether:flame_squat_lobster');assert.equal(f.durability.damage,1);assert.equal(f.xpOrbs.length,2);assert.deepEqual(f.experience,[]);assert.equal(f.bobber.removed,1);assert.equal(controller.sessions.size,0);
+ assert.equal(controller.use(f.player,135),true);assert.equal(f.caught.length,1);assert.equal(f.caught[0].typeId,'jagsby_nether:arowana_fish');assert.equal(f.durability.damage,1);assert.equal(f.xpOrbs.length,2);assert.deepEqual(f.experience,[]);assert.equal(f.bobber.removed,1);assert.equal(controller.sessions.size,0);
  assert.equal(controller.use(f.player,135),false);assert.equal(f.dim.entities.length,1);
 });
 test('duplicate native use events neither reel early nor immediately recast',()=>{
@@ -75,14 +84,14 @@ test('delayed classification is retried, and missing biome data keeps common fis
  c.use(f.player,0);c.update([f.player],12);c.update([f.player],14);
  assert.equal(c.sessions.get(f.player.id).state,'classifying');
  c.update([f.player],52);assert.equal(c.sessions.get(f.player.id).state,'waiting');
- assert.equal(c.sessions.get(f.player.id).biome,1);
+ assert.equal(c.sessions.get(f.player.id).biome,0);
  c.update([f.player],152);c.update([f.player],172);c.use(f.player,173);
  assert.equal(f.caught.length,1);
 });
 test('late native biome properties select the correct pool without removing the bobber',()=>{
  const f=fixture(),c=createAnglingController();let biome=0;f.bobber.getProperty=()=>biome;
- c.use(f.player,0);c.update([f.player],12);c.update([f.player],14);biome=4;c.update([f.player],20);
- assert.equal(c.sessions.get(f.player.id).biome,4);assert.equal(f.bobber.removed,0);
+ c.use(f.player,0);c.update([f.player],12);c.update([f.player],14);biome=5;c.update([f.player],20);
+ assert.equal(c.sessions.get(f.player.id).biome,5);assert.equal(f.bobber.removed,0);
 });
 test('failed line particles do not stop fishing or remove the bobber',()=>{
  const f=fixture(),c=createAnglingController({rng:()=>0});f.dim.spawnParticle=()=>{throw Error('Visual particle unavailable');};
@@ -94,8 +103,8 @@ test('normal fishing uses bobber dips and splash cues without action-bar prompts
  assert(f.sounds.some(s=>s.id==='random.splash'));c.use(f.player,135);assert.equal(f.messages.length,0);
 });
 test('fish food preserves native durations and scoped custom effects expire',()=>{
- const f=fixture();applyFishFood(f.player,'jagsby_nether:obsidian_sword_fish',100);applyFishFood(f.player,'jagsby_nether:flame_squat_lobster',100);
- assert.deepEqual(f.effects,[['fire_resistance',300],['resistance',400]]);assert.deepEqual(f.fires,[[5,true]]);
+ const f=fixture();applyFishFood(f.player,'jagsby_nether:obsidian_sword_fish',100);
+ assert.deepEqual(f.effects,[['fire_resistance',300]]);assert.deepEqual(f.fires,[]);
  applyFishFood(f.player,'jagsby_nether:agni_fish',100);applyFishFood(f.player,'jagsby_nether:steam_flying_fish',100);
  assert.equal(f.properties.get('jagsby_nether:endless_flame_until'),120100);assert.equal(f.properties.get('jagsby_nether:lava_walker_until'),15100);
  updateFishEffects([f.player],20,120101);assert.equal(f.properties.get('jagsby_nether:endless_flame_until'),undefined);assert.equal(f.properties.get('jagsby_nether:lava_walker_until'),undefined);
@@ -281,5 +290,27 @@ test('lava fishing scales every vanilla XP roll by 1.5 with unbiased integer rou
   });
   assert.equal((outcomes[0]+outcomes[1])/2,vanilla*1.5);
   assert(outcomes.every(Number.isInteger));
+ }
+});
+
+test('zero, unknown and throwing classifiers keep timeout then fall back to common fish only',()=>{
+ for(const value of [0,99,'5','throw']){
+  const f=fixture(),c=createAnglingController({rng:()=>0});
+  f.bobber.getProperty=()=>{if(value==='throw')throw Error('Unavailable');return value;};
+  c.use(f.player,0);c.update([f.player],12);c.update([f.player],14);
+  assert.equal(c.sessions.get('angler').state,'classifying');
+  c.update([f.player],51);assert.equal(c.sessions.get('angler').state,'classifying');
+  c.update([f.player],52);assert.equal(c.sessions.get('angler').state,'waiting');
+  assert.equal(c.sessions.get('angler').biome,0);
+  assert.deepEqual(fishPool('minecraft:nether',c.sessions.get('angler').biome),[['arowana_fish',60],['obsidian_sword_fish',25]]);
+ }
+});
+test('retained item identifiers keep their textures and use the new display names',()=>{
+ const lang=readFileSync(new URL('../resource_pack/texts/en_US.lang',import.meta.url),'utf8');
+ for(const [id,name] of [['obsidian_sword_fish','Jetrapier'],['arowana_fish','Calderwyrm'],['quartz_fish','Prismfin'],['agni_fish','Wickerel'],['steam_flying_fish','Gloamwing'],['yeti_crab','Ashrime'],['lava_lamprey','Lava Lamprey']]){
+  assert(lang.split('\n').includes(`item.jagsby_nether:${id}.name=${name}`));
+  const item=json(`../behavior_pack/items/lava_fishing/${id}.json`)['minecraft:item'];
+  assert.equal(item.description.identifier,`jagsby_nether:${id}`);
+  assert.equal(item.components['minecraft:icon'].textures.default,`jagsby_lava_${id}`);
  }
 });

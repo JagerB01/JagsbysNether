@@ -47,9 +47,6 @@
     "jagsby_lava_obsidian_fishing_rod": {
       "textures": "textures/items/lava_fishing/obsidian_fishing_rod"
     },
-    "jagsby_lava_flame_squat_lobster": {
-      "textures": "textures/items/lava_fishing/flame_squat_lobster"
-    },
     "jagsby_lava_obsidian_sword_fish": {
       "textures": "textures/items/lava_fishing/obsidian_sword_fish"
     },
@@ -64,9 +61,6 @@
     },
     "jagsby_lava_quartz_fish": {
       "textures": "textures/items/lava_fishing/quartz_fish"
-    },
-    "jagsby_lava_scaly_foot_snail": {
-      "textures": "textures/items/lava_fishing/scaly_foot_snail"
     },
     "jagsby_lava_yeti_crab": {
       "textures": "textures/items/lava_fishing/yeti_crab"

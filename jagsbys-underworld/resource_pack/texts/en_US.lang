@@ -30,21 +30,19 @@ tile.jagsby_nether:tillable_soul_soil.name=Soul Soil
 
 item.jagsby_nether:obsidian_fishing_rod.name=Obsidian Fishing Rod
 
-item.jagsby_nether:flame_squat_lobster.name=Flame Squat Lobster
 
-item.jagsby_nether:obsidian_sword_fish.name=Obsidian Sword Fish
+item.jagsby_nether:obsidian_sword_fish.name=Jetrapier
 
-item.jagsby_nether:steam_flying_fish.name=Steam Flying Fish
+item.jagsby_nether:steam_flying_fish.name=Gloamwing
 
-item.jagsby_nether:agni_fish.name=Agni Fish
+item.jagsby_nether:agni_fish.name=Wickerel
 
-item.jagsby_nether:arowana_fish.name=Arowana Fish
+item.jagsby_nether:arowana_fish.name=Calderwyrm
 
-item.jagsby_nether:quartz_fish.name=Quartz Fish
+item.jagsby_nether:quartz_fish.name=Prismfin
 
-item.jagsby_nether:scaly_foot_snail.name=Scaly Foot Snail
 
-item.jagsby_nether:yeti_crab.name=Yeti Crab
+item.jagsby_nether:yeti_crab.name=Ashrime
 
 item.jagsby_nether:lava_lamprey.name=Lava Lamprey
 

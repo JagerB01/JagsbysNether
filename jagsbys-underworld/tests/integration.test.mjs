@@ -4,6 +4,7 @@ import {components, itemComponents, startup, world, system, intervals, jobs, flu
 import {worldFixture, playerFixture} from './fixtures.mjs';
 import {RECORD_PREFIX} from '../.build/behavior_pack/scripts/settlements/navigation.js';
 import '../.build/behavior_pack/scripts/main.js';
+import {FISH,ROD} from '../.build/behavior_pack/scripts/lava_fishing/angling.js';
 startup();
 
 test('one combined entry registers crop components and all subsystem schedules exactly once', () => {
@@ -34,11 +35,12 @@ test('village lookup and crop kit coexist on the same player', () => {
   assert.equal(gifts.length, 10);
 });
 
-test('fishing kit gives exactly one rod and nine fish without a crop kit or generation job',()=>{
+test('fishing kit gives exactly one rod and seven fish without a crop kit or generation job',()=>{
  const {dimension}=worldFixture();const {player,gifts}=playerFixture(dimension);const before=jobs.length;
  system.afterEvents.scriptEventReceive.emit({id:'jagsby_nether:fishing_kit',sourceEntity:player});
- assert.equal(gifts.length,10);assert.equal(gifts[0].typeId,'jagsby_nether:obsidian_fishing_rod');
- assert.equal(new Set(gifts.map(item=>item.typeId)).size,10);assert.equal(jobs.length,before);
+ assert.equal(gifts.length,8);assert.equal(gifts[0].typeId,'jagsby_nether:obsidian_fishing_rod');
+ assert.deepEqual(gifts.map(item=>item.typeId),[ROD,...FISH.map(f=>`jagsby_nether:${f}`)]);
+ assert.equal(new Set(gifts.map(item=>item.typeId)).size,8);assert.equal(jobs.length,before);
 });
 
 test('instant rod global and component use events launch once and ignore other items',()=>{
