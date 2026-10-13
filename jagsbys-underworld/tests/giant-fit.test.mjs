@@ -10,7 +10,7 @@ test('selection waits until all three size assessments finish',()=>{
  assert.equal(job.next().done,false);assert.deepEqual(calls,['mega_fortress']);
  assert.equal(job.next().done,false);assert.deepEqual(calls,['mega_fortress','dragon_arena']);
  assert.equal(job.next().done,false);assert.deepEqual(calls,FIT_ORDER);
- const result=job.next();assert.equal(result.done,true);assert.equal(result.value.id,'mega_fortress');
+ const result=job.next();assert.equal(result.done,true);assert.equal(result.value.id,'dragon_arena');
 });
 test('incomplete largest assessment defers selection even if smaller builds could fit',()=>{
  const calls=[];function* survey(c){calls.push(c.id);return c.id==='mega_fortress'?{outcome:'deferred',reason:'Unloaded'}:{outcome:'ready'};}
@@ -22,8 +22,8 @@ test('confirmed size failures prevent placement, and incomplete checks defer',()
  function* incomplete(c){return c.id==='large_arena'?{outcome:'deferred',reason:'Loading timed out'}:{outcome:'ready'};}
  assert.equal(finish(assessGiantSite({x:0,z:0,selectionRoll:.99},{},{survey:incomplete})).outcome,'deferred');
 });
-test('test build always selects Mega Fortress after all three sizes fit',()=>{
- const all=['large_arena','dragon_arena','mega_fortress'];assert.equal(chooseFittingGiant(all,.599),'mega_fortress');assert.equal(chooseFittingGiant(all,.6),'mega_fortress');assert.equal(chooseFittingGiant(all,.85),'mega_fortress');
+test('test build always selects Dragon Arena after all three sizes fit',()=>{
+ const all=['large_arena','dragon_arena','mega_fortress'];assert.equal(chooseFittingGiant(all,.599),'dragon_arena');assert.equal(chooseFittingGiant(all,.6),'dragon_arena');assert.equal(chooseFittingGiant(all,.85),'dragon_arena');
  assert.equal(chooseFittingGiant(['large_arena','dragon_arena'],.8),undefined);assert.equal(chooseFittingGiant(['large_arena'],.99),undefined);assert.equal(chooseFittingGiant([],0),undefined);
 });
 test('clear-volume proofs are reused for contained queries, with different filters and obstructions rechecked',()=>{
@@ -42,5 +42,5 @@ test('shared size assessment preserves the selected plan while reducing native r
 
 test('a narrow lava opening surrounded by carveable terrain qualifies all three giant sizes',()=>{
  const d={id:'minecraft:nether',runCommand(){},getBlock:({x,y})=>({typeId:y<=4?'minecraft:netherrack':Math.abs(x)<=16?(y<=31?'minecraft:lava':'minecraft:air'):(y<=90?'minecraft:netherrack':'minecraft:air')}),containsBlock:()=>false};
- const result=finish(assessGiantSite({x:0,z:0,selectionRoll:0},d));assert.equal(result.outcome,'ready');assert.equal(result.id,'mega_fortress');assert.deepEqual(result.fitting,FIT_ORDER);assert(result.coverage<.35);assert(result.coverage>=.10);
+ const result=finish(assessGiantSite({x:0,z:0,selectionRoll:0},d));assert.equal(result.outcome,'ready');assert.equal(result.id,'dragon_arena');assert.deepEqual(result.fitting,FIT_ORDER);assert(result.coverage<.35);assert(result.coverage>=.10);
 });

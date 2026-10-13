@@ -2,7 +2,7 @@ import {ARENAS} from './arena_catalog.js';
 import {surveyLandmark} from './landmark_terrain.js';
 export const GIANT_WEIGHTS={large_arena:60,dragon_arena:25,mega_fortress:15};
 // Temporary test-build override; normal weights remain available for restoration.
-export const TEST_ONLY_GIANT='mega_fortress';
+export const TEST_ONLY_GIANT='dragon_arena';
 export const FIT_ORDER=['mega_fortress','dragon_arena','large_arena'];
 export function chooseFittingGiant(ids,roll){
  if(!FIT_ORDER.every(id=>ids.includes(id)))return undefined;

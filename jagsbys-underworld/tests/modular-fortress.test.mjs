@@ -25,7 +25,7 @@ test('core-only initiation reserves no distant module footprints',()=>{
 });
 test('a player near a future branch does not prevent core placement',async()=>{
  const {world}=await import('./mock-server.mjs'),{generateLandmark}=await import('../behavior_pack/scripts/landmarks.js'),{candidateAt}=await import('../behavior_pack/scripts/landmark_sites.js');
- const c=candidateAt('giant',903,903,12),oldPlayers=world.getPlayers,oldStructures=world.structureManager,placed=[];
+ const c={...candidateAt('giant',903,903,12),id:'mega_fortress',selected:true},oldPlayers=world.getPlayers,oldStructures=world.structureManager,placed=[];
  const d={id:'minecraft:nether',runCommand(){},getBlock:({y})=>({typeId:y<=4?'minecraft:netherrack':y<=31?'minecraft:lava':'minecraft:air'}),containsBlock:()=>false,fillBlocks(){}};
  world.getPlayers=()=>[{dimension:d,location:{x:c.x+65,y:64,z:c.z}}];world.structureManager={place:id=>placed.push(id)};
  const job=generateLandmark(c,d);
@@ -36,7 +36,7 @@ test('a player near a future branch does not prevent core placement',async()=>{
 });
 test('blocked required lower chambers pause without pruning, then resume after the obstruction is removed',async()=>{
  const {world}=await import('./mock-server.mjs'),{generateLandmark}=await import('../behavior_pack/scripts/landmarks.js'),{candidateAt}=await import('../behavior_pack/scripts/landmark_sites.js');
- const c=candidateAt('giant',923,923,12),old=world.structureManager;let blocked=true;
+ const c={...candidateAt('giant',923,923,12),id:'mega_fortress',selected:true},old=world.structureManager;let blocked=true;
  const d={id:'minecraft:nether',runCommand(){},getBlock:({y})=>({typeId:y<=4?'minecraft:netherrack':y<=31?'minecraft:lava':'minecraft:air'}),containsBlock:v=>blocked&&v.from.x<=c.x-30&&v.to.x>=c.x-30&&v.from.z<=c.z&&v.to.z>=c.z&&v.from.y<=60&&v.to.y>=60,fillBlocks(){}};
  world.structureManager={place(){}};
  function run(job){for(let i=0;i<1500000;i++){const r=job.next();system.currentTick++;if(r.done)return;}assert.fail('Build stalled');}

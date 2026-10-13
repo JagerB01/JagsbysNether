@@ -7,6 +7,7 @@ import {candidateAt,GIANTS,landmarkRecords,villageBoxes,spacingAllows,LANDMARK_P
 import {surveyLandmark,clearVolume,fillSupports,fillSolidFoundation,carveTile,obstructionReason} from './landmark_terrain.js';
 import {terrainSurvey} from './terrain_survey.js';
 import {giantSearch,giantSites,smallSites,attemptKey} from './giant_search.js';
+import {TEST_ONLY_GIANT} from './giant_fit.js';
 import {surveyModularFortress,modularSections,modularCoreBox,pendingModuleBox,surveyFortressModule,fortressModuleCount,fortressParent,fortressModuleRequired,extendFortressBox} from './modular_fortress.js';
 const retries=new Map();let busy=false,status='Waiting for unchecked landmark sites.';
 let diagnostics;
@@ -42,7 +43,7 @@ export function naturalCandidates(online,seed,tick=system.currentTick){
    for(const c of sites){
     if((retries.get(attemptKey(c))??0)>tick||(!c.saved&&['giant','small'].includes(family)&&giantSearch.failed(c)))continue;
     const distance=Math.min(...online.map(p=>Math.hypot(c.x-p.location.x,c.z-p.location.z)));
-    if(distance>768||!playersClear(online,(c.saved?.modular?pendingModuleBox(c,c.saved):c.saved?.box)??(c.family==='giant'?modularCoreBox(c):boxFor(c)),32))continue;
+    if(distance>768||!playersClear(online,(c.saved?.modular?pendingModuleBox(c,c.saved):c.saved?.box)??(c.family==='giant'?(TEST_ONLY_GIANT==='mega_fortress'?modularCoreBox(c):boxFor({...c,id:TEST_ONLY_GIANT})):boxFor(c)),32))continue;
     eligible.push({...c,distance,priority:c.saved?0:c.observed?1:family==='giant'?3:2});
    }
    eligible.sort((a,b)=>a.priority-b.priority||(b.score??0)-(a.score??0)||a.distance-b.distance||a.x-b.x||a.z-b.z);
@@ -60,14 +61,15 @@ export function* generateLandmark(c,dimension){
  try{
   let record=c.saved,plan;
   if(record)c={...c,id:record.id};
+  else if(c.family==='giant'&&!c.selected)c={...c,id:TEST_ONLY_GIANT,selected:true};
   if(!record){
    const records=landmarkRecords(),villages=villageBoxes();
-   const smallest=c.family==='giant'?{...c,id:'large_arena'}:c;
-   if(!spacingAllows(smallest,c.family==='giant'?modularCoreBox(c):boxFor(smallest),records,villages)){
+   const smallest=c;
+   if(!spacingAllows(smallest,c.id==='mega_fortress'?modularCoreBox(c):boxFor(smallest),records,villages)){
     reject(c,'Spacing from an existing structure or village');recordDiagnostic(c,'rejected','Spacing from an existing structure or village');return {outcome:'rejected'};
    }
    status=`Surveying ${ARENAS[c.id].display_name} at ${c.x}, ${c.z}.`;
-   plan=c.family==='giant'?yield* surveyModularFortress(c,dimension,{progress,coreOnly:true,allowed:box=>spacingAllows({...c,id:'mega_fortress'},box,records,villages)&&playersClear(players(),box,32)}):yield* surveyLandmark(c,dimension,progress);
+   plan=c.id==='mega_fortress'?yield* surveyModularFortress(c,dimension,{progress,coreOnly:true,allowed:box=>spacingAllows({...c,id:'mega_fortress'},box,records,villages)&&playersClear(players(),box,32)}):yield* surveyLandmark(c,dimension,progress);
    if(plan.outcome!=='ready'){
     if(plan.outcome==='unsuitable')reject(c,plan.reason);
     else retries.set(attemptKey(c),system.currentTick+1200);
