@@ -187,3 +187,5 @@ Version 0.2.87 removes imported soul lanterns, soul torches, and soul campfires 
 | Mega Fortress complete module layout | 5 Wither Skeleton, 5 Magma Cube, 2 Blaze |
 
 Optional branches determine actual Mega Fortress totals. These counts exclude trial spawners and Java encounter pools, which were not ported as configured encounters.
+
+Version 0.2.88 replaces hanging soul lanterns with shroomlights and other removed soul lights with supported redstone torches. A torch without support is moved down to a suitable floor or wall inside its module. Neither replacement activates soul-light suppression; normal vanilla lighting rules still apply. Existing world placements are not edited. Spawner totals are unchanged.

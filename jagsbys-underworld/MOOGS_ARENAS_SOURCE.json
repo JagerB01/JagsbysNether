@@ -4063,5 +4063,13 @@
     ],
     "scope": "imported manual, natural, and modular structures only; source reference NBT retained",
     "method": "replace with air and remove associated block entities"
+  },
+  "replacement_lighting": {
+    "version": "0.2.88",
+    "hanging_soul_lanterns": "minecraft:shroomlight",
+    "other_soul_lights": "supported minecraft:redstone_torch",
+    "tool": "tools/restore_arena_dim_lights.py",
+    "reference_release": "4b0d849",
+    "scope": "imported manual/natural/modular structures; spawners unchanged"
   }
 }

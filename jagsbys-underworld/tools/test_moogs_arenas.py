@@ -2,7 +2,7 @@ import hashlib
 import json
 import unittest
 from pathlib import Path
-from convert_moogs_arenas import ROOT,SOURCE,SCHEMA,ARENAS,assemble,java
+from convert_moogs_arenas import ROOT,SOURCE,SCHEMA,ARENAS,assemble,java,block_state
 from structure_crops import NBT
 
 class MoogsArenas(unittest.TestCase):
@@ -18,6 +18,13 @@ class MoogsArenas(unittest.TestCase):
                 r=NBT(path.read_bytes());r.read('B');r.string();root=r.payload(10)
                 palette=root['structure'][1]['palette'][1]['default'][1]['block_palette'][1][1]
                 self.assertFalse(lights.intersection(b['name'][1] for b in palette),str(path))
+
+    def test_hanging_soul_lights_become_shroomlights_and_other_lights_become_redstone_torches(self):
+        self.assertEqual(block_state('minecraft:soul_lantern',{'hanging':'true'},self.schema)['name'][1],'minecraft:shroomlight')
+        self.assertEqual(block_state('minecraft:soul_lantern',{'hanging':'false'},self.schema)['name'][1],'minecraft:redstone_torch')
+        wall=block_state('minecraft:soul_wall_torch',{'facing':'east'},self.schema)
+        self.assertEqual(wall['name'][1],'minecraft:redstone_torch')
+        self.assertEqual(wall['states'][1]['torch_facing_direction'][1],'west')
 
     def test_original_source_files_match_recorded_hashes(self):
         for name,digest in self.metadata['source_files_sha256'].items():
