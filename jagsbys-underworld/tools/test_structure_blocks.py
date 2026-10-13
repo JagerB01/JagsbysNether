@@ -35,6 +35,16 @@ class StructureBlocks(unittest.TestCase):
         self.assertEqual(root['structure'][1]['entities'],decoded(source)['structure'][1]['entities'])
         self.assertEqual(convert_structure_blocks(result,True)[0],result)
 
+    def test_farm_soul_sand_is_replaced_without_changing_other_blocks(self):
+        source=encoded([block('minecraft:soul_sand'),block('minecraft:netherrack')],[0,1,0])
+        result,stats=convert_structure_blocks(source,True,True)
+        palette=decoded(result)['structure'][1]['palette'][1]['default'][1]['block_palette'][1][1]
+        self.assertEqual(palette[0],block('minecraft:soul_soil'))
+        self.assertEqual(palette[1],block('minecraft:netherrack'))
+        self.assertEqual(stats['farm_soil'],2)
+        self.assertEqual(convert_structure_blocks(result,True,True)[0],result)
+        self.assertEqual(convert_structure_blocks(source,True)[0],source)
+
     def test_nonvillage_redstone_torches_are_unchanged(self):
         source=encoded([block('minecraft:redstone_torch', {'torch_facing_direction': (8, 'west')})], [0])
         self.assertEqual(convert_structure_blocks(source)[0],source)

@@ -27,7 +27,7 @@ def final_block(value):
     return name, states
 
 
-def convert_structure_blocks(data, village=False):
+def convert_structure_blocks(data, village=False, farm=False):
     reader = NBT(data)
     kind, name = reader.read('B'), reader.string()
     assert kind == 10
@@ -41,10 +41,13 @@ def convert_structure_blocks(data, village=False):
     markers = {i for i, b in enumerate(palette) if b['name'][1] == 'minecraft:jigsaw'}
     torches = {i for i, b in enumerate(palette) if village and b['name'][1] in
                ('minecraft:redstone_torch', 'minecraft:unlit_redstone_torch')}
-    stats = {'jigsaw_markers': 0, 'redstone_torches': 0}
-    changed = bool(markers or torches)
+    farm_soil = {i for i, b in enumerate(palette) if farm and b['name'][1] == 'minecraft:soul_sand'}
+    stats = {'jigsaw_markers': 0, 'redstone_torches': 0, 'farm_soil': 0}
+    changed = bool(markers or torches or farm_soil)
     for _, indices in layers:
         for index, block_index in enumerate(indices):
+            if block_index in farm_soil:
+                stats['farm_soil'] += 1
             if block_index in torches:
                 stats['redstone_torches'] += 1
             if block_index not in markers:
@@ -64,6 +67,9 @@ def convert_structure_blocks(data, village=False):
                     palette.append(replacement)
                 indices[index] = palette.index(replacement)
             stats['jigsaw_markers'] += 1
+    for i in farm_soil:
+        palette[i]['name'] = (8, 'minecraft:soul_soil')
+        palette[i]['states'] = (10, {})
     for i in torches:
         palette[i]['name'] = (8, 'minecraft:soul_torch')
         # Both Bedrock torch types use the same torch_facing_direction state.

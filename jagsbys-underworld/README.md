@@ -111,10 +111,10 @@ independently. Near a matching tamed Skitterchest they occasionally deposit iron
 (Crimson) or gold (Warped) nuggets into its native inventory. Any owners qualify.
 See [HONGOS.md](HONGOS.md) for taming, range, cooldowns and playtest checks.
 
-Villages require at least **three residential houses** to fit during planning.
+Villages require at least **four residential houses and one farm** to fit during planning.
 Smaller layouts place nothing: no lone-house fallback, roads, center, crops or
 villagers, and no village/spacing record. Farms, stables and other amenities
-do not count toward this minimum. This applies to natural and command generation.
+do not count as residential houses. New village centers must be at least 256 blocks apart. This applies to natural and command generation.
 Existing villages are unchanged.
 
 ## Soul-light spawn protection

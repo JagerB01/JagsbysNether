@@ -43,7 +43,7 @@ test('real planting coordinates rotate correctly and each spot uses its own biom
   cropSites[id].forEach((site,i)=>{
    const p=position(site,rotation),crop=i%3;
    assert.equal(f.dimension.getBlock(p).typeId,['jagsby_nether:rye_crop','jagsby_nether:polyps','minecraft:air'][crop]);
-   assert.equal(f.dimension.getBlock({...p,y:p.y-1}).typeId,crop===2?'minecraft:soul_sand':'jagsby_nether:soul_soil_farmland');
+   assert.equal(f.dimension.getBlock({...p,y:p.y-1}).typeId,crop===2?'minecraft:soul_soil':'jagsby_nether:soul_soil_farmland');
   });
   assert.deepEqual(f.counts(),{spawned:cropSites[id].length,removed:cropSites[id].length});
  }

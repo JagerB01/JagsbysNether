@@ -77,7 +77,7 @@ def main():
             expected[name] = content
             if name.endswith('.mcstructure'):
                 content, positions = strip_wart(content)
-                content, conversion = convert_structure_blocks(content, '/villages/' in name)
+                content, conversion = convert_structure_blocks(content, '/villages/' in name, '/villages/' in name and '_farm_' in name)
                 content, _ = populate_structure_containers(content)
                 if any(conversion.values()):
                     block_conversions[name] = conversion
@@ -107,7 +107,7 @@ def main():
                 target.write_bytes(path.read_bytes())
         (BUILD / directory / 'pack_icon.png').write_bytes(icon)
     # Intentional population/generation overrides and wart-only structure edits.
-    overrides = {'scripts/agriculture/main.js', 'scripts/settlements/population.js', 'scripts/settlements/main.js', 'scripts/settlements/sizing.js', 'scripts/settlements/terrain.js', 'scripts/settlements/accessible_search.js'}
+    overrides = {'scripts/agriculture/main.js', 'scripts/settlements/population.js', 'scripts/settlements/main.js', 'scripts/settlements/sizing.js', 'scripts/settlements/navigation.js', 'scripts/settlements/terrain.js', 'scripts/settlements/accessible_search.js'}
     # Weighted pools and their matching roll probabilities are changed together
     # so interesting structures rise while marginal tent attempt rates stay fixed.
     for name in ('basalt', 'crimson_camp', 'warped_camp', 'soul', 'nether_brick', 'outpost'):
@@ -119,7 +119,7 @@ def main():
             continue
         if name in changed_structures:
             rebuilt, _ = strip_wart(content)
-            rebuilt, _ = convert_structure_blocks(rebuilt, '/villages/' in name)
+            rebuilt, _ = convert_structure_blocks(rebuilt, '/villages/' in name, '/villages/' in name and '_farm_' in name)
             rebuilt, _ = populate_structure_containers(rebuilt)
             assert (BUILD / 'behavior_pack' / name).read_bytes() == rebuilt, name
             continue

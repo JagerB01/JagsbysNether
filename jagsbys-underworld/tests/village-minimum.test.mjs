@@ -28,13 +28,9 @@ for(const automatic of [false,true])for(const [radius,houses] of [[12,0],[10,1],
   if(f.region)assert.equal(world.getDynamicProperty(f.region),undefined);
  });
 }
-test('a real layout with exactly three residential houses still places and records a village',()=>{
- const f=run(16,true);
- assert(f.notifications.some(m=>m.includes('3 houses, 0 amenities')));
- assert(f.writes>0);assert(f.placed.length>0);
- assert.equal(f.spawned.filter(id=>id==='minecraft:villager_v2').length,3);
- assert.equal(world.getDynamicProperty(f.region),true);
- const records=world.getDynamicPropertyIds().filter(k=>k.startsWith(RECORD_PREFIX));
- assert.equal(records.length,1);assert.equal(JSON.parse(world.getDynamicProperty(records[0])).houses,3);
- for(const k of [...records,f.region])world.setDynamicProperty(k,undefined);
+test('a real layout with exactly three houses is rejected before any world writes',()=>{
+ const before=world.getDynamicPropertyIds(),f=run(16,true);
+ assert(f.notifications.some(m=>m.startsWith('Only 3 residential houses fit:')));
+ assert.equal(f.writes,0);assert.deepEqual(f.placed,[]);assert.deepEqual(f.spawned,[]);
+ assert.deepEqual(world.getDynamicPropertyIds(),before);assert.equal(f.completed,true);
 });

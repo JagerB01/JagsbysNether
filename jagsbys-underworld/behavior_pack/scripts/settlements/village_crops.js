@@ -30,13 +30,12 @@ export function* plantStructureCrops(dimension,piece,rotation,origin,baseY,inVil
   const [rx,rz]=rotate(x,z,piece.size,rotation);
   const position={x:origin.x+rx,y:baseY+y,z:origin.z+rz};
   const crop=yield* villageCrop(dimension,position);
-  if(!crop)continue; // No replacement specified for basalt deltas or other biomes.
-  const type=crop==='sorgum' ? 'jagsby_nether:rye_crop' : 'jagsby_nether:polyps';
   const soil=dimension.getBlock({...position,y:position.y-1});
   const plant=dimension.getBlock(position);
   if(!soil || !plant)throw new Error(`Crop planting terrain unloaded: ${piece.id}`);
+  if(!crop){soil.setType('minecraft:soul_soil');yield;continue;}
   soil.setType('jagsby_nether:soul_soil_farmland');
-  plant.setType(type);
+  plant.setType(crop==='sorgum' ? 'jagsby_nether:rye_crop' : 'jagsby_nether:polyps');
   yield;
  }
 }

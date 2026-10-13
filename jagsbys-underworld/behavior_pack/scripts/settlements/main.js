@@ -174,9 +174,9 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
       const [dx,dz]=directions[parent.dir];let attached=false;
       const entries=pools[parent.pool];if (!entries) continue;
       const ordered=weightedOrder(entries,rng);
-      // Once three homes fit, try every farm candidate before other buildings
+      // Once four homes fit, try every farm candidate before other buildings
       // until one fits. Keep the normal weighted order within each category.
-      if(wantsHouse && houses>=3 && farms===0)
+      if(wantsHouse && houses>=4 && farms===0)
         ordered.sort((a,b)=>Number(b.includes('_farm_'))-Number(a.includes('_farm_')));
       else if(wantsHouse && houses<6)
         ordered.sort((a,b)=>Number(catalog[a].countsAsHouse===false)-Number(catalog[b].countsAsHouse===false));
@@ -188,7 +188,7 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
       for (const id of ordered) {
         const piece=catalog[id];
         // Secure real buildings first; amenities cannot establish a village alone.
-        if (wantsHouse && houses<3 && piece.countsAsHouse===false) continue;
+        if (wantsHouse && houses<4 && piece.countsAsHouse===false) continue;
         if(wantsHouse && farms>=1 && id.includes('_farm_'))continue;
         if(wantsHouse && houses>=size.houses && piece.countsAsHouse!==false)continue;
         if(wantsHouse && piece.countsAsHouse===false && !id.includes('_farm_') && buildings-houses-farms>=2)continue;
@@ -225,9 +225,13 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
       }
       yield;
     }
-    if (houses<3) {
-      notify?.(`Only ${houses} residential houses fit: at least 3 are required. Nothing was placed.`);
+    if (houses<4) {
+      notify?.(`Only ${houses} residential houses fit: at least 4 are required. Nothing was placed.`);
       return unsuitable(`Only ${houses} houses fit`);
+    }
+    if (farms<1) {
+      notify?.('No farm fits: at least 1 farm is required. Nothing was placed.');
+      return unsuitable('No farm fits');
     }
     const chosen=[...layout.filter(item=>item.piece.kind==='house'),
       ...layout.filter(item=>item.piece.kind==='road'),center];
@@ -249,7 +253,7 @@ export function* village(dimension,x,z,near,theme,seed,notify,regionKey,onComple
     // Place the center last so an interrupted job cannot leave an empty center.
     for (const item of chosen) yield* place(dimension,item.piece,item.rotation,item.origin,item.baseY,item.plan,!!regionKey,true);
     world.setDynamicProperty(`${RECORD_PREFIX}${x}_${z}`,JSON.stringify({
-      x,y:best.baseY+1,z,theme,houses,roads,bounds:{
+      x,y:best.baseY+1,z,theme,houses,farms,roads,bounds:{
         x:Math.min(...boxes.map(b=>b.x)),z:Math.min(...boxes.map(b=>b.z)),
         sx:Math.max(...boxes.map(b=>b.x+b.sx))-Math.min(...boxes.map(b=>b.x)),
         sz:Math.max(...boxes.map(b=>b.z+b.sz))-Math.min(...boxes.map(b=>b.z))}}));
