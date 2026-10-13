@@ -42,7 +42,7 @@ Passive roaming AI and Skitterchest nugget synergy are Underworld additions.
 
 Moogs Nether Structures 3.1.1 — FinnDog; structures built by Phantax.
 https://github.com/FinnSetchell/MoogsNetherStructures2
-Three arena layouts adapted from the user-supplied universal Java JAR for
+Seven structure layouts adapted from the user-supplied universal Java JAR for
 manual Bedrock testing. Distributed under LGPLv3; full LGPLv3 and GPLv3 texts,
 selected original templates/assembly data and conversion provenance are under
 behavior_pack/docs/moogs_arenas/. Conversion source is tools/convert_moogs_arenas.py.

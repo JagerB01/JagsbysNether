@@ -57,3 +57,31 @@ tools/convert_moogs_arenas.py` to reproduce the imported structures from those
 retained sources. `MOOGS_ARENAS_SOURCE.json` records input hashes, joins and
 conversion counts. Actual Bedrock placement, trap behavior and trial block
 appearance still need an in-game test; no Bedrock client is available here.
+
+## Additional manual structures — v0.2.65
+
+The same catalog and placement command now also include Grave Yard, Large
+Blackstone Pillars, Large Blackstone Walls and Mega Fortress. Use the generic
+`jagsby_nether:template` command alias (the arena commands still work):
+
+```
+/scriptevent jagsby_nether:template grave_yard
+/scriptevent jagsby_nether:template large_blackstone_pillars
+/scriptevent jagsby_nether:template large_blackstone_walls
+/scriptevent jagsby_nether:template mega_fortress 100 32 100
+```
+
+Mega Fortress is a fixed representative procedural layout built offline with
+seed 31011, not the single start room and not every possible Java fortress.
+Original pool weights select structural alternatives during this offline assembly
+only; they are not natural spawn weights. Structural fronts/top directions and
+name/target connections must match, bounding boxes must not overlap, and the
+layout follows the source's 128-block radius. Assembly limits prioritize original
+fallback/end pieces after depth five or 64 main pieces; blocked connectors may
+remain unused, as recorded in provenance. Rotated pieces rotate block facing,
+axes, connections and door states along with their coordinates. Mob/boss pool
+attachments remain omitted.
+
+The footprint exceeds Bedrock's 100-chunk ticking-area limit, so placement loads
+and removes one section's temporary area at a time. No permanent ticking areas,
+feature rules, automatic placement or natural mob spawn overrides are added.

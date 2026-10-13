@@ -1,0 +1,18 @@
+{
+  "name": "mns:grave_yard_start_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "mns:1_21_0/grave_yard",
+        "locations": {
+          "1.21-26.3": "mns:1_21_0/grave_yard"
+        },
+        "processors": "mns:wither_skeleton_spawners",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    }
+  ]
+}

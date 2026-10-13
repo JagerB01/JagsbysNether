@@ -23,21 +23,232 @@
     "data/mns/structure/1_21_0/dragon_arena/lower_9.nbt": "2f45fc94f778c871aad44d48ccc4c4bc5a9746686835fbc98f19f9c47cd957b9",
     "data/mns/structure/1_21_0/dragon_arena/r1.nbt": "40775af5c7897588d344fb68891c5132055c99bb683cb3ebda6cfd136969ea70",
     "data/mns/structure/1_21_0/dragon_arena/r2.nbt": "f1993aa87d364e9f7bb330c625d84175b0d76b3af0686bc383dd0719086c0e9c",
+    "data/mns/structure/1_21_0/grave_yard.nbt": "f2a5c0255b3cbe0339e88e612d288003c753829ba2310bfe142938d48f3cb529",
     "data/mns/structure/1_21_0/large_arena/l1.nbt": "1337b4254a925cac9bacc297b8679e83a15b262ba61f8d5e08eca8d1cbc4a7b8",
     "data/mns/structure/1_21_0/large_arena/l2.nbt": "a0d3a1302f4d2dcb14123e735481a7b68bdb1357119ec8ed1a6afd8774019550",
     "data/mns/structure/1_21_0/large_arena/l3.nbt": "c13230922d761905ea9956f899b7d96a00d196094aae7b83d098af69a1603060",
     "data/mns/structure/1_21_0/large_arena/r1.nbt": "1bc5c2a50ea818eb8fd840688a4a9f7e9ec1ea482a1bf2baa567c7396e2899c6",
     "data/mns/structure/1_21_0/large_arena/r2.nbt": "794124ce4dc9d35de237c384684c8047f3cbacd58e38cbe4bbb6ee5d91919799",
     "data/mns/structure/1_21_0/large_arena/r3.nbt": "8299abd7f22922b5f841a1ba4702dfbdaca63c53213126982436f1d02c946d67",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofed_1_1.nbt": "732a41a04f55b6307ca7c2af97e64d4cfe89ecb1e704989bc162b27a9d31d62e",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofed_1_2.nbt": "74b0ddfd722e8ab9fea7f7dc1e29fc1e87ad5593d27ccbc4ad93da5e432ad071",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofed_1_3.nbt": "1d6498a301fefa553f705f204ea42ba64907e8ff2d53c1de3eb31223af039f2b",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofed_1_4.nbt": "25a777f4395f5668e988bafbc2e1b12fab708c16d258ccf3f8d6a9fe96881ed7",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofed_2_1.nbt": "a5c14b43681fef92ac2934364c8f88813d9ab1f6c3cb7a6220b69dacc39c4c99",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofed_2_2.nbt": "9e03d809d1f2daf4da7e5eb50e2a8d5f8b736db67c51af7f7caf448aba985ab3",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofed_2_3.nbt": "6e26a1104e52daffd14306ab9ef09e1d6850122105cca97a8a936ff49f1af135",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofed_2_4.nbt": "8f159c3b65fe795657ba93e890fac56ed4c82d0854f016fe94e0b6405b243314",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofless_1_1.nbt": "b4ea9dd34046d04f7e06be8445bdc7c6058e6cea713ca8e857d1cd3c693e542e",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofless_1_2.nbt": "c3c571d65338ca1c5ef8eadd0aac3098a354c12ef5c5a79f25824997657b8cd5",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofless_1_3.nbt": "c6ac1a47fb0fa347275788b1e577cfb4f266ea64120ea647b2ddf49b3e65ccfb",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofless_1_4.nbt": "28c22fc0f07dbd23845e2cbe9872d2101a16c4f6342845d253cd9387d5096e68",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofless_2_1.nbt": "d3e6404614cb960c3333492f6c6ce39512dd9c1c2ca358e5d4e04c562099ee5a",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofless_2_2.nbt": "c4c911bded6ec3c2c4663c034d3f290f9013bf06cfb45f104af537a32a2a6f2b",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofless_2_3.nbt": "23247acd9aec2715c946beb0d3088222493c289446bce29da747d005be5e2d3f",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofless_2_4.nbt": "ff8fc78c8467b0162281df58888a4ac781db7fc94c325d5af3052fa6502e923d",
+    "data/mns/structure/1_21_0/mega_fortress/corners/corner_roofless_3_3.nbt": "ef69f29f4ba6d4b97636c971c5313135e7d66d37ffd3994bf9611dfc0d0863bd",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/halfroofed_straight_1.nbt": "a356561d7258acd40c8a10c1a9cb303f2bdc431679bf33ece500d3468f387b54",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/halfroofed_straight_2.nbt": "85fc7a4f4bf08bfe14662dbc43324721cbf3dd8baecb2542b80e8b1a39c50737",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/halfroofed_straight_3.nbt": "19ea347132c9b475ee0b566cd382edaa2609b252ee9088c9adcab9892fb84eb8",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/halfroofed_straight_4.nbt": "ce4d3df1aac616aa425ce2ae8e00df0b6cfd461a838dc7fcc1bdba54e521d102",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofed_single_straight_1.nbt": "035e98423dbc6061facae5bc60b30bc810d99ae0815e0285c9be7ae8e34656af",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofed_single_straight_2.nbt": "03f2f7862232d5653a66c351a8875ef9a86a9ff443b5a750193f995462ff24eb",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofed_single_straight_3.nbt": "23dc8e8f608c7ff86b7e38a5f67e1ab2d803552ca67ad67f2cae3501ad2828b6",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofed_single_straight_4.nbt": "6e4831c365ac030802ed6966246ed80355e279c14654d01f11acb242609d09f5",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofed_single_straight_5.nbt": "506863782ed4ecad7b72f501b580d45b047f3b3459e2fb5c29cfaa0381a96279",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofed_single_straight_6.nbt": "83cfb4e6bf9ca9d0c65e95a78ea95bf0a7031354628a518eeb7b4ccea29a79ba",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofed_single_straight_7.nbt": "78c6e38739f9d11b600bbb318ba14f3cb261400b5bcebd067cda1ff74b099dad",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofed_single_straight_8.nbt": "6a60feaf4c0e177ab277691a6806b738c8f3e17cf36cf73de72204dd04d155d3",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofless_single_straight_1.nbt": "d979be08eeb6c949ed04a1cd92e3dad2c2a61a6167d3de7d337b8bfc582e4e2f",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofless_single_straight_2.nbt": "4370034d75cb22e09101ca4f6ee8842f5287f671a9815db0b9643a9385cd6009",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofless_single_straight_3.nbt": "d64d443ef4c152982740fcaf831f41858aee8406686d989503bb4f4203d92baa",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofless_single_straight_4.nbt": "6beb39c5781c983d0f9553053904008d23af09ed47b400ee1fec37dca083b3d9",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofless_single_straight_5.nbt": "f28242bd37c7d6140ca55e5bd3a88cff6f2703b5b544568107281d3a24284779",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofless_single_straight_6.nbt": "47adf7ce2e2717743115eddeb9f03c775877ad1b1fe851324f70ef98a8e77539",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofless_single_straight_7.nbt": "d814bbeb5a09deb7e4dcb998fc8a4761cca4084bdf79742e063988119c4e1e02",
+    "data/mns/structure/1_21_0/mega_fortress/corridors/roofless_single_straight_8.nbt": "821caba91ba3f59e7b333d89cba538fa88826678c0b4fb8587c4dd42e11a99af",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/large/large_crossing_center_1.nbt": "f3df87ab0ff0000a56ec373b4f8b71d0513c27ad90a5c74062e71afdbbf478ea",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/large/large_crossing_east_straight_1.nbt": "66b8f8b270ccdfb9ddea4025c52d9c30be63fb5d78516af5d64273acf529c0fa",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/large/large_crossing_north_straight_1.nbt": "29735f0f0588d404f66190d84eb3bf8aca7276b3516e22848948a9c26fd43dd9",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/large/large_crossing_south_straight_1.nbt": "aaf53eb968ea93650054e3aac8ad6e6eb9a98a54ca4c21487eba1940e3eb0e58",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/large/large_crossing_west_straight_1.nbt": "8d99e7ace480210f8f0aa8ba956cd9b48e598dda34ce4b7598123c6ab578771a",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/medium/medium_crossing_center_2.nbt": "50403bcbc1015b124fe9e31a180575bbeb2dadf5e10849addebba4fbead8bc20",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/medium/medium_crossing_east_2.nbt": "f6c406ee6a3689e8cc9c82d29313c7bc11189ad75559ebb02fe937e74b46d1a5",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/medium/medium_crossing_north_2.nbt": "13236bec216c2b30adfde9014e120904549e7bee0b4a42c4b141647107ea5010",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/medium/medium_crossing_south_2.nbt": "f1e9a7a8db2e72839fa720c5e809955eb3a31e2fe5b85364a2817a3f102dcf22",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/medium/medium_crossing_west_2.nbt": "588c2d3fab457793ab961567bacfce7cff6198ccb72116b14ef725f2b28ce197",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/lower/small_crossing_center_lower_1.nbt": "f241504f495077ec0f9d1986a92c264fd712fc20d1ab73d4176bde0f9ad9e9f6",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/lower/small_crossing_east_lower_1.nbt": "86a0f33c8cb334f97dfee60c07185ac651cce0880eae8a9be84cf18f69c6dce5",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/lower/small_crossing_north_lower_1.nbt": "ca1ca9398f40b958852233e3668c8aec0f1713f0e046addc0dd3b1f40d010dbd",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/lower/small_crossing_south_lower_1.nbt": "188e6243d2761623ad67b7d9312b57375b6a7c0a58db61ef30b06ef0273c410c",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/lower/small_crossing_west_lower_1.nbt": "5203a666c6a643fc689a0bd191adb516fae48a6f9798ac81cd36bf7ed72968f6",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/small_crossing_center_1.nbt": "03acae8d687890486d8188bbb10f592b83300664fe54ea6b94a3bd0793a93e11",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/small_crossing_center_2.nbt": "6f3a34fde5af73a2bb12fbc7cb80a0870311db2a7fc944edb217a3a6a903e3c6",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/small_crossing_east_straight_1.nbt": "9c4adef90d3724ab844b1d9f76e01c68f15f7d8b6121b04d95fe8e8c42f6c55a",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/small_crossing_east_straight_2.nbt": "0f114e7b87ccdb1fe953c7fdfd7cda8549f1ca4f77bbbcc5010232738d8aad15",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/small_crossing_north_straight_1.nbt": "2335bdcf0ef31ba42597c4a97408933495687b3b0c5b822486bfc4a32ada319a",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/small_crossing_north_straight_2.nbt": "c9de75915b488de7fc013e5ab5ed2039d483a7e0262580faf412a3972280dddc",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/small_crossing_south_straight_1.nbt": "8a0f0c5b722cbac6b743b77b00490bbac5ff95140521f97fc7e8bafb6a25f6c4",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/small_crossing_south_straight_2.nbt": "ebc4b03bd1aceede24d6c410cd10cfc5e09707eea9be1a388786ee650e684ad1",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/small_crossing_west_straight_1.nbt": "d06cb812c7b50d100eb638f37bf585b987da382eaeec739491d36127a0f3b4fa",
+    "data/mns/structure/1_21_0/mega_fortress/crossings/small/small_crossing_west_straight_2.nbt": "a0b9e0f98d37c9151a37acd3dc8a1ee9ed002043788c0e1d68e66757885720bb",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/corner_roofed_1.nbt": "31e0c706fc2fd65244c7918f358b8e403c1ab77f621e5c365b6842b0da30282b",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/corner_roofed_2.nbt": "e142241ae2a48bd1b08dd9f55af86da3e0bae89d2be99a226beb637ebe569383",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/corner_roofless_1.nbt": "6c4246e75e6cbbfdc1174b2d9597672b3e623ad92b620530a4560bbe8358eda5",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/corner_roofless_2.nbt": "57a5661312c86997fc856c8e48ef6ae1ce2860325e0f6382647ae441ed602469",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/large_crossing_east.nbt": "9afdccebdb507ceefebb523b89b951aa091b732d7e3419dddf95beb11c32505e",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/large_crossing_north.nbt": "6b60c3b50a792b5db7535586941dddebab5d5a8810bebb9cb75b534bd5c11428",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/large_crossing_south.nbt": "bacb4db46df37abfcb9f2566e2d5a66161a737edbb9e40cdbdb0f257f49ec167",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/large_crossing_west.nbt": "3871c779bc391554ff358aa5ed62e78be74743bed1e15a43cc6cd12b7fec7124",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/medium_crossing_east.nbt": "51fb9981a9cf50dba27de20f03416dcdcec386252463132175615a7323f48f94",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/medium_crossing_north.nbt": "e7edb988aba5b281f5a277f43d5510bbc4eb8eeb30edbfa1fc77d0da37203782",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/medium_crossing_south.nbt": "ec5c25c90932f09619c569e1c29be571597e0b4dc9aeed6a629add89c1de098b",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/mega_crossing_east.nbt": "0657c1f3042b7de4f2c8100843c731fc86c92d84e17181f862e672f619c97e6e",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/mega_crossing_north.nbt": "5bc9241d994baa2c662d651a5534ace12e0462449f39250d4eaca048a85b5998",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/mega_crossing_south.nbt": "327f550358180857a36d442e9275aff66a7a75bcb2c50feb8205884cacc76237",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/mega_crossing_top.nbt": "5ce88559d569793aa8380ab85349cc983d5baf96d8f50d44c9d6e156a6671fb1",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/mega_crossing_west.nbt": "26ac7afce62ced1b24a9f2140495077456a6cdb12f9a6550b5c55217713dc20c",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/roofed_fork_side_1_1.nbt": "4a76fa1e788e5c06fa8d693dc1c5f528114acdac2b93c5f7a92ea1062f27faba",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/roofed_fork_side_1_2.nbt": "618ce7d9a6c45641952d950e400d9efb4fb226579754c6311ac331a991301d4d",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/roofed_fork_side_1_3.nbt": "d40b58e1bec259c65779aaf293bdf64778d3a0a6863d0d1cfad54b6f24d59ffc",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/roofed_fork_side_2_1.nbt": "2eac257a7b39bdece45e6f4f794c53ab985d31f054eb814b536118d486ce60ed",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/roofed_fork_side_2_2.nbt": "a03c200d35c426079f33545617682f0def519eff34b29db4b0332b428c6434ba",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/roofed_fork_side_2_3.nbt": "d4c7bc985911e85009c7e8cdded5222c80d11a77e197c172c832a0f5fe9c8e69",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/roofless_fork_side_1_1.nbt": "007970984935ee5e34865d2c65b5dd94f996e99821ea59d842c309df5a84b177",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/roofless_fork_side_1_2.nbt": "f2589e7a14dfcdc9a78398482a0451507772d4d1112123caa54a1fa492330892",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/roofless_fork_side_1_3.nbt": "4d5a4cb3fafff1e964701e76bb0440bc8bec062670f9893421455410ffacd5fd",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/roofless_fork_side_2_2.nbt": "c68ba18599704cbd7542372d76b34b528068dd966b47bc122b01714f6e685e65",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/roofless_fork_side_2_3.nbt": "99a951f96cffbf8a200452544b9035de9612a084fe6bc9dc8f2859811a1db498",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/small_crossing_east.nbt": "c0709ca5c98e4ccf1c7c51ca7b0eaceaf54c5a248c4004b8028d3f59c0822631",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/small_crossing_north.nbt": "ab3b2caae85c393b0fec31f745e691079356a61c4f436f2bc77aa773e40e6d64",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/small_crossing_south.nbt": "ace43366a21ff254324c32d501278af435dd52ba99fee8b9d213684d136491df",
+    "data/mns/structure/1_21_0/mega_fortress/ends/junction_ends/small_crossing_west.nbt": "a221fae877a43d20aa725c03faf012b0cc1a7089d3b31b8600c74efda09bf208",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofed_end_1.nbt": "abfbb9a1c4b825bf5ae9c075226ba51d65d8b93bdb92ef1d5413d38292563181",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofed_end_2.nbt": "b6bd5e46408047718da252d0fdf191861df17c0bbabdf311c1f1527a65c38323",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofed_end_3.nbt": "4b3e7cf28a9ee16b79509881973be70cb10836de3ba87b2925c6dae47cadaf9f",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofed_end_4.nbt": "dee969bf0429098755d5b499fb385734ca4d55d3c76c8063933b858c94f6724e",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofed_end_5.nbt": "99e18d06c43cbc001ea052168d403fe9e2387d21d8e70605e5f0277cbeadb0ce",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofed_end_6.nbt": "da83fcd4eb025fcf309b9b1233084b207434370d19ce4b70defa60a782f9b554",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofed_end_7.nbt": "7c715f65edc76cd70d28a291c5a75ebb635ea51426d26c1d90b19cd93edd189d",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofed_end_8.nbt": "65aeba55c2cc5d7bfd9e86050b555292a3edd2940b384677c16ba2d476f12007",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofless_end_1.nbt": "543f84c6608312bde8572afb81127e184d9d9375c8a88e15b8860ebda44ab5ea",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofless_end_2.nbt": "91f9424cbfb304f3b7c1238f29220ffb377df0898a991457d6ac13e1b2c7574c",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofless_end_3.nbt": "22b1d52a4de6a50ac71bde7829d86491fac56b1ef9ec8d60439a8ebc7778a00f",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofless_end_4.nbt": "e7db0ef2a44f9f96448ddaad66fa9c1714fe42491ee0100c5bf0cc1c7f5a685e",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofless_end_5.nbt": "543f84c6608312bde8572afb81127e184d9d9375c8a88e15b8860ebda44ab5ea",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofless_end_6.nbt": "91f9424cbfb304f3b7c1238f29220ffb377df0898a991457d6ac13e1b2c7574c",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofless_end_7.nbt": "22b1d52a4de6a50ac71bde7829d86491fac56b1ef9ec8d60439a8ebc7778a00f",
+    "data/mns/structure/1_21_0/mega_fortress/ends/roofless_end_8.nbt": "e7db0ef2a44f9f96448ddaad66fa9c1714fe42491ee0100c5bf0cc1c7f5a685e",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofed_fork_main_1.nbt": "793b1539fddd2d0d17b45ce5d788a8be68f884e93cb9a14ad156a26788e15a5e",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofed_fork_main_2.nbt": "3161df45542a816f2263820042964ccdea6469bf97085dee862762b95404d082",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofed_fork_main_3.nbt": "faa43e698faf575b5761e9e29dbdcd52fc8c23118b2e0165a885b144fb2b8e66",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofed_fork_main_4.nbt": "d036172d873b8b97ff6033f70dffec1587a10fd9b3a50948863e84b150f57473",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofed_fork_side_1_1.nbt": "24bdf622d7b4acf32408143e66bf0ca85e75cbe07cb315491bbff5433f872b8c",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofed_fork_side_1_2.nbt": "11dfbd9680fc2dfab3c9d594b5851a8c474c0dcc29f575f98336cfb062362cc8",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofed_fork_side_1_3.nbt": "3012235add88b8aaeee490f8cda6a9ded7243de3a8048dcdc9a4b10ed67b028d",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofed_fork_side_1_4.nbt": "345604e5e480d42d644938da8586b3ced0da7f89ad534619e2658446899de1d2",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofed_fork_side_2_1.nbt": "bdf952824b1fc311ef04f3bd0f8a9dc22ca9c224e25711f6a9d7dee18fc56f30",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofed_fork_side_2_2.nbt": "b5f3b333779edb1c6ccbfa9be601a8475838adf063000680031a88acf42624e0",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofed_fork_side_2_3.nbt": "abe3f76efaf64cf97ffe527e1f793ac592c9fa077b4f186ff712a2c246df1f43",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofed_fork_side_2_4.nbt": "86ff6bf895ba27ace8dbfa4056e9d7a1cfa50525c0ebbcb2d83f8f7dec93009d",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_1.nbt": "6cbca101418420da0f738bc29879c61f36dc4b416a58fa8fd2f0a29171c888ca",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_main_1.nbt": "b7f39c601f7d075792e3a44111486472227449cb5bf99b4054030eac0d371dfd",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_main_2.nbt": "b2b1a011129d59a53d3d974c03ed1b19f2c725109f5dbfc3ee041a978a4c7b95",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_main_3.nbt": "466f460de4f928192f5640c2cbe4f9b3bcd7622171990adca41502d67496b178",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_main_4.nbt": "c4a1825c21eb3c642293ea25463c05fba993afcdc02c9c0e3e1af8e9e3f49908",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_main_5.nbt": "ca301bc34e82c92c7ebe1653bf00bd0c40e6ca90422b9ad77daf55e65db9b609",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_main_6.nbt": "e080694f0f3994f7b934de43a6eda86bbfc1b719155920974cc2dd8a47187847",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_main_7.nbt": "148d7a48326c94fb6c708e331e2c3a2a8135503a745c96ed0be36f1318ba8b61",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_1_1.nbt": "012eb6bd7b2087187bb2e10af7506d1b28d06264e2178fcf22fe57db7e8e67da",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_1_2.nbt": "acc557b6700b65803cc35fbe5962ac4a96166f73676f35e57b1182d69200ddc5",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_1_3.nbt": "3c079a62061e30e6deb3797f48c6db799df8aad7e6b9772fd23356d70de7c763",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_1_4.nbt": "1a86dc767f4868e3f6c1ad2674161a187b51d21163aebe6537671c614ab128d9",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_1_5.nbt": "1eedc4071dc9a2347d585a4dda37471d2cbd7f5a4e4baa9a256160f0e3b470fc",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_1_6.nbt": "2fe8a47b0d30c6ab4f17f85ff0a3e550ee1ca69e53e4fe43a4b5cb773e4823c4",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_1_7.nbt": "4335bfc74594e95961773b8370ea2942cd48c12dfa3416a5f28d673cbb140000",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_2_1.nbt": "4705c38b99478167ac2246a90c383f0515c4366ce2e9c725c3471723970a895e",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_2_2.nbt": "2e510ccedd66180f7d724e09d3d567293c821470767abb6d11f07eb346249a3c",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_2_3.nbt": "4d69d31d7462322a4e511e6cc0667761557a3b7eb4929e6b891f59b14361e273",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_2_4.nbt": "792129faebedfbf226957d62e98a645ee97c40ee7d27589b9bda8fb4e85003c8",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_2_5.nbt": "37c8242d13cbb79b2f5276746ddbce0899b71739a3441ebc2bd80e03349256da",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_2_6.nbt": "dd197f6337afb7bbb32fc2e4468b857bd86bfcd4e75cc1f807e3bdff1842464d",
+    "data/mns/structure/1_21_0/mega_fortress/forks/roofless_fork_side_2_7.nbt": "1679c4943e08fa4e281b1a458e91321ef198561489881b03cb15c32a7467ed43",
+    "data/mns/structure/1_21_0/mega_fortress/mobs/black_guard.nbt": "aa00162ca6092aeb8ac9484ec0391a6d7acd18940ec26e635e3c2e0d6908fd97",
+    "data/mns/structure/1_21_0/mega_fortress/mobs/blaze_sentinel.nbt": "7d4dd0d8a22dfc80d1caa22d1ececd9a0912ed5525e7efdc9e05f6b9f91dfe11",
+    "data/mns/structure/1_21_0/mega_fortress/mobs/fortress_archer.nbt": "b9b31a5659f2dff46150e7ffcf6975e056b1171160fcee90e499cae1533d6a29",
+    "data/mns/structure/1_21_0/mega_fortress/mobs/fortress_champion.nbt": "6835dc76f4cf72bd0afff1e82c33c91e2a1d61e13fa9eb2052c857e5dab04c62",
+    "data/mns/structure/1_21_0/mega_fortress/mobs/fortress_guard.nbt": "dcf0ac644824dc9781ba73d4095107252060ee47758c5c14b50ab3b217d0a121",
+    "data/mns/structure/1_21_0/mega_fortress/mobs/warden_of_the_keep.nbt": "a2c7b7df241284613de2855043b29c63f04645a9cdf5d86449961df3e0da532c",
+    "data/mns/structure/1_21_0/mega_fortress/spawners/spawner_end_1.nbt": "c2d49b0feb6c5643d3a08179ae49974d4ac08f0299aa274c096af59835c297cc",
+    "data/mns/structure/1_21_0/mega_fortress/spawners/spawner_side_1.nbt": "9edfe60424cabb7ed15e12fff49f97844bc5dc1004b05ef98c83607c1f2ac9d4",
+    "data/mns/structure/1_21_0/mega_fortress/spawners/spawner_side_2.nbt": "2ea1a9e1f54cb919f3609cdd7b45d76a9deb7f492237ca13de8da06f94c6016a",
+    "data/mns/structure/1_21_0/mega_fortress/staircases/staircase_lower_1.nbt": "dc72d913d1049a8424ba4220077b20953602a168d71aeae78cc7086d2181aa03",
+    "data/mns/structure/1_21_0/mega_fortress/staircases/staircase_lower_2.nbt": "02f987d87479b994d292133c9482b7b5d3693c3fda9df0b389bf204c546cacae",
+    "data/mns/structure/1_21_0/mega_fortress/staircases/staircase_lower_3.nbt": "025c4ddd3f772ed2ff1bc4d96357c67d628aa7ace1c2983df416b35319533162",
+    "data/mns/structure/1_21_0/mega_fortress/staircases/staircase_lower_4.nbt": "f3cb94d5d21faba915773607c587ee5f7066ee771e9bd55bc87fd7db4dc4a947",
+    "data/mns/structure/1_21_0/mega_fortress/staircases/staircase_side_1.nbt": "46e0820d217370e5284b91d7c03f1c5f437700d31a0c339efbf4b9fa58a50c7d",
+    "data/mns/structure/1_21_0/mega_fortress/staircases/staircase_side_2.nbt": "b6844d2681bfdb5a2cf7f594a38bdc8f62da1e5bddeece35be53364bef8e353b",
+    "data/mns/structure/1_21_0/mega_fortress/staircases/staircase_upper_1.nbt": "5b1c3bf4ed4d64f026450750f027794a2237612acc56e994a33ecbabf6c2b34d",
+    "data/mns/structure/1_21_0/mega_fortress/staircases/staircase_upper_2.nbt": "5bdbfd510aa3a24f9a4c5974614a8c37626e5b30d025d7c4ac66ebf90f0269db",
+    "data/mns/structure/1_21_0/mega_fortress/staircases/staircase_upper_3.nbt": "62bcc9dd386852d96066bd59a3e0b8dedc427b9af07fa3f110c33fcae0301b2b",
+    "data/mns/structure/1_21_0/mega_fortress/staircases/staircase_upper_4.nbt": "25f5fbedd005f57ccbc34caf92b811c324c190850c8e50f5efd8b69983cddd30",
+    "data/mns/structure/1_21_0/mega_fortress/start/mega_crossing_center_1.nbt": "36ab3ae1f51c18b7b22970da9c79f6ae6d93c38b999bb98c2efbd1c90859f2fa",
+    "data/mns/structure/1_21_0/mega_fortress/start/mega_crossing_center_top_1.nbt": "c29b37e451446e26bc16e1d29eccc493d1351dd974858b1cb529b11063c27484",
+    "data/mns/structure/1_21_0/mega_fortress/start/mega_crossing_east_straight_1.nbt": "efb560e5621d883657a587a92f1e5820be0e10525fbce4de77c36d07ecd7630c",
+    "data/mns/structure/1_21_0/mega_fortress/start/mega_crossing_north_straight_1.nbt": "eb62d865a86922925a6bd072d925924c603121bcaeecea80dfe82760107f0f2a",
+    "data/mns/structure/1_21_0/mega_fortress/start/mega_crossing_side_1.nbt": "bc5c47b9fffb3bbbf17f5c221084149f44437f090da80718f96e06557eb1354a",
+    "data/mns/structure/1_21_0/mega_fortress/start/mega_crossing_side_2.nbt": "36b9d6fac59d6e7ac60788de72e5f5dabe9b1c944354f02ad9faf123f2a1222e",
+    "data/mns/structure/1_21_0/mega_fortress/start/mega_crossing_south_straight_1.nbt": "612bf90fa83fd0b60583ecf830aaf5271280232b03e33c337c9acb88713910b7",
+    "data/mns/structure/1_21_0/mega_fortress/start/mega_crossing_west_straight_1.nbt": "6bc0033aa9e6ec536ae384e29cfc4fb4f76775a683bd33856fe1bc133bd505a7",
+    "data/mns/structure/1_21_0/mega_fortress/upper/corner_1.nbt": "f1e446331044acb06887262b6c5110b4aa2723dc8a65934cac1e9956bc1e6baf",
+    "data/mns/structure/1_21_0/mega_fortress/upper/corner_2.nbt": "97e332f4c5a147f1a54e037fdb73b7d4337d90358fbfa1c4023cac49c6766364",
+    "data/mns/structure/1_21_0/mega_fortress/upper/corner_3.nbt": "43197208c46dbaa95d5e98e5e7e9ebad55e3e3eff84ba703f17700a8d9993266",
+    "data/mns/structure/1_21_0/mega_fortress/upper/corner_4.nbt": "18bae28824b7c53f486ace6c994ba91a65ff2024bce06a5cee9a6f52af28f3c9",
+    "data/mns/structure/1_21_0/mega_fortress/upper/end_1.nbt": "e76fd98e6775abeebb3296c7aa728bf1d724ac3bb7fb8bbb30859d47c0676b60",
+    "data/mns/structure/1_21_0/mega_fortress/upper/end_2.nbt": "d5698f84c81864e7361f4af8bb82f2a1aa5f0f8e08e929a48e0e013ee2251afc",
+    "data/mns/structure/1_21_0/mega_fortress/upper/end_3.nbt": "afdb024d53960f55e503c18e48bd6bfd14c55406534b9d6a14ce2f291c317ef1",
+    "data/mns/structure/1_21_0/mega_fortress/upper/end_4.nbt": "f523aeaa92c6ff926f7f14708671177eab5a8e5749db24381ab46c3a862bdc8a",
+    "data/mns/structure/1_21_0/mega_fortress/upper/end_5.nbt": "f50aab14c22e8c34fa3cd12fc56168b6806c8c1794a0eced7ae6ce2a78bb4c0b",
+    "data/mns/structure/1_21_0/mega_fortress/upper/end_6.nbt": "6933c4bef59237f8c5543d9e17828dbce2b8c92f3daa080f171e37c20536a3d3",
+    "data/mns/structure/1_21_0/mega_fortress/upper/end_7.nbt": "afdb024d53960f55e503c18e48bd6bfd14c55406534b9d6a14ce2f291c317ef1",
+    "data/mns/structure/1_21_0/mega_fortress/upper/end_8.nbt": "f523aeaa92c6ff926f7f14708671177eab5a8e5749db24381ab46c3a862bdc8a",
+    "data/mns/structure/1_21_0/mega_fortress/upper/pillar_straight_1.nbt": "1150de17a5d35c1014dd21bfa7f361b8c9c17eb3fdc755abbebefa0573d95d4c",
+    "data/mns/structure/1_21_0/mega_fortress/upper/pillar_straight_2.nbt": "6972bac31e4132791096e817487bc8cd31b5863b1591810d710054e2da0e366f",
+    "data/mns/structure/1_21_0/mega_fortress/upper/pillar_straight_3.nbt": "2cbba209d49bf1b7243ccfafe588f71ac79b79ca92c4d8425bc7e17886264f2c",
+    "data/mns/structure/1_21_0/mega_fortress/upper/pillar_straight_4.nbt": "eaa69f260788b8850cc701f48b178f67047c14b423da3707e66af2f07ad92336",
+    "data/mns/structure/1_21_0/mega_fortress/upper/small_crossing_1.nbt": "4090a5203625183e25ce62fd7763cc257b20cd08908a484387b3e480f01fbd50",
+    "data/mns/structure/1_21_0/mega_fortress/upper/small_crossing_2.nbt": "495ebd89b1cafa0d9d1709f891b90bb686ad253308964247da09437074bc833b",
+    "data/mns/structure/1_21_0/mega_fortress/upper/small_junction_1.nbt": "b5e21b10dc38bafa76ac9ce4dfd7f26322ecb53d6b4ae16a1308529670c6631c",
+    "data/mns/structure/1_21_0/mega_fortress/upper/small_junction_2.nbt": "fd75541c76eb0cae035de91f7bc08f046ba90d1e3d612d78f9ac0892e8e59183",
+    "data/mns/structure/1_21_0/mega_fortress/upper/small_junction_3.nbt": "dc363f683e8891143627733727474bc3ef66fd7f6a4f08bd29a651b11673e178",
+    "data/mns/structure/1_21_0/mega_fortress/upper/small_junction_4.nbt": "3d7de8c012dcbfb18c922639cd15cc7422e90c53ab65a268c69ac72b22019593",
+    "data/mns/structure/1_21_0/mega_fortress/upper/straight_1.nbt": "f12083ddd4e830ea2005ddb820d37f421c8c8596dee3054466a2c1aacce2b264",
+    "data/mns/structure/1_21_0/mega_fortress/upper/straight_2.nbt": "efb0b56c616450923aa82aa3eea5d50e6d95a464ac2e3157f5a7f05b1fb5a4e9",
+    "data/mns/structure/1_21_0/mega_fortress/upper/straight_3.nbt": "efb0b56c616450923aa82aa3eea5d50e6d95a464ac2e3157f5a7f05b1fb5a4e9",
+    "data/mns/structure/1_21_0/mega_fortress/upper/straight_4.nbt": "273513585dd6a90d11fb7fc7603bfce16290907665d6bc45f81025cc5cd9b159",
+    "data/mns/structure/1_21_0/mega_fortress/upper/straight_5.nbt": "cf9a3b41d3dfba5dd2dd28432e9e1e045f4c27c4a53414e584c188c0d677e9d2",
+    "data/mns/structure/1_21_0/mega_fortress/upper/straight_6.nbt": "ec4ed7758d08a1a6ad733b32deffc328a00ffb2fe57a58b7ec11b971763527ac",
+    "data/mns/structure/1_21_0/mega_fortress/upper/straight_7.nbt": "ec4ed7758d08a1a6ad733b32deffc328a00ffb2fe57a58b7ec11b971763527ac",
+    "data/mns/structure/1_21_0/mega_fortress/upper/straight_8.nbt": "03e31477520c6afa4b9f508f0fd7310cb2cb48ecf2c29948a17dcf095ae5aba9",
+    "data/mns/structure/1_21_0/ruins/large_blackstone_pillars.nbt": "dfdc02743cd2bfe0121c0513f9b4262d65432192f534321ee71a4539ba55efd4",
+    "data/mns/structure/1_21_0/ruins/large_blackstone_wall.nbt": "16ea4698aba76effbd69413e51cae40d1acffd326b99311e32d9826bd7e8205e",
     "data/mns/structure/1_21_0/small_arena/back.nbt": "8c953427ebeff737398a7f006a356e7bf9d6f275a9341abc450f3b9162dd277a",
     "data/mns/structure/1_21_0/small_arena/front.nbt": "f54311e84a7f9287649d43a05200c3746e2dc8b0fd426bd360957ffba8f9f0b9",
     "data/mns/structure/1_21_0/small_arena/left.nbt": "23a28c488e4672fe1cffc481ca2f5b0ec8b9fdfd4c88a808b631396d2259f95a",
     "data/mns/structure/1_21_0/small_arena/middle.nbt": "974019ca85c906462a90ebe42db9509d05735864b17ad100c232175f28ca3254",
     "data/mns/worldgen/processor_list/dragon_arena_pillars.json": "0fc5497bb2757532dc5e5d5903a37d30aa2ba4f80b9813baf0235ec3a7927e07",
     "data/mns/worldgen/processor_list/large_arena_pillars.json": "f390004462e189187d19500170c6f5ddbc4a7c3e44cd57cbc062cb1d74f5eba2",
+    "data/mns/worldgen/processor_list/pillars.json": "09b990012ade180edaa4cf254630883a0573db535efe603460ab51c3810da060",
+    "data/mns/worldgen/processor_list/pillars_armored.json": "e7d9e80561d4cf81138509395492c0e3d78e1eda6b22aa6ae679487361598f03",
+    "data/mns/worldgen/processor_list/pillars_blaze.json": "bd45edf61a1a13ab4da53094cf0c59d9fad2c3c2ecb7d4dbc0d31186c4dcae7f",
     "data/mns/worldgen/processor_list/small_arena_spawners.json": "14e62029fa81de2a5b27b02dc879382bedecc5634d5dcff2b69b5d6eb650f260",
+    "data/mns/worldgen/processor_list/wither_skeleton_spawners.json": "aa493ae6231bffa1fe264a000693eb9458e5be8d97514bb52acea68dbc3e181b",
     "data/mns/worldgen/structure/dragon_arena.json": "b0ccbf1dfc7c1ad5529c51b9369dc3f4e81533c248360a78dc3bcb864406eeae",
+    "data/mns/worldgen/structure/grave_yard.json": "ac090378e43d97190d52a79ddce58f6a897a76cb6dc916db3a3f6f27d37ff461",
     "data/mns/worldgen/structure/large_arena.json": "9d0a9e173cd9571859949b1ab9de28f71d094e564499391470cf316d46265b1c",
+    "data/mns/worldgen/structure/large_blackstone_pillars.json": "93fefe191a81d1c48e23e0be16382e4f0712b2a9bc9f4516473d66865a17875e",
+    "data/mns/worldgen/structure/large_blackstone_walls.json": "245e6af612c367d5cb3c25e0700fb78a1379322dc60f06272c6ad605e52a883f",
+    "data/mns/worldgen/structure/mega_fortress.json": "d888aa85bd2af19edf04b79ae3b882c048f444114013fa7c3ad713d71803a56e",
     "data/mns/worldgen/structure/small_arena.json": "803b3d96eadccf2d77d0c4ab8e95ff1eed09f208bef4f6be786d1245bf9baa51",
     "data/mns/worldgen/template_pool/dragon_arena/c1.json": "0a77b2a54e19f28a43a2d4b660692870d1644b584bda3221adc8414b6540f175",
     "data/mns/worldgen/template_pool/dragon_arena/c2.json": "594a1c76358a5ad61d54a48a84c2dee742470e3f55b51984b5366ffbece89088",
@@ -60,12 +271,93 @@
     "data/mns/worldgen/template_pool/dragon_arena/r1.json": "d23636fbc23fc019a4adb02cb78dc74d29d9e4fa782e193dda7e041731bdbc2b",
     "data/mns/worldgen/template_pool/dragon_arena/r2.json": "36e2e2d113f1bb89437348d50d29b4dbf85e1232a6805e86de785b54f472d58f",
     "data/mns/worldgen/template_pool/dragon_arena/start_pool.json": "a882a30b56e2670d996ee7917684974b327954f57c61d618e5a6d3c27f4b2321",
+    "data/mns/worldgen/template_pool/grave_yard_start_pool.json": "c1f23108ef29a7eddc564c9ea9b9999871651a3b222d8d85a93f8ece7cceacf0",
     "data/mns/worldgen/template_pool/large_arena/l1-l2.json": "4eefbc3f58db7cdd1ca7bf35a66565d928a389f5bffa57a43cf62a29560d162c",
     "data/mns/worldgen/template_pool/large_arena/l2-l3.json": "163018e6de70dc7306525975abe2fe2b71d20c130ee6b7d4f735bfb471ad7006",
     "data/mns/worldgen/template_pool/large_arena/r1-l1.json": "bf352e32c4a18b8421144cafa362a4cad191e52801ef0c58d0064cb9142510e6",
     "data/mns/worldgen/template_pool/large_arena/r1-r2.json": "1cc3d6d8cbc7716fca89cbbfe77d3a9283a0a1234067766f38ba47c09bdcb23b",
     "data/mns/worldgen/template_pool/large_arena/r2-r3.json": "efd947aa3d563e4be8e617051e2b519e27b7b979b2513da1d649017b02a0d8e7",
     "data/mns/worldgen/template_pool/large_arena/start_pool.json": "ac61c915eaaa12a127e93016dfed1b866999bcb52ba7fc463e64396920de07c0",
+    "data/mns/worldgen/template_pool/large_blackstone_pillars_start_pool.json": "ea6959c7aedb6d842de161f85f8f53bd449d28eb726efa953c822de56c1f04b4",
+    "data/mns/worldgen/template_pool/large_blackstone_walls_start_pool.json": "bfae6191beb1e3376937034db2f859e20c7293ab7fed8e5299009629728f0034",
+    "data/mns/worldgen/template_pool/mega_fortress/corners/corner_roofed_1.json": "90caa8a0ab67215fcc3819ac0e4a9ccc51ef05aa028be1294d46af8423767029",
+    "data/mns/worldgen/template_pool/mega_fortress/corners/corner_roofed_2.json": "94264328a121a4644034b0b909c38d723f4f879b3c4d5dfb07c338c302d0f7c5",
+    "data/mns/worldgen/template_pool/mega_fortress/corners/corner_roofed_3.json": "13531e22875dd91780b2d8a7380b1f5d8378008a34cb2537bf50647f449b5019",
+    "data/mns/worldgen/template_pool/mega_fortress/corners/corner_roofed_4.json": "ce82ef729d50e6bd7a094ca5f21adbf4b9fad9d1daa78a9dfc94dc3c9a0d61f9",
+    "data/mns/worldgen/template_pool/mega_fortress/corners/corner_roofless_1.json": "efe244a328eb9cc4395a903768e1abc27f6296f4276b1aa4f94f0e674b1cfdd0",
+    "data/mns/worldgen/template_pool/mega_fortress/corners/corner_roofless_1_3.json": "414836ff306a6d2fc8007dac89f173c57796df36d641af8ea67091dec42c2252",
+    "data/mns/worldgen/template_pool/mega_fortress/corners/corner_roofless_2.json": "72da2fec05ac3ae6dab1b28c440d756b7b758b10a5e50bff40bcc9e1fa22fc9d",
+    "data/mns/worldgen/template_pool/mega_fortress/corners/corner_roofless_3.json": "b5d9cde8edb1484a5f8bd35d970e5a2683ebafb4237aee2d5a741674f7154cf0",
+    "data/mns/worldgen/template_pool/mega_fortress/corners/corner_roofless_4.json": "96588ac4f330a9a56df029eaf91d4ff5422e28ac59bc8e07aa0437bf99e82f46",
+    "data/mns/worldgen/template_pool/mega_fortress/corridors/roofed_any.json": "b278d01f68b879b1d6c3479a49e2a07a17d7f2e6d485e987311b6055a04d57c9",
+    "data/mns/worldgen/template_pool/mega_fortress/corridors/roofless_any.json": "fe965abc12d9358bfddbc9b7cc5390aaa53f240c986f3ee9f24abff223eefcfc",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/large/large_crossing_east.json": "c7e1764f04a97bfaa690a980edc58c2164f5106bafc7884f241ae508da6fe45b",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/large/large_crossing_north.json": "d008cedfb0e6090c7a6e3d61d54b361dd54fa90290a60786c551d10d958bc642",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/large/large_crossing_south.json": "ceda4919558a758f58cdc5e467a6d9e65691361547c11725f67b79e9e6d476d0",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/large/large_crossing_west.json": "97bd09fdf4799259fcadd453738a8b48051d2ab41af711dac8718dded9f51afb",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/medium/medium_crossing_east_2.json": "4804cc962f8a7bfd80b8b57b9a0f921558ca16c4c8b88a845c4c5739f8d75e8d",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/medium/medium_crossing_north_2.json": "be85bda68705d98567efe435334154e5dcf8869bb4f4291f7cef4b29b88fb6b5",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/medium/medium_crossing_south_2.json": "b639d542825b08ce528818fed654e4bedbcef0b0a24972e898f26c2e4c31b911",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/mega/mega_crossing_east.json": "f0e10f48ad8002b2b1451370e27d4c262e11fd80a911e77551988d39e84f55b3",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/mega/mega_crossing_north.json": "5f7d384bc449595954a521f4a6efb4ab86f35e67657d25e3195e16b33b153922",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/mega/mega_crossing_side_1.json": "a1521fcc243e0dbc5079bb980c2d15bca0ba25d772768a06ab0ddaabb2effbaa",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/mega/mega_crossing_side_2.json": "0f7bf2ce01229c690d873b62cbdaa41af8f30637df200b79e9e58df13462c528",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/mega/mega_crossing_south.json": "3146e402e4a238d725aaf9aa99b7035651636906d1c96cb8abba98646172dd93",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/mega/mega_crossing_top.json": "6e55a7462968a02166645e42ff86fde0023cb8f7303b5feaf67a359559cff69e",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/mega/mega_crossing_west.json": "082024646b722a81dd6515daf7f28275f28fbfef9352d56d7837702cfa1aae9d",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/small/lower/small_crossing_east_lower.json": "43ac764005d31046135f479dc0826ff2a807b18edfc50510fd54031e1197b55d",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/small/lower/small_crossing_lower.json": "99c9fc6e058bfde081ad536ccfce531330f4fe9f383749c97fb2206bdb78069e",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/small/lower/small_crossing_north_lower.json": "959892ebfc618ce9fba3987649738e1a2db3ab863b6d5dd9cb46d9fb4725bf27",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/small/lower/small_crossing_south_lower.json": "87b66caaeb3a45a6eac17671a98191eb85957b9645f25124cfa54f3edd00d135",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/small/lower/small_crossing_west_lower.json": "bec10b8919ded5108aa642030060a9b4699649546d7dfb5faba855b06ebd456f",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/small/small_crossing_2_east.json": "85aaecba16804cb97660bb7e9420a3739888f1b6211cdf6da1dab73300076797",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/small/small_crossing_2_north.json": "cf9b07fad5d5dca5244c43dac09a77f791306e6023be7765b05bba655058f8f9",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/small/small_crossing_2_south.json": "094de37ca3f30f1b2328ba9ce5228b6ae1bb06404d7ccab6bc207f4024a6f367",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/small/small_crossing_2_west.json": "5487734cc4c6005898d94ee1c193f60ffb0f82857b5be0fd51d8f106d81b5b4b",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/small/small_crossing_east.json": "2ff656d443b6adbb37db4065c2781221ba2b5ceb0262b520d920a61e04c8127f",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/small/small_crossing_north.json": "83da5c24956bb583555f8897c38a4748f3e51d98f121704a0483d6ca0fe7231a",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/small/small_crossing_south.json": "d1cf49d4a53042d2a4d4c4325d55c2f80e2c3bda71fcd66cbce5cc7b9642731f",
+    "data/mns/worldgen/template_pool/mega_fortress/crossings/small/small_crossing_west.json": "aa17f097e4796323c8c9f112ef5213a62ca1539f7f5e4b6177a0f5109631fb32",
+    "data/mns/worldgen/template_pool/mega_fortress/ends/junction_ends/junction_end.json": "3f718daeaadbc127325a655e4723046a9b4e220ea6955c12289a11f678c4a742",
+    "data/mns/worldgen/template_pool/mega_fortress/ends/roofed_end.json": "d0c8c3e5b8e808c8128735ae184f40fb3a645508c8c43e946a7caaf78b709fac",
+    "data/mns/worldgen/template_pool/mega_fortress/ends/roofless_end.json": "457b7e0cdd8aeca5520fd1f9eff6dc2073887b86991a73cc9bdfc9b4376f26ac",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofed_fork_side_1_1.json": "89a12c92519513639dc661b236be0c6827b4ea996b06e217b3f1015e1099475e",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofed_fork_side_1_2.json": "65c8a33c444a6cae4ebcb0cd85224fce4717ac3482fedc642c843932144b070b",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofed_fork_side_1_3.json": "538c85a3f1e3be61b01a370c5c318512fcaae242a6adef55a0683250f81cdece",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofed_fork_side_1_4.json": "3d4f34b3254df64db0bca764b3f0c7df96e5103d4fdefd095925bae5146bc99a",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofed_fork_side_2_1.json": "dca3619a700481e5daec4fcf39f08af6104dd96b926968b40eded0ffd6ee5f71",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofed_fork_side_2_2.json": "c867087791b3d987f655bccec0bf9d2a7cfb52aa8b7cd33261e4959591edf7f6",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofed_fork_side_2_3.json": "86039acc017135b5ea49cdd5a64b44e7cff08ab4768a51ea81aaea4e223b909a",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofed_fork_side_2_4.json": "78ea25768271a11bae3a96d26ca70f3457167d4fb8e7f1f4c707cd625651ecc8",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofless_fork_side_1_1.json": "bb009f40513bbdc4ffb1cc912b37b10a5466f3ea448bce539e716d8a9cccd23d",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofless_fork_side_1_2.json": "4226e7af6818b5979b41e49f00e36353c73e17e99018d68b4c5a9d214760e67a",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofless_fork_side_1_3.json": "df769bde42613c231df27ae4843da1cc652b108eb2c7bab341a87aa5f8bcff7b",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofless_fork_side_1_5.json": "4512dbb137bea76ff9f1e160e74ff8bba300ec640f4bc1d187f874371bcabe79",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofless_fork_side_1_6.json": "8ab5533f053f2a02e63846dd476d254dbe8da78c757a48ba3c35a88bcd3e81d2",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofless_fork_side_1_7.json": "ff8522547b075d73a6b2d6de9e90fb0daca53231994a1f87cb23384d99e25805",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofless_fork_side_2_1.json": "9410f9871b24a51ec1f8ff401ed23db9fbc3193d0d7c55648b0bb7a4079d9490",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofless_fork_side_2_2.json": "a1d23425a8d5bf59b050f25b4a3c8084b24c37318736c456c32d215057fdf4a7",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofless_fork_side_2_3.json": "06062a99fc353e58f525b62d96e19d7933793da80975f01f679567737ed55683",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofless_fork_side_2_5.json": "c32b023bbe19de99f8887202e4c0f8105bcb055ec43843c3f289b680315a67d5",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofless_fork_side_2_6.json": "5a89aba8783cb28db994711e06b5dec85ee47dc3ce771e03ff055a5fb7b2e15b",
+    "data/mns/worldgen/template_pool/mega_fortress/forks/roofless_fork_side_2_7.json": "044cee3b6ecc0f6ddd186f2ba807d8c40292a4e1971627a9893ab7a6ac3b5f7f",
+    "data/mns/worldgen/template_pool/mega_fortress/mobs/black_guard.json": "250eae18bfc49e8a0bebece5e4c254ee44301b77419f61c6a426e820e6753a9a",
+    "data/mns/worldgen/template_pool/mega_fortress/mobs/blaze_sentinel.json": "e129564cec122c69962200ed2b1e9450f0b8250d16b43bc4b4b0b089ac590b39",
+    "data/mns/worldgen/template_pool/mega_fortress/mobs/fortress_archer.json": "2874786bf44519f41a5abbfb58059557fe11b05b535d0dd9c6ea357687f5d42f",
+    "data/mns/worldgen/template_pool/mega_fortress/mobs/fortress_champion.json": "eb0be5e5d8dbdeb31cc39c27a93df746147104538c04130b68acb58aa7549148",
+    "data/mns/worldgen/template_pool/mega_fortress/mobs/fortress_guard.json": "ee2f3b9d957b0f7957b90c803ef9cb057ab191ded5a6ccb221a981f4bf874ba3",
+    "data/mns/worldgen/template_pool/mega_fortress/mobs/mob_any.json": "c8709f56346a6486c4da3afeba592cac1a11fa407b05c4b07fcdfa68ba0f2cb0",
+    "data/mns/worldgen/template_pool/mega_fortress/mobs/warden_of_the_keep.json": "b284e03f976c928e12aad6f386d547db0ef64ab46bb9b5e182ade1fc88aec064",
+    "data/mns/worldgen/template_pool/mega_fortress/staircases/staircase_side_1.json": "a01413a605aedb491bee7aa52eda2806e7ff38ace51df6245153e267b88db691",
+    "data/mns/worldgen/template_pool/mega_fortress/staircases/staircase_side_2.json": "1b7079639b263de93d29779daabbcaa1993910009b255e92e7b16d2fb15935e2",
+    "data/mns/worldgen/template_pool/mega_fortress/staircases/staircase_side_top_1.json": "87862ec03728a7c189d363f4e48fbee4c322b72aea3e03b752898a12fc78fdd1",
+    "data/mns/worldgen/template_pool/mega_fortress/staircases/staircase_side_top_2.json": "c6c52198d8b382c629b123ed48d25fb742d474d4b4183cf6f47dd9c82b9f66fa",
+    "data/mns/worldgen/template_pool/mega_fortress/staircases/staircase_upper_2.json": "227bd83c9a330f6808d35cd6a4aa70738a9d7bda9cfdb60a61ca5203fa2b606f",
+    "data/mns/worldgen/template_pool/mega_fortress/staircases/staircase_upper_4.json": "a207589eb9bb4ee47a78cdf738bfe13041c2da9c9d98efe8abe0d8b7b30b5be9",
+    "data/mns/worldgen/template_pool/mega_fortress/start/start_crossing_north.json": "6fde72634626b001180bd250b3fb7326bde9d2d7ddbadd141e1a31b3d9d49392",
+    "data/mns/worldgen/template_pool/mega_fortress/start/start_pool.json": "ab17138e30f0911ca652dd9db290b81cb531964fb94cc53820c754b8f3d5e88c",
+    "data/mns/worldgen/template_pool/mega_fortress/upper/roofless_upper.json": "3dde05fb4a951179a390b0a81ae01ead499ff1d4652178ed97dafdbe8135856b",
+    "data/mns/worldgen/template_pool/mega_fortress/upper/roofless_upper_end.json": "03a84703e95bbe2eb0e473f5bdd5b5ef1afddd2266e372617140861ae9db74ad",
     "data/mns/worldgen/template_pool/small_arena/back.json": "a31c47ecd66a4a9a6b004cb69b1ae3f20e7efb7a042e98764141150a7e9880f1",
     "data/mns/worldgen/template_pool/small_arena/front.json": "3e0e9c1dbe0b2bdf46431963b61d0058d796126c8aea0c3427f683c8dc586545",
     "data/mns/worldgen/template_pool/small_arena/left.json": "4844e17214d9a2644d6425cd91e7dda9346b1357c51a4d28c08df3d3525d4d93",
@@ -79,7 +371,7 @@
   ],
   "upstream": "https://github.com/FinnSetchell/MoogsNetherStructures2",
   "license": "LGPL-3.0",
-  "scope": "Three Java 1.21 arena layouts for manual Bedrock testing only; no natural placement/spawn rules.",
+  "scope": "Seven Java 1.21 structure layouts for manual Bedrock testing only; no natural placement/spawn rules.",
   "limitations": [
     "Custom Java boss/mob encounter pools omitted.",
     "Java trial-spawner and vault configurations are not ported; blocks retain default native behavior.",
@@ -1090,6 +1382,2652 @@
         "unported_trial_spawner_configuration": 3,
         "native_Chest": 9,
         "unported_vault_configuration": 3,
+        "omitted_java_minecraft:item_frame": 1
+      }
+    },
+    "grave_yard": {
+      "display_name": "Grave Yard",
+      "size": [
+        18,
+        8,
+        10
+      ],
+      "spawn_enabled": false,
+      "sections": [
+        {
+          "id": "jagsby_nether:arenas/grave_yard/section_0_0",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            18,
+            8,
+            10
+          ]
+        }
+      ],
+      "source_pieces": [
+        {
+          "location": "mns:1_21_0/grave_yard",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "rotation": 0
+        }
+      ],
+      "joins": [],
+      "omitted_encounter_pools": {},
+      "conversion_counts": {
+        "native_Barrel": 3,
+        "native_MobSpawner": 1,
+        "native_Skull": 4
+      }
+    },
+    "large_blackstone_pillars": {
+      "display_name": "Large Blackstone Pillars",
+      "size": [
+        13,
+        11,
+        13
+      ],
+      "spawn_enabled": false,
+      "sections": [
+        {
+          "id": "jagsby_nether:arenas/large_blackstone_pillars/section_0_0",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            13,
+            11,
+            13
+          ]
+        }
+      ],
+      "source_pieces": [
+        {
+          "location": "mns:1_21_0/ruins/large_blackstone_pillars",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "rotation": 0
+        }
+      ],
+      "joins": [],
+      "omitted_encounter_pools": {},
+      "conversion_counts": {}
+    },
+    "large_blackstone_walls": {
+      "display_name": "Large Blackstone Walls",
+      "size": [
+        20,
+        10,
+        5
+      ],
+      "spawn_enabled": false,
+      "sections": [
+        {
+          "id": "jagsby_nether:arenas/large_blackstone_walls/section_0_0",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            20,
+            10,
+            5
+          ]
+        }
+      ],
+      "source_pieces": [
+        {
+          "location": "mns:1_21_0/ruins/large_blackstone_wall",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "rotation": 0
+        }
+      ],
+      "joins": [],
+      "omitted_encounter_pools": {},
+      "conversion_counts": {}
+    },
+    "mega_fortress": {
+      "display_name": "Mega Fortress",
+      "size": [
+        245,
+        56,
+        248
+      ],
+      "spawn_enabled": false,
+      "sections": [
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_0_0",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            64,
+            56,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_0_1",
+          "offset": [
+            0,
+            0,
+            64
+          ],
+          "size": [
+            64,
+            56,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_0_2",
+          "offset": [
+            0,
+            0,
+            128
+          ],
+          "size": [
+            64,
+            56,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_0_3",
+          "offset": [
+            0,
+            0,
+            192
+          ],
+          "size": [
+            64,
+            56,
+            56
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_1_0",
+          "offset": [
+            64,
+            0,
+            0
+          ],
+          "size": [
+            64,
+            56,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_1_1",
+          "offset": [
+            64,
+            0,
+            64
+          ],
+          "size": [
+            64,
+            56,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_1_2",
+          "offset": [
+            64,
+            0,
+            128
+          ],
+          "size": [
+            64,
+            56,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_1_3",
+          "offset": [
+            64,
+            0,
+            192
+          ],
+          "size": [
+            64,
+            56,
+            56
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_2_0",
+          "offset": [
+            128,
+            0,
+            0
+          ],
+          "size": [
+            64,
+            56,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_2_1",
+          "offset": [
+            128,
+            0,
+            64
+          ],
+          "size": [
+            64,
+            56,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_2_2",
+          "offset": [
+            128,
+            0,
+            128
+          ],
+          "size": [
+            64,
+            56,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_2_3",
+          "offset": [
+            128,
+            0,
+            192
+          ],
+          "size": [
+            64,
+            56,
+            56
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_3_0",
+          "offset": [
+            192,
+            0,
+            0
+          ],
+          "size": [
+            53,
+            56,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_3_1",
+          "offset": [
+            192,
+            0,
+            64
+          ],
+          "size": [
+            53,
+            56,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_3_2",
+          "offset": [
+            192,
+            0,
+            128
+          ],
+          "size": [
+            53,
+            56,
+            64
+          ]
+        },
+        {
+          "id": "jagsby_nether:arenas/mega_fortress/section_3_3",
+          "offset": [
+            192,
+            0,
+            192
+          ],
+          "size": [
+            53,
+            56,
+            56
+          ]
+        }
+      ],
+      "source_pieces": [
+        {
+          "location": "mns:1_21_0/mega_fortress/start/mega_crossing_center_1",
+          "offset": [
+            101,
+            0,
+            104
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/start/mega_crossing_west_straight_1",
+          "offset": [
+            66,
+            0,
+            115
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/start/mega_crossing_north_straight_1",
+          "offset": [
+            104,
+            0,
+            69
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/start/mega_crossing_south_straight_1",
+          "offset": [
+            112,
+            0,
+            147
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/start/mega_crossing_east_straight_1",
+          "offset": [
+            144,
+            0,
+            106
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/start/mega_crossing_center_top_1",
+          "offset": [
+            101,
+            48,
+            104
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corridors/roofless_single_straight_5",
+          "offset": [
+            65,
+            13,
+            128
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/start/mega_crossing_side_1",
+          "offset": [
+            69,
+            13,
+            136
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/start/mega_crossing_side_2",
+          "offset": [
+            73,
+            13,
+            106
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_3",
+          "offset": [
+            125,
+            13,
+            37
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corridors/roofless_single_straight_3",
+          "offset": [
+            125,
+            13,
+            182
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_4",
+          "offset": [
+            175,
+            13,
+            74
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/crossings/medium/medium_crossing_north_2",
+          "offset": [
+            169,
+            12,
+            145
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_2",
+          "offset": [
+            210,
+            13,
+            128
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/crossings/small/small_crossing_west_straight_1",
+          "offset": [
+            49,
+            13,
+            128
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_1",
+          "offset": [
+            75,
+            13,
+            145
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corners/corner_roofless_1_3",
+          "offset": [
+            79,
+            12,
+            84
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/crossings/large/large_crossing_west_straight_1",
+          "offset": [
+            104,
+            0,
+            36
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_2_4",
+          "offset": [
+            126,
+            13,
+            49
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_1_3",
+          "offset": [
+            118,
+            13,
+            55
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_7",
+          "offset": [
+            119,
+            13,
+            229
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corridors/roofless_single_straight_2",
+          "offset": [
+            169,
+            13,
+            73
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_2_3",
+          "offset": [
+            153,
+            13,
+            86
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_1_4",
+          "offset": [
+            191,
+            13,
+            92
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/crossings/medium/medium_crossing_center_2",
+          "offset": [
+            161,
+            12,
+            165
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corridors/halfroofed_straight_3",
+          "offset": [
+            211,
+            13,
+            120
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_1_2",
+          "offset": [
+            204,
+            13,
+            121
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_2_2",
+          "offset": [
+            192,
+            13,
+            121
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/junction_ends/small_crossing_west",
+          "offset": [
+            1,
+            26,
+            128
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corridors/halfroofed_straight_3",
+          "offset": [
+            77,
+            13,
+            177
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corners/corner_roofless_2_3",
+          "offset": [
+            93,
+            12,
+            84
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/staircases/staircase_lower_4",
+          "offset": [
+            142,
+            13,
+            42
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_6",
+          "offset": [
+            71,
+            13,
+            55
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corridors/roofless_single_straight_8",
+          "offset": [
+            125,
+            13,
+            230
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_2_7",
+          "offset": [
+            126,
+            13,
+            223
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_1_7",
+          "offset": [
+            103,
+            13,
+            211
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_5",
+          "offset": [
+            169,
+            13,
+            57
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/staircases/staircase_lower_1",
+          "offset": [
+            152,
+            13,
+            86
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corridors/halfroofed_straight_1",
+          "offset": [
+            192,
+            13,
+            90
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/crossings/medium/medium_crossing_south_2",
+          "offset": [
+            160,
+            12,
+            173
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/crossings/medium/medium_crossing_west_2",
+          "offset": [
+            169,
+            12,
+            208
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/crossings/medium/medium_crossing_east_2",
+          "offset": [
+            184,
+            12,
+            173
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corridors/halfroofed_straight_2",
+          "offset": [
+            227,
+            13,
+            120
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_6",
+          "offset": [
+            198,
+            26,
+            105
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_5",
+          "offset": [
+            186,
+            26,
+            105
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corners/corner_roofed_1_1",
+          "offset": [
+            76,
+            13,
+            193
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_2",
+          "offset": [
+            94,
+            26,
+            84
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corners/corner_roofless_3_3",
+          "offset": [
+            85,
+            12,
+            91
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_3",
+          "offset": [
+            158,
+            26,
+            43
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/staircases/staircase_upper_4",
+          "offset": [
+            147,
+            38,
+            39
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corridors/roofless_single_straight_4",
+          "offset": [
+            70,
+            13,
+            61
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_1_6",
+          "offset": [
+            77,
+            13,
+            62
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_2_6",
+          "offset": [
+            84,
+            13,
+            62
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_1",
+          "offset": [
+            125,
+            26,
+            246
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corners/corner_roofless_1_2",
+          "offset": [
+            142,
+            12,
+            217
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corners/corner_roofless_1_1",
+          "offset": [
+            81,
+            12,
+            205
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/junction_ends/roofless_fork_side_1_1",
+          "offset": [
+            168,
+            26,
+            50
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_2_5",
+          "offset": [
+            153,
+            13,
+            38
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/corners/corner_roofless_1_1",
+          "offset": [
+            175,
+            12,
+            4
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_4",
+          "offset": [
+            136,
+            26,
+            86
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/staircases/staircase_side_1",
+          "offset": [
+            146,
+            24,
+            90
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofed_fork_main_4",
+          "offset": [
+            239,
+            13,
+            99
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_8",
+          "offset": [
+            139,
+            26,
+            179
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_6",
+          "offset": [
+            169,
+            13,
+            240
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_2",
+          "offset": [
+            205,
+            26,
+            173
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_3",
+          "offset": [
+            243,
+            26,
+            122
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/junction_ends/corner_roofed_1",
+          "offset": [
+            67,
+            25,
+            216
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/upper/end_4",
+          "offset": [
+            147,
+            39,
+            38
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/upper/end_3",
+          "offset": [
+            153,
+            39,
+            54
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_8",
+          "offset": [
+            54,
+            26,
+            61
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_1",
+          "offset": [
+            83,
+            26,
+            78
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_2",
+          "offset": [
+            95,
+            26,
+            78
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/junction_ends/corner_roofless_2",
+          "offset": [
+            157,
+            26,
+            216
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/junction_ends/corner_roofless_1",
+          "offset": [
+            81,
+            26,
+            204
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_5",
+          "offset": [
+            152,
+            26,
+            38
+          ],
+          "rotation": 180
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/junction_ends/corner_roofless_1",
+          "offset": [
+            176,
+            26,
+            4
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofed_end_6",
+          "offset": [
+            240,
+            25,
+            91
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/junction_ends/roofed_fork_side_1_2",
+          "offset": [
+            226,
+            25,
+            90
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/junction_ends/roofed_fork_side_2_2",
+          "offset": [
+            214,
+            25,
+            90
+          ],
+          "rotation": 270
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/roofless_end_2",
+          "offset": [
+            175,
+            26,
+            241
+          ],
+          "rotation": 90
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/junction_ends/roofless_fork_side_1_2",
+          "offset": [
+            176,
+            26,
+            228
+          ],
+          "rotation": 0
+        },
+        {
+          "location": "mns:1_21_0/mega_fortress/ends/junction_ends/roofless_fork_side_2_2",
+          "offset": [
+            176,
+            26,
+            216
+          ],
+          "rotation": 0
+        }
+      ],
+      "joins": [
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_center_1",
+          "pool": "mns:mega_fortress/crossings/mega/mega_crossing_west",
+          "parent": [
+            0,
+            29,
+            21
+          ],
+          "child": [
+            -1,
+            29,
+            21
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_center_1",
+          "pool": "mns:mega_fortress/crossings/mega/mega_crossing_north",
+          "parent": [
+            21,
+            29,
+            0
+          ],
+          "child": [
+            21,
+            29,
+            -1
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_center_1",
+          "pool": "mns:mega_fortress/crossings/mega/mega_crossing_south",
+          "parent": [
+            21,
+            29,
+            42
+          ],
+          "child": [
+            21,
+            29,
+            43
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_center_1",
+          "pool": "mns:mega_fortress/crossings/mega/mega_crossing_east",
+          "parent": [
+            42,
+            29,
+            21
+          ],
+          "child": [
+            43,
+            29,
+            21
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_center_1",
+          "pool": "mns:mega_fortress/crossings/mega/mega_crossing_top",
+          "parent": [
+            33,
+            47,
+            17
+          ],
+          "child": [
+            33,
+            48,
+            17
+          ],
+          "direction": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_west_straight_1",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            -35,
+            29,
+            21
+          ],
+          "child": [
+            -36,
+            29,
+            21
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_west_straight_1",
+          "pool": "mns:mega_fortress/crossings/mega/mega_crossing_side_1",
+          "parent": [
+            -29,
+            29,
+            31
+          ],
+          "child": [
+            -29,
+            29,
+            32
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_west_straight_1",
+          "pool": "mns:mega_fortress/crossings/mega/mega_crossing_side_2",
+          "parent": [
+            -25,
+            29,
+            11
+          ],
+          "child": [
+            -25,
+            29,
+            10
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_north_straight_1",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            21,
+            29,
+            -35
+          ],
+          "child": [
+            21,
+            29,
+            -36
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_south_straight_1",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            21,
+            29,
+            77
+          ],
+          "child": [
+            21,
+            29,
+            78
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_east_straight_1",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            71,
+            29,
+            2
+          ],
+          "child": [
+            71,
+            29,
+            1
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_east_straight_1",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            71,
+            29,
+            40
+          ],
+          "child": [
+            71,
+            29,
+            41
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_east_straight_1",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            77,
+            29,
+            21
+          ],
+          "child": [
+            78,
+            29,
+            21
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corridors/roofless_single_straight_5",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            -51,
+            29,
+            21
+          ],
+          "child": [
+            -52,
+            29,
+            21
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_side_1",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            -29,
+            29,
+            40
+          ],
+          "child": [
+            -29,
+            29,
+            41
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/start/mega_crossing_side_2",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            -25,
+            29,
+            2
+          ],
+          "child": [
+            -25,
+            29,
+            1
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_3",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            21,
+            29,
+            -67
+          ],
+          "child": [
+            21,
+            29,
+            -68
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_3",
+          "pool": "mns:mega_fortress/forks/roofless_fork_side_2_3",
+          "parent": [
+            24,
+            29,
+            -58
+          ],
+          "child": [
+            25,
+            29,
+            -58
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_3",
+          "pool": "mns:mega_fortress/forks/roofless_fork_side_1_3",
+          "parent": [
+            18,
+            29,
+            -46
+          ],
+          "child": [
+            17,
+            29,
+            -46
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corridors/roofless_single_straight_3",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            21,
+            29,
+            93
+          ],
+          "child": [
+            21,
+            29,
+            94
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_4",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            71,
+            29,
+            -30
+          ],
+          "child": [
+            71,
+            29,
+            -31
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_4",
+          "pool": "mns:mega_fortress/forks/roofless_fork_side_2_3",
+          "parent": [
+            68,
+            29,
+            -21
+          ],
+          "child": [
+            67,
+            29,
+            -21
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_4",
+          "pool": "mns:mega_fortress/forks/roofless_fork_side_1_3",
+          "parent": [
+            74,
+            29,
+            -9
+          ],
+          "child": [
+            75,
+            29,
+            -9
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/crossings/medium/medium_crossing_north_2",
+          "pool": "mns:mega_fortress/crossings/medium/medium_crossing_north_2",
+          "parent": [
+            71,
+            29,
+            60
+          ],
+          "child": [
+            71,
+            29,
+            61
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_2",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            109,
+            29,
+            21
+          ],
+          "child": [
+            110,
+            29,
+            21
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_2",
+          "pool": "mns:mega_fortress/forks/roofless_fork_side_1_2",
+          "parent": [
+            100,
+            29,
+            18
+          ],
+          "child": [
+            100,
+            29,
+            17
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_2",
+          "pool": "mns:mega_fortress/forks/roofless_fork_side_2_2",
+          "parent": [
+            88,
+            29,
+            18
+          ],
+          "child": [
+            88,
+            29,
+            17
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/crossings/small/small_crossing_west_straight_1",
+          "pool": "mns:mega_fortress/ends/junction_ends/junction_end",
+          "parent": [
+            -99,
+            29,
+            21
+          ],
+          "child": [
+            -100,
+            29,
+            21
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_1",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            -29,
+            29,
+            72
+          ],
+          "child": [
+            -29,
+            29,
+            73
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corners/corner_roofless_1_3",
+          "pool": "mns:mega_fortress/corners/corner_roofless_3",
+          "parent": [
+            -22,
+            29,
+            -17
+          ],
+          "child": [
+            -21,
+            29,
+            -17
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_2_4",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            40,
+            29,
+            -58
+          ],
+          "child": [
+            41,
+            29,
+            -58
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_1_3",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            2,
+            29,
+            -46
+          ],
+          "child": [
+            1,
+            29,
+            -46
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_7",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            21,
+            29,
+            125
+          ],
+          "child": [
+            21,
+            29,
+            126
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_7",
+          "pool": "mns:mega_fortress/forks/roofless_fork_side_2_7",
+          "parent": [
+            24,
+            29,
+            116
+          ],
+          "child": [
+            25,
+            29,
+            116
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_7",
+          "pool": "mns:mega_fortress/forks/roofless_fork_side_1_7",
+          "parent": [
+            18,
+            29,
+            104
+          ],
+          "child": [
+            17,
+            29,
+            104
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corridors/roofless_single_straight_2",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            71,
+            29,
+            -46
+          ],
+          "child": [
+            71,
+            29,
+            -47
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_2_3",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            52,
+            29,
+            -21
+          ],
+          "child": [
+            51,
+            29,
+            -21
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_1_4",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            90,
+            29,
+            -9
+          ],
+          "child": [
+            91,
+            29,
+            -9
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/crossings/medium/medium_crossing_center_2",
+          "pool": "mns:mega_fortress/crossings/medium/medium_crossing_south_2",
+          "parent": [
+            60,
+            29,
+            72
+          ],
+          "child": [
+            59,
+            29,
+            72
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/crossings/medium/medium_crossing_center_2",
+          "pool": "mns:mega_fortress/crossings/medium/medium_crossing_south_2",
+          "parent": [
+            71,
+            29,
+            83
+          ],
+          "child": [
+            71,
+            29,
+            84
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/crossings/medium/medium_crossing_center_2",
+          "pool": "mns:mega_fortress/crossings/medium/medium_crossing_east_2",
+          "parent": [
+            82,
+            29,
+            72
+          ],
+          "child": [
+            83,
+            29,
+            72
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corridors/halfroofed_straight_3",
+          "pool": "mns:mega_fortress/corridors/roofed_any",
+          "parent": [
+            125,
+            29,
+            21
+          ],
+          "child": [
+            126,
+            29,
+            21
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_1_2",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            100,
+            29,
+            2
+          ],
+          "child": [
+            100,
+            29,
+            1
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_2_2",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            88,
+            29,
+            2
+          ],
+          "child": [
+            88,
+            29,
+            1
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corridors/halfroofed_straight_3",
+          "pool": "mns:mega_fortress/corridors/roofed_any",
+          "parent": [
+            -29,
+            29,
+            88
+          ],
+          "child": [
+            -29,
+            29,
+            89
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corners/corner_roofless_2_3",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            -8,
+            29,
+            -17
+          ],
+          "child": [
+            -7,
+            29,
+            -17
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corners/corner_roofless_2_3",
+          "pool": "mns:mega_fortress/corners/corner_roofless_1_3",
+          "parent": [
+            -18,
+            32,
+            -14
+          ],
+          "child": [
+            -18,
+            32,
+            -13
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/staircases/staircase_lower_4",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            56,
+            29,
+            -58
+          ],
+          "child": [
+            57,
+            29,
+            -58
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/staircases/staircase_lower_4",
+          "pool": "mns:mega_fortress/staircases/staircase_upper_4",
+          "parent": [
+            49,
+            37,
+            -58
+          ],
+          "child": [
+            49,
+            38,
+            -58
+          ],
+          "direction": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_6",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            -30,
+            29,
+            -46
+          ],
+          "child": [
+            -31,
+            29,
+            -46
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_6",
+          "pool": "mns:mega_fortress/forks/roofless_fork_side_1_6",
+          "parent": [
+            -21,
+            29,
+            -43
+          ],
+          "child": [
+            -21,
+            29,
+            -42
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_6",
+          "pool": "mns:mega_fortress/forks/roofless_fork_side_2_6",
+          "parent": [
+            -9,
+            29,
+            -43
+          ],
+          "child": [
+            -9,
+            29,
+            -42
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corridors/roofless_single_straight_8",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            21,
+            29,
+            141
+          ],
+          "child": [
+            21,
+            29,
+            142
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_2_7",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            40,
+            29,
+            116
+          ],
+          "child": [
+            41,
+            29,
+            116
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_1_7",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            2,
+            29,
+            104
+          ],
+          "child": [
+            1,
+            29,
+            104
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_5",
+          "pool": "mns:mega_fortress/ends/junction_ends/junction_end",
+          "parent": [
+            68,
+            29,
+            -57
+          ],
+          "child": [
+            67,
+            29,
+            -57
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_5",
+          "pool": "mns:mega_fortress/forks/roofless_fork_side_2_5",
+          "parent": [
+            68,
+            29,
+            -69
+          ],
+          "child": [
+            67,
+            29,
+            -69
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_5",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            71,
+            29,
+            -78
+          ],
+          "child": [
+            71,
+            29,
+            -79
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/staircases/staircase_lower_1",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            36,
+            29,
+            -21
+          ],
+          "child": [
+            35,
+            29,
+            -21
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/staircases/staircase_lower_1",
+          "pool": "mns:mega_fortress/staircases/staircase_side_1",
+          "parent": [
+            43,
+            30,
+            -18
+          ],
+          "child": [
+            43,
+            30,
+            -17
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corridors/halfroofed_straight_1",
+          "pool": "mns:mega_fortress/corridors/roofed_any",
+          "parent": [
+            106,
+            29,
+            -9
+          ],
+          "child": [
+            107,
+            29,
+            -9
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/crossings/medium/medium_crossing_south_2",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            39,
+            29,
+            72
+          ],
+          "child": [
+            38,
+            29,
+            72
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/crossings/medium/medium_crossing_west_2",
+          "pool": "mns:mega_fortress/corridors/roofless_any",
+          "parent": [
+            71,
+            29,
+            104
+          ],
+          "child": [
+            71,
+            29,
+            105
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/crossings/medium/medium_crossing_east_2",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            103,
+            29,
+            72
+          ],
+          "child": [
+            104,
+            29,
+            72
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corridors/halfroofed_straight_2",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            141,
+            29,
+            21
+          ],
+          "child": [
+            142,
+            29,
+            21
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corners/corner_roofed_1_1",
+          "pool": "mns:mega_fortress/ends/junction_ends/junction_end",
+          "parent": [
+            -33,
+            29,
+            108
+          ],
+          "child": [
+            -34,
+            29,
+            108
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/staircases/staircase_upper_4",
+          "pool": "mns:mega_fortress/upper/roofless_upper_end",
+          "parent": [
+            49,
+            42,
+            -65
+          ],
+          "child": [
+            49,
+            42,
+            -66
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/staircases/staircase_upper_4",
+          "pool": "mns:mega_fortress/upper/roofless_upper_end",
+          "parent": [
+            49,
+            42,
+            -51
+          ],
+          "child": [
+            49,
+            42,
+            -50
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corridors/roofless_single_straight_4",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            -46,
+            29,
+            -46
+          ],
+          "child": [
+            -47,
+            29,
+            -46
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_1_6",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            -21,
+            29,
+            -27
+          ],
+          "child": [
+            -21,
+            29,
+            -26
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_2_6",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            -9,
+            29,
+            -27
+          ],
+          "child": [
+            -9,
+            29,
+            -26
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corners/corner_roofless_1_2",
+          "pool": "mns:mega_fortress/ends/junction_ends/junction_end",
+          "parent": [
+            59,
+            29,
+            113
+          ],
+          "child": [
+            59,
+            29,
+            112
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corners/corner_roofless_1_1",
+          "pool": "mns:mega_fortress/ends/junction_ends/junction_end",
+          "parent": [
+            -17,
+            29,
+            101
+          ],
+          "child": [
+            -17,
+            29,
+            100
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_side_2_5",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            52,
+            29,
+            -69
+          ],
+          "child": [
+            51,
+            29,
+            -69
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/corners/corner_roofless_1_1",
+          "pool": "mns:mega_fortress/ends/junction_ends/junction_end",
+          "parent": [
+            74,
+            29,
+            -97
+          ],
+          "child": [
+            75,
+            29,
+            -97
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofed_fork_main_4",
+          "pool": "mns:mega_fortress/ends/roofed_end",
+          "parent": [
+            138,
+            29,
+            -9
+          ],
+          "child": [
+            139,
+            29,
+            -9
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofed_fork_main_4",
+          "pool": "mns:mega_fortress/ends/junction_ends/junction_end",
+          "parent": [
+            129,
+            29,
+            -13
+          ],
+          "child": [
+            129,
+            29,
+            -14
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofed_fork_main_4",
+          "pool": "mns:mega_fortress/ends/junction_ends/junction_end",
+          "parent": [
+            117,
+            29,
+            -13
+          ],
+          "child": [
+            117,
+            29,
+            -14
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_6",
+          "pool": "mns:mega_fortress/ends/roofless_end",
+          "parent": [
+            71,
+            29,
+            136
+          ],
+          "child": [
+            71,
+            29,
+            137
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_6",
+          "pool": "mns:mega_fortress/ends/junction_ends/junction_end",
+          "parent": [
+            74,
+            29,
+            127
+          ],
+          "child": [
+            75,
+            29,
+            127
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "from": "mns:1_21_0/mega_fortress/forks/roofless_fork_main_6",
+          "pool": "mns:mega_fortress/ends/junction_ends/junction_end",
+          "parent": [
+            74,
+            29,
+            115
+          ],
+          "child": [
+            75,
+            29,
+            115
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        }
+      ],
+      "omitted_encounter_pools": {
+        "mns:mega_fortress/mobs/mob_any": 65,
+        "mns:mega_fortress/mobs/fortress_champion": 10,
+        "mns:mega_fortress/mobs/warden_of_the_keep": 1,
+        "mns:mega_fortress/mobs/black_guard": 5,
+        "mns:mega_fortress/mobs/fortress_archer": 14,
+        "unfilled_structural_connector": 2
+      },
+      "conversion_counts": {
+        "native_FlowerPot": 10,
+        "native_Dispenser": 17,
+        "native_Chest": 94,
+        "native_Barrel": 115,
+        "native_Banner": 34,
+        "jigsaw_markers_resolved": 259,
+        "native_Skull": 10,
+        "native_Hopper": 2,
+        "native_MobSpawner": 12,
+        "omitted_java_minecraft:armor_stand": 9,
+        "native_Sign": 4,
+        "native_Lectern": 1,
+        "omitted_java_minecraft:painting": 6,
+        "native_BlastFurnace": 13,
+        "native_Campfire": 2,
+        "native_Music": 41,
+        "native_Bed": 8,
         "omitted_java_minecraft:item_frame": 1
       }
     }

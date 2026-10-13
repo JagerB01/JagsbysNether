@@ -1,0 +1,28 @@
+{
+  "name": "mns:mega_fortress/crossings/mega/mega_crossing_top",
+  "fallback": "mns:mega_fortress/ends/junction_ends/junction_end",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "moogs_structures:versioned_single_pool_element",
+        "location": "mns:1_21_9/mega_fortress/start/mega_crossing_center_top_1",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/start/mega_crossing_center_top_1",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/start/mega_crossing_center_top_1"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "enhanced_terrain_adaptation": {
+          "kernel_size": 46,
+          "kernel_distance": 7,
+          "top": "carve",
+          "bottom": "none",
+          "padding": {
+            "top": 16
+          }
+        }
+      }
+    }
+  ]
+}

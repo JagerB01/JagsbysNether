@@ -9,9 +9,9 @@ function fixture(){
  const player={location:{x:0,y:32,z:0},dimension};
  return {dimension,player,calls,places};
 }
-function finish(job){for(let i=0;i<100;i++){const s=job.next();if(s.done)return;system.currentTick++;}throw Error('Placement did not finish');}
-test('arena list includes only three manual templates; absolute coordinates and height are checked',()=>{
- assert.deepEqual(Object.keys(ARENAS),['small_arena','large_arena','dragon_arena']);
+function finish(job){for(let i=0;i<200;i++){const s=job.next();if(s.done)return;system.currentTick++;}throw Error('Placement did not finish');}
+test('arena list includes all seven manual templates; absolute coordinates and height are checked',()=>{
+ assert.deepEqual(Object.keys(ARENAS),['small_arena','large_arena','dragon_arena','grave_yard','large_blackstone_pillars','large_blackstone_walls','mega_fortress']);
  const f=fixture();assert.deepEqual(arenaRequest('small_arena',f.player).origin,{x:8,y:31,z:8});
  assert.deepEqual(arenaRequest('dragon_arena 100 32 100',f.player).origin,{x:100,y:32,z:100});
  for(const name of Object.keys(ARENAS))assert.equal(ARENAS[name].spawn_enabled,false);
@@ -31,5 +31,17 @@ test('unloaded terrain and placement errors always clean up ticking areas',()=>{
   world.structureManager={place(){throw Error('placement unavailable');}};
   try{assert.throws(()=>finish(placeArena(arenaRequest('small_arena',f.player))));}finally{world.structureManager=old;}
   assert(f.calls.at(-1).startsWith('tickingarea remove '));
+ }
+});
+
+test('Mega Fortress loads and cleans each section below the 100-chunk ticking-area limit',()=>{
+ const f=fixture(),old=world.structureManager;world.structureManager={place(id,dim,pos){f.places.push({id,pos});}};
+ try{finish(placeArena(arenaRequest('mega_fortress 100 32 100',f.player)));}finally{world.structureManager=old;}
+ assert.equal(f.places.length,ARENAS.mega_fortress.sections.length);
+ assert.equal(f.calls.length,f.places.length*2);
+ for(let i=0;i<f.calls.length;i+=2){
+  assert(f.calls[i].startsWith('tickingarea add '));assert(f.calls[i+1].startsWith('tickingarea remove '));
+  const parts=f.calls[i].split(' '),x=Number(parts[2]),z=Number(parts[4]),endX=Number(parts[5]),endZ=Number(parts[7]);
+  assert((Math.floor(endX/16)-Math.floor(x/16)+1)*(Math.floor(endZ/16)-Math.floor(z/16)+1)<=100);
  }
 });

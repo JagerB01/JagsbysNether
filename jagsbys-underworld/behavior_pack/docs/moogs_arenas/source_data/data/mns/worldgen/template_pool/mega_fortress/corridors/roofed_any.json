@@ -1,0 +1,288 @@
+{
+  "name": "mns:mega_fortress/corridors/roofed_any",
+  "fallback": "mns:mega_fortress/ends/roofed_end",
+  "elements": [
+    {
+      "weight": 5,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_1",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corridors/roofed_single_straight_1",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_1"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_2",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corridors/roofed_single_straight_2",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_2"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_3",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corridors/roofed_single_straight_3",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_3"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_4",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corridors/roofed_single_straight_4",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_4"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 7,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/corridors/halfroofed_straight_2",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corridors/halfroofed_straight_2",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corridors/halfroofed_straight_2"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 12,
+      "element": {
+        "element_type": "moogs_structures:versioned_single_pool_element",
+        "location": "mns:1_21_9/mega_fortress/corners/corner_roofed_1_2",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corners/corner_roofed_1_2",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corners/corner_roofed_1_2"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "enhanced_terrain_adaptation": {
+          "kernel_size": 16,
+          "kernel_distance": 8,
+          "top": "carve",
+          "bottom": "carve",
+          "band": {
+            "bottom": 17,
+            "top": 23
+          }
+        }
+      }
+    },
+    {
+      "weight": 12,
+      "element": {
+        "element_type": "moogs_structures:versioned_single_pool_element",
+        "location": "mns:1_21_9/mega_fortress/corners/corner_roofed_1_1",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corners/corner_roofed_1_1",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corners/corner_roofed_1_1"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "enhanced_terrain_adaptation": {
+          "kernel_size": 16,
+          "kernel_distance": 8,
+          "top": "carve",
+          "bottom": "carve",
+          "band": {
+            "bottom": 17,
+            "top": 23
+          }
+        }
+      }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/forks/roofed_fork_main_1",
+        "locations": {
+          "1.21-1.21.1": "mns:1_21_0/mega_fortress/forks/roofed_fork_main_1",
+          "1.21.2-1.21.4": "mns:1_21_2/mega_fortress/forks/roofed_fork_main_1",
+          "1.21.5-1.21.8": "mns:1_21_5/mega_fortress/forks/roofed_fork_main_1",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/forks/roofed_fork_main_1"
+        },
+        "processors": "mns:pillars_armored",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/forks/roofed_fork_main_2",
+        "locations": {
+          "1.21-1.21.1": "mns:1_21_0/mega_fortress/forks/roofed_fork_main_2",
+          "1.21.2-1.21.4": "mns:1_21_2/mega_fortress/forks/roofed_fork_main_2",
+          "1.21.5-1.21.8": "mns:1_21_5/mega_fortress/forks/roofed_fork_main_2",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/forks/roofed_fork_main_2"
+        },
+        "processors": "mns:pillars_armored",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_5",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corridors/roofed_single_straight_5",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_5"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_6",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corridors/roofed_single_straight_6",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_6"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_7",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corridors/roofed_single_straight_7",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_7"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_8",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corridors/roofed_single_straight_8",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corridors/roofed_single_straight_8"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 7,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/corridors/halfroofed_straight_4",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corridors/halfroofed_straight_4",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corridors/halfroofed_straight_4"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/forks/roofed_fork_main_3",
+        "locations": {
+          "1.21-1.21.1": "mns:1_21_0/mega_fortress/forks/roofed_fork_main_3",
+          "1.21.2-1.21.4": "mns:1_21_2/mega_fortress/forks/roofed_fork_main_3",
+          "1.21.5-1.21.8": "mns:1_21_5/mega_fortress/forks/roofed_fork_main_3",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/forks/roofed_fork_main_3"
+        },
+        "processors": "mns:pillars_armored",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "location": "mns:1_21_9/mega_fortress/forks/roofed_fork_main_4",
+        "locations": {
+          "1.21-1.21.1": "mns:1_21_0/mega_fortress/forks/roofed_fork_main_4",
+          "1.21.2-1.21.4": "mns:1_21_2/mega_fortress/forks/roofed_fork_main_4",
+          "1.21.5-1.21.8": "mns:1_21_5/mega_fortress/forks/roofed_fork_main_4",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/forks/roofed_fork_main_4"
+        },
+        "processors": "mns:pillars_armored",
+        "projection": "rigid",
+        "element_type": "moogs_structures:versioned_single_pool_element"
+      }
+    },
+    {
+      "weight": 12,
+      "element": {
+        "element_type": "moogs_structures:versioned_single_pool_element",
+        "location": "mns:1_21_9/mega_fortress/corners/corner_roofed_1_3",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corners/corner_roofed_1_3",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corners/corner_roofed_1_3"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "enhanced_terrain_adaptation": {
+          "kernel_size": 16,
+          "kernel_distance": 8,
+          "top": "carve",
+          "bottom": "carve",
+          "band": {
+            "bottom": 17,
+            "top": 23
+          }
+        }
+      }
+    },
+    {
+      "weight": 12,
+      "element": {
+        "element_type": "moogs_structures:versioned_single_pool_element",
+        "location": "mns:1_21_9/mega_fortress/corners/corner_roofed_1_4",
+        "locations": {
+          "1.21-1.21.8": "mns:1_21_0/mega_fortress/corners/corner_roofed_1_4",
+          "1.21.9-26.3": "mns:1_21_9/mega_fortress/corners/corner_roofed_1_4"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "enhanced_terrain_adaptation": {
+          "kernel_size": 16,
+          "kernel_distance": 8,
+          "top": "carve",
+          "bottom": "carve",
+          "band": {
+            "bottom": 17,
+            "top": 23
+          }
+        }
+      }
+    }
+  ]
+}

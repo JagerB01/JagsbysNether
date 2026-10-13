@@ -145,3 +145,8 @@ available for testing with `/scriptevent jagsby_nether:arena <arena_name>`.
 Use `small_arena`, `large_arena` or `dragon_arena`, optionally followed by
 absolute X Y Z coordinates. No natural placement rules or spawn weights are
 assigned. See [ARENAS.md](ARENAS.md) for sizes, commands and conversion limits.
+
+The manual template catalog also includes `grave_yard`,
+`large_blackstone_pillars`, `large_blackstone_walls`, and a representative
+`mega_fortress` assembly. Use `/scriptevent jagsby_nether:template <name>`;
+none have natural spawning enabled.

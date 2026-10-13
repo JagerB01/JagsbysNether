@@ -16,7 +16,7 @@ class MoogsArenas(unittest.TestCase):
             self.assertEqual(hashlib.sha256((SOURCE/name).read_bytes()).hexdigest(),digest,name)
 
     def test_complete_graph_has_expected_piece_counts_and_adjacent_joins(self):
-        for arena,count in [('small_arena',4),('large_arena',6),('dragon_arena',20)]:
+        for arena,count in [('small_arena',4),('large_arena',6),('dragon_arena',20),('grave_yard',1),('large_blackstone_pillars',1),('large_blackstone_walls',1)]:
             pieces,joins,omitted=assemble(arena)
             self.assertEqual(len(pieces),count)
             self.assertEqual(len(joins),count-1)
@@ -55,5 +55,33 @@ class MoogsArenas(unittest.TestCase):
         for folder in ['features','feature_rules','spawn_rules']:
             for path in (ROOT/'behavior_pack'/folder).rglob('*.json'):
                 self.assertNotIn('arenas/',path.read_text(),str(path))
+
+    def test_fortress_layout_is_connected_reproducible_and_has_rotated_pieces(self):
+        pieces,joins,omitted=assemble('mega_fortress')
+        recorded=self.metadata['converted_templates']['mega_fortress']
+        self.assertEqual(len(pieces),len(recorded['source_pieces']))
+        self.assertGreater(len(pieces),50)
+        self.assertEqual(len(joins),len(pieces)-1)
+        self.assertEqual(joins,recorded['joins'])
+        self.assertTrue(any(rotation!=0 for _,_,rotation,_ in pieces))
+        for join in joins:
+            self.assertEqual([c-p for c,p in zip(join['child'],join['parent'])],join['direction'])
+        # Piece bounding boxes must not overlap after applying rotations.
+        from convert_moogs_arenas import rotation,add
+        boxes=[]
+        for loc,origin,r,data in pieces:
+            size=data['size'][1][1]
+            corners=[add(origin,rotation((x,y,z),r)) for x in [0,size[0]-1] for y in [0,size[1]-1] for z in [0,size[2]-1]]
+            boxes.append(tuple(min(c[i] for c in corners) for i in range(3))+tuple(max(c[i] for c in corners)+1 for i in range(3)))
+        for i,a in enumerate(boxes):
+            for b in boxes[i+1:]:self.assertFalse(all(a[k]<b[k+3] and b[k]<a[k+3] for k in range(3)))
+
+    def test_rotation_preserves_facing_axis_and_wall_connections(self):
+        from convert_moogs_arenas import rotate_properties
+        result=rotate_properties({'facing':'east','axis':'x','east':'low','north':'tall','west':'none','south':'none'},1)
+        self.assertEqual(result['facing'],'south')
+        self.assertEqual(result['axis'],'z')
+        self.assertEqual(result['south'],'low')
+        self.assertEqual(result['east'],'tall')
 
 if __name__=='__main__':unittest.main()

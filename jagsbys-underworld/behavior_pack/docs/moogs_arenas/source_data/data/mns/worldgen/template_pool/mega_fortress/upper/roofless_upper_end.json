@@ -1,0 +1,82 @@
+{
+  "name": "mns:mega_fortress/upper/roofless_upper_end",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "moogs_structures:versioned_single_pool_element",
+        "location": "mns:1_21_0/mega_fortress/upper/end_1",
+        "locations": {
+          "1.21-26.3": "mns:1_21_0/mega_fortress/upper/end_1"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "mirror": "NONE",
+        "enhanced_terrain_adaptation": {
+          "kernel_size": 16,
+          "kernel_distance": 8,
+          "top": "carve",
+          "bottom": "carve"
+        }
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "moogs_structures:versioned_single_pool_element",
+        "location": "mns:1_21_0/mega_fortress/upper/end_2",
+        "locations": {
+          "1.21-26.3": "mns:1_21_0/mega_fortress/upper/end_2"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "mirror": "NONE",
+        "enhanced_terrain_adaptation": {
+          "kernel_size": 16,
+          "kernel_distance": 8,
+          "top": "carve",
+          "bottom": "carve"
+        }
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "moogs_structures:versioned_single_pool_element",
+        "location": "mns:1_21_0/mega_fortress/upper/end_3",
+        "locations": {
+          "1.21-26.3": "mns:1_21_0/mega_fortress/upper/end_3"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "mirror": "NONE",
+        "enhanced_terrain_adaptation": {
+          "kernel_size": 16,
+          "kernel_distance": 8,
+          "top": "carve",
+          "bottom": "carve"
+        }
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "moogs_structures:versioned_single_pool_element",
+        "location": "mns:1_21_0/mega_fortress/upper/end_4",
+        "locations": {
+          "1.21-26.3": "mns:1_21_0/mega_fortress/upper/end_4"
+        },
+        "processors": "mns:pillars",
+        "projection": "rigid",
+        "mirror": "NONE",
+        "enhanced_terrain_adaptation": {
+          "kernel_size": 16,
+          "kernel_distance": 8,
+          "top": "carve",
+          "bottom": "carve"
+        }
+      }
+    }
+  ]
+}

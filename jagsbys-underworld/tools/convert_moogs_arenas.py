@@ -14,14 +14,17 @@ from structure_loot import populate_structure_containers
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'behavior_pack/docs/moogs_arenas/source_data'
 SCHEMA = Path(__file__).with_name('moogs_block_schema.json')
-ARENAS = ('small_arena', 'large_arena', 'dragon_arena')
+ARENAS = ('small_arena', 'large_arena', 'dragon_arena', 'grave_yard', 'large_blackstone_pillars', 'large_blackstone_walls', 'mega_fortress')
 DIRECTIONS = {'east': (1,0,0), 'west': (-1,0,0), 'up': (0,1,0), 'down': (0,-1,0), 'south': (0,0,1), 'north': (0,0,-1)}
 FACING = {'down':0,'up':1,'north':2,'south':3,'west':4,'east':5}
 DIRECTION = {'south':0,'west':1,'north':2,'east':3}
 ALIASES = {'tripwire':'trip_wire','spawner':'mob_spawner','red_nether_bricks':'red_nether_brick','nether_bricks':'nether_brick',
            'weeping_vines_plant':'weeping_vines','chain':'iron_chain','stonecutter':'stonecutter_block',
            'magma_block':'magma','nether_quartz_ore':'quartz_ore','soul_wall_torch':'soul_torch',
-           'redstone_wall_torch':'redstone_torch','red_wall_banner':'wall_banner'}
+           'redstone_wall_torch':'redstone_torch','red_wall_banner':'wall_banner',
+           'slime_block':'slime','cobweb':'web','note_block':'noteblock','oak_trapdoor':'trapdoor',
+           'oak_button':'wooden_button','oak_pressure_plate':'wooden_pressure_plate',
+           'dark_oak_wall_sign':'darkoak_wall_sign','skeleton_wall_skull':'skeleton_skull'}
 
 class JavaNBT(NBT):
     def read(self, fmt):
@@ -65,7 +68,9 @@ def load_piece(pool):
     loc=select_location(pool);ns,path=loc.split(':');return loc,java((SOURCE/f'data/{ns}/structure/{path}.nbt').read_bytes())
 
 def assemble(arena):
-    queue=[(f'mns:{arena}/start_pool',(0,0,0),0)];pieces=[];seen=set();joints=[];omitted=collections.Counter()
+    if arena=='mega_fortress':return assemble_fortress()
+    definition=json.loads((SOURCE/f'data/mns/worldgen/structure/{arena}.json').read_text())
+    queue=[(definition['start_pool'],(0,0,0),0)];pieces=[];seen=set();joints=[];omitted=collections.Counter()
     while queue:
         pool,origin,r=queue.pop(0);loc,data=load_piece(pool)
         assert loc not in seen,('Repeated structural piece',loc)
@@ -88,10 +93,76 @@ def assemble(arena):
             queue.append((c['pool'],child_origin,cr))
     return pieces,joints,dict(omitted)
 
+def rotate_properties(props,r):
+    result=dict(props)
+    reverse={v:k for k,v in DIRECTIONS.items()}
+    if 'facing' in props:result['facing']=reverse[rotation(DIRECTIONS[props['facing']],r)]
+    if r%2 and props.get('axis') in ('x','z'):result['axis']='z' if props['axis']=='x' else 'x'
+    if 'rotation' in props:result['rotation']=str((int(props['rotation'])+r*4)%16)
+    for name in ['east','west','north','south']:
+        if name in props:result[reverse[rotation(DIRECTIONS[name],r)]]=props[name]
+    return result
+
+def assemble_fortress():
+    import random
+    rng=random.Random(31011)
+    root='mns:mega_fortress/start/start_pool';loc,data=load_piece(root)
+    pieces=[(loc,(0,0,0),0,data)];queue=[];joints=[];omitted=collections.Counter();boxes=[]
+    def bounds(origin,r,data):
+        size=data['size'][1][1];points=[add(origin,rotation((x,y,z),r)) for x in [0,size[0]-1] for y in [0,size[1]-1] for z in [0,size[2]-1]]
+        return tuple(min(p[i] for p in points) for i in range(3))+tuple(max(p[i] for p in points)+1 for i in range(3))
+    boxes.append(bounds((0,0,0),0,data))
+    def enqueue(loc,data,origin,r,depth,incoming=None):
+        for c in connections(data):
+            if incoming is not None and c['pos']==incoming:continue
+            if c['pool']=='minecraft:empty':continue
+            if '/mobs/' in c['pool']:omitted[c['pool']]+=1;continue
+            if not c['pool'].startswith('mns:mega_fortress/'):omitted[c['pool']]+=1;continue
+            queue.append((loc,c,origin,r,depth))
+    enqueue(loc,data,(0,0,0),0,0)
+    while queue and len(pieces)<96:
+        parent_loc,c,parent_origin,parent_rotation,depth=queue.pop(0)
+        front=rotation(c['front'],parent_rotation);top=rotation(c['top'],parent_rotation)
+        parent_pos=add(parent_origin,rotation(c['pos'],parent_rotation));anchor=add(parent_pos,front)
+        pool=c['pool'];force_end=depth>=5 or len(pieces)>=64;attached=False;visited=set()
+        while pool!='minecraft:empty' and pool not in visited:
+            visited.add(pool);definition=source_pool(pool)
+            if force_end and not any(k in pool for k in ['/ends/','upper_end','lower/']):
+                pool=definition['fallback'];continue
+            entries=list(definition['elements']);rng.shuffle(entries)
+            # Weighted shuffle supplies a deterministic representative layout.
+            entries.sort(key=lambda e:rng.random()**(1/max(1,e['weight'])),reverse=True)
+            for entry in entries:
+                element=entry['element']
+                if 'location' not in element:continue
+                child_loc=next((v for k,v in element.get('locations',{}).items() if k.split('-')[0]=='1.21'),element['location']);ns,path=child_loc.split(':')
+                child_data=java((SOURCE/f'data/{ns}/structure/{path}.nbt').read_bytes())
+                for child in connections(child_data):
+                    if child['name']!=c['target']:continue
+                    for cr in range(4):
+                        if rotation(child['front'],cr)!=tuple(-v for v in front) or rotation(child['top'],cr)!=top:continue
+                        origin=sub(anchor,rotation(child['pos'],cr));box=bounds(origin,cr,child_data)
+                        if max(abs(box[0]-21),abs(box[2]-21),abs(box[3]-21),abs(box[5]-21))>128:continue
+                        if any(all(box[i]<old[i+3] and old[i]<box[i+3] for i in range(3)) for old in boxes):continue
+                        pieces.append((child_loc,origin,cr,child_data));boxes.append(box)
+                        joints.append({'from':parent_loc,'pool':pool,'parent':list(parent_pos),'child':list(anchor),'direction':list(front)})
+                        enqueue(child_loc,child_data,origin,cr,depth+1,child['pos']);attached=True;break
+                    if attached:break
+                if attached:break
+            if attached:break
+            pool=definition['fallback']
+        if not attached:omitted['unfilled_structural_connector']+=1
+    assert len(pieces)>10,('Fortress assembly unexpectedly small',len(pieces))
+    return pieces,joints,dict(omitted)
+
 def block_state(name,props,schema):
     original=name;short=name.split(':')[1]
-    if short in ('nether_wart','jigsaw'):name='minecraft:air';props={}
+    if short in ('nether_wart','jigsaw','cave_air','void_air'):name='minecraft:air';props={}
     elif short=='structure_void':return None
+    elif short.endswith('_bed'):name='minecraft:bed'
+    elif short.startswith('potted_'):name='minecraft:flower_pot'
+    elif short.endswith('_wall_banner'):name='minecraft:wall_banner'
+    elif short.endswith('_banner'):name='minecraft:standing_banner'
     elif short=='orange_stained_glass':name='minecraft:deepslate';props={} # Pillar-processor marker.
     elif short=='repeater':name='minecraft:'+('powered_' if props.get('powered')=='true' else 'unpowered_')+'repeater'
     elif short=='comparator':name='minecraft:'+('powered_' if props.get('powered')=='true' else 'unpowered_')+'comparator'
@@ -116,8 +187,13 @@ def block_state(name,props,schema):
         elif key.startswith('minecraft:connection_'):states[key]=props.get(key.split('_')[-1])=='true'
         elif key=='redstone_signal':states[key]=int(props.get('power',15 if props.get('powered')=='true' else 0))
         elif key=='direction':
-            states[key]=({'east':0,'west':1,'south':2,'north':3} if name.endswith('_trapdoor') else DIRECTION)[face]
+            states[key]=({'east':0,'west':1,'south':2,'north':3} if (name.endswith('_trapdoor') or name=='minecraft:trapdoor') else DIRECTION)[face]
         elif key=='torch_facing_direction':states[key]={'east':'west','west':'east','north':'south','south':'north'}.get(face,'top')
+        elif key=='ground_sign_direction':states[key]=int(props.get('rotation',0))
+        elif key=='upper_block_bit':states[key]=props.get('half')=='upper'
+        elif key=='door_hinge_bit':states[key]=props.get('hinge')=='right'
+        elif key=='head_piece_bit':states[key]=props.get('part')=='head'
+        elif key=='occupied_bit':states[key]=props.get('occupied')=='true'
         elif key=='open_bit':states[key]=props.get('open')=='true'
         elif key in ('powered_bit','button_pressed_bit','output_lit_bit'):states[key]=props.get('powered')=='true'
         elif key=='triggered_bit':states[key]=props.get('triggered')=='true'
@@ -154,6 +230,8 @@ def block_entity(name,source,pos,arena):
          'minecraft:dispenser':'Dispenser','minecraft:dropper':'Dropper','minecraft:hopper':'Hopper',
          'minecraft:wall_banner':'Banner','minecraft:standing_banner':'Banner','minecraft:mob_spawner':'MobSpawner',
          'minecraft:blast_furnace':'BlastFurnace','minecraft:lectern':'Lectern','minecraft:soul_campfire':'Campfire',
+         'minecraft:bed':'Bed','minecraft:flower_pot':'FlowerPot','minecraft:skeleton_skull':'Skull',
+         'minecraft:darkoak_wall_sign':'Sign','minecraft:noteblock':'Music',
          'minecraft:unpowered_comparator':'Comparator','minecraft:powered_comparator':'Comparator'}
     if name not in ids:return None
     e={'id':(8,ids[name]),'isMovable':(1,1),**{k:(3,v) for k,v in zip(('x','y','z'),pos)}}
@@ -162,18 +240,28 @@ def block_entity(name,source,pos,arena):
     elif ids[name] in ('Dispenser','Dropper','Hopper'):
         e['Items']=(9,(10,[v for d in value(source,'Items',(10,[]))[1] if (v:=item(d))]))
     elif ids[name]=='Banner':
-        e['Base']=(3,1) # Java red banner -> Bedrock red dye index.
+        color=value(source,'_java_block','minecraft:red_wall_banner').split(':')[1].replace('_wall_banner','').replace('_banner','')
+        e['Base']=(3,0 if color=='black' else 1)
         patterns=[];codes={'stripe_bottom':'bs','stripe_top':'ts','stripe_left':'ls','stripe_right':'rs','stripe_center':'cs','stripe_middle':'ms','cross':'cr','straight_cross':'sc','border':'bo','circle':'mc','rhombus':'mr','gradient':'gra','gradient_up':'gru','skull':'sku','piglin':'pig','flower':'flo','creeper':'cre','mojang':'moj'}
         colors=['black','red','green','brown','blue','purple','cyan','light_gray','gray','pink','lime','yellow','light_blue','magenta','orange','white']
         for p in value(source,'patterns',(10,[]))[1]:
             pat=value(p,'pattern','').split(':')[-1];color=value(p,'color','red')
             if pat in codes and color in colors:patterns.append({'Pattern':(8,codes[pat]),'Color':(3,colors.index(color))})
         e['Patterns']=(9,(10,patterns))
+    elif ids[name]=='Bed':e['color']=(1,0)
+    elif ids[name]=='Skull':e.update({'SkullType':(1,0),'Rot':(5,0.0)})
+    elif ids[name]=='FlowerPot':
+        plant=value(source,'_java_block','').split(':')[-1]
+        if plant.startswith('potted_'):
+            plant=plant.removeprefix('potted_');plant='deadbush' if plant=='dead_bush' else plant
+            e['PlantBlock']=(10,block_state('minecraft:'+plant,{},json.loads(SCHEMA.read_text())['blocks']))
+    elif ids[name]=='Music':e.update({'note':(1,0),'powered':(1,0)})
     elif ids[name]=='MobSpawner':
         targets={'small_arena':['minecraft:zombie_pigman','minecraft:magma_cube','minecraft:skeleton'],
                  'large_arena':['minecraft:wither_skeleton','minecraft:skeleton'],
                  'dragon_arena':['minecraft:wither_skeleton','minecraft:blaze','minecraft:magma_cube']}
-        entity=targets[arena][int(hashlib.sha256(str(pos).encode()).hexdigest()[:8],16)%len(targets[arena])]
+        choices=targets.get(arena,['minecraft:wither_skeleton','minecraft:blaze','minecraft:magma_cube'] if arena=='mega_fortress' else ['minecraft:wither_skeleton'])
+        entity=choices[int(hashlib.sha256(str(pos).encode()).hexdigest()[:8],16)%len(choices)]
         e.update({'EntityIdentifier':(8,entity),'Delay':(2,200),'MinSpawnDelay':(2,200),'MaxSpawnDelay':(2,800),
                   'SpawnCount':(2,3),'MaxNearbyEntities':(2,6),'RequiredPlayerRange':(2,16),'SpawnRange':(2,4)})
     return e
@@ -181,9 +269,8 @@ def block_entity(name,source,pos,arena):
 def convert(arena,schema):
     pieces,joints,omitted=assemble(arena);points=[]
     for _,o,r,d in pieces:
-        assert r==0,'These source arenas require no piece rotations; add state rotation before importing a rotated piece.'
         size=d['size'][1][1]
-        points.extend(add(o,(x,y,z)) for x in [0,size[0]-1] for y in [0,size[1]-1] for z in [0,size[2]-1])
+        points.extend(add(o,rotation((x,y,z),r)) for x in [0,size[0]-1] for y in [0,size[1]-1] for z in [0,size[2]-1])
     low=tuple(min(p[i] for p in points) for i in range(3));high=tuple(max(p[i] for p in points) for i in range(3))
     total=tuple(high[i]-low[i]+1 for i in range(3));blocks={};entities={};water={};palette=[];lookup={};stats=collections.Counter()
     def state_id(state):
@@ -194,13 +281,13 @@ def convert(arena,schema):
     for loc,o,r,d in pieces:
         source_palette=d['palette'][1][1]
         for b in d['blocks'][1][1]:
-            raw=source_palette[value(b,'state')];name=value(raw,'Name');props={k:v[1] for k,v in value(raw,'Properties',{}).items()};source=value(b,'nbt',{})
+            raw=source_palette[value(b,'state')];name=value(raw,'Name');props=rotate_properties({k:v[1] for k,v in value(raw,'Properties',{}).items()},r);source=dict(value(b,'nbt',{}));source['_java_block']=(8,name)
             if name=='minecraft:jigsaw':
                 stats['jigsaw_markers_resolved']+=1;final=value(source,'final_state','minecraft:air');name,_,suffix=final.partition('[');props=dict(v.split('=',1) for v in suffix.rstrip(']').split(',') if v)
             if name=='minecraft:nether_wart':stats['wart_removed']+=1
             state=block_state(name,props,schema)
             if state is None:continue
-            pos=sub(add(o,tuple(b['pos'][1][1])),low);blocks[pos]=state_id(state);entities.pop(pos,None);water.pop(pos,None)
+            pos=sub(add(o,rotation(tuple(b['pos'][1][1]),r)),low);blocks[pos]=state_id(state);entities.pop(pos,None);water.pop(pos,None)
             if props.get('waterlogged')=='true':water[pos]=water_id
             e=block_entity(state['name'][1],source,pos,arena)
             if e:entities[pos]=e;stats['native_'+e['id'][1]]+=1
@@ -235,10 +322,29 @@ def extract(jar):
         selected=set()
         for name in z.namelist():
             if any('/worldgen/template_pool/'+a+'/' in name for a in ARENAS) and name.endswith('.json'):
-                d=json.loads(z.read(name));e=d['elements'][0]['element'];loc=next((v for k,v in e.get('locations',{}).items() if k.split('-')[0]=='1.21'),e['location']);ns,path=loc.split(':')
-                selected.add(name);selected.add(f'data/{ns}/structure/{path}.nbt')
-        for a in ARENAS:selected.add(f'data/mns/worldgen/structure/{a}.json')
-        for proc in ['small_arena_spawners','large_arena_pillars','dragon_arena_pillars']:selected.add(f'data/mns/worldgen/processor_list/{proc}.json')
+                d=json.loads(z.read(name));selected.add(name)
+                for entry in d['elements']:
+                    e=entry['element']
+                    if 'location' not in e:continue
+                    loc=next((v for k,v in e.get('locations',{}).items() if k.split('-')[0]=='1.21'),e['location']);ns,path=loc.split(':')
+                    selected.add(f'data/{ns}/structure/{path}.nbt')
+        for a in ARENAS:
+            definition=f'data/mns/worldgen/structure/{a}.json';selected.add(definition)
+            pool=json.loads(z.read(definition))['start_pool'].split(':')[1]
+            path=f'data/mns/worldgen/template_pool/{pool}.json'
+            selected.add(path)
+            d=json.loads(z.read(path))
+            for entry in d['elements']:
+                e=entry['element']
+                if 'location' not in e:continue
+                loc=next((v for k,v in e.get('locations',{}).items() if k.split('-')[0]=='1.21'),e['location']);ns,path=loc.split(':')
+                selected.add(f'data/{ns}/structure/{path}.nbt')
+        for name in list(selected):
+            if '/template_pool/' not in name:continue
+            for entry in json.loads(z.read(name))['elements']:
+                proc=entry['element'].get('processors','minecraft:empty')
+                if isinstance(proc,str) and proc.startswith('mns:'):
+                    selected.add('data/mns/worldgen/processor_list/'+proc.split(':')[1]+'.json')
         for name in sorted(selected):
             target=SOURCE/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(z.read(name))
         return {name:hashlib.sha256(z.read(name)).hexdigest() for name in sorted(selected)}
@@ -251,7 +357,7 @@ def main():
     schema=json.loads(SCHEMA.read_text())['blocks'];catalog={a:convert(a,schema) for a in ARENAS}
     metadata.update({'mod':'Moogs Nether Structures','version':'3.1.1','authors':['FinnDog','Phantax (structure builder)'],
                      'upstream':'https://github.com/FinnSetchell/MoogsNetherStructures2','license':'LGPL-3.0',
-                     'scope':'Three Java 1.21 arena layouts for manual Bedrock testing only; no natural placement/spawn rules.',
+                     'scope':'Seven Java 1.21 structure layouts for manual Bedrock testing only; no natural placement/spawn rules.',
                      'limitations':['Custom Java boss/mob encounter pools omitted.','Java trial-spawner and vault configurations are not ported; blocks retain default native behavior.',
                                     'Java terrain carving and 128-block support pillar processors are not run.',
                                     'Chests/barrels use Underworld loot. Vanilla spawners use native Nether mobs. Java item-frame entity omitted.',
