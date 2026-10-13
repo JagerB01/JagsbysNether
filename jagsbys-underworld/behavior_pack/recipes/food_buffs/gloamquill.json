@@ -1,0 +1,40 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "jagsby_nether:gloamquill"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "JGC",
+      " P ",
+      " E "
+    ],
+    "key": {
+      "J": {
+        "item": "jagsby_nether:obsidian_sword_fish"
+      },
+      "G": {
+        "item": "jagsby_nether:steam_flying_fish"
+      },
+      "C": {
+        "item": "jagsby_nether:arowana_fish"
+      },
+      "P": {
+        "item": "jagsby_nether:murky_pie"
+      },
+      "E": {
+        "item": "minecraft:spider_eye"
+      }
+    },
+    "result": {
+      "item": "jagsby_nether:gloamquill",
+      "count": 1
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
+  }
+}

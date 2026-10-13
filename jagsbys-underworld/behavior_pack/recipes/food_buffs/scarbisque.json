@@ -1,0 +1,40 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "jagsby_nether:scarbisque"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "G J",
+      " A ",
+      "S O"
+    ],
+    "key": {
+      "G": {
+        "item": "minecraft:gold_nugget"
+      },
+      "J": {
+        "item": "jagsby_nether:obsidian_sword_fish"
+      },
+      "A": {
+        "item": "jagsby_nether:yeti_crab"
+      },
+      "S": {
+        "item": "jagsby_nether:scarberry_bottle"
+      },
+      "O": {
+        "item": "minecraft:bowl"
+      }
+    },
+    "result": {
+      "item": "jagsby_nether:scarbisque",
+      "count": 1
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
+  }
+}

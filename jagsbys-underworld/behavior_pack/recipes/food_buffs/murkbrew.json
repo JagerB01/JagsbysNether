@@ -1,0 +1,40 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "jagsby_nether:murkbrew"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      " F ",
+      "BLC",
+      " O "
+    ],
+    "key": {
+      "F": {
+        "item": "minecraft:warped_fungus"
+      },
+      "B": {
+        "item": "jagsby_nether:blistered_rye"
+      },
+      "L": {
+        "item": "jagsby_nether:lava_lamprey"
+      },
+      "C": {
+        "item": "jagsby_nether:arowana_fish"
+      },
+      "O": {
+        "item": "minecraft:bowl"
+      }
+    },
+    "result": {
+      "item": "jagsby_nether:murkbrew",
+      "count": 1
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
+  }
+}

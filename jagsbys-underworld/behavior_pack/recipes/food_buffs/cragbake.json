@@ -1,0 +1,37 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "jagsby_nether:cragbake"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "PMC",
+      " B ",
+      "   "
+    ],
+    "key": {
+      "P": {
+        "item": "jagsby_nether:quartz_fish"
+      },
+      "M": {
+        "item": "minecraft:magma_cream"
+      },
+      "C": {
+        "item": "jagsby_nether:arowana_fish"
+      },
+      "B": {
+        "item": "jagsby_nether:baked_polyp"
+      }
+    },
+    "result": {
+      "item": "jagsby_nether:cragbake",
+      "count": 1
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
+  }
+}
