@@ -4089,5 +4089,18 @@
       "minecraft:skeleton": 1
     },
     "change": "replace zombie_pigman spawners; source reference NBT retained"
+  },
+  "underworld_trial_spawner_override": {
+    "version": "0.2.99",
+    "configured_ordinary_spawners": {
+      "small_arena": 8,
+      "large_arena": 22,
+      "dragon_arena": 10,
+      "mega_fortress_keep": 5
+    },
+    "excluded": "Other Mega Fortress modules and Grave Yard retain ordinary spawners. Original Java source hashes and licenses remain unchanged.",
+    "config": "TRIAL_ENCOUNTERS.json",
+    "conversion_tool": "tools/update_trial_encounters.py",
+    "runtime": "One encounter-revision gate on world load and a finite recorded-site migration; no recurring polling."
   }
 }

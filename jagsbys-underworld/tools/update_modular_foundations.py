@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from structure_crops import NBT
 ROOT=Path(__file__).resolve().parents[1]
-NONSTRUCTURAL={'minecraft:air','minecraft:water','minecraft:lava','minecraft:flowing_lava','minecraft:flowing_water','minecraft:iron_chain','minecraft:glow_lichen','minecraft:red_candle','minecraft:redstone_torch','minecraft:unlit_redstone_torch','minecraft:soul_torch','minecraft:soul_lantern','minecraft:lantern','minecraft:torch','minecraft:mob_spawner','minecraft:chest','minecraft:barrel','minecraft:shroomlight'}
+NONSTRUCTURAL={'minecraft:air','minecraft:water','minecraft:lava','minecraft:flowing_lava','minecraft:flowing_water','minecraft:iron_chain','minecraft:glow_lichen','minecraft:red_candle','minecraft:redstone_torch','minecraft:unlit_redstone_torch','minecraft:soul_torch','minecraft:soul_lantern','minecraft:lantern','minecraft:torch','minecraft:mob_spawner','minecraft:trial_spawner','minecraft:vault','minecraft:chest','minecraft:barrel','minecraft:shroomlight'}
 def update():
  path=ROOT/'behavior_pack/scripts/modular_fortress_catalog.js';modules=json.loads(path.read_text().split(' = ',1)[1].rstrip(';\n'))
  for m in modules:

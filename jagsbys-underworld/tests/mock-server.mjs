@@ -25,7 +25,7 @@ export const world = {
   getDynamicPropertyIds() { return [...properties.keys()]; },
   getAllPlayers() { return []; },
   beforeEvents: {playerBreakBlock: signal(), explosion: signal(), entityHurt: signal(), playerInteractWithEntity: signal(), playerInteractWithBlock: signal()},
-  afterEvents: {playerSpawn: signal(), playerHotbarSelectedSlotChange: signal(), playerInventoryItemChange: signal(), entityContainerOpened: signal(), entityContainerClosed: signal(), entitySpawn: signal(), entityLoad: signal(), playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
+  afterEvents: {worldLoad: signal(), playerSpawn: signal(), playerHotbarSelectedSlotChange: signal(), playerInventoryItemChange: signal(), entityContainerOpened: signal(), entityContainerClosed: signal(), entitySpawn: signal(), entityLoad: signal(), playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
 };
 const pending = [];
 export const intervals = [], jobs = [], timeouts = [];

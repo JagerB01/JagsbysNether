@@ -70,6 +70,40 @@ class MoogsArenas(unittest.TestCase):
             for i,a in enumerate(rectangles):
                 for b in rectangles[i+1:]:self.assertFalse(a[0]<b[2] and b[0]<a[2] and a[1]<b[3] and b[1]<a[3])
 
+    def test_trial_conversion_keeps_fortress_module_and_graveyard_spawners_ordinary(self):
+        def counts(sections):
+            result={'minecraft:mob_spawner':0,'minecraft:trial_spawner':0}
+            for section in sections:
+                r=NBT((ROOT/'behavior_pack/structures'/f"{section['id'].replace(':','/')}.mcstructure").read_bytes());r.read('B');r.string();st=r.payload(10)['structure'][1]
+                names=[b['name'][1] for b in st['palette'][1]['default'][1]['block_palette'][1][1]]
+                for i in st['block_indices'][1][1][0][1]:
+                    if i>=0 and names[i] in result:result[names[i]]+=1
+            return result
+        arenas=json.loads((ROOT/'behavior_pack/scripts/arena_catalog.js').read_text().split(' = ',1)[1].rstrip(';\n'))
+        for name,trial in [('small_arena',8),('large_arena',26),('dragon_arena',13)]:
+            self.assertEqual(counts(arenas[name]['sections']),{'minecraft:mob_spawner':0,'minecraft:trial_spawner':trial})
+        self.assertEqual(counts(arenas['mega_fortress']['sections']),{'minecraft:mob_spawner':7,'minecraft:trial_spawner':5})
+        self.assertEqual(counts(arenas['grave_yard']['sections']),{'minecraft:mob_spawner':1,'minecraft:trial_spawner':0})
+        modules=json.loads((ROOT/'behavior_pack/scripts/modular_fortress_catalog.js').read_text().split(' = ',1)[1].rstrip(';\n'))
+        self.assertEqual(counts(modules[0]['sections']),{'minecraft:mob_spawner':0,'minecraft:trial_spawner':5})
+        self.assertEqual(counts([s for m in modules[1:] for s in m['sections']]),{'minecraft:mob_spawner':7,'minecraft:trial_spawner':0})
+
+    def test_native_trial_presets_have_the_configured_mobs_and_valid_local_positions(self):
+        encounters=json.loads((ROOT/'behavior_pack/scripts/trial_encounter_catalog.js').read_text().split(' = ',1)[1].rstrip(';\n'))
+        config=json.loads((ROOT/'TRIAL_ENCOUNTERS.json').read_text())
+        for profile,identifier in encounters['presets'].items():
+            r=NBT((ROOT/'behavior_pack/structures'/f"{identifier.replace(':','/')}.mcstructure").read_bytes());r.read('B');r.string();root=r.payload(10)
+            self.assertEqual(root['size'][1][1],[1,1,1]);st=root['structure'][1];default=st['palette'][1]['default'][1]
+            self.assertEqual(default['block_palette'][1][1][0]['name'][1],'minecraft:trial_spawner')
+            entity=default['block_position_data'][1]['0'][1]['block_entity_data'][1]
+            self.assertEqual(entity['id'][1],'TrialSpawner');self.assertEqual([entity[k][1] for k in ['x','y','z']],[0,0,0])
+            group,role=profile.split('/');mob=config['groups'][group][role]
+            if mob:
+                self.assertEqual(entity['spawn_data'][1]['TypeId'][1],mob)
+                self.assertEqual(entity['normal_config'][1]['total_mobs'][1],config['defaults']['total_mobs'])
+                self.assertEqual(entity['required_player_range'][1],config['defaults']['required_player_range'])
+            else:self.assertNotIn('spawn_data',entity)
+
     def test_import_has_no_natural_generation_rules(self):
         for folder in ['features','feature_rules','spawn_rules']:
             for path in (ROOT/'behavior_pack'/folder).rglob('*.json'):

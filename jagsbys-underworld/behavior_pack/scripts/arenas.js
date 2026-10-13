@@ -1,3 +1,4 @@
+import {recordEncounterSite} from './trial_encounters.js';
 import {runGenerationJob} from './generation_queue.js';
 import {world,system} from '@minecraft/server';
 import {ARENAS} from './arena_catalog.js';
@@ -33,6 +34,7 @@ export function* placeArena({id,arena,dimension,origin},notify=()=>{}){
    yield;
    if(perSection)clear();
   }
+  recordEncounterSite(id,origin,dimension.id);
   notify(`${arena.display_name} placed. Manual template placement complete.`);
  }finally{
   try{clear();}catch(error){console.warn(`[Underworld templates] Temporary area cleanup failed: ${error}`);}

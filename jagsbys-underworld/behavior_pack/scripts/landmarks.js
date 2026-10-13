@@ -1,3 +1,4 @@
+import {recordEncounterSite} from './trial_encounters.js';
 import {world,system} from '@minecraft/server';
 import {ARENAS} from './arena_catalog.js';
 import {NATURAL_ARENAS} from './natural_arena_catalog.js';
@@ -138,7 +139,7 @@ export function* generateLandmark(c,dimension){
    record.next=index+1;record.supporting=false;record.tilePlaced=false;save(c,record);world.setDynamicProperty(supportKey(c,index),undefined);
    lease.release();lease=undefined;yield {waitTicks:2};
   }
-  record.state='built';save(c,record);status=`${arena.display_name} generated at ${record.origin.x}, ${record.origin.y}, ${record.origin.z}.`;if(record.modular)status+=` (${record.modules.length} connected modules).`;recordDiagnostic(c,'built',status);return {outcome:'built'};
+  record.state='built';save(c,record);recordEncounterSite(record.id,record.origin,dimension.id,c.key,record.modular);status=`${arena.display_name} generated at ${record.origin.x}, ${record.origin.y}, ${record.origin.z}.`;if(record.modular)status+=` (${record.modules.length} connected modules).`;recordDiagnostic(c,'built',status);return {outcome:'built'};
  }catch(error){if(error.message==='Player approached the foundation')pauseForPlayer(c);else retries.set(attemptKey(c),system.currentTick+1200);status=`Landmark deferred: ${error.message}`;console.warn(`[Underworld landmarks] ${status}`);recordDiagnostic(c,'deferred',error.message);return {outcome:'deferred'};}
  finally{lease?.release();}
 }

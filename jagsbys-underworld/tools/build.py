@@ -43,6 +43,8 @@ def main():
     parser.add_argument('--allow-placeholder-icon', action='store_true',
                         help='Local verification only: use the old crop icon while awaiting the supplied PNG.')
     args = parser.parse_args()
+    # Bake encounter edits offline before copying the assets into the pack.
+    subprocess.run(['python3', 'tools/update_trial_encounters.py'], cwd=ROOT, check=True)
     addon = files(AGRICULTURE.read_bytes())
     agriculture = files(addon['Nether_Agriculture_BP.mcpack'])
     resources = files(addon['Nether_Agriculture_RP.mcpack'])
@@ -161,7 +163,7 @@ def main():
     # Loose documents in a .mcaddon are treated as failed pack imports.
     docs = BUILD / 'behavior_pack/docs/underworld'
     docs.mkdir(parents=True, exist_ok=True)
-    for name in ('TESTING.txt', 'FOOD_BUFFS.md', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md', 'GENERATION.md', 'VILLAGER_FOOD.md', 'CONQUEST_COMPATIBILITY.json', 'ARENAS.md', 'MOOGS_ARENAS_SOURCE.json', 'PERFORMANCE.md'):
+    for name in ('TESTING.txt', 'TRIAL_ENCOUNTERS.json', 'FOOD_BUFFS.md', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md', 'GENERATION.md', 'VILLAGER_FOOD.md', 'CONQUEST_COMPATIBILITY.json', 'ARENAS.md', 'MOOGS_ARENAS_SOURCE.json', 'PERFORMANCE.md'):
         (docs / name).write_bytes((ROOT / name).read_bytes())
     (docs / 'SKITTERCHESTS.md').write_bytes((ROOT / 'SKITTERCHESTS.md').read_bytes())
     (docs / 'STRUCTURE_BLOCK_CONVERSIONS.json').write_text(json.dumps(block_conversions, indent=2) + '\n')

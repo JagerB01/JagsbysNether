@@ -1,0 +1,19 @@
+{
+  "description": "Encounter data is baked into native trial-spawner presets. Change a profile's mob to update that role in new and recorded existing structures, with one migration on the next world load.",
+  "defaults": {
+    "required_player_range": 14,
+    "spawn_range": 4,
+    "ticks_between_spawn": 40,
+    "target_cooldown_length": 36000,
+    "total_mobs": 6,
+    "total_mobs_added_per_player": 2,
+    "simultaneous_mobs": 2,
+    "simultaneous_mobs_added_per_player": 1
+  },
+  "groups": {
+    "small_arena": {"wither_skeleton": "minecraft:wither_skeleton", "magma_cube": "minecraft:magma_cube", "skeleton": "minecraft:skeleton"},
+    "large_arena": {"wither_skeleton": "minecraft:wither_skeleton", "skeleton": "minecraft:skeleton", "imported_trial": null},
+    "dragon_arena": {"wither_skeleton": "minecraft:wither_skeleton", "blaze": "minecraft:blaze", "magma_cube": "minecraft:magma_cube", "imported_trial": null},
+    "mega_keep": {"wither_skeleton": "minecraft:wither_skeleton", "magma_cube": "minecraft:magma_cube"}
+  }
+}
