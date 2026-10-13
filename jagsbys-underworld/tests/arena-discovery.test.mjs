@@ -42,3 +42,32 @@ test('older mushroom rejection records are reopened under the new policy',()=>{
  const search=new GiantSearch({getDynamicProperty:k=>m.get(k),setDynamicProperty:(k,v)=>m.set(k,v)});
  assert.equal(search.state(c).failed.size,0);search.reject(c,'Protected chest');assert(search.failed(c));
 });
+
+test('spacing-ineligible sites are filtered before queueing without rejecting their terrain cells',async()=>{
+ const {world}=await import('./mock-server.mjs'),{LANDMARK_PREFIX}=await import('../behavior_pack/scripts/landmark_sites.js');
+ const r=candidateAt('small',1200,1200,123),x=r.gx*600+300,z=r.gz*600+300;
+ terrainSurvey.ground(x,z,64,100,'minecraft:basalt');
+ const online=[{dimension:{id:'minecraft:nether'},location:{x:x+70,y:65,z}}];
+ const key=LANDMARK_PREFIX+'eligibility_test',diagnostics=world.getDynamicProperty('underworld_landmarks:diagnostics');
+ const before=world.getDynamicPropertyIds();
+ world.setDynamicProperty(key,JSON.stringify({state:'built',id:'small_arena',family:'small',x:x+599,z,box:{x:x+580,z:z-30,sx:56,sz:93}}));
+ try{
+  const candidates=naturalCandidates(online,123);
+  assert(!candidates.some(c=>c.family==='small'&&c.x===x&&c.z===z));
+  assert(candidates.some(c=>c.family==='small'&&c.gx===r.gx&&c.gz===r.gz),'Keep eligible alternatives in the same region');
+  assert.equal(world.getDynamicProperty('underworld_landmarks:diagnostics'),diagnostics);
+  assert.deepEqual(world.getDynamicPropertyIds().filter(k=>k!==key),before);
+  world.setDynamicProperty(key,undefined);
+  assert(naturalCandidates(online,123).some(c=>c.family==='small'&&c.x===x&&c.z===z),'Spacing skips must not poison the search cell');
+ }finally{world.setDynamicProperty(key,undefined);}
+});
+test('village footprint exclusions are checked before selecting a landmark',async()=>{
+ const {world}=await import('./mock-server.mjs');
+ const r=candidateAt('small',1300,1300,123),x=r.gx*600+300,z=r.gz*600+300;
+ terrainSurvey.ground(x,z,64,100,'minecraft:basalt');
+ const online=[{dimension:{id:'minecraft:nether'},location:{x:x+70,y:65,z}}];
+ const key='nether_settlements:village_location_eligibility_test';
+ world.setDynamicProperty(key,JSON.stringify({x,z,houses:4,bounds:{x:x-50,z:z-50,sx:101,sz:101}}));
+ try{assert(!naturalCandidates(online,123).some(c=>c.family==='small'&&c.x===x&&c.z===z));}
+ finally{world.setDynamicProperty(key,undefined);}
+});

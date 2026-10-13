@@ -31,6 +31,8 @@ export function playersClear(online,box,margin=32){return online.every(p=>{
 });}
 export function naturalCandidates(online,seed,tick=system.currentTick){
  const all=new Map(),visited=new Set(),observations=terrainSurvey.nearby(online),ground=terrainSurvey.nearbyGround(online);
+ // Snapshot existing footprints once per candidate pass, before any leases or surveys.
+ const records=landmarkRecords(),villages=villageBoxes();
  for(const player of online)for(const [family,size] of [['giant',1600],['small',600],['ruin',192]]){
   const gx=Math.floor(player.location.x/size),gz=Math.floor(player.location.z/size),radius=Math.ceil(768/size);
   for(let x=gx-radius;x<=gx+radius;x++)for(let z=gz-radius;z<=gz+radius;z++){
@@ -43,7 +45,13 @@ export function naturalCandidates(online,seed,tick=system.currentTick){
    for(const c of sites){
     if((retries.get(attemptKey(c))??0)>tick||(!c.saved&&['giant','small'].includes(family)&&giantSearch.failed(c)))continue;
     const distance=Math.min(...online.map(p=>Math.hypot(c.x-p.location.x,c.z-p.location.z)));
-    if(distance>768||!playersClear(online,(c.saved?.modular?pendingModuleBox(c,c.saved):c.saved?.box)??(c.family==='giant'?(TEST_ONLY_GIANT==='mega_fortress'?modularCoreBox(c):boxFor({...c,id:TEST_ONLY_GIANT})):boxFor(c)),32))continue;
+    if(distance>768)continue;
+    const selected=c.family==='giant'&&!c.saved?{...c,id:TEST_ONLY_GIANT}:c;
+    const box=(c.saved?.modular?pendingModuleBox(c,c.saved):c.saved?.box)??(selected.id==='mega_fortress'?modularCoreBox(selected):boxFor(selected));
+    // Spacing is eligibility, not failed terrain. Do not queue the site or
+    // permanently reject its search cell; another eligible point may fit.
+    if(!c.saved&&!spacingAllows(selected,box,records,villages))continue;
+    if(!playersClear(online,box,32))continue;
     eligible.push({...c,distance,priority:c.saved?0:c.observed?1:family==='giant'?3:2});
    }
    eligible.sort((a,b)=>a.priority-b.priority||(b.score??0)-(a.score??0)||a.distance-b.distance||a.x-b.x||a.z-b.z);
@@ -66,7 +74,8 @@ export function* generateLandmark(c,dimension){
    const records=landmarkRecords(),villages=villageBoxes();
    const smallest=c;
    if(!spacingAllows(smallest,c.id==='mega_fortress'?modularCoreBox(c):boxFor(smallest),records,villages)){
-    reject(c,'Spacing from an existing structure or village');recordDiagnostic(c,'rejected','Spacing from an existing structure or village');return {outcome:'rejected'};
+    // A build may have reserved space since selection. Skip before loading.
+    status='Landmark skipped: spacing changed since candidate selection.';return {outcome:'skipped'};
    }
    status=`Surveying ${ARENAS[c.id].display_name} at ${c.x}, ${c.z}.`;
    plan=c.id==='mega_fortress'?yield* surveyModularFortress(c,dimension,{progress,coreOnly:true,allowed:box=>spacingAllows({...c,id:'mega_fortress'},box,records,villages)&&playersClear(players(),box,32)}):yield* surveyLandmark(c,dimension,progress);
