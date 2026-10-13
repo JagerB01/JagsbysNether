@@ -4,7 +4,7 @@ import {NATURAL_ARENAS} from './natural_arena_catalog.js';
 import {chunkLease} from './chunk_loading.js';
 import {runGenerationJob} from './generation_queue.js';
 import {candidateAt,GIANTS,landmarkRecords,villageBoxes,spacingAllows,LANDMARK_PREFIX} from './landmark_sites.js';
-import {surveyLandmark,clearVolume,fillSupports} from './landmark_terrain.js';
+import {surveyLandmark,clearVolume,fillSupports,carveTile} from './landmark_terrain.js';
 import {terrainSurvey} from './terrain_survey.js';
 import {giantSearch,giantSites,attemptKey} from './giant_search.js';
 import {assessGiantSite} from './giant_fit.js';
@@ -68,7 +68,7 @@ export function* generateLandmark(c,dimension){
     const x=plan.origin.x+section.offset[0],z=plan.origin.z+section.offset[2];
     world.setDynamicProperty(supportKey(c,i),JSON.stringify(supports.filter(p=>p.x>=x&&p.x<x+section.size[0]&&p.z>=z&&p.z<z+section.size[2])));
    }
-   record={state:'placing',id:c.id,family:c.family,x:c.x,z:c.z,origin:plan.origin,box:plan.box,surface:plan.surface,ocean:plan.ocean,next:0};
+   record={state:'placing',id:c.id,family:c.family,x:c.x,z:c.z,origin:plan.origin,box:plan.box,surface:plan.surface,ocean:plan.ocean,carve:plan.carve??false,next:0};
    save(c,record);
   }
   const arena=NATURAL_ARENAS[c.id];
@@ -79,15 +79,19 @@ export function* generateLandmark(c,dimension){
    lease=chunkLease(dimension,'landmark');yield* lease.load(pos,section.size);
    progress(`Placing tile ${index+1}/${arena.sections.length}`);
    if(!playersClear(players(),record.box,32)){retries.set(attemptKey(c),system.currentTick+1200);status='Landmark paused: player approached its footprint.';return;}
-   if(!(yield* clearVolume(dimension,pos,section.size,record.surface,record.ocean,record.supporting?['minecraft:polished_blackstone']:[]))){status='Landmark paused: terrain changed before placement.';retries.set(attemptKey(c),system.currentTick+1200);return;}
-   // Persist before foundation writes so a restart can finish this section.
-   record.supporting=true;save(c,record);
    const supports=JSON.parse(world.getDynamicProperty(supportKey(c,index))??'[]');
-   yield* fillSupports(dimension,supports,()=>playersClear(players(),record.box,32));
-   // No yield between the final player check, native placement and progress record.
-   if(!playersClear(players(),record.box,32)){retries.set(attemptKey(c),system.currentTick+1200);return;}
-   world.structureManager.place(section.id,dimension,pos,{includeEntities:false,includeBlocks:true});
-   record.next=index+1;record.supporting=false;save(c,record);world.setDynamicProperty(supportKey(c,index),undefined);
+   if(!record.tilePlaced){
+    if(!(yield* clearVolume(dimension,pos,section.size,record.surface,record.ocean,record.supporting?['minecraft:polished_blackstone']:[],record.carve??false))){status='Landmark paused: protected blocks appeared before placement.';retries.set(attemptKey(c),system.currentTick+1200);return;}
+    record.supporting=true;save(c,record);
+    if(record.carve)carveTile(dimension,pos,section.size);
+    // Persist native placement before yielding for supports; restart cannot
+    // replace an already placed tile or mistake its architecture for terrain.
+    if(!playersClear(players(),record.box,32)){retries.set(attemptKey(c),system.currentTick+1200);return;}
+    world.structureManager.place(section.id,dimension,pos,{includeEntities:false,includeBlocks:true});
+    record.tilePlaced=true;save(c,record);
+   }
+   yield* fillSupports(dimension,supports,()=>playersClear(players(),record.box,32),record.carve??false);
+   record.next=index+1;record.supporting=false;record.tilePlaced=false;save(c,record);world.setDynamicProperty(supportKey(c,index),undefined);
    lease.release();lease=undefined;yield {waitTicks:2};
   }
   record.state='built';save(c,record);status=`${arena.display_name} generated at ${record.origin.x}, ${record.origin.y}, ${record.origin.z}.`;

@@ -4038,6 +4038,8 @@
     "placement_tiles": "Generated losslessly from converted sections by tools/generate_natural_landmarks.py; maximum 16 by 16 horizontal blocks",
     "foundations": "Anchors generated from existing solid template blocks by tools/generate_structure_foundations.py",
     "discovery_updated_in": "0.2.73",
-    "discovery": "Shared village lava-surface observations plus regional exploration; complete size assessments before weighted selection among confirmed fits"
+    "discovery": "Shared village lava-surface observations plus regional exploration; complete size assessments before weighted selection among confirmed fits",
+    "terrain_policy_updated_in": "0.2.75",
+    "terrain_policy": "Filtered ordinary Nether terrain carving; ocean coverage 60% Large / 55% Dragon / 35% Mega; supports placed after templates"
   }
 }

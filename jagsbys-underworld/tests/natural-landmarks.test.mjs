@@ -29,7 +29,7 @@ test('spacing is measured between giants, arenas and actual village edges',()=>{
  const c={key:'new',id:'mega_fortress',family:'giant',x:0,z:0},box={x:-122,z:-124,sx:245,sz:248};
  assert(!spacingAllows(c,box,[{key:'old',id:'large_arena',x:1499,z:0,box:{x:1468,z:0,sx:62,sz:99}}],[]));
  assert(spacingAllows(c,box,[{key:'old',id:'large_arena',x:1500,z:0,box:{x:1469,z:0,sx:62,sz:99}}],[]));
- assert(!spacingAllows(c,box,[],[{x:421,z:0,sx:50,sz:50}]));assert(spacingAllows(c,box,[],[{x:422,z:0,sx:50,sz:50}]));
+ assert(!spacingAllows(c,box,[],[{x:171,z:0,sx:50,sz:50}]));assert(spacingAllows(c,box,[],[{x:172,z:0,sx:50,sz:50}]));
  assert.equal(boxGap({x:0,z:0,sx:10,sz:10},{x:20,z:0,sx:10,sz:10}),11);
  assert(!playersClear([{location:{x:0,z:0}}],box));
 });
@@ -39,7 +39,7 @@ for(const id of Object.keys(ARENAS))test(`${id} surveys valid terrain and clears
  assert.equal(plan.outcome,'ready');assert(plan.supports.length===ARENAS[id].sections.length);assert(f.queries>0);assert(f.loads.at(-1).startsWith('tickingarea remove'));
  if(ocean){assert.equal(plan.origin.y,id==='mega_fortress'?30:33);assert(plan.supports.flat().length>0);}
 });
-test('obstructed ceilings, insufficient oceans and unloaded reads cause no placement',()=>{
+test('protected blocks, insufficient oceans and unloaded reads cause no placement',()=>{
  const c={id:'large_arena',x:0,z:0},f=fixture();f.obstruct({x:0,y:50,z:0});assert.equal(finish(surveyLandmark(c,f.dimension)).outcome,'unsuitable');assert.equal(f.fills.length,0);
  const dry=fixture(false);assert.equal(finish(surveyLandmark(c,dry.dimension)).outcome,'unsuitable');
  const missing=fixture();missing.dimension.getBlock=()=>undefined;assert.throws(()=>finish(surveyLandmark(c,missing.dimension)));assert(missing.loads.at(-1).startsWith('tickingarea remove'));

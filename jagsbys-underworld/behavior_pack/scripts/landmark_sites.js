@@ -1,6 +1,6 @@
 import {world} from '@minecraft/server';
 export const LANDMARK_PREFIX='underworld_landmarks:site_';
-export const GIANT_REGION=1600,GIANT_SEPARATION=1500,ARENA_SEPARATION=600,VILLAGE_GAP=300;
+export const GIANT_REGION=1600,GIANT_SEPARATION=1500,ARENA_SEPARATION=600,GIANT_SMALL_GAP=150,VILLAGE_GAP=50;
 export const GIANTS=['large_arena','dragon_arena','mega_fortress'];
 export function random(seed){let n=seed>>>0;return ()=>{n=(Math.imul(n,1664525)+1013904223)>>>0;return n/4294967296;};}
 export function candidateAt(family,gx,gz,seed){
@@ -38,7 +38,8 @@ export function spacingAllows(candidate,box,records,villages){
   if(r.key===candidate.key)continue;
   if(boxGap(box,r.box)<32)return false;
   if(giant&&GIANTS.includes(r.id)&&Math.hypot(candidate.x-r.x,candidate.z-r.z)<GIANT_SEPARATION)return false;
-  if((giant||candidate.id==='small_arena')&&(GIANTS.includes(r.id)||r.id==='small_arena')&&Math.hypot(candidate.x-r.x,candidate.z-r.z)<ARENA_SEPARATION)return false;
+  if((giant&&r.id==='small_arena')||(candidate.id==='small_arena'&&GIANTS.includes(r.id))){if(Math.hypot(candidate.x-r.x,candidate.z-r.z)<GIANT_SMALL_GAP)return false;}
+  else if(candidate.id==='small_arena'&&r.id==='small_arena'&&Math.hypot(candidate.x-r.x,candidate.z-r.z)<ARENA_SEPARATION)return false;
   if(candidate.family==='ruin'&&r.family==='ruin'&&Math.hypot(candidate.x-r.x,candidate.z-r.z)<150)return false;
  }
  return villages.every(v=>boxGap(box,v)>=(giant?VILLAGE_GAP:32));

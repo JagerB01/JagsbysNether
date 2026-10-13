@@ -27,10 +27,10 @@ test('one rejected giant search cell does not reject its region or neighbouring 
  assert(new GiantSearch(store).failed(region));assert.equal(store.getDynamicProperty(region.key),undefined);assert.notEqual(attemptKey(region),attemptKey(other));
  const sites=giantSites(region,[[other.x,other.z,31]]);assert(sites.some(c=>c.observed&&c.x===other.x));assert(sites.length>100);
 });
-test('legacy region rejection only excludes its original position, preserving the selected type',()=>{
+test('legacy region failures reopen under relaxed terrain rules, preserving the seeded type',()=>{
  const store=storage(),region=candidateAt('giant',7,7,123);store.setDynamicProperty(region.key,JSON.stringify({state:'rejected',reason:'No open lava surface'}));
  const search=new GiantSearch(store),other={...region,regionX:region.x,regionZ:region.z,x:region.x+128,z:region.z};
- assert(!search.failed(other));assert(search.failed(region));assert(giantSites(region,[]).every(c=>c.id===region.id));
+ assert(!search.failed(other));assert(!search.failed(region));assert(giantSites(region,[]).every(c=>c.id===region.id));
 });
 test('actual loaded village survey contributes lava observations for giant discovery',()=>{
  const x=1024008,z=1024008,dimension={id:'minecraft:nether',isChunkLoaded:p=>Math.floor(p.x/16)===Math.floor(x/16)&&Math.floor(p.z/16)===Math.floor(z/16),getBlock({x,y,z}){return {typeId:y<=4?'minecraft:netherrack':y<=31?'minecraft:lava':'minecraft:air',isAir:y>31,isLiquid:y>4&&y<=31,location:{x,y,z}};}};

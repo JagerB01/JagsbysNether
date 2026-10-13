@@ -75,3 +75,7 @@ All giant sizes are assessed before selection; incomplete checks defer selection
 ## v0.2.74 regional comparison
 
 Village placement waits for a bounded six-area comparison rather than committing to the first valid loaded area. Coarse connected-floor assessments are cached (maximum 512 sites), and complete layouts are still planned only as needed in ranked order. The shared work budget and temporary loading limits remain unchanged. This trades additional initial surveying for better regional site choice; actual FPS and wait time require client measurements.
+
+## v0.2.75 terrain carving
+
+Giant fitting checks now allow whitelisted natural terrain and partial islands, retaining filtered native-volume queries and shared size-assessment snapshots. Actual carving uses a native filtered fill in each existing 16-block tile, followed by template placement and supports. No per-block carving loop or new idle polling is added. Increased lighting/block-update work during carving still requires in-game profiling.

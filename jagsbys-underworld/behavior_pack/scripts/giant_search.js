@@ -11,11 +11,8 @@ export class GiantSearch {
   const key=`${c.gx}_${c.gz}`;
   if(!this.regions.has(key)){
    let saved;try{saved=JSON.parse(this.storage.getDynamicProperty(PREFIX+key)??'null');}catch{}
-   const failed=new Set(Array.isArray(saved?.failed)?saved.failed:[]);
-   // v0.2.72 rejected just its original coordinate. Preserve that rejection,
-   // while reopening all other terrain in the region for discovery.
-   let legacy;try{legacy=JSON.parse(this.storage.getDynamicProperty(c.key)??'null');}catch{}
-   if(legacy?.state==='rejected')failed.add(attemptCell({...c,x:c.regionX??c.x,z:c.regionZ??c.z}));
+   // Reopen older strict-policy failures once; completed/reserved builds stay intact.
+   const failed=new Set(saved?.policy===2&&Array.isArray(saved.failed)?saved.failed:[]);
    this.regions.set(key,{failed,lastReason:saved?.lastReason});
   }
   return this.regions.get(key);
@@ -23,7 +20,7 @@ export class GiantSearch {
  failed(c){return this.state(c).failed.has(attemptCell(c));}
  reject(c,reason){
   const state=this.state(c);state.failed.add(attemptCell(c));state.lastReason=reason;
-  this.storage.setDynamicProperty(PREFIX+`${c.gx}_${c.gz}`,JSON.stringify({version:1,failed:[...state.failed],lastReason:reason}));
+  this.storage.setDynamicProperty(PREFIX+`${c.gx}_${c.gz}`,JSON.stringify({version:1,policy:2,failed:[...state.failed],lastReason:reason}));
   while(this.regions.size>256)this.regions.delete(this.regions.keys().next().value);
  }
 }
