@@ -1,4 +1,4 @@
-# Glowsquito and Glowhusk — v0.2.104
+# Glowsquito and Glowhusk — v0.2.105
 
 Glowsquito imports only the user-supplied Infernal Expansion visual design: the original normal/glow textures and converted ten-part Java model with its constant wing flapping. No Java gameplay, sounds, other mobs, items, structures or biomes are imported. The separate pollen sac is a Bedrock visual extension. Apache-2.0 attribution, hashes and model reference are bundled in `docs/glowsquito/`.
 
@@ -10,11 +10,11 @@ Glowhusk currently uses vanilla Shroomlight artwork on a cube. Glow Wax uses the
 - Wild natural spawn weights are **3 in Warped Forest** (groups 1–2) and **1 in Crimson Forest** (single mobs). Both density limits are 4. Weights are relative to other eligible animal entries, not absolute spawn percentages. No other biome rules are added and no Glowhusks generate naturally.
 - Glowsquitos have 10 HP, retaliate for 1 damage, and defend their assigned colony after uncalmed harvesting. They have no poison or post-attack death. Native flight/wandering, Glowstone Dust temptation/breeding and fungus-seeking goals are used. Breeding cooldown is 300 seconds; babies mature in 1,200 loaded seconds and cannot pollinate or claim a hive. Player-bred babies are persistent, so a deliberate colony expansion is not lost to distance despawning.
 - Craft Glowhusk with Nether planks across the top/bottom rows and Glowstone Dust / Shroomlight / Glowstone Dust in the middle. All 64 mixed Crimson/Warped plank combinations are supported; Overworld planks are excluded.
-- Adults discover Glowhusks within 16 blocks and each hive reserves at most three unique residents. An assigned Glowsquito is persistent and generally stays within 16 blocks; native wandering is supplemented by rare boundary corrections. A wild Glowsquito does not need a hive and continues seeking fungi normally.
+- Adults discover Glowhusks within 16 blocks through native movement and a bounded, loaded-block lookup on spawn/load or completed pollination. Placing a hive also assigns nearby homeless adults with one filtered entity query. Native return movement runs first; arrival within two blocks or a stalled 20-second pollen return safely enters the assigned loaded hive without replacing the actor. Adults discover Glowhusks within 16 blocks and each hive reserves at most three unique residents. An assigned Glowsquito is persistent and generally stays within 16 blocks; native wandering is supplemented by rare boundary corrections. A wild Glowsquito does not need a hive and continues seeking fungi normally.
 - Native fungus seeking stays at Crimson or Warped Fungus for 20 seconds and signals pollen collection. The fungus is never removed or modified. Returning to the assigned hive deposits one unit, capped at five. Residents rest hidden inside for 30 loaded seconds, then exit into a free neighboring air block. Blocked/unloaded exits retain the original resident for retry.
 - Five deposits make a Glowhusk harvestable. Use shears for **one Glow Wax**, resetting the level to zero; shears respect Creative and Unbreaking. Early shearing gives nothing. Glow Wax + Redstone Dust crafts **two Gunpowder**. No ordinary drops or recipes are overridden.
 - A lit campfire or soul campfire on the same column within five blocks beneath the hive calms harvesting, unless a solid block interrupts its smoke. Colony members otherwise become angry for 25 seconds.
-- Look at a hive and run `/scriptevent jagsby_nether:glowhusk_status` to read its wax level and assigned occupancy.
+- Look at a hive and run `/scriptevent jagsby_nether:glowhusk_status` to read its wax level and assigned occupancy. v0.2.105 installs this diagnostic before mob subscriptions, acknowledges missed targets, and reports subscription/raycast failures in chat. Spawn/load subscriptions use their supported single-argument signatures.
 
 ## Persistence and performance
 

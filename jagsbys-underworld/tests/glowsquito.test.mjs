@@ -133,3 +133,24 @@ test('fresh placement invalidates stale occupants even if an operator replaced a
  assert(!f.b.getDynamicProperty(HOME));assert(!f.b.getDynamicProperty(INSIDE));assert.equal(f.entities.size,1);
  assert.equal(json('behavior_pack/blocks/glowhusk.json')['minecraft:block'].components['minecraft:movable'].movement_type,'immovable');
 });
+
+test('loaded adults discover nearby husks once without entering before native return',()=>{
+ const f=fixture();let queries=0;
+ f.dim.getBlocks=(volume,filter,skipUnloaded)=>{queries++;assert.deepEqual(filter,{includeTypes:[HIVE]});assert.equal(skipUnloaded,true);return {getBlockLocationIterator:()=>[f.block.location].values()};};
+ f.colony.load(f.b);assert(f.b.getDynamicProperty(HOME));assert.equal(f.b.getDynamicProperty(INSIDE),undefined);assert.equal(queries,1);
+ f.colony.load(f.b);assert.equal(queries,1);
+ const baby=f.bee('baby',true);f.colony.load(baby);assert.equal(queries,1);assert.equal(baby.getDynamicProperty(HOME),undefined);
+});
+test('placement assigns at most three nearby adults with a filtered entity query',()=>{
+ const f=fixture(),bees=[f.b,...[1,2,3].map(n=>f.bee(String(n))),f.bee('baby',true)];let queries=0;
+ f.dim.getEntities=options=>{queries++;assert.equal(options.type,MOB);assert.equal(options.maxDistance,16);return bees;};
+ f.colony.placed(f.block);assert.equal(queries,1);assert.equal(bees.filter(b=>b.getDynamicProperty(HOME)).length,3);assert(bees.every(b=>!b.getDynamicProperty(INSIDE)));
+});
+test('stuck pollen return waits twenty seconds then deposits once without replacing the actor',()=>{
+ const f=fixture();f.system.currentTick=0;f.b.location={x:10,y:33,z:0};
+ f.dim.getBlocks=()=>({getBlockLocationIterator:()=>[f.block.location].values()});
+ f.colony.pollinated(f.b);assert(f.b.getDynamicProperty(HOME));assert.equal(f.b.getDynamicProperty(INSIDE),undefined);
+ f.system.currentTick=399;f.timers.shift().callback();assert.equal(f.block.permutation.getState(LEVEL),0);
+ f.system.currentTick=400;f.timers.shift().callback();assert.equal(f.block.permutation.getState(LEVEL),1);assert.equal(f.b.getDynamicProperty(INSIDE),true);assert.equal(f.entities.get(f.b.id),f.b);
+ f.colony.enter(f.block,f.b);assert.equal(f.block.permutation.getState(LEVEL),1);
+});

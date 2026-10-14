@@ -1,8 +1,9 @@
-import {ItemStack} from '@minecraft/server';
+import {ItemStack,BlockVolume} from '@minecraft/server';
 import {AGE,CROPS,HEATED,ATTACHED,canGrow,setState,offset} from '../agriculture/crops.js';
 export const MOB='jagsby_nether:glowsquito',HIVE='jagsby_nether:glowhusk',WAX='jagsby_nether:glow_wax';
 export const LEVEL='jagsby_nether:wax_level',HOME='underworld_glowsquito:home',POLLEN='underworld_glowsquito:pollen',INSIDE='underworld_glowsquito:inside';
 export const PREFIX='underworld_glowhusk:';
+export const RETURN_STARTED='underworld_glowsquito:return_started';
 const CROPS_TO_HELP=new Set(['jagsby_nether:rye_crop','jagsby_nether:murky_gourd_stem','jagsby_nether:scarberry_bush']);
 const center=p=>({x:p.x+.5,y:p.y+.5,z:p.z+.5});
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);
@@ -61,12 +62,13 @@ export function createColonyController({world,system,rng=Math.random,crop=helpCr
   if(r?.token===h.token&&r.occupants.includes(bee.id)){r.occupants=r.occupants.filter(id=>id!==bee.id);save(h.key,r);}
   bee.setDynamicProperty(HOME,undefined);bee.setDynamicProperty(INSIDE,undefined);
   event(bee,'homeless');if(!bee.hasComponent('minecraft:is_baby'))event(bee,'forage');
-  bee.setDynamicProperty(POLLEN,undefined);active.delete(bee.id);
+  bee.setDynamicProperty(POLLEN,undefined);bee.setDynamicProperty(RETURN_STARTED,undefined);active.delete(bee.id);
  }
  function remember(bee){
   if(!eligible(bee))return;
   if(!bee.getDynamicProperty(INSIDE)&&(home(bee)||bee.getDynamicProperty(POLLEN))){active.set(bee.id,bee);schedule();}
  }
+ function now(){return world.getAbsoluteTime?.()??system.currentTick??0;}
  function schedule(){if(scheduled||!active.size)return;scheduled=true;system.runTimeout(step,40);}
  function step(){
   scheduled=false;const count=Math.min(4,active.size);
@@ -81,6 +83,10 @@ export function createColonyController({world,system,rng=Math.random,crop=helpCr
      if(block&&distance(bee.location,center(h.position))>16){
       const p=exitPosition(block);if(p){bee.clearVelocity();bee.teleport(p);}
      }
+    }
+    if(h&&bee.getDynamicProperty(POLLEN)){
+     const b=homeBlock(h),started=bee.getDynamicProperty(RETURN_STARTED);
+     if(b?.typeId===HIVE&&(distance(bee.location,center(h.position))<=2||(typeof started==='number'&&now()-started>=400))){enter(b,bee);continue;}
     }
     if(world.gameRules?.mobGriefing!==false&&bee.getDynamicProperty(POLLEN)&&!bee.hasComponent('minecraft:is_baby'))crop(bee,rng);
     if(h||bee.getDynamicProperty(POLLEN))active.set(id,bee);
@@ -101,9 +107,9 @@ export function createColonyController({world,system,rng=Math.random,crop=helpCr
    const level=block.permutation.getState(LEVEL)??0;
    if(level<5)block.setPermutation(block.permutation.withState(LEVEL,level+1));
   }
-  bee.setDynamicProperty(POLLEN,undefined);return true;
+  bee.setDynamicProperty(POLLEN,undefined);bee.setDynamicProperty(RETURN_STARTED,undefined);return true;
  }
- function reach(block,bee){
+ function reach(block,bee,{enterOnPollen=true}={}){
   if(block.typeId!==HIVE||!eligible(bee)||block.dimension.id!==bee.dimension.id||bee.hasComponent('minecraft:is_baby'))return false;
   let h=home(bee);
   if(h&&h.dimension!==bee.dimension.id){forgetHome(bee);h=undefined;}
@@ -127,7 +133,7 @@ export function createColonyController({world,system,rng=Math.random,crop=helpCr
   bee.setDynamicProperty(HOME,JSON.stringify(h));
   if(!r.occupants.includes(bee.id)){r.occupants.push(bee.id);save(h.key,r);}
   event(bee,'claim_home');remember(bee);
-  if(bee.getDynamicProperty(POLLEN))return enter(block,bee);
+  if(enterOnPollen&&bee.getDynamicProperty(POLLEN))return enter(block,bee);
   return true;
  }
  function wake(bee){
@@ -139,6 +145,21 @@ export function createColonyController({world,system,rng=Math.random,crop=helpCr
   if(block.typeId!==HIVE||r?.token!==h.token){forgetHome(bee);return true;}
   event(bee,'exit');remember(bee);return true;
  }
+ function discover(bee){
+  if(!eligible(bee)||home(bee)||bee.getDynamicProperty(INSIDE)||bee.hasComponent('minecraft:is_baby'))return false;
+  const d=bee.dimension;if(typeof d.getBlocks!=='function')return false;
+  const p={x:Math.floor(bee.location.x),y:Math.floor(bee.location.y),z:Math.floor(bee.location.z)},height=d.heightRange??{min:0,max:256};
+  const volume=new BlockVolume({x:p.x-16,y:Math.max(height.min,p.y-8),z:p.z-16},{x:p.x+16,y:Math.min(height.max-1,p.y+8),z:p.z+16});
+  const candidates=[];
+  for(const position of d.getBlocks(volume,{includeTypes:[HIVE]},true).getBlockLocationIterator()){
+   const distanceTo=distance(bee.location,center(position));
+   if(distanceTo<=16)candidates.push({position,distanceTo});
+   if(candidates.length>=32)break;
+  }
+  candidates.sort((a,b)=>a.distanceTo-b.distanceTo);
+  for(const {position} of candidates){const b=read(d,position);if(b?.typeId===HIVE&&ensureHive(b).occupants.length<3)return reach(b,bee,{enterOnPollen:false});}
+  return false;
+ }
  function load(bee){
   if(!eligible(bee))return;
   const h=home(bee);
@@ -149,13 +170,15 @@ export function createColonyController({world,system,rng=Math.random,crop=helpCr
     forgetHome(bee);return;
    }
   }
+  if(!home(bee))discover(bee);
   remember(bee);
  }
  function pollinated(bee){
   if(!eligible(bee)||bee.hasComponent('minecraft:is_baby')||bee.getDynamicProperty(INSIDE))return;
-  bee.setDynamicProperty(POLLEN,true);remember(bee);
+  bee.setDynamicProperty(POLLEN,true);bee.setDynamicProperty(RETURN_STARTED,now());
+  if(!home(bee))discover(bee);remember(bee);
  }
- function clearedPollen(bee){if(!eligible(bee))return;bee.setDynamicProperty(POLLEN,undefined);if(!home(bee))active.delete(bee.id);}
+ function clearedPollen(bee){if(!eligible(bee))return;bee.setDynamicProperty(POLLEN,undefined);bee.setDynamicProperty(RETURN_STARTED,undefined);if(!home(bee))active.delete(bee.id);}
  function destroy(block){
   const key=hiveKey(block),r=record(key);if(!r)return;
   save(key,undefined);
@@ -195,6 +218,13 @@ export function createColonyController({world,system,rng=Math.random,crop=helpCr
   try{block.dimension.playSound('mob.sheep.shear',center(block.location));}catch{}
   return true;
  }
- function placed(block){if(record(hiveKey(block)))destroy(block);return ensureHive(block);}
- return {placed,ensureHive,reach,enter,wake,load,pollinated,clearedPollen,destroy,died,harvest,remove:id=>active.delete(id),active,record};
+ function placed(block){
+  if(record(hiveKey(block)))destroy(block);const r=ensureHive(block);
+  if(typeof block.dimension.getEntities==='function')for(const bee of block.dimension.getEntities({type:MOB,location:center(block.location),maxDistance:16})){
+   if(r.occupants.length>=3)break;
+   if(eligible(bee)&&!home(bee)&&!bee.hasComponent('minecraft:is_baby'))reach(block,bee,{enterOnPollen:false});
+  }
+  return r;
+ }
+ return {discover,placed,ensureHive,reach,enter,wake,load,pollinated,clearedPollen,destroy,died,harvest,remove:id=>active.delete(id),active,record};
 }

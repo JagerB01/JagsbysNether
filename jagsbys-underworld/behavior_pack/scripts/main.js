@@ -8,7 +8,7 @@ import './hongos.js';
 import './soul_lights.js';
 import './villager_crop_food.js';
 
-console.warn("[Jagsby's Underworld] v0.2.104 loaded.");
+console.warn("[Jagsby's Underworld] v0.2.105 loaded.");
 
 import './villager_farming.js';
 

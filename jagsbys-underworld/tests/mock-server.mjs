@@ -1,6 +1,6 @@
-function signal() {
+function signal(maxArgs=2) {
   const callbacks = [];
-  return {subscribe(callback) { callbacks.push(callback); }, emit(event) {
+  return {subscribe(callback,...options) { if(options.length+1>maxArgs)throw new TypeError(`subscribe accepts ${maxArgs} argument(s)`);callbacks.push(callback); }, emit(event) {
     for (const callback of callbacks) callback(event);
   }};
 }
@@ -25,7 +25,7 @@ export const world = {
   getDynamicPropertyIds() { return [...properties.keys()]; },
   getAllPlayers() { return []; },
   beforeEvents: {playerBreakBlock: signal(), explosion: signal(), entityHurt: signal(), playerInteractWithEntity: signal(), playerInteractWithBlock: signal()},
-  afterEvents: {worldLoad: signal(), playerSpawn: signal(), playerHotbarSelectedSlotChange: signal(), playerInventoryItemChange: signal(), entityContainerOpened: signal(), entityContainerClosed: signal(), entitySpawn: signal(), entityLoad: signal(), entityRemove: signal(), dataDrivenEntityTrigger: signal(), playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
+  afterEvents: {worldLoad: signal(), playerSpawn: signal(), playerHotbarSelectedSlotChange: signal(), playerInventoryItemChange: signal(), entityContainerOpened: signal(), entityContainerClosed: signal(), entitySpawn: signal(1), entityLoad: signal(1), entityRemove: signal(), dataDrivenEntityTrigger: signal(), playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
 };
 const pending = [];
 export const intervals = [], jobs = [], timeouts = [];
