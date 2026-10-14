@@ -22,8 +22,8 @@ test('confirmed size failures prevent placement, and incomplete checks defer',()
  function* incomplete(c){return c.id==='large_arena'?{outcome:'deferred',reason:'Loading timed out'}:{outcome:'ready'};}
  assert.equal(finish(assessGiantSite({x:0,z:0,selectionRoll:.99},{},{survey:incomplete})).outcome,'deferred');
 });
-test('all three qualifying starting footprints restore 60/25/15 selection',()=>{
- const all=['large_arena','dragon_arena','mega_fortress'];assert.equal(chooseFittingGiant(all,.599),'large_arena');assert.equal(chooseFittingGiant(all,.6),'dragon_arena');assert.equal(chooseFittingGiant(all,.85),'mega_fortress');
+test('all three qualifying starting footprints have equal selection chances',()=>{
+ const all=['large_arena','dragon_arena','mega_fortress'];assert.equal(chooseFittingGiant(all,1/3-.001),'large_arena');assert.equal(chooseFittingGiant(all,1/3),'dragon_arena');assert.equal(chooseFittingGiant(all,2/3),'mega_fortress');
  assert.equal(chooseFittingGiant(['large_arena','dragon_arena'],.8),undefined);assert.equal(chooseFittingGiant(['large_arena'],.99),undefined);assert.equal(chooseFittingGiant([],0),undefined);
 });
 test('clear-volume proofs are reused for contained queries, with different filters and obstructions rechecked',()=>{

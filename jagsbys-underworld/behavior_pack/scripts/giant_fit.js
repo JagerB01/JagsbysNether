@@ -1,7 +1,7 @@
 import {surveyModularFortress,modularCoreBox} from './modular_fortress.js';
 import {ARENAS} from './arena_catalog.js';
 import {surveyLandmark} from './landmark_terrain.js';
-export const GIANT_WEIGHTS={large_arena:60,dragon_arena:25,mega_fortress:15};
+export const GIANT_WEIGHTS={large_arena:1,dragon_arena:1,mega_fortress:1};
 // Natural selection restored for all three giants.
 export const TEST_ONLY_GIANT=null;
 export const FIT_ORDER=['dragon_arena','large_arena','mega_fortress'];

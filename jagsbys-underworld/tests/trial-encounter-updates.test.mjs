@@ -58,3 +58,15 @@ test('a failed site remains pending for a later world load without starting an i
   f.dimension.getBlock=original;f.put(failed,'minecraft:mob_spawner');const retry=finish(migrateRecordedEncounters());assert.equal(retry.failures,0);assert.equal(retry.updated,1);assert.equal(world.getDynamicProperty(VERSION),TRIAL_ENCOUNTERS.revision);
  }finally{f.restore();}
 });
+
+test('old saved mob roles are reassigned to the new crowded-group roles without moving existing spawners',()=>{
+ const f=fixture(),site=encounterSite('small_arena',{x:100,y:30,z:200});site.revision='old';
+ const expected=site.slots.map(s=>({position:{...s.position},preset:TRIAL_ENCOUNTERS.presets[s.profile]}));
+ site.slots=site.slots.map(s=>({...s,profile:'small_arena/wither_skeleton'}));delete site.layout;
+ for(const s of site.slots)f.put(s.position,'minecraft:trial_spawner');
+ try{
+  finish(migrateEncounterSite(site));assert.equal(f.placed.length,site.slots.length);
+  for(const wanted of expected){const placed=f.placed.find(p=>p.p.x===wanted.position.x&&p.p.y===wanted.position.y&&p.p.z===wanted.position.z);assert(placed);assert.equal(placed.id,wanted.preset);}
+  assert(f.placed.some(p=>p.id.endsWith('_stray')),'Existing crowded groups must receive their Stray assignments');
+ }finally{f.restore();}
+});

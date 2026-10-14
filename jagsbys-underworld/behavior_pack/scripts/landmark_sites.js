@@ -9,7 +9,7 @@ export function candidateAt(family,gx,gz,seed){
  const margin=family==='giant'?250:family==='small'?100:32;
  const x=gx*size+margin+Math.floor(rng()*(size-2*margin)),z=gz*size+margin+Math.floor(rng()*(size-2*margin));
  const roll=rng();let id,biome;
- if(family==='giant')id=roll<.6?'large_arena':roll<.85?'dragon_arena':'mega_fortress';
+ if(family==='giant')id=roll<1/3?'large_arena':roll<2/3?'dragon_arena':'mega_fortress';
  else if(family==='small'){id='small_arena';biome='basalt_deltas';}
  else id=roll<.08?'grave_yard':roll<.14?'large_blackstone_pillars':roll<.18?'large_blackstone_walls':undefined;
  return {family,gx,gz,x,z,id,biome,selectionRoll:roll,seed:n,key:`${LANDMARK_PREFIX}${family}_${gx}_${gz}`};

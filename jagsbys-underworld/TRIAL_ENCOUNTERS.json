@@ -11,9 +11,38 @@
     "simultaneous_mobs_added_per_player": 1
   },
   "groups": {
-    "small_arena": {"wither_skeleton": "minecraft:wither_skeleton", "magma_cube": "minecraft:magma_cube", "skeleton": "minecraft:skeleton"},
-    "large_arena": {"wither_skeleton": "minecraft:wither_skeleton", "skeleton": "minecraft:skeleton", "imported_trial": null},
-    "dragon_arena": {"wither_skeleton": "minecraft:wither_skeleton", "blaze": "minecraft:blaze", "magma_cube": "minecraft:magma_cube", "imported_trial": null},
-    "mega_keep": {"wither_skeleton": "minecraft:wither_skeleton", "magma_cube": "minecraft:magma_cube"}
+    "small_arena": {
+      "wither_skeleton": "minecraft:piglin_brute",
+      "magma_cube": "minecraft:piglin_brute",
+      "skeleton": "minecraft:piglin_brute",
+      "brute": "minecraft:piglin_brute",
+      "stray": "minecraft:stray"
+    },
+    "large_arena": {
+      "wither_skeleton": "minecraft:piglin_brute",
+      "skeleton": "minecraft:piglin_brute",
+      "imported_trial": "minecraft:piglin_brute",
+      "brute": "minecraft:piglin_brute",
+      "stray": "minecraft:stray"
+    },
+    "dragon_arena": {
+      "wither_skeleton": "minecraft:piglin_brute",
+      "blaze": "minecraft:piglin_brute",
+      "magma_cube": "minecraft:piglin_brute",
+      "imported_trial": "minecraft:piglin_brute",
+      "brute": "minecraft:piglin_brute",
+      "stray": "minecraft:stray"
+    },
+    "mega_keep": {
+      "wither_skeleton": "minecraft:piglin_brute",
+      "magma_cube": "minecraft:piglin_brute",
+      "brute": "minecraft:piglin_brute",
+      "stray": "minecraft:stray"
+    }
+  },
+  "crowding": {
+    "radius": 16,
+    "brutes_before_stray": 2,
+    "order": "Lexicographic local X, Y, Z; count already assigned nearby Piglin Brute spawners in 3D."
   }
 }

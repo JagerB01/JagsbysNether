@@ -10,13 +10,20 @@ function read(key){try{return JSON.parse(world.getDynamicProperty(key)??'null');
 export function encounterSite(id,origin,dimension='minecraft:nether',key,modular=false){
  const slots=TRIAL_ENCOUNTERS.sites[modular?'mega_modular':id];
  if(!slots||!origin||![origin.x,origin.y,origin.z].every(Number.isFinite))return undefined;
- return {key:key??`manual_${dimension}_${id}_${origin.x}_${origin.y}_${origin.z}`,id,dimension,
+ return {layout:modular?'mega_modular':id,key:key??`manual_${dimension}_${id}_${origin.x}_${origin.y}_${origin.z}`,id,dimension,
   origin:{...origin},slots:slots.map(s=>({position:{x:origin.x+s.offset[0],y:origin.y+s.offset[1],z:origin.z+s.offset[2]},profile:s.profile}))};
 }
 // Called once when a freshly configured structure completes, never per tick.
 export function recordEncounterSite(id,origin,dimension,key,modular=false){
  const site=encounterSite(id,origin,dimension,key,modular);if(!site)return;
  world.setDynamicProperty(siteKey(site.key),JSON.stringify({...site,revision:TRIAL_ENCOUNTERS.revision}));
+}
+export function refreshedEncounterSite(site,layout=site.layout){
+ if(!layout){
+  layout=site.id==='mega_fortress'&&site.slots.every(s=>Math.abs(s.position.x-site.origin.x)<=21&&Math.abs(s.position.z-site.origin.z)<=21)?'mega_modular':site.id;
+ }
+ const roles=new Map((TRIAL_ENCOUNTERS.sites[layout]??[]).map(s=>[s.offset.join(','),s.profile]));
+ return {...site,layout,slots:site.slots.map(s=>({...s,profile:roles.get([s.position.x-site.origin.x,s.position.y-site.origin.y,s.position.z-site.origin.z].join(','))??s.profile}))};
 }
 export function recordedEncounterSites(){
  const stored=new Map(),natural=[];
@@ -27,11 +34,14 @@ export function recordedEncounterSites(){
    const site=encounterSite(r.id,r.origin,'minecraft:nether',key,r.modular);if(site)natural.push(site);
   }
  }
- for(const site of natural)if(!stored.has(site.key))stored.set(site.key,site);
- return [...stored.values()];
+ for(const site of natural){
+  const existing=stored.get(site.key);stored.set(site.key,existing?refreshedEncounterSite(existing,site.layout):site);
+ }
+ return [...stored.values()].map(site=>refreshedEncounterSite(site));
 }
 export function* migrateEncounterSite(site){
  if(site.revision===TRIAL_ENCOUNTERS.revision)return {updated:0};
+ site=refreshedEncounterSite(site);
  const dimension=world.getDimension(site.dimension),chunks=new Map();let updated=0,lease;
  // Save stable positions before the first update so later template edits do
  // not move already spawned spawners or turn module spawners into trial ones.

@@ -104,6 +104,31 @@ class MoogsArenas(unittest.TestCase):
                 self.assertEqual(entity['required_player_range'][1],config['defaults']['required_player_range'])
             else:self.assertNotIn('spawn_data',entity)
 
+    def test_arena_crowding_is_baked_into_actual_native_trial_spawner_data(self):
+        import math
+        encounters=json.loads((ROOT/'behavior_pack/scripts/trial_encounter_catalog.js').read_text().split(' = ',1)[1].rstrip(';\n'))
+        config=json.loads((ROOT/'TRIAL_ENCOUNTERS.json').read_text())
+        arenas=json.loads((ROOT/'behavior_pack/scripts/arena_catalog.js').read_text().split(' = ',1)[1].rstrip(';\n'))
+        for name in ['small_arena','large_arena','dragon_arena']:
+            actual={}
+            for section in arenas[name]['sections']:
+                r=NBT((ROOT/'behavior_pack/structures'/f"{section['id'].replace(':','/')}.mcstructure").read_bytes());r.read('B');r.string();st=r.payload(10)['structure'][1]
+                default=st['palette'][1]['default'][1];sx,sy,sz=section['size'];ox,oy,oz=section['offset']
+                for index,entry in default['block_position_data'][1].items():
+                    e=entry[1]['block_entity_data'][1]
+                    if e['id'][1]!='TrialSpawner':continue
+                    i=int(index);x,rem=divmod(i,sy*sz);y,z=divmod(rem,sz)
+                    actual[x+ox,y+oy,z+oz]=e['spawn_data'][1]['TypeId'][1]
+            prior=[]
+            for slot in sorted(encounters['sites'][name],key=lambda s:s['offset']):
+                nearby=sum(math.dist(slot['offset'],s['offset'])<=16 for s in prior if s['profile'].endswith('/brute'))
+                mob='minecraft:stray' if nearby>=2 else 'minecraft:piglin_brute'
+                self.assertEqual(actual[tuple(slot['offset'])],mob)
+                self.assertEqual(config['groups'][name][slot['profile'].split('/')[1]],mob)
+                prior.append(slot)
+            self.assertTrue(all(mob in ['minecraft:stray','minecraft:piglin_brute'] for mob in actual.values()))
+        self.assertTrue(any(s['profile'].endswith('/stray') for s in encounters['sites']['small_arena']))
+
     def test_import_has_no_natural_generation_rules(self):
         for folder in ['features','feature_rules','spawn_rules']:
             for path in (ROOT/'behavior_pack'/folder).rglob('*.json'):

@@ -1,5 +1,5 @@
 """Bake native TrialSpawner presets and location catalogs; no runtime terrain scanning."""
-import copy,hashlib,json
+import copy,hashlib,json,math
 from pathlib import Path
 from structure_crops import NBT
 ROOT=Path(__file__).resolve().parents[1]
@@ -23,8 +23,25 @@ def trial_entity(profile,config,pos):
 def profile_for(group,entity):
  # Keep role IDs stable after conversion even when their configured mob changes.
  return group+'/'+entity['EntityIdentifier'][1].split(':')[-1] if entity and 'EntityIdentifier' in entity else group+'/imported_trial'
+def assign_crowding(slots,group,config):
+ assigned=[];rule=config['crowding']
+ for slot in sorted(slots,key=lambda s:s['offset']):
+  nearby=sum(math.dist(slot['offset'],s['offset'])<=rule['radius'] for s in assigned if s['profile'].endswith('/brute'))
+  assigned.append({'offset':slot['offset'],'profile':group+('/stray' if nearby>=rule['brutes_before_stray'] else '/brute')})
+ return assigned
+
 def process(sections,group,config,only=None,prior=None):
  slots=[]
+ if config.get('crowding'):
+  discovered=[]
+  for section in sections:
+   path=ROOT/'behavior_pack/structures'/f"{section['id'].replace(':','/')}.mcstructure";_,_,root=read(path);st=root['structure'][1];sx,sy,sz=section['size'];ox,oy,oz=section['offset']
+   palette=st['palette'][1]['default'][1]['block_palette'][1][1]
+   for i,pi in enumerate(st['block_indices'][1][1][0][1]):
+    if pi<0 or palette[pi]['name'][1] not in ['minecraft:mob_spawner','minecraft:trial_spawner']:continue
+    x,rem=divmod(i,sy*sz);y,z=divmod(rem,sz);offset=[x+ox,y+oy,z+oz]
+    if only is None or tuple(offset) in only:discovered.append({'offset':offset})
+  prior=assign_crowding(discovered,group,config)
  prior={tuple(s['offset']):s['profile'] for s in prior or []}
  for section in sections:
   path=ROOT/'behavior_pack/structures'/f"{section['id'].replace(':','/')}.mcstructure";_,name,root=read(path);st=root['structure'][1];sx,sy,sz=section['size'];ox,oy,oz=section['offset']
