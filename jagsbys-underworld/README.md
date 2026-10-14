@@ -1,10 +1,10 @@
-# Jagsby's Underworld v0.2.101
+# Jagsby's Underworld v0.2.102
 
 Underworld combines Nether villages and structures, agriculture, lava fishing, Skitterchests, Hongos and crafted food buffs in one `.mcaddon` containing one behavior pack and one resource pack. It uses stable `@minecraft/server` 2.10.0 and requires Bedrock 26.50 or newer; the target playtest version is 26.52. Beta APIs are not required.
 
 ## Installation and upgrades
 
-Activate **Jagsby's Underworld v0.2.101 Behavior** and **Resources** together. Disable the separate Nether Settlements and Nether Agriculture packs to avoid duplicate scripts. The supplied cover is included in both packs.
+Activate **Jagsby's Underworld v0.2.102 Behavior** and **Resources** together. Disable the separate Nether Settlements and Nether Agriculture packs to avoid duplicate scripts. The supplied cover is included in both packs.
 
 Test upgrades on a copy of your world. Updates within Underworld retain its behavior/resource pack UUIDs, item identifiers and saved world records. Existing structures are not rebuilt to change their foundations, crops or village size. Encounter-data updates can update recorded trial-spawner locations once without rebuilding structures.
 
@@ -18,7 +18,7 @@ Food bonuses require the supplied **MineScape v1.5.18 + Underworld Food Buffs** 
 - **Natural landmarks:** Small Arenas spawn only in Basalt Deltas. Large Arena, Dragon Arena and Mega Fortress have equal giant-selection chances after all three starting layouts qualify, surveying the largest footprint first. Initial footprints must be entirely over lava with clear building space. Mega Fortress starts with its keep and expands through connected modules. See [ARENAS.md](ARENAS.md).
 - **Arena encounters:** arena and Mega keep trial spawners use Piglin Brutes, with Strays assigned where two Brute spawners are already within 16 blocks. Other fortress modules retain ordinary spawners. Nether trial spawners are protected by break/explosion events. Encounter changes use one revision comparison on world load and a finite migration of recorded locations; there is no periodic protection or crowding scan.
 - **Agriculture:** planted soil grows crops without lava; lava heating improves growth. Empty fully cooled plots revert after about 30 loaded seconds. Native tilling and Wither Bone Meal handlers remain.
-- **Lava fishing:** one Obsidian Fishing Rod, seven fish, biome-specific specialist catches, launched catch items, hunger/saturation without raw-fish effects, and 1.5× vanilla fishing XP. Junk and treasure are not implemented. See [FISHING.md](FISHING.md).
+- **Lava fishing:** one Obsidian Fishing Rod, seven fish, biome-specific specialist catches, launched catch items, hunger/saturation without raw-fish effects, and 1.5× vanilla fishing XP. Catches use vanilla category weights: 85% fish, 10% junk and 5% treasure before Luck of the Sea. See [FISHING.md](FISHING.md).
 - **Skitterchests and Hongos:** tamed Crimson/Warped Skitterchests have native 27-slot storage; standing opens it and crouching toggles sitting. Matching tamed Hongos deposit nuggets only into sitting tamed chests. Owners may differ. Warped produces gold every 25–35 seconds; Crimson produces iron every 40–60 seconds while loaded. See [SKITTERCHESTS.md](SKITTERCHESTS.md) and [HONGOS.md](HONGOS.md).
 - **Food buffs:** five crafted foods, stack size 16, one active 20-minute buff, doubling selected MineScape primary percentage bonuses. See [FOOD_BUFFS.md](FOOD_BUFFS.md).
 - **Soul lights:** new hostile spawns are checked against soul torches (12 blocks), lanterns (16) and lit campfires (20). Rejected mobs are removed after spawning without loot/XP; existing mobs remain. See [SOUL_LIGHTS.md](SOUL_LIGHTS.md).
@@ -50,8 +50,8 @@ From the project directory:
 PYTHONDONTWRITEBYTECODE=1 python3 tools/build.py
 ```
 
-The builder merges the retained standalone archives, applies the authorized village/crop/block/loot changes, bakes native trial encounters, validates references and runs Python and Node tests. It writes `../downloads/Jagsbys_Underworld_v0.2.101.mcaddon`; merged inspection files are under ignored `.build/behavior_pack` and `.build/resource_pack`.
+The builder merges the retained standalone archives, applies the authorized village/crop/block/loot changes, bakes native trial encounters, validates references and runs Python and Node tests. It writes `../downloads/Jagsbys_Underworld_v0.2.102.mcaddon`; merged inspection files are under ignored `.build/behavior_pack` and `.build/resource_pack`.
 
 The original square cover must be at `pack_icon.png`. `--allow-placeholder-icon` is for local verification only and does not publish a release download. Original source references, credits and licenses remain bundled; see [CREDITS.txt](CREDITS.txt).
 
-The v0.2.101 gameplay build passed **365 automated checks**. These do not verify native client rendering, natural encounter frequency, trial activation, vault rewards or frame-rate impact. Follow [TESTING.txt](TESTING.txt) and use fresh CPU profiles; [PERFORMANCE.md](PERFORMANCE.md) distinguishes script measurements from FPS. No Bedrock client is available in this workspace.
+The v0.2.102 gameplay build passed **372 automated checks**. These do not verify native client rendering, natural encounter frequency, trial activation, vault rewards or frame-rate impact. Follow [TESTING.txt](TESTING.txt) and use fresh CPU profiles; [PERFORMANCE.md](PERFORMANCE.md) distinguishes script measurements from FPS. No Bedrock client is available in this workspace.

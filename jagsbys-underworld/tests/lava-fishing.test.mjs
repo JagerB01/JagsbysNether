@@ -314,3 +314,15 @@ test('retained item identifiers keep their textures and use the new display name
   assert.equal(item.components['minecraft:icon'].textures.default,`jagsby_lava_${id}`);
  }
 });
+
+test('junk and treasure use the same single launched reward, XP and rod wear',()=>{
+ for(const [roll,id] of [[.9,'jagsby_nether:wither_bone'],[.99,'minecraft:blaze_powder']]){
+  const f=fixture();let catching=false,index=0;
+  const c=createAnglingController({rng:()=>catching?(index++===0?roll:0):0});bite(c,f);
+  catching=true;c.use(f.player,135);
+  assert.equal(f.caught.length,1);assert.equal(f.caught[0].typeId,id);assert.equal(f.caught[0].amount,1);
+  assert.equal(f.caughtDrops.length,1);assert(f.caughtDrops[0].velocity.y>0);
+  assert.equal(f.durability.damage,1);assert.equal(f.xpOrbs.length,2);assert.equal(c.sessions.size,0);
+  c.use(f.player,135);assert.equal(f.caught.length,1);
+ }
+});

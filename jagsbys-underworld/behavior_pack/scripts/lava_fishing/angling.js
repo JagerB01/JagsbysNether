@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Fishing-only Bedrock adaptation of TeamSunset Lava Fishing 1.3.1.
-import {ItemStack} from '@minecraft/server';
+import {createCatchReward} from './loot.js';
 export const ROD='jagsby_nether:obsidian_fishing_rod';
 export const FISH=['obsidian_sword_fish','steam_flying_fish','agni_fish','arowana_fish','quartz_fish','yeti_crab','lava_lamprey'];
 const LAVA=new Set(['minecraft:lava','minecraft:flowing_lava']);
@@ -108,9 +108,9 @@ export function createAnglingController({rng=Math.random}={}){
   if(active){
    if(active.slot!==equipment.slot || identity(equipment.item)!==active.rodState){cancel(player.id);return false;}
    if(active.state==='bite' && tick<active.deadline && active.dimensionId===player.dimension.id && distance(player.location,active.visual)<=32 && isLava(read(player.dimension,active.block))){
-    const id=catchFish(active.dimensionId,active.biome,rng);
+    const reward=createCatchReward({luck:level(equipment.item,'luck_of_the_sea'),fish:()=>catchFish(active.dimensionId,active.biome,rng),rng});
     const origin={...active.target,y:active.target.y+0.35};
-    const caught=player.dimension.spawnItem(new ItemStack(`jagsby_nether:${id}`,1),origin);
+    const caught=player.dimension.spawnItem(reward,origin);
     const delta={x:player.location.x-origin.x,y:player.location.y+0.5-origin.y,z:player.location.z-origin.z};
     const travel=Math.hypot(delta.x,delta.y,delta.z);
     caught.clearVelocity();

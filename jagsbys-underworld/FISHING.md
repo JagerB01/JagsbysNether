@@ -1,4 +1,4 @@
-# Lava fishing — current v0.2.101
+# Lava fishing — current v0.2.102
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 26.50 or newer. No Beta APIs.
@@ -27,7 +27,7 @@ dip and splash, then use the rod again. No action-bar prompts accompany casting,
 waiting or bites. The default
 wait is 5–30 seconds plus a 1–4 second approach, followed by a 1–2 second catch
 window. Lure reduces the waiting phase. Missing a bite requires reeling in and casting again;
-reeling early gives nothing. A successful catch gives one fish, 1.5× vanilla fishing XP and uses
+reeling early gives nothing. A successful catch gives one item, 1.5× vanilla fishing XP and uses
 one durability (Creative uses none; Unbreaking is respected).
 
 Catches are launched from the bobber toward the player for normal item pickup. The rod and fish items resist fire/lava. Walking more than 32 blocks away,
@@ -53,8 +53,41 @@ The biome is read at the bobber, independently of village styles or nearby block
 | Ashrime | Basalt Deltas only | 1 hunger |
 
 Raw foods use the original 0.1 saturation modifier. There are no additional
-cooked fish variants, potion items, fishing gear, hooks, fish buckets, junk or
-treasure. The fishing subsystem adds the rod and seven catches. The five separate [buff foods](FOOD_BUFFS.md) use fish in their crafting recipes.
+cooked fish variants, potion items, fishing gear, hooks or fish buckets. The fishing subsystem adds the rod and seven catches. The five separate [buff foods](FOOD_BUFFS.md) use fish in their crafting recipes.
+
+## Junk and treasure
+
+Each catch rolls one category, then one entry within that category. Fish frequencies above are conditional on the fish category. All rewards have quantity one and use the existing item launch, XP and durability handling. Ordinary water fishing tables are unchanged. No new polling or entity scans are added.
+
+| Junk item | Weight |
+| --- | ---: |
+| Wither Bone (existing Underworld item) | 12 |
+| Gold Nugget | 10 |
+| Damaged Golden Sword | 4 |
+| Damaged Golden Boots | 4 |
+| Iron Nugget | 10 |
+| Fire Charge | 7 |
+| Magma Cream | 8 |
+| Redstone Dust | 10 |
+| Nether Quartz | 10 |
+| Cooked Porkchop | 10 |
+| Charcoal | 9 |
+| Bottle o’ Enchanting | 6 |
+
+| Treasure item | Weight |
+| --- | ---: |
+| Blaze Powder | 30 |
+| Enchanted Book | 24 |
+| Golden Apple | 18 |
+| Crying Obsidian | 16 |
+| Damaged Enchanted Golden Sword | 12 |
+| Wither Skeleton Skull | 5 |
+| Lodestone | 4 |
+| Netherite Scrap | 1 |
+
+Junk weights total 100; treasure weights total 110. Golden equipment retains a uniformly randomized whole-number durability in the 10–40% range. Junk equipment is unenchanted. Treasure books and swords use native `enchant_with_levels` at level 30 with treasure enchantments enabled; native item compatibility and enchantment conflicts apply. No MineScape enchantments or relics are injected. Vanilla junk/treasure items retain their ordinary fire behavior, so verify the existing launch clears lava before pickup.
+
+Live checks: obtain all 12 junk entries and all 8 treasure entries, inspect actual book/sword enchantments and equipment damage, verify Luck I–III category changes and one launched item per catch. Native loot generation and Content Log cleanliness require a Bedrock client; automated checks cannot establish them.
 
 ## Catch items and Bedrock differences
 
@@ -68,18 +101,18 @@ the line uses a short-lived world-space particle curve. The controller does not 
 open-sky speed modifiers are not reproduced. The original rod/cast textures are
 included, but the inventory icon does not switch while a cast is active.
 
-Raw fish provide hunger and saturation only. The five crafted buff foods are implemented separately; see [FOOD_BUFFS.md](FOOD_BUFFS.md). Junk and treasure remain unimplemented. Luck of the Sea does not substitute extra biome-fish chances for those missing loot categories.
+Raw fish provide hunger and saturation only. The five crafted buff foods are implemented separately; see [FOOD_BUFFS.md](FOOD_BUFFS.md). Luck of the Sea changes category weights using vanilla quality modifiers: fish 85−level, junk 10−2×level, treasure 5+2×level, normalized by their total. It does not change relative fish weights. No open-water restriction is added to lava fishing.
 
 ## Required live checks
 
-1. Import v0.2.101 and confirm both pack versions and the Content Log.
+1. Import v0.2.102 and confirm both pack versions and the Content Log.
 2. Craft the rod, cast/reel with mouse/controller/touch, and check held art,
    bobber, line, arc, dip, sound and bite timing. Native custom-item input needs
    live confirmation; automated mocks cannot validate it.
 3. Test early reels, missed bites, Unbreaking, Lure, the 256th durability use,
    Creative, full inventory, death, disconnects, reloads and dimension changes.
 4. Catch fish in all five Nether biomes and in Overworld lava. Check specialist
-   catches stay in their correct biomes and every successful catch is a fish.
+   catches stay in their correct biomes and each successful catch produces exactly one item.
 5. Inspect all seven fish item textures and raw hunger/saturation. Confirm there are
    no fish spawn eggs or naturally spawning lava fish.
 6. Retest village generation, villager compatibility, wart replacements and
