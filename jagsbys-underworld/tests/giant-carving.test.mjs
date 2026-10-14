@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {surveyLandmark,carveTile,CARVABLE,supportFor} from '../behavior_pack/scripts/landmark_terrain.js';
+import {surveyLandmark,carveTile,CARVABLE,supportFor,lavaFootprint,footprintBudget,dragonFootprintBudget} from '../behavior_pack/scripts/landmark_terrain.js';
 import {spacingAllows,villageLandmarkClear} from '../behavior_pack/scripts/landmark_sites.js';
 import {GiantSearch} from '../behavior_pack/scripts/giant_search.js';
 function finish(job){for(let i=0;i<1500000;i++){const s=job.next();if(s.done)return s.value;}assert.fail('Survey stalled');}
@@ -17,19 +17,52 @@ function scene({islands=true,protectedBlock=false,ceiling=true}={}){
   const intersectsCeiling=ceiling&&volume.to.y>=60&&volume.from.y<=90;
   return types?((intersectsIsland&&types.includes('minecraft:basalt'))||(intersectsCeiling&&types.includes('minecraft:netherrack'))):((intersectsIsland&&!filter.excludeTypes.includes('minecraft:basalt'))||(intersectsCeiling&&!filter.excludeTypes.includes('minecraft:netherrack')));
  },fillBlocks(volume,type,options){fills.push({volume,type,options});}};
+ d.getBlocks=(v,filter)=>({*getBlockLocationIterator(){
+  for(let x=v.from.x;x<=v.to.x;x++)for(let y=v.from.y;y<=v.to.y;y++)for(let z=v.from.z;z<=v.to.z;z++){
+   const p={x,y,z},type=d.getBlock(p).typeId;
+   if(filter.excludeTypes?!filter.excludeTypes.includes(type):filter.includeTypes.includes(type))yield p;
+  }
+ }});
  return {d,fills};
 }
-test('giants reject islands and cavern terrain, but fit a completely open lava footprint without carving',()=>{
+test('giants reject excessive islands but accept lava sites with natural terrain above',()=>{
  for(const id of ['large_arena','dragon_arena','mega_fortress']){
   assert.equal(finish(surveyLandmark({id,x:0,z:0},scene().d)).outcome,'unsuitable');
   const f=scene({islands:false,ceiling:false}),plan=finish(surveyLandmark({id,x:0,z:0},f.d));
-  assert.equal(plan.outcome,'ready');assert.equal(plan.carve,false);assert(plan.solidFoundation);assert.equal(plan.coverage,1);assert.equal(f.fills.length,0);
+  assert.equal(plan.outcome,'ready');assert.equal(plan.carve,true);assert(plan.solidFoundation);assert.equal(plan.coverage,1);assert.equal(f.fills.length,0);
  }
 });
-test('exact lava footprint queries reject a single island block between old sample points',()=>{
- const f=scene({islands:false,ceiling:false});
- f.d.containsBlock=(v,filter)=>v.from.y<=31&&v.to.y>=31&&v.from.x<=10&&v.to.x>=10&&v.from.z<=10&&v.to.z>=10&&!filter.excludeTypes.includes('minecraft:basalt');
- const plan=finish(surveyLandmark({id:'dragon_arena',x:0,z:0},f.d));assert.equal(plan.outcome,'unsuitable');assert.match(plan.reason,/full footprint/);
+test('90 percent is exact across the complete horizontal footprint, not per section or height',()=>{
+ for(const missing of [10,11]){
+  const f=scene({islands:false,ceiling:true});
+  f.d.getBlock=({x,y,z})=>({typeId:y===31&&x<missing?'minecraft:basalt':y===31?'minecraft:lava':'minecraft:netherrack'});
+  f.d.containsBlock=v=>v.from.x<missing;
+  const budget=footprintBudget([100,99,1]);
+  assert.equal(finish(lavaFootprint(f.d,{x:0,y:0,z:0},[100,99,1],31,budget)),missing===10);
+ }
+ const f=scene({islands:false,ceiling:true}),budget=footprintBudget([100,99,1]);
+ f.d.getBlock=({x,y})=>({typeId:y===31&&x<10?'minecraft:basalt':'minecraft:lava'});f.d.containsBlock=v=>v.from.x<10;
+ assert(finish(lavaFootprint(f.d,{x:0,y:0,z:0},[10,99,1],31,budget)),'A dry edge section can use the shared whole-footprint allowance');
+ assert(finish(lavaFootprint(f.d,{x:10,y:0,z:0},[90,99,1],31,budget)));
+ assert.equal(budget.missing,10);
+ for(const id of ['large_arena','dragon_arena'])assert.equal(finish(surveyLandmark({id,x:0,z:0},scene({islands:false,ceiling:true}).d)).outcome,'ready');
+});
+test('Dragon coverage follows its authored irregular base and ignores rectangular empty corners',()=>{
+ const origin={x:-64,y:33,z:-60},budget=dragonFootprintBudget(origin);
+ assert(budget.area<129*120);
+ const {shape}=budget;
+ const d={containsBlock:()=>true,getBlocks:v=>({*getBlockLocationIterator(){
+  for(let x=v.from.x;x<=v.to.x;x++)for(let z=v.from.z;z<=v.to.z;z++)
+   if(!shape.columns.has((x-origin.x)*shape.stride+z-origin.z))yield {x,y:31,z};
+ }})};
+ assert(finish(lavaFootprint(d,origin,[129,45,120],31,budget)));
+ assert.equal(budget.missing,0,'Land in empty bounding-box corners must not count against coverage');
+ let count=0;
+ d.getBlocks=v=>({*getBlockLocationIterator(){
+  for(let x=v.from.x;x<=v.to.x;x++)for(let z=v.from.z;z<=v.to.z;z++)
+   if(shape.columns.has((x-origin.x)*shape.stride+z-origin.z)&&count++<=budget.maxMissing)yield {x,y:31,z};
+ }});
+ assert.equal(finish(lavaFootprint(d,origin,[129,45,120],31,budget)),false,'Over 10 percent of the actual base is rejected');
 });
 test('protected blocks still prevent carving; completely dry terrain is not an ocean site',()=>{
  assert.equal(finish(surveyLandmark({id:'mega_fortress',x:0,z:0},scene({protectedBlock:true}).d)).outcome,'unsuitable');
@@ -56,7 +89,7 @@ test('older strict-policy failed cells reopen once; new-policy failures stay per
  const m=new Map(),store={getDynamicProperty:k=>m.get(k),setDynamicProperty:(k,v)=>m.set(k,v)},c={family:'giant',gx:0,gz:0,x:32,z:32,key:'underworld_landmarks:site_giant_0_0'};
  m.set('underworld_landmarks:search_0_0',JSON.stringify({version:1,failed:['0,0']}));const search=new GiantSearch(store);assert(!search.failed(c));search.reject(c,'Protected block');assert(new GiantSearch(store).failed(c));
 });
-test('open-ocean placement never carves, and interrupted foundations resume without replacing the tile',async()=>{
+test('carving stays staged, and interrupted foundations resume without replacing the tile',async()=>{
  const {world}=await import('./mock-server.mjs');const {generateLandmark}=await import('../behavior_pack/scripts/landmarks.js');const {candidateAt}=await import('../behavior_pack/scripts/landmark_sites.js');
  const c={...candidateAt('giant',940,940,123),id:'large_arena',selected:true,selectionRoll:.1},f=scene({islands:false,ceiling:false}),events=[],old=world.structureManager;
  f.d.fillBlocks=(volume,type)=>events.push(type==='minecraft:air'?'carve':'support');world.structureManager={place:id=>events.push(`place:${id}`)};
@@ -65,7 +98,7 @@ test('open-ocean placement never carves, and interrupted foundations resume with
   for(let i=0;i<50000;i++){job.next();saved=JSON.parse(world.getDynamicProperty(c.key)??'null');if(saved?.tilePlaced)break;if(i===49999)assert.fail('No placed tile checkpoint');}
   for(let i=0;i<1000&&!events.includes('support');i++)job.next();
   assert(saved.tilePlaced,'A supported tile must remain checkpointed while its foundation is unfinished');
-  assert(!events.includes('carve'));assert.deepEqual(events.slice(0,2).map(e=>e.startsWith('place:')?'place':e),['place','support']);
+  assert(events.includes('carve'));assert.deepEqual(events.slice(0,3).map(e=>e.startsWith('place:')?'place':e),['carve','place','support']);
   job.return();const first=events.filter(e=>e.startsWith('place:')).at(-1);finish(generateLandmark({...c,saved},f.d));
   assert.equal(events.filter(e=>e===first).length,1);assert.equal(JSON.parse(world.getDynamicProperty(c.key)).state,'built');
  }finally{world.structureManager=old;world.setDynamicProperty(c.key,undefined);}

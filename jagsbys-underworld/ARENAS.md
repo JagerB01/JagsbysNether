@@ -1,4 +1,4 @@
-# Arenas and natural landmarks — current v0.2.101
+# Arenas and natural landmarks — current v0.2.103
 
 Architecture is adapted from the supplied Moogs Nether Structures 3.1.1 Java 1.21 templates. Original selected templates, pools, processors, credits and licenses remain under `docs/moogs_arenas/`; source hashes and conversion notes are in `MOOGS_ARENAS_SOURCE.json`. This is not a port of the Java mod's bosses, custom encounter pools or reward progression.
 
@@ -8,9 +8,9 @@ Earlier policies, test-only selections and release notes are preserved in [histo
 
 At a promising site, survey **Dragon Arena first**, then Large Arena, then the Mega Fortress keep. All three starting layouts must qualify before choosing a structure. Any incomplete assessment defers the choice. Selection is **one third each** Large Arena, Dragon Arena and Mega Fortress; these are conditional selection chances, not chances per chunk or guaranteed successful placement.
 
-Giants use 1,600×1,600 regions with at most one completed giant per region. Discovery reuses shared lava observations and searches multiple candidates, including a bounded 128-block probe grid. Search-cell failures are stored at 64-block granularity, rather than rejecting an entire region. Search policy 6 reopens older failed cells once; existing completed/reserved structures stay intact.
+Giants use 1,600×1,600 regions with at most one completed giant per region. Discovery reuses shared lava observations and searches multiple candidates, including a bounded 128-block probe grid. Search-cell failures are stored at 64-block granularity, rather than rejecting an entire region. Search policy 7 reopens older failed cells once; existing completed/reserved structures stay intact.
 
-Large/Dragon starting footprints must be entirely over lava at the chosen surface level, verified by exact native chunk-sized plane queries. Their building volumes must be clear without carving natural terrain. Mega Fortress checks only its 43×43 keep footprint and clear keep volume; the full eventual fortress rectangle is not reserved or required initially. Large/Dragon bases are two blocks above lava; the Mega keep origin is one block below the lava surface.
+Large/Dragon starting footprints require at least 90% lava coverage at the chosen surface level. Dragon Arena uses its authored irregular base mask, excluding empty rectangular corners; Large Arena uses its rectangular base. Exact native chunk-sized plane queries count non-lava columns across each complete footprint, rather than requiring every section to independently qualify. This percentage is horizontal only, not a height or volume requirement. Ordinary Nether terrain within the building volume may be carved, while protected blocks, ceiling limits and spacing still apply. Mega Fortress checks only its 43×43 keep footprint at 90% coverage and allows keep carving; the full eventual fortress rectangle is not reserved or required initially. Large/Dragon bases are two blocks above lava; the Mega keep origin is one block below the lava surface.
 
 ## Spacing and loading
 

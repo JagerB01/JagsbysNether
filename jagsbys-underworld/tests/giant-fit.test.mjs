@@ -40,8 +40,9 @@ test('shared size assessment preserves the selected plan while reducing native r
  const a=finish(assessGiantSite(c,baseline.d,{survey:uncached})),b=finish(assessGiantSite(c,cached.d));assert.deepEqual(b,a);assert(cached.reads<baseline.reads);assert(cached.queries<baseline.queries);
 });
 
-test('a narrow lava opening surrounded by terrain is rejected rather than carved for a giant',()=>{
+test('lava coverage below 90 percent is rejected even when surrounding terrain is carvable',()=>{
  const d={id:'minecraft:nether',runCommand(){},getBlock:({x,y})=>({typeId:y<=4?'minecraft:netherrack':Math.abs(x)<=16?(y<=31?'minecraft:lava':'minecraft:air'):(y<=90?'minecraft:netherrack':'minecraft:air')}),
- containsBlock:v=>v.from.y===31&&v.to.y===31&&(v.from.x<-16||v.to.x>16)};
+ containsBlock:v=>v.from.y===31&&v.to.y===31&&(v.from.x<-16||v.to.x>16),
+ getBlocks:v=>({*getBlockLocationIterator(){for(let x=v.from.x;x<=v.to.x;x++)for(let z=v.from.z;z<=v.to.z;z++)if(Math.abs(x)>16)yield {x,y:31,z};}})};
  const result=finish(assessGiantSite({x:0,z:0,selectionRoll:0},d));assert.equal(result.outcome,'unsuitable');assert.match(result.reason,/footprint|lava/);
 });

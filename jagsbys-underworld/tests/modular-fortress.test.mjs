@@ -97,16 +97,25 @@ test('carving branch stops survive interrupted builds while other directions con
  }finally{job.return();world.structureManager=old;world.setDynamicProperty(c.key,undefined);}
 });
 
-test('the keep requires its entire lava footprint and clear volume while retaining module expansion',()=>{
- for(const obstacle of [{x:20,y:31,z:0,type:'minecraft:basalt'},{x:0,y:45,z:0,type:'minecraft:netherrack'}]){
+test('the keep allows shoreline trimming and natural terrain while retaining module expansion',()=>{
+ for(const obstacle of [{x:20,y:31,z:0,type:'minecraft:chest'},{x:0,y:45,z:0,type:'minecraft:obsidian'}]){
   const d={id:'minecraft:nether',runCommand(){},getBlock:({y})=>({typeId:y<=4?'minecraft:netherrack':y<=31?'minecraft:lava':'minecraft:air'}),
-   containsBlock:(v,filter)=>v.from.x<=obstacle.x&&v.to.x>=obstacle.x&&v.from.y<=obstacle.y&&v.to.y>=obstacle.y&&v.from.z<=obstacle.z&&v.to.z>=obstacle.z&&!filter.excludeTypes.includes(obstacle.type)};
+   getBlocks:()=>({*getBlockLocationIterator(){yield {x:obstacle.x,y:obstacle.y,z:obstacle.z};}}),containsBlock:(v,filter)=>v.from.x<=obstacle.x&&v.to.x>=obstacle.x&&v.from.y<=obstacle.y&&v.to.y>=obstacle.y&&v.from.z<=obstacle.z&&v.to.z>=obstacle.z&&!filter.excludeTypes.includes(obstacle.type)};
   assert.equal(finish(surveyModularFortress({x:0,z:0},d,{coreOnly:true})).outcome,'unsuitable');
  }
+ for(const width of [4,5]){
+  const cutoff=22-width;
+  const shore={id:'minecraft:nether',runCommand(){},getBlock:({x,y})=>({typeId:y<=4?'minecraft:netherrack':y<=31?(x>=cutoff?'minecraft:basalt':'minecraft:lava'):'minecraft:air'}),
+   containsBlock:(v,f)=>v.from.y<=31&&v.to.y>=31&&v.to.x>=cutoff&&!f.excludeTypes.includes('minecraft:basalt'),
+   getBlocks:v=>({*getBlockLocationIterator(){for(let x=Math.max(cutoff,v.from.x);x<=v.to.x;x++)for(let z=v.from.z;z<=v.to.z;z++)yield {x,y:31,z};}})};
+  const plan=finish(surveyModularFortress({x:0,z:0},shore,{coreOnly:true}));
+  assert.equal(plan.outcome,width===4?'ready':'unsuitable');
+  if(width===4)assert.equal(plan.coverage,1-172/1849);
+ }
  const d={id:'minecraft:nether',runCommand(){},getBlock:({y})=>({typeId:y<=4?'minecraft:netherrack':y<=31?'minecraft:lava':'minecraft:air'}),containsBlock:()=>false};
- const p=finish(surveyModularFortress({x:0,z:0},d,{coreOnly:true}));assert.equal(p.outcome,'ready');assert(p.coreNoCarve);assert(p.solidFoundation);assert(p.carve,'Expansion modules retain their bounded carving policy');assert.deepEqual(p.modules,[0]);assert.equal(p.box.sx,43);
+ const p=finish(surveyModularFortress({x:0,z:0},d,{coreOnly:true}));assert.equal(p.outcome,'ready');assert.equal(p.coreNoCarve,false);assert(p.solidFoundation);assert(p.carve,'Expansion modules retain their bounded carving policy');assert.deepEqual(p.modules,[0]);assert.equal(p.box.sx,43);
 });
-test('keep tiles never carve but later fortress modules retain their carving stage',async()=>{
+test('keep tiles and later fortress modules retain their carving stage',async()=>{
  const {world}=await import('./mock-server.mjs'),{generateLandmark}=await import('../behavior_pack/scripts/landmarks.js'),{candidateAt}=await import('../behavior_pack/scripts/landmark_sites.js');
  const c={...candidateAt('giant',963,963,12),id:'mega_fortress',selected:true},old=world.structureManager,events=[];
  const d={id:'minecraft:nether',runCommand(){},getBlock:({y})=>({typeId:y<=4?'minecraft:netherrack':y<=31?'minecraft:lava':'minecraft:air'}),containsBlock:()=>false,fillBlocks(v,type){if(type==='minecraft:air')events.push('carve');}};
@@ -114,6 +123,6 @@ test('keep tiles never carve but later fortress modules retain their carving sta
  try{
   for(let i=0;i<200000;i++){job.next();system.currentTick++;if(events.some(e=>e.includes('module_1/')))break;if(i===199999)assert.fail('Expansion never started');}
   const core=events.filter(e=>e.includes('module_0/'));assert.equal(core.length,FORTRESS_MODULES[0].sections.length);
-  const firstCarve=events.indexOf('carve');assert(firstCarve>events.findLastIndex(e=>e.includes('module_0/')));
+  const firstCarve=events.indexOf('carve');assert(firstCarve>=0&&firstCarve<events.findIndex(e=>e.includes('module_0/')));
  }finally{job.return();world.structureManager=old;world.setDynamicProperty(c.key,undefined);}
 });

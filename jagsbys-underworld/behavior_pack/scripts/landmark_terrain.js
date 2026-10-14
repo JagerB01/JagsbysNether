@@ -1,6 +1,7 @@
 import {terrainSurvey} from './terrain_survey.js';
 import {BlockVolume} from '@minecraft/server';
 import {ARENAS} from './arena_catalog.js';
+import {NATURAL_ARENAS} from './natural_arena_catalog.js';
 import {FOUNDATIONS} from './landmark_foundations.js';
 import {GIANTS} from './landmark_sites.js';
 import {chunkLease} from './chunk_loading.js';
@@ -8,7 +9,7 @@ const AIR=['minecraft:air','minecraft:crimson_roots','minecraft:warped_roots','m
 const FLUID=['minecraft:lava','minecraft:flowing_lava'];
 const GROUND=['minecraft:netherrack','minecraft:basalt','minecraft:smooth_basalt','minecraft:blackstone','minecraft:soul_soil','minecraft:soul_sand','minecraft:gravel','minecraft:magma','minecraft:bedrock'];
 export const CARVABLE=['minecraft:netherrack','minecraft:basalt','minecraft:smooth_basalt','minecraft:blackstone','minecraft:gravel','minecraft:soul_soil','minecraft:soul_sand','minecraft:magma','minecraft:quartz_ore','minecraft:nether_gold_ore','minecraft:ancient_debris','minecraft:crimson_nylium','minecraft:warped_nylium','minecraft:crimson_stem','minecraft:warped_stem','minecraft:nether_wart_block','minecraft:warped_wart_block','minecraft:shroomlight','minecraft:glowstone','minecraft:bone_block','minecraft:crimson_roots','minecraft:warped_roots','minecraft:nether_sprouts','minecraft:crimson_fungus','minecraft:warped_fungus','minecraft:red_mushroom','minecraft:brown_mushroom','minecraft:weeping_vines','minecraft:twisting_vines','minecraft:fire','minecraft:soul_fire'];
-export const MIN_OCEAN_COVERAGE={large_arena:1,dragon_arena:1,mega_fortress:1};
+export const MIN_OCEAN_COVERAGE={large_arena:.9,dragon_arena:.9,mega_fortress:.9};
 function block(d,p){const b=d.getBlock(p);if(!b)throw Error('Terrain is unloaded');return b;}
 export function biomeName(id){return ({'minecraft:hell':'nether_wastes','minecraft:nether_wastes':'nether_wastes','minecraft:crimson_forest':'crimson_forest','minecraft:warped_forest':'warped_forest','minecraft:soulsand_valley':'soulsand_valley','minecraft:soul_sand_valley':'soulsand_valley','minecraft:basalt_deltas':'basalt_deltas'})[id];}
 export function biomeAllows(c,biome){
@@ -55,13 +56,37 @@ export function* clearVolume(d,from,size,surface,ocean,extra=[],carve=ocean){
  }
  return true;
 }
-// Exact native plane queries, split by chunk, reject even a single island
-// block or air gap. These run only during an active placement survey.
-export function* lavaFootprint(d,from,size,surface){
+// Coverage is an exact horizontal lava-surface plane, not a 3D volume.
+// Whole-footprint budgets are shared across sections, so one shoreline tile
+// may be mostly dry if the complete structure still meets the 90% threshold.
+// Fully lava chunks need only one native query; count exceptions on demand.
+// Reuse the offline-generated authored base mask, including its interior.
+// A numeric index avoids rebuilding thousands of coordinate strings per survey.
+const dragonSize=NATURAL_ARENAS.dragon_arena.size;
+const dragonColumns=new Set(NATURAL_ARENAS.dragon_arena.sections.flatMap(s=>s.foundationColumns.map(([x,z])=>(x+s.offset[0])*dragonSize[2]+z+s.offset[2])));
+export function footprintBudget(size,minimum=.9,shape=undefined){
+ const area=shape?.columns.size??size[0]*size[2];
+ return {area,missing:0,maxMissing:Math.floor(area*(1-minimum)+1e-9),shape};
+}
+export function dragonFootprintBudget(origin,minimum=.9){
+ return footprintBudget(dragonSize,minimum,{columns:dragonColumns,origin,stride:dragonSize[2]});
+}
+export function* lavaFootprint(d,from,size,surface,budget=footprintBudget(size)){
  for(let x=Math.floor(from.x/16)*16;x<from.x+size[0];x+=16)for(let z=Math.floor(from.z/16)*16;z<from.z+size[2];z+=16){
   const a={x:Math.max(x,from.x),y:surface,z:Math.max(z,from.z)};
   const b={x:Math.min(x+15,from.x+size[0]-1),y:surface,z:Math.min(z+15,from.z+size[2]-1)};
-  if(d.containsBlock(new BlockVolume(a,b),{excludeTypes:FLUID},false))return false;
+  const volume=new BlockVolume(a,b),filter={excludeTypes:FLUID};
+  if(d.containsBlock(volume,filter,false)){
+   if(typeof d.getBlocks!=='function')throw Error('Native lava coverage counting unavailable');
+   let visited=0;
+   for(const p of d.getBlocks(volume,filter,false).getBlockLocationIterator()){
+    const shape=budget.shape;
+    if(!shape||shape.columns.has((p.x-shape.origin.x)*shape.stride+p.z-shape.origin.z)){
+     if(++budget.missing>budget.maxMissing)return false;
+    }
+    if(++visited%64===0)yield;
+   }
+  }
   yield;
  }
  return true;
@@ -78,7 +103,7 @@ export function* supportFor(d,origin,anchor,carve=false){
 }
 export function* surveyLandmark(candidate,dimension,progress=()=>{},cache=undefined){
  const sampling=cache??dimension;
- const arena=ARENAS[candidate.id],ocean=GIANTS.includes(candidate.id),small=candidate.id==='small_arena',carving=small;
+ const arena=ARENAS[candidate.id],ocean=GIANTS.includes(candidate.id),small=candidate.id==='small_arena',carving=small||ocean;
  const floor=candidate.id==='grave_yard'||ocean?0:1;
  const offset=ocean?(candidate.id==='mega_fortress'?-1:2):1-floor;
  let lease=chunkLease(dimension,'survey');
@@ -98,7 +123,7 @@ export function* surveyLandmark(candidate,dimension,progress=()=>{},cache=undefi
   }
   const origin={x:candidate.x-Math.floor(arena.size[0]/2),y:ocean?(candidate.id==='mega_fortress'?surface-1:surface+2):surface+1-floor,z:candidate.z-Math.floor(arena.size[2]/2)};
   if(origin.y+arena.size[1]+2>128)return {outcome:'unsuitable',reason:'Insufficient height below Nether ceiling'};
-  const supports=[];let oceanSamples=0,totalSamples=0,groundSamples=0;
+  const supports=[],lavaBudget=candidate.id==='dragon_arena'?dragonFootprintBudget(origin):footprintBudget(arena.size,MIN_OCEAN_COVERAGE[candidate.id]??1);let totalSamples=0,groundSamples=0;
   lease.release();
   for(let index=0;index<arena.sections.length;index++){
    const section=arena.sections[index],[ox,oy,oz]=section.offset;
@@ -107,11 +132,10 @@ export function* surveyLandmark(candidate,dimension,progress=()=>{},cache=undefi
    progress(`Loading survey section ${index+1}/${arena.sections.length}`);
    yield* lease.load({...from,y:0},[section.size[0],128,section.size[2]]);
    progress(`Surveying section ${index+1}/${arena.sections.length}`);
-   if(ocean&&!(yield* lavaFootprint(sampling,from,section.size,surface)))return {outcome:'unsuitable',reason:'The full footprint must be over lava; land or a gap interrupts it'};
-   // All sampled ground must be nearby in height; oceans must cover every sample.
+   if(ocean&&!(yield* lavaFootprint(sampling,from,section.size,surface,lavaBudget)))return {outcome:'unsuitable',reason:'Less than 90% of the footprint is over lava'};
+   // Ground sampling applies to land structures; ocean coverage is exact above.
    for(let x=0;x<section.size[0];x+=8)for(let z=0;z<section.size[2];z+=8){
-    if(ocean){totalSamples++;if(FLUID.includes(block(sampling,{x:from.x+x,y:surface,z:from.z+z}).typeId))oceanSamples++;}
-    else{
+    if(!ocean){
      let found;
      for(let y=surface+(small?12:0);y>=Math.max(1,surface-(small?12:3));y--)if(GROUND.includes(block(sampling,{x:from.x+x,y,z:from.z+z}).typeId)){found=y;break;}
      if(small){totalSamples++;if(found!==undefined)groundSamples++;}
@@ -129,7 +153,7 @@ export function* surveyLandmark(candidate,dimension,progress=()=>{},cache=undefi
    }
    supports.push(sectionSupports);lease.release();yield;
   }
-  const coverage=ocean?oceanSamples/totalSamples:1;
+  const coverage=ocean?1-lavaBudget.missing/lavaBudget.area:1;
   if(small&&groundSamples/totalSamples<.5)return {outcome:'unsuitable',reason:'Less than half the Small Arena footprint has nearby natural ground'};
   if(ocean&&coverage<MIN_OCEAN_COVERAGE[candidate.id])return {outcome:'unsuitable',reason:`Insufficient ocean coverage: ${Math.round(coverage*100)}%`};
   return {outcome:'ready',origin,surface,ocean,carve:carving,solidFoundation:ocean||carving,coverage,supports,box:{x:origin.x,z:origin.z,sx:arena.size[0],sz:arena.size[2]}};

@@ -1,6 +1,6 @@
-Jagsby's Underworld v0.2.102 — current Bedrock checklist
+Jagsby's Underworld v0.2.103 — current Bedrock checklist
 
-Status: the v0.2.102 gameplay build passed 372 automated checks. These cover
+Status: the v0.2.103 gameplay build passed 373 automated checks. These cover
 asset/reference integrity and mocked script behavior, not Bedrock client
 rendering, native trial activation/rewards, natural encounter frequency or FPS.
 There is no Bedrock client in the development workspace. Record actual results
@@ -8,7 +8,7 @@ and Content Log messages rather than treating every item below as unverified
 or already proven by automation.
 
 1. Installation and upgrades
-   Import Jagsbys_Underworld_v0.2.102.mcaddon and activate both Underworld packs.
+   Import Jagsbys_Underworld_v0.2.103.mcaddon and activate both Underworld packs.
    Use Bedrock 26.52 with cheats for commands; Beta APIs are not required.
    Disable the separate Nether Settlements/Agriculture packs. Test upgrades on
    a world copy. Normal Underworld updates retain their UUIDs/world records;
