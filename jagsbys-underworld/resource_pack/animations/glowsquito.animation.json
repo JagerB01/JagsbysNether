@@ -1,0 +1,24 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.jagsby_nether.glowsquito.flight": {
+      "loop": true,
+      "bones": {
+        "left_wing": {
+          "rotation": [
+            0,
+            0,
+            "math.cos(query.life_time * 2291.831) * 57.296"
+          ]
+        },
+        "right_wing": {
+          "rotation": [
+            0,
+            0,
+            "-math.cos(query.life_time * 2291.831) * 57.296"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -17,7 +17,7 @@ function interact(block, player, held) {
   return event;
 }
 test('registers farming and native tilling block components', () => {
-  assert.deepEqual([...components.keys()].sort(), [id('crop'),id('farmland'),id('tillable_soil')]);
+  assert.deepEqual([...components.keys()].sort(), [id('crop'),id('farmland'),id('glowhusk'),id('tillable_soil')]);
 });
 test('crop placement cancels outside the Nether', () => {
   const event = {dimension: {id: 'minecraft:overworld'}, cancel: false};

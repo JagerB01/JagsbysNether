@@ -1,0 +1,49 @@
+{
+  "format_version": [
+    1,
+    1,
+    0
+  ],
+  "jagsby_nether:murky_gourd": {
+    "sound": "wood"
+  },
+  "jagsby_nether:rye_block": {
+    "sound": "wood"
+  },
+  "jagsby_nether:blistered_rye_block": {
+    "sound": "wood"
+  },
+  "jagsby_nether:wither_bone_block": {
+    "sound": "wood"
+  },
+  "jagsby_nether:carved_murky_gourd": {
+    "sound": "wood"
+  },
+  "jagsby_nether:murk_o_lantern": {
+    "sound": "wood"
+  },
+  "jagsby_nether:soul_soil_farmland": {
+    "sound": "soul_soil"
+  },
+  "jagsby_nether:rye_crop": {
+    "sound": "grass"
+  },
+  "jagsby_nether:polyps": {
+    "sound": "grass"
+  },
+  "jagsby_nether:scarberry_bush": {
+    "sound": "grass"
+  },
+  "jagsby_nether:murky_gourd_stem": {
+    "sound": "grass"
+  },
+  "jagsby_nether:blistered_rye_crop": {
+    "sound": "grass"
+  },
+  "jagsby_nether:tillable_soul_soil": {
+    "sound": "soul_soil"
+  },
+  "jagsby_nether:glowhusk": {
+    "sound": "wood"
+  }
+}

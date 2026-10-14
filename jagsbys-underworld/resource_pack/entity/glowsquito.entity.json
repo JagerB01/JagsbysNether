@@ -1,0 +1,35 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "jagsby_nether:glowsquito",
+      "materials": {
+        "default": "entity_alphatest",
+        "glow": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/entity/glowsquito/glowsquitoid",
+        "glow": "textures/entity/glowsquito/glowsquitoid_glow"
+      },
+      "geometry": {
+        "default": "geometry.jagsby_nether.glowsquito"
+      },
+      "animations": {
+        "flight": "animation.jagsby_nether.glowsquito.flight"
+      },
+      "scripts": {
+        "animate": [
+          "flight"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.jagsby_nether.glowsquito",
+        "controller.render.jagsby_nether.glowsquito_glow"
+      ],
+      "spawn_egg": {
+        "base_color": "#5B3829",
+        "overlay_color": "#EBC45A"
+      }
+    }
+  }
+}

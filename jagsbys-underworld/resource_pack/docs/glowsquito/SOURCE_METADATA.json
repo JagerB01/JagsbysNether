@@ -1,0 +1,18 @@
+{
+  "archive": "infernal-expansion-1.19.2-2.5.3.jar",
+  "archive_sha256": "2a4fdb43157aa69b1037206ec19ec0d274943fbabfb1c966af30e2758cef8d0b",
+  "scope": "Glowsquito visual design only. No mod gameplay, sounds, other mobs, items or world generation imported.",
+  "license": "Apache-2.0",
+  "assets": {
+    "assets/infernalexp/textures/entity/glowsquitoid.png": {
+      "sha256": "32a8b0b53ad88ae592e8d907910e788bc76f0c49c230abbf0bfc51dad1c87584",
+      "target": "resource_pack/textures/entity/glowsquito/glowsquitoid.png"
+    },
+    "assets/infernalexp/textures/entity/glowsquitoid_glow.png": {
+      "sha256": "95b0d83fd2e8ca7c9c972c11a01ad32bb579c9ee9fc44639041145643319e84a",
+      "target": "resource_pack/textures/entity/glowsquito/glowsquitoid_glow.png"
+    }
+  },
+  "model_source": "https://github.com/infernalexp/Infernal-Expansion/blob/5d9ecd72b51de70efea7b6550752fc58c6322c6f/src/main/java/org/infernalstudios/infernalexp/client/entity/model/GlowsquitoModel.java",
+  "model_class_sha256": "9f3d6e485d08b7948577d8b5f367de5d7fbd923374b5a2b92095cf7cd4e6228e"
+}

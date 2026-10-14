@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {components, itemComponents, startup, world, system, intervals, jobs, timeouts, flush, entities} from './mock-server.mjs';
+import {components, itemComponents, startup, world, system, intervals, jobs, timeouts, flush, entities, ItemStack} from './mock-server.mjs';
 import {worldFixture, playerFixture} from './fixtures.mjs';
 import {RECORD_PREFIX} from '../.build/behavior_pack/scripts/settlements/navigation.js';
 import '../.build/behavior_pack/scripts/main.js';
@@ -8,7 +8,7 @@ import {FISH,ROD} from '../.build/behavior_pack/scripts/lava_fishing/angling.js'
 startup();
 
 test('one combined entry registers crop components and all subsystem schedules exactly once', () => {
-  assert.deepEqual([...components.keys()].sort(), ['jagsby_nether:crop', 'jagsby_nether:farmland', 'jagsby_nether:tillable_soil']);
+  assert.deepEqual([...components.keys()].sort(), ['jagsby_nether:crop', 'jagsby_nether:farmland', 'jagsby_nether:glowhusk', 'jagsby_nether:tillable_soil']);
   assert.deepEqual(intervals.map(i => i.ticks).sort((a,b) => a-b), [1,1,1,10,20,20,100,100]);
   assert.deepEqual([...itemComponents.keys()], ['jagsby_nether:lava_fishing_rod']);
   for (const {callback} of intervals) assert.doesNotThrow(callback);
@@ -152,4 +152,27 @@ test('standing use of the hidden native container passes through; crouching rout
  const crouching={target:box,player:{isSneaking:true},cancel:false};
  world.beforeEvents.playerInteractWithEntity.emit(crouching);flush();
  assert.equal(crouching.cancel,true);assert(calls.includes('jagsby_nether:sit'));
+});
+
+test('native Glowhusk callbacks connect pollen, entry, wake, harvesting and destruction exactly once',()=>{
+ const {dimension,put}=worldFixture(),block=put('jagsby_nether:glowhusk',{x:10000,y:64,z:10000},{'jagsby_nether:wax_level':0});
+ const oldDimension=world.getDimension,props=new Map(),events=[];
+ const bee={id:'integrated-glowsquito',typeId:'jagsby_nether:glowsquito',isValid:true,dimension,location:{x:10001,y:65,z:10000},hasComponent:()=>false,getDynamicProperty:k=>props.get(k),setDynamicProperty:(k,v)=>v===undefined?props.delete(k):props.set(k,v),clearVelocity(){},teleport(p){this.location=p;},triggerEvent(eventId){events.push(eventId);world.afterEvents.dataDrivenEntityTrigger.emit({entity:this,eventId});}};
+ const component=components.get('jagsby_nether:glowhusk');world.getDimension=()=>dimension;entities.set(bee.id,bee);
+ try{
+  component.onPlace({block});component.onEntity({block,entitySource:bee,name:'jagsby_nether:claim'});
+  for(let n=0;n<5;n++){
+   world.afterEvents.dataDrivenEntityTrigger.emit({entity:bee,eventId:'jagsby_nether:pollinated'});
+   component.onEntity({block,entitySource:bee,name:'jagsby_nether:return'});
+   assert(props.get('underworld_glowsquito:inside'));
+   world.afterEvents.dataDrivenEntityTrigger.emit({entity:bee,eventId:'jagsby_nether:wake'});
+   assert(!props.get('underworld_glowsquito:inside'));
+  }
+  assert.equal(block.permutation.getState('jagsby_nether:wax_level'),5);
+  const {player,gifts}=playerFixture(dimension,{held:new ItemStack('minecraft:shears')});
+  component.onPlayerInteract({block,player});component.onPlayerInteract({block,player});
+  assert.equal(gifts.length,1);assert.equal(gifts[0].typeId,'jagsby_nether:glow_wax');assert.equal(gifts[0].amount,1);
+  block.setType('minecraft:air');component.onBreak({block});assert(!props.get('underworld_glowsquito:home'));
+  assert.equal(events.filter(e=>e==='jagsby_nether:enter').length,5);assert.equal(entities.get(bee.id),bee);
+ }finally{world.getDimension=oldDimension;entities.delete(bee.id);}
 });

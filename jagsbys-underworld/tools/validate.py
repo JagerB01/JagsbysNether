@@ -123,7 +123,7 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
         for texture in atlas.values():
             assert (RP / (texture["textures"] + ".png")).is_file(), texture
     geometry = {g["description"]["identifier"] for g in load(RP / "models/blocks/nether_agriculture.geo.json")["minecraft:geometry"]}
-    registered = {"jagsby_nether:crop", "jagsby_nether:farmland", "jagsby_nether:tillable_soil"}
+    registered = {"jagsby_nether:crop", "jagsby_nether:farmland", "jagsby_nether:tillable_soil", "jagsby_nether:glowhusk"}
     identifiers = set()
     blocks = {}
     for path in (BP / "blocks").glob("*.json"):
@@ -142,14 +142,14 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
             if "minecraft:geometry" in group:
                 assert group["minecraft:geometry"] in geometry | {"minecraft:geometry.full_block"}
             for material in group.get("minecraft:material_instances", {}).values():
-                assert material["texture"] in terrain or material["texture"] == "soul_soil", material
+                assert material["texture"] in terrain or material["texture"] == "soul_soil" or (name == "jagsby_nether:glowhusk" and material["texture"] == "shroomlight"), material
     for path in (BP / "items").rglob("*.json"):
         item = load(path)["minecraft:item"]
         name = item["description"]["identifier"]
         assert name not in identifiers
         identifiers.add(name)
         c = item["components"]
-        assert c["minecraft:icon"]["textures"]["default"] in icons
+        assert c["minecraft:icon"]["textures"]["default"] in icons or (name == "jagsby_nether:glow_wax" and c["minecraft:icon"]["textures"]["default"] == "honeycomb")
         if "minecraft:block_placer" in c:
             assert c["minecraft:block_placer"]["block"] in blocks
         if "minecraft:food" in c:

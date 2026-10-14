@@ -1,0 +1,43 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.jagsby_nether.glowsquito": {
+      "geometry": "Geometry.default",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Texture.default"
+      ],
+      "part_visibility": [
+        {
+          "*": "!query.property('jagsby_nether:inside')"
+        },
+        {
+          "pollen": "!query.property('jagsby_nether:inside') && query.property('jagsby_nether:pollen')"
+        }
+      ]
+    },
+    "controller.render.jagsby_nether.glowsquito_glow": {
+      "geometry": "Geometry.default",
+      "materials": [
+        {
+          "*": "Material.glow"
+        }
+      ],
+      "textures": [
+        "Texture.glow"
+      ],
+      "part_visibility": [
+        {
+          "*": "!query.property('jagsby_nether:inside')"
+        },
+        {
+          "pollen": false
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:block": {
+    "description": {
+      "identifier": "jagsby_nether:glowhusk",
+      "menu_category": {
+        "category": "nature"
+      },
+      "states": {
+        "jagsby_nether:wax_level": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    "components": {
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "shroomlight",
+          "render_method": "opaque"
+        }
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 1.5
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 6
+      },
+      "minecraft:loot": "loot_tables/blocks/glowhusk.json",
+      "jagsby_nether:glowhusk": {},
+      "minecraft:movable": {
+        "movement_type": "immovable"
+      }
+    }
+  }
+}

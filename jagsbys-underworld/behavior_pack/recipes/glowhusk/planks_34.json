@@ -1,0 +1,37 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "jagsby_nether:glowhusk_34"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "CWC",
+      "DSD",
+      "CCW"
+    ],
+    "key": {
+      "C": {
+        "item": "minecraft:crimson_planks"
+      },
+      "W": {
+        "item": "minecraft:warped_planks"
+      },
+      "D": {
+        "item": "minecraft:glowstone_dust"
+      },
+      "S": {
+        "item": "minecraft:shroomlight"
+      }
+    },
+    "result": {
+      "item": "jagsby_nether:glowhusk",
+      "count": 1
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    }
+  }
+}

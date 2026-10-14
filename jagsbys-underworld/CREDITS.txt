@@ -46,3 +46,5 @@ Seven structure layouts adapted from the user-supplied universal Java JAR for
 manual Bedrock testing. Distributed under LGPLv3; full LGPLv3 and GPLv3 texts,
 selected original templates/assembly data and conversion provenance are under
 behavior_pack/docs/moogs_arenas/. Conversion source is tools/convert_moogs_arenas.py.
+
+Glowsquito visual design: Infernal Expansion / Infernal Studios, Apache-2.0. Two Glowsquito textures and converted model/wing animation only; no other mod content imported. See docs/glowsquito/LICENSE.txt and SOURCE_METADATA.json. Glowhusk and Glow Wax temporarily reference vanilla Shroomlight and Honeycomb artwork.

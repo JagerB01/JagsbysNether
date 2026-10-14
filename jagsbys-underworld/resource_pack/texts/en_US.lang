@@ -72,3 +72,8 @@ item.jagsby_nether:cragbake.name=§6Cragbake§r
 item.jagsby_nether:gloamquill.name=§6Gloamquill§r
 
 item.jagsby_nether:wickspit.name=§6Wickspit§r
+
+entity.jagsby_nether:glowsquito.name=Glowsquito
+item.spawn_egg.entity.jagsby_nether:glowsquito.name=Glowsquito Spawn Egg
+tile.jagsby_nether:glowhusk.name=Glowhusk
+item.jagsby_nether:glow_wax.name=Glow Wax

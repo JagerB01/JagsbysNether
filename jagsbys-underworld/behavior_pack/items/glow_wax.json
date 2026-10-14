@@ -1,0 +1,22 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:item": {
+    "description": {
+      "identifier": "jagsby_nether:glow_wax",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "item.jagsby_nether:glow_wax.name"
+      },
+      "minecraft:icon": {
+        "textures": {
+          "default": "honeycomb"
+        }
+      },
+      "minecraft:max_stack_size": 64
+    }
+  }
+}
