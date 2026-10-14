@@ -178,6 +178,14 @@ export function carveTile(dimension,pos,size){
 
 // Fill only empty space and lava beneath the footprint; existing solids end
 // each column. Yield during scans and after writes to keep generation staged.
+// Thirteen brick and seven deepslate blocks per complete 20-block band.
+// Coordinate-derived rotations scatter the mix without RNG or idle work.
+export function megaFoundationMaterial(x,y,z){
+ let seed=Math.imul(x|0,73856093)^Math.imul(z|0,19349663)^Math.imul(Math.floor(y/20),83492791);
+ seed=Math.imul(seed^(seed>>>16),0x45d9f3b);seed^=seed>>>16;
+ const slot=(((y%20+20)%20)*7+(seed>>>0)%20)%20;
+ return slot<13?'minecraft:polished_blackstone_bricks':'minecraft:deepslate';
+}
 export function* fillSolidFoundation(dimension,pos,size,box,top,guard=()=>true,material=undefined,columns=undefined){
  const footprint=columns??(function*(){for(let x=0;x<size[0];x++)for(let z=0;z<size[2];z++)yield [x,z];})();
  for(const [cx,cz,floor,perimeter] of footprint){
@@ -192,7 +200,17 @@ export function* fillSolidFoundation(dimension,pos,size,box,top,guard=()=>true,m
   if(bottom<=columnTop){
    if(!guard())throw Error('Player approached the foundation');
    const edge=perimeter??(x===box.x||z===box.z||x===box.x+box.sx-1||z===box.z+box.sz-1);
-   dimension.fillBlocks(new BlockVolume({x,y:bottom,z},{x,y:columnTop,z}),material??(edge?'minecraft:blackstone':'minecraft:netherrack'),{blockFilter:{includeTypes:['minecraft:air',...FLUID]}});
+   if(typeof material==='function'){
+    // Bottom-up runs leave a solid checkpoint. On interruption, the next
+    // scan fills only the remaining gap with the same coordinate pattern.
+    for(let y=bottom;y<=columnTop;){
+     const type=material(x,y,z);let end=y;
+     while(end<columnTop&&material(x,end+1,z)===type)end++;
+     if(!guard())throw Error('Player approached the foundation');
+     dimension.fillBlocks(new BlockVolume({x,y,z},{x,y:end,z}),type,{blockFilter:{includeTypes:['minecraft:air',...FLUID]}});
+     y=end+1;yield;
+    }
+   }else dimension.fillBlocks(new BlockVolume({x,y:bottom,z},{x,y:columnTop,z}),material??(edge?'minecraft:blackstone':'minecraft:netherrack'),{blockFilter:{includeTypes:['minecraft:air',...FLUID]}});
   }
   yield;
  }

@@ -5,11 +5,11 @@ import {NATURAL_ARENAS} from './natural_arena_catalog.js';
 import {chunkLease} from './chunk_loading.js';
 import {runGenerationJob} from './generation_queue.js';
 import {candidateAt,GIANTS,landmarkRecords,villageBoxes,spacingAllows,LANDMARK_PREFIX} from './landmark_sites.js';
-import {surveyLandmark,clearVolume,fillSupports,fillSolidFoundation,carveTile,obstructionReason} from './landmark_terrain.js';
+import {surveyLandmark,clearVolume,fillSupports,fillSolidFoundation,megaFoundationMaterial,carveTile,obstructionReason} from './landmark_terrain.js';
 import {terrainSurvey} from './terrain_survey.js';
 import {giantSearch,giantSites,smallSites,attemptKey} from './giant_search.js';
 import {TEST_ONLY_GIANT,FIT_ORDER,giantStartingBox,assessGiantSite} from './giant_fit.js';
-import {surveyModularFortress,modularSections,modularCoreBox,pendingModuleBox,surveyFortressModule,fortressModuleCount,fortressParent,fortressModuleRequired,extendFortressBox} from './modular_fortress.js';
+import {surveyModularFortress,modularSections,modularCoreBox,pendingModuleBox,surveyFortressModule,fortressModuleCount,fortressParent,fortressModuleRequired,extendFortressBox,fortressBuildVolumes} from './modular_fortress.js';
 const retries=new Map();let busy=false,status='Waiting for unchecked landmark sites.';
 let diagnostics;
 function pauseForPlayer(c){
@@ -80,7 +80,7 @@ export function* generateLandmark(c,dimension){
     status='Landmark skipped: spacing changed since candidate selection.';return {outcome:'skipped'};
    }
    status=`Surveying ${ARENAS[c.id].display_name} at ${c.x}, ${c.z}.`;
-   plan=c.family==='giant'&&!c.selected?yield* assessGiantSite(c,dimension,{progress,allowed:(id,box)=>spacingAllows({...c,id},box,records,villages)}):c.id==='mega_fortress'?yield* surveyModularFortress(c,dimension,{progress,coreOnly:true,allowed:box=>spacingAllows({...c,id:'mega_fortress'},box,records,villages)&&playersClear(players(),box,32)}):yield* surveyLandmark(c,dimension,progress);
+   plan=c.family==='giant'&&!c.selected?yield* assessGiantSite(c,dimension,{progress,allowed:(id,box)=>spacingAllows({...c,id},box,records,villages)}):c.id==='mega_fortress'?yield* surveyModularFortress(c,dimension,{progress,coreOnly:true,allowed:box=>spacingAllows({...c,id:'mega_fortress'},box,records,villages)}):yield* surveyLandmark(c,dimension,progress);
    if(plan.outcome!=='ready'){
     if(plan.outcome==='unsuitable')reject(c,plan.reason);
     else retries.set(attemptKey(c),system.currentTick+1200);
@@ -95,7 +95,7 @@ export function* generateLandmark(c,dimension){
     const x=plan.origin.x+section.offset[0],z=plan.origin.z+section.offset[2];
     world.setDynamicProperty(supportKey(c,i),JSON.stringify(supports.filter(p=>p.x>=x&&p.x<x+section.size[0]&&p.z>=z&&p.z<z+section.size[2])));
    }
-   record={state:'placing',id:c.id,family:c.family,x:c.x,z:c.z,origin:plan.origin,box:plan.box,surface:plan.surface,ocean:plan.ocean,carve:plan.carve??false,solidFoundation:plan.solidFoundation??plan.carve??false,coreNoCarve:plan.coreNoCarve??false,modular:plan.modular??false,modules:plan.modules,incremental:plan.modular??false,expansionNext:1,next:0};
+   record={state:'placing',id:c.id,family:c.family,x:c.x,z:c.z,origin:plan.origin,box:plan.box,surface:plan.surface,ocean:plan.ocean,carve:plan.carve??false,solidFoundation:plan.solidFoundation??plan.carve??false,coreNoCarve:plan.coreNoCarve??false,modular:plan.modular??false,modules:plan.modules,incremental:plan.modular??false,expansionNext:plan.modular?Math.max(...plan.modules)+1:1,next:0};
    save(c,record);
   }
   let arena=record.modular?{display_name:'Mega Fortress',sections:modularSections(record.modules)}:NATURAL_ARENAS[c.id];
@@ -120,6 +120,7 @@ export function* generateLandmark(c,dimension){
    const section=arena.sections[index],[x,y,z]=section.offset;
    const pos={x:record.origin.x+x,y:record.origin.y+y,z:record.origin.z+z};
    const activeBox=record.modular?pendingModuleBox(c,record):record.box;
+   if(record.modular)record.box=extendFortressBox(record.box,activeBox);
    const tileCarve=(record.carve??false)&&!(record.coreNoCarve&&section.foundation?.moduleIndex===0);
    progress(`Loading placement tile ${index+1}/${arena.sections.length}`);
    lease=chunkLease(dimension,'landmark');yield* lease.load(pos,section.size);
@@ -127,16 +128,20 @@ export function* generateLandmark(c,dimension){
    if(!playersClear(players(),activeBox,32)){pauseForPlayer(c);status='Landmark paused: player approached its footprint.';return;}
    const supports=JSON.parse(world.getDynamicProperty(supportKey(c,index))??'[]');
    if(!record.tilePlaced){
-    if(!(yield* clearVolume(dimension,pos,section.size,record.surface,record.ocean,record.supporting?['minecraft:polished_blackstone']:[],tileCarve))){status=`Landmark paused: ${obstructionReason()}`;retries.set(attemptKey(c),system.currentTick+1200);return;}
+    const volumes=record.modular?fortressBuildVolumes(section,pos):[{pos,size:section.size}];
+    for(const v of volumes)if(!(yield* clearVolume(dimension,v.pos,v.size,record.surface,record.ocean,record.supporting?['minecraft:polished_blackstone']:[],tileCarve))){status=`Landmark paused: ${obstructionReason()}`;retries.set(attemptKey(c),system.currentTick+1200);return;}
     record.supporting=true;save(c,record);
-    if(tileCarve)carveTile(dimension,pos,section.size);
+    if(tileCarve)for(const v of volumes){
+     if(!playersClear(players(),activeBox,32)){pauseForPlayer(c);return;}
+     carveTile(dimension,v.pos,v.size);yield;
+    }
     // Persist native placement before yielding for supports; restart cannot
     // replace an already placed tile or mistake its architecture for terrain.
     if(!playersClear(players(),activeBox,32)){pauseForPlayer(c);return;}
     world.structureManager.place(section.id,dimension,pos,{includeEntities:false,includeBlocks:true});
     record.tilePlaced=true;save(c,record);
    }
-   if(record.solidFoundation)yield* fillSolidFoundation(dimension,pos,section.size,section.foundation?{...section.foundation,x:record.origin.x+section.foundation.x,z:record.origin.z+section.foundation.z}:record.box,record.origin.y-1,()=>playersClear(players(),activeBox,32),record.modular&&section.foundation.moduleIndex!==0?'minecraft:polished_blackstone_bricks':undefined,(record.modular||record.id==='dragon_arena')?section.foundationColumns:undefined);
+   if(record.solidFoundation)yield* fillSolidFoundation(dimension,pos,section.size,section.foundation?{...section.foundation,x:record.origin.x+section.foundation.x,z:record.origin.z+section.foundation.z}:record.box,record.origin.y-1,()=>playersClear(players(),activeBox,32),record.modular?megaFoundationMaterial:undefined,(record.modular||record.id==='dragon_arena')?section.foundationColumns:undefined);
    else yield* fillSupports(dimension,supports,()=>playersClear(players(),activeBox,32),record.carve??false);
    record.next=index+1;record.supporting=false;record.tilePlaced=false;save(c,record);world.setDynamicProperty(supportKey(c,index),undefined);
    lease.release();lease=undefined;yield {waitTicks:2};

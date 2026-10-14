@@ -23,7 +23,16 @@ export function refreshedEncounterSite(site,layout=site.layout){
   layout=site.id==='mega_fortress'&&site.slots.every(s=>Math.abs(s.position.x-site.origin.x)<=21&&Math.abs(s.position.z-site.origin.z)<=21)?'mega_modular':site.id;
  }
  const roles=new Map((TRIAL_ENCOUNTERS.sites[layout]??[]).map(s=>[s.offset.join(','),s.profile]));
- return {...site,layout,slots:site.slots.map(s=>({...s,profile:roles.get([s.position.x-site.origin.x,s.position.y-site.origin.y,s.position.z-site.origin.z].join(','))??s.profile}))};
+ const slots=site.slots.map(s=>({...s,profile:roles.get([s.position.x-site.origin.x,s.position.y-site.origin.y,s.position.z-site.origin.z].join(','))??s.profile}));
+ // Newly included lower-chamber slots join the finite revision migration.
+ // Existing slots retain their exact saved positions; air/player blocks are
+ // still preserved by migrateEncounterSite rather than recreating spawners.
+ const positions=new Set(slots.map(s=>[s.position.x,s.position.y,s.position.z].join(',')));
+ for(const s of TRIAL_ENCOUNTERS.sites[layout]??[]){
+  const position={x:site.origin.x+s.offset[0],y:site.origin.y+s.offset[1],z:site.origin.z+s.offset[2]};
+  if(!positions.has([position.x,position.y,position.z].join(',')))slots.push({position,profile:s.profile});
+ }
+ return {...site,layout,slots};
 }
 export function recordedEncounterSites(){
  const stored=new Map(),natural=[];

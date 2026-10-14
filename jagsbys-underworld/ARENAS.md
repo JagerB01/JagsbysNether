@@ -24,13 +24,17 @@ Known spacing exclusions are filtered before terrain surveying/loading. They are
 
 Natural placement uses at most 16×16 horizontal tiles and shares the budgeted queue with villages/manual templates. Chunk leases load only the needed area and await readiness; failure or cancellation releases them. Tile checkpoints allow restart recovery. A player approaching an active footprint pauses placement and schedules a one-shot retry after 10 seconds; other interruptions normally retry after 60 seconds. No extra idle player-proximity scanner is added. Construction can still be visible and cause native lighting/rendering work.
 
+Former soul-campfire positions contain three lit red candles. Supporting slabs are made double slabs to give these clusters a full base in Bedrock. This is an offline template edit; previously placed or dropped candles are not restored automatically.
+
+Imported dispensers containing splash water bottles now use a repeating mix of native Harming II (24), Poison II (27), and Decay/Wither II (36). Slot positions and bottle counts are preserved; other dispenser ammunition is unchanged. This is baked into templates, without runtime dispenser scans. Existing placed dispenser inventories are not refilled or overwritten.
+
 ## Mega Fortress expansion and foundations
 
-The keep combines the center and roof into one required 43×56×43 module. The four starting side modules containing lower chambers are required completion steps: a temporary/protected conflict pauses rather than permanently cutting those rooms off. Remaining branches expand one connected module at a time and require their parents; optional conflicts prune that branch, while other directions continue.
+The keep combines the center and roof into one required 43×56×43 module. The four starting side modules containing lower chambers are preflighted with the keep before any starter tile is placed. Only the keep needs 90% lava coverage; the chambers can trim natural terrain. They are still placed one tile at a time, with player-safety pauses and saved progress. Older in-progress starts keep their required chamber completion steps. Remaining branches expand one connected module at a time and require their parents; optional conflicts prune that branch, while other directions continue.
 
-Optional modules may remove at most 512 solid terrain blocks and at most 8% of their volume. A placed optional module needing more than 128 blocks or more than 2% carving ends that branch; descendants are skipped. Branch stops persist through reloads. Required side chambers retain their earlier carving allowance; the new keep itself is not carved.
+Optional modules carve their authored architectural envelope once even when natural terrain is dense. The old 512-block/8% hard rejection is removed. A placed optional module needing more than 128 blocks or more than 2% carving ends only that branch; descendants are skipped while independent branches continue. Counting stops as soon as that decision is known, then remaining volumes still receive protected-block checks. Branch stops persist through reloads. Required side chambers and the keep retain their carving allowance. Optional bridge surveys and carving use offline-generated architectural envelopes; terrain below unmarked suspended decks is preserved and does not consume their carving budget.
 
-Dragon Arena foundations follow the authored irregular ground base, with blackstone on the actual perimeter and netherrack inside. Empty bounding-box corners and raised overhangs receive no foundation. Mega foundations extend only under authored pier feet/chamber bases, leaving bridge decks suspended; non-core foundations use polished blackstone bricks. All fill only air/lava down to the first existing solid block, without excavation. Already generated older foundations are not removed or rebuilt.
+Dragon Arena foundations follow the authored irregular ground base, with blackstone on the actual perimeter and netherrack inside. Empty bounding-box corners and raised overhangs receive no foundation. Mega foundations extend only under authored pier feet/chamber bases, including raised feet marked by the source pillar processor. Red-glass pillar markers are resolved to polished blackstone bricks; unmarked bridge decks remain suspended; all Mega foundations use a stable mix of approximately 65% polished blackstone bricks and 35% deepslate. Every complete 20-block vertical band contains exactly 13 brick and 7 deepslate blocks; partial bands approximate that ratio. Material runs fill bottom-up in the existing generation budget and resume without changing the pattern. All fill only air/lava down to the first existing solid block, without excavation. Already generated older foundations are not removed or rebuilt.
 
 ## Small Arenas and ruins
 
@@ -40,21 +44,21 @@ Ruins use 192-block regions: Grave Yard 8%, Large Blackstone Pillars 6%, Large B
 
 ## Spawners and encounters
 
-All spawners in the three arenas and the Mega Fortress keep are native trial spawners. Piglin Brute is the default mob. An offline deterministic assignment sorts local X/Y/Z positions and assigns a Stray when two earlier Piglin Brute spawners are within 16 blocks in 3D. No runtime crowding scan is used.
+All spawners in the three arenas and the Mega Fortress keep and four lower chambers are native trial spawners. Piglin Brute is the default mob. An offline deterministic assignment sorts local X/Y/Z positions and assigns a Stray when two earlier Piglin Brute spawners are within 16 blocks in 3D. No runtime crowding scan is used.
 
 | Build | Configured trial spawners | Ordinary spawners |
 | --- | --- | --- |
 | Small Arena | 8 | 0 |
 | Large Arena | 26, including 4 originally imported trials | 0 |
 | Dragon Arena | 13, including 3 originally imported trials | 0 |
-| Mega Fortress keep | 5 | 0 |
-| Other Mega modules, full source layout | 0 | 7; actual count depends on accepted branches |
+| Mega Fortress keep and lower chambers | 9 | 0 |
+| Other Mega modules, full source layout | 0 | 3; actual count depends on accepted branches |
 | Grave Yard | 0 | 1 Wither Skeleton |
 | Large Blackstone Pillars/Walls | 0 | 0 |
 
 Nether trial spawners are protected against player breaking (including Creative) and explosions through before-action events. No continuous protection scan runs. Native trial blocks are non-pushable; operator commands/world editing can deliberately replace them. Protection applies to all Nether trial spawners, not just these templates. Ordinary module spawners, vaults and Overworld trial spawners retain their native behavior.
 
-Edit `TRIAL_ENCOUNTERS.json` and rebuild to change encounter mobs/settings. One saved-revision comparison runs on world load. Changed encounter data triggers one finite, budgeted migration of recorded spawner locations, then stops. Stored positions are retained, new roles are reconciled at those positions, and mined/replaced blocks are not restored. Successful sites are checkpointed; failed sites retry on the next world load or an explicit command. Applying changed encounter data resets the affected native encounter/cooldown. No periodic mob, proximity or terrain update scan is added.
+Edit `TRIAL_ENCOUNTERS.json` and rebuild to change encounter mobs/settings. One saved-revision comparison runs on world load. Changed encounter data triggers one finite, budgeted migration of recorded spawner locations, then stops. Stored positions are retained, newly included lower-chamber slots are added once, new roles are reconciled at those positions, and mined/replaced blocks are not restored. Successful sites are checkpointed; failed sites retry on the next world load or an explicit command. Applying changed encounter data resets the affected native encounter/cooldown. No periodic mob, proximity or terrain update scan is added.
 
 Natural structures are discovered from their existing Underworld records. New manual structures record their locations on completion. Older manual placements were not indexed and require explicit registration at their original placement origin.
 

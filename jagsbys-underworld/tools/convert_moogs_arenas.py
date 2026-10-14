@@ -245,7 +245,11 @@ def block_entity(name,source,pos,arena):
     if ids[name] in ('Chest','Barrel'):
         e['LootTable']=(8,'loot_tables/chests/underworld_structure.json')
     elif ids[name] in ('Dispenser','Dropper','Hopper'):
-        e['Items']=(9,(10,[v for d in value(source,'Items',(10,[]))[1] if (v:=item(d))]))
+        items=[v for d in value(source,'Items',(10,[]))[1] if (v:=item(d))]
+        if ids[name]=='Dispenser':
+            from update_dispenser_potions import mix_items
+            mix_items(items)
+        e['Items']=(9,(10,items))
     elif ids[name]=='Banner':
         color=value(source,'_java_block','minecraft:red_wall_banner').split(':')[1].replace('_wall_banner','').replace('_banner','')
         e['Base']=(3,0 if color=='black' else 1)
@@ -301,6 +305,13 @@ def convert(arena,schema,layout=None,asset_folder=None):
             if e:entities[pos]=e;stats['native_'+e['id'][1]]+=1
             if name in ('minecraft:trial_spawner','minecraft:vault'):stats['unported_'+name.split(':')[1]+'_configuration']+=1
         for ent in value(d,'entities',(10,[]))[1]:stats['omitted_java_'+value(ent['nbt'][1],'id','unknown')]+=1
+    # Converted campfires need a full support block for native candle survival.
+    from update_campfire_candles import candle_base
+    for pos,idx in list(blocks.items()):
+        state=palette[idx]
+        if state['name'][1]!='minecraft:red_candle' or state['states'][1].get('candles',(3,0))[1]<2:continue
+        below=(pos[0],pos[1]-1,pos[2]);bi=blocks.get(below)
+        if bi is not None:blocks[below]=state_id(candle_base(palette[bi]))
     sections=[]
     out=ROOT/'behavior_pack/structures/jagsby_nether/arenas'/asset_folder;out.mkdir(parents=True,exist_ok=True)
     for x0 in range(0,total[0],64):

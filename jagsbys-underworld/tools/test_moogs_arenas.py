@@ -82,11 +82,67 @@ class MoogsArenas(unittest.TestCase):
         arenas=json.loads((ROOT/'behavior_pack/scripts/arena_catalog.js').read_text().split(' = ',1)[1].rstrip(';\n'))
         for name,trial in [('small_arena',8),('large_arena',26),('dragon_arena',13)]:
             self.assertEqual(counts(arenas[name]['sections']),{'minecraft:mob_spawner':0,'minecraft:trial_spawner':trial})
-        self.assertEqual(counts(arenas['mega_fortress']['sections']),{'minecraft:mob_spawner':7,'minecraft:trial_spawner':5})
+        self.assertEqual(counts(arenas['mega_fortress']['sections']),{'minecraft:mob_spawner':3,'minecraft:trial_spawner':9})
         self.assertEqual(counts(arenas['grave_yard']['sections']),{'minecraft:mob_spawner':1,'minecraft:trial_spawner':0})
         modules=json.loads((ROOT/'behavior_pack/scripts/modular_fortress_catalog.js').read_text().split(' = ',1)[1].rstrip(';\n'))
         self.assertEqual(counts(modules[0]['sections']),{'minecraft:mob_spawner':0,'minecraft:trial_spawner':5})
-        self.assertEqual(counts([s for m in modules[1:] for s in m['sections']]),{'minecraft:mob_spawner':7,'minecraft:trial_spawner':0})
+        self.assertEqual(counts([s for m in modules[1:5] for s in m['sections']]),{'minecraft:mob_spawner':0,'minecraft:trial_spawner':4})
+        self.assertEqual(counts([s for m in modules[5:] for s in m['sections']]),{'minecraft:mob_spawner':3,'minecraft:trial_spawner':0})
+
+    def test_modular_void_masks_and_foundation_feet_match_the_actual_template(self):
+        from update_modular_foundations import structural
+        modules=json.loads((ROOT/'behavior_pack/scripts/modular_fortress_catalog.js').read_text().split(' = ',1)[1].rstrip(';\n'))
+        for module in modules:
+            for section in module['sections']:
+                r=NBT((ROOT/'behavior_pack/structures'/f"{section['id'].replace(':','/')}.mcstructure").read_bytes());r.read('B');r.string();st=r.payload(10)['structure'][1]
+                names=[b['name'][1] for b in st['palette'][1]['default'][1]['block_palette'][1][1]];layer=st['block_indices'][1][1][0][1];sx,sy,sz=section['size']
+                self.assertFalse(any(i>=0 and names[i]=='minecraft:red_stained_glass' for i in layer))
+                for x,z,y in section['foundationColumns']:
+                    i=layer[(x*sy+y)*sz+z];self.assertGreaterEqual(i,0);self.assertTrue(structural(names[i]))
+                    self.assertFalse(any(layer[(x*sy+below)*sz+z]>=0 and structural(names[layer[(x*sy+below)*sz+z]]) for below in range(y)))
+                if module['index']<5:continue
+                covered=set()
+                for volume in section['buildVolumes']:
+                    ox,oy,oz=volume['offset'];vx,vy,vz=volume['size']
+                    for x in range(ox,ox+vx):
+                        for y in range(oy,oy+vy):
+                            for z in range(oz,oz+vz):
+                                i=(x*sy+y)*sz+z;self.assertNotIn(i,covered);covered.add(i)
+                for i,pi in enumerate(layer):
+                    if pi>=0:self.assertIn(i,covered,'Native placement must preserve blocks outside the surveyed envelope')
+
+    def test_dispenser_water_bottles_are_hostile_native_splash_potions(self):
+        from update_dispenser_potions import SPLASH_MIX,mix_items
+        water={'Name':(8,'minecraft:splash_potion'),'Count':(1,3),'Damage':(2,0),'Slot':(1,4)}
+        items=[dict(water) for _ in range(3)]+[{'Name':(8,'minecraft:arrow'),'Count':(1,2),'Damage':(2,0)}]
+        self.assertEqual(mix_items(items),3);self.assertEqual([i['Damage'][1] for i in items[:3]],list(SPLASH_MIX));self.assertEqual(mix_items(items),0)
+        self.assertEqual(items[0]['Count'],(1,3));self.assertEqual(items[0]['Slot'],(1,4));self.assertEqual(items[-1]['Name'],(8,'minecraft:arrow'))
+        variants=set();slots=0
+        for folder in ('arenas','arenas_natural'):
+            for path in (ROOT/'behavior_pack/structures/jagsby_nether'/folder).rglob('*.mcstructure'):
+                r=NBT(path.read_bytes());r.read('B');r.string();st=r.payload(10)['structure'][1]
+                for entry in st['palette'][1]['default'][1]['block_position_data'][1].values():
+                    e=entry[1]['block_entity_data'][1]
+                    if e['id'][1]!='Dispenser':continue
+                    for item in e.get('Items',(9,(10,[])))[1][1]:
+                        if item.get('Name')!=(8,'minecraft:splash_potion'):continue
+                        self.assertIn(item['Damage'][1],SPLASH_MIX);variants.add(item['Damage'][1]);slots+=1
+        self.assertGreater(slots,0);self.assertEqual(variants,set(SPLASH_MIX))
+
+    def test_campfire_candle_clusters_have_lit_three_candle_states_and_full_bases(self):
+        found=0
+        for folder in ('arenas','arenas_natural'):
+            for path in (ROOT/'behavior_pack/structures/jagsby_nether'/folder).rglob('*.mcstructure'):
+                r=NBT(path.read_bytes());r.read('B');r.string();root=r.payload(10);st=root['structure'][1];palette=st['palette'][1]['default'][1]['block_palette'][1][1];layer=st['block_indices'][1][1][0][1];sx,sy,sz=root['size'][1][1]
+                for i,pi in enumerate(layer):
+                    if pi<0 or palette[pi]['name'][1]!='minecraft:red_candle':continue
+                    state=palette[pi]['states'][1]
+                    if state['candles'][1]<2:continue
+                    found+=1;self.assertEqual(state['candles'][1],2);self.assertTrue(state['lit'][1]);y=(i//sz)%sy;self.assertGreater(y,0)
+                    bi=layer[i-sz];self.assertGreaterEqual(bi,0);name=palette[bi]['name'][1]
+                    self.assertNotIn(name,('minecraft:air','minecraft:water','minecraft:lava'))
+                    self.assertFalse(name.endswith('_slab') and not name.endswith('_double_slab'),str(path))
+        self.assertGreater(found,0)
 
     def test_native_trial_presets_have_the_configured_mobs_and_valid_local_positions(self):
         encounters=json.loads((ROOT/'behavior_pack/scripts/trial_encounter_catalog.js').read_text().split(' = ',1)[1].rstrip(';\n'))

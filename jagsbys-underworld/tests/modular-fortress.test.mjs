@@ -21,7 +21,7 @@ test('incomplete modular surveys defer instead of recording a failed site',()=>{
 });
 
 test('core-only initiation reserves no distant module footprints',()=>{
- const p=finish(surveyModularFortress({x:0,z:0},scene(),{coreOnly:true}));assert.equal(p.outcome,'ready');assert.deepEqual(p.modules,[0]);assert.deepEqual(p.box,{x:-21,z:-21,sx:43,sz:43});
+ const p=finish(surveyModularFortress({x:0,z:0},scene(),{coreOnly:true}));assert.equal(p.outcome,'ready');assert.deepEqual(p.modules,[0,1,2,3,4]);assert.deepEqual(p.box,{x:-21,z:-21,sx:43,sz:43});
 });
 test('a player near a future branch does not prevent core placement',async()=>{
  const {world}=await import('./mock-server.mjs'),{generateLandmark}=await import('../behavior_pack/scripts/landmarks.js'),{candidateAt}=await import('../behavior_pack/scripts/landmark_sites.js');
@@ -31,18 +31,18 @@ test('a player near a future branch does not prevent core placement',async()=>{
  const job=generateLandmark(c,d);
  try{
   for(let i=0;i<20000&&!placed.length;i++){job.next();system.currentTick++;}
-  assert.equal(placed.length,1);const saved=JSON.parse(world.getDynamicProperty(c.key));assert.deepEqual(saved.modules,[0]);assert.equal(saved.box.sx,43);assert.equal(saved.box.sz,43);assert(saved.incremental);
+  assert.equal(placed.length,1);const saved=JSON.parse(world.getDynamicProperty(c.key));assert.deepEqual(saved.modules,[0,1,2,3,4]);assert.equal(saved.box.sx,43);assert.equal(saved.box.sz,43);assert(saved.incremental);
  }finally{job.return();world.getPlayers=oldPlayers;world.structureManager=oldStructures;world.setDynamicProperty(c.key,undefined);}
 });
-test('blocked required lower chambers pause without pruning, then resume after the obstruction is removed',async()=>{
+test('blocked required lower chambers prevent a partial keep, then generate after the obstruction is removed',async()=>{
  const {world}=await import('./mock-server.mjs'),{generateLandmark}=await import('../behavior_pack/scripts/landmarks.js'),{candidateAt}=await import('../behavior_pack/scripts/landmark_sites.js');
  const c={...candidateAt('giant',923,923,12),id:'mega_fortress',selected:true},old=world.structureManager;let blocked=true;
  const d={id:'minecraft:nether',runCommand(){},getBlock:({y})=>({typeId:y<=4?'minecraft:netherrack':y<=31?'minecraft:lava':'minecraft:air'}),containsBlock:v=>blocked&&v.from.x<=c.x-30&&v.to.x>=c.x-30&&v.from.z<=c.z&&v.to.z>=c.z&&v.from.y<=60&&v.to.y>=60,fillBlocks(){}};
  world.structureManager={place(){}};
  function run(job){for(let i=0;i<1500000;i++){const r=job.next();system.currentTick++;if(r.done)return;}assert.fail('Build stalled');}
  try{
-  run(generateLandmark(c,d));let saved=JSON.parse(world.getDynamicProperty(c.key));assert.equal(saved.state,'placing');assert.equal(saved.expansionNext,1);assert.deepEqual(saved.modules,[0]);
-  blocked=false;run(generateLandmark({...c,saved},d));saved=JSON.parse(world.getDynamicProperty(c.key));assert.equal(saved.state,'built');for(const index of [0,1,2,3,4])assert(saved.modules.includes(index));
+  run(generateLandmark(c,d));assert.equal(world.getDynamicProperty(c.key),undefined,'No partial keep is saved when a required chamber is obstructed');let saved;
+  world.setDynamicProperty(c.key,undefined);blocked=false;run(generateLandmark(c,d));saved=JSON.parse(world.getDynamicProperty(c.key));assert.equal(saved.state,'built');for(const index of [0,1,2,3,4])assert(saved.modules.includes(index));
  }finally{world.structureManager=old;world.setDynamicProperty(c.key,undefined);}
 });
 
@@ -54,7 +54,7 @@ test('foundations extend authored pier feet while leaving bridge decks and upper
  assert(feet.length>0&&feet.length<16*7);
  for(const m of FORTRESS_MODULES){
   for(const s of m.sections)for(const [x,z,y] of s.foundationColumns){
-   assert(s.offset[1]-m.offset[1]+y<=1,'Only authored base layers can initiate foundations');
+   assert(s.offset[1]-m.offset[1]+y<=1||s.pierMarkers.some(p=>p[0]===x&&p[1]===z),'Raised bases need an explicit authored pier marker');
    assert(x>=0&&x<s.size[0]&&z>=0&&z<s.size[2]);
   }
   if(m.source.some(src=>src.includes('/ends/')||src.includes('staircase_upper')||src.includes('staircase_side')))
@@ -63,27 +63,26 @@ test('foundations extend authored pier feet while leaving bridge decks and upper
  assert(FORTRESS_MODULES[0].sections.some(s=>s.foundationColumns.length>0));
 });
 
-test('optional modules allow small trims, end moderate-carve branches and reject mountains with bounded counting',async()=>{
+test('optional modules carve once even in heavy terrain, stop that branch and bound counting',async()=>{
  const {surveyFortressModule}=await import('../behavior_pack/scripts/modular_fortress.js');
- for(const [amount,outcome,stop] of [[0,'ready',false],[20,'ready',false],[200,'ready',true],[10000,'unsuitable',undefined]]){
+ for(const [amount,outcome,stop] of [[0,'ready',false],[20,'ready',false],[200,'ready',true],[10000,'ready',true]]){
   let counted=0;const d={id:'minecraft:nether',runCommand(){},getBlock:()=>({typeId:'minecraft:air'}),containsBlock:(volume,filter)=>!!filter.includeTypes&&amount>0,
-   getBlocks:()=>({*getBlockLocationIterator(){for(let i=0;i<amount;i++){counted++;yield {x:i,y:64,z:0};}}})};
+   getBlocks:()=>({*getBlockLocationIterator(){for(;counted<amount;){counted++;yield {x:counted,y:64,z:0};}}})};
   const result=finish(surveyFortressModule({x:0,z:0},d,{origin:{x:0,y:30,z:0},surface:31},5));
   assert.equal(result.outcome,outcome);assert.equal(result.stopExpansion,stop);
-  assert(counted<=225,'Over-budget mountain counting must stop early');
-  if(outcome==='unsuitable')assert.match(result.reason,/Excessive carving/);
+  assert(counted<=57,'Counting stops as soon as the branch-stop decision is known');
  }
  const d={id:'minecraft:nether',runCommand(){},getBlock:()=>({typeId:'minecraft:air'}),containsBlock:(volume,filter)=>!!filter.includeTypes,getBlocks(){throw Error('Unloaded terrain');}};
  assert.equal(finish(surveyFortressModule({x:0,z:0},d,{origin:{x:0,y:30,z:0},surface:31},5)).outcome,'deferred');
  assert.equal(finish(surveyFortressModule({x:0,z:0},d,{origin:{x:0,y:30,z:0},surface:31},1)).outcome,'ready','Required lower chambers retain carving permission');
 });
-test('carving branch stops survive interrupted builds while other directions continue expanding',async()=>{
+test('heavy carving places its module, survives interruption and stops only that branch',async()=>{
  const {world}=await import('./mock-server.mjs'),{generateLandmark}=await import('../behavior_pack/scripts/landmarks.js'),{candidateAt}=await import('../behavior_pack/scripts/landmark_sites.js');
  const c={...candidateAt('giant',943,943,12),id:'mega_fortress',selected:true},old=world.structureManager;
- const m=FORTRESS_MODULES[5],s=m.sections[0],tx=c.x+s.offset[0],tz=c.z+s.offset[2];
+ const m=FORTRESS_MODULES[5],s=m.sections[0],v=s.buildVolumes[0],tx=c.x+s.offset[0]+v.offset[0],tz=c.z+s.offset[2]+v.offset[2];
  const d={id:'minecraft:nether',runCommand(){},getBlock:({y})=>({typeId:y<=4?'minecraft:netherrack':y<=31?'minecraft:lava':'minecraft:air'}),
   containsBlock:(v,filter)=>!!filter.includeTypes&&v.from.x===tx&&v.from.z===tz,
-  getBlocks:()=>({*getBlockLocationIterator(){for(let i=0;i<200;i++)yield {x:tx,y:60,z:tz};}}),fillBlocks(){}};
+  getBlocks:()=>({*getBlockLocationIterator(){for(let i=0;i<10000;i++)yield {x:tx,y:60,z:tz};}}),fillBlocks(){}};
  world.structureManager={place(){}};let job=generateLandmark(c,d);
  try{
   let saved;
@@ -113,7 +112,7 @@ test('the keep allows shoreline trimming and natural terrain while retaining mod
   if(width===4)assert.equal(plan.coverage,1-172/1849);
  }
  const d={id:'minecraft:nether',runCommand(){},getBlock:({y})=>({typeId:y<=4?'minecraft:netherrack':y<=31?'minecraft:lava':'minecraft:air'}),containsBlock:()=>false};
- const p=finish(surveyModularFortress({x:0,z:0},d,{coreOnly:true}));assert.equal(p.outcome,'ready');assert.equal(p.coreNoCarve,false);assert(p.solidFoundation);assert(p.carve,'Expansion modules retain their bounded carving policy');assert.deepEqual(p.modules,[0]);assert.equal(p.box.sx,43);
+ const p=finish(surveyModularFortress({x:0,z:0},d,{coreOnly:true}));assert.equal(p.outcome,'ready');assert.equal(p.coreNoCarve,false);assert(p.solidFoundation);assert(p.carve,'Expansion modules retain their bounded carving policy');assert.deepEqual(p.modules,[0,1,2,3,4]);assert.equal(p.box.sx,43);
 });
 test('keep tiles and later fortress modules retain their carving stage',async()=>{
  const {world}=await import('./mock-server.mjs'),{generateLandmark}=await import('../behavior_pack/scripts/landmarks.js'),{candidateAt}=await import('../behavior_pack/scripts/landmark_sites.js');
@@ -125,4 +124,23 @@ test('keep tiles and later fortress modules retain their carving stage',async()=
   const core=events.filter(e=>e.includes('module_0/'));assert.equal(core.length,FORTRESS_MODULES[0].sections.length);
   const firstCarve=events.indexOf('carve');assert(firstCarve>=0&&firstCarve<events.findIndex(e=>e.includes('module_0/')));
  }finally{job.return();world.structureManager=old;world.setDynamicProperty(c.key,undefined);}
+});
+
+test('terrain beneath an unmarked suspended deck neither blocks nor consumes the carving budget',async()=>{
+ const {surveyFortressModule}=await import('../behavior_pack/scripts/modular_fortress.js');
+ const m=FORTRESS_MODULES[5],s=m.sections[0],p={x:s.offset[0],y:30+s.offset[1],z:s.offset[2]+3};let counts=0;
+ const d={id:'minecraft:nether',runCommand(){},getBlock:()=>({typeId:'minecraft:air'}),
+  containsBlock(v){return v.from.x<=p.x&&v.to.x>=p.x&&v.from.y<=p.y&&v.to.y>=p.y&&v.from.z<=p.z&&v.to.z>=p.z;},
+  getBlocks(){counts++;return {getBlockLocationIterator:()=>[p].values()};}};
+ const r=finish(surveyFortressModule({x:0,z:0},d,{origin:{x:0,y:30,z:0},surface:31},5));
+ assert.equal(r.outcome,'ready');assert.equal(r.carvedBlocks,0);assert.equal(counts,0);
+});
+test('bridge-foot foundations start immediately below the real foot and reach existing ground',async()=>{
+ const {fillSolidFoundation}=await import('../behavior_pack/scripts/landmark_terrain.js');
+ const s=FORTRESS_MODULES[4].sections.find(s=>s.foundationColumns.some(c=>c[2]===13)),column=s.foundationColumns.find(c=>c[2]===13),writes=[];
+ assert.equal(column[2],13,'Raised authored foot must receive support, not just local base layers');
+ const pos={x:100,y:50,z:100};
+ const d={getBlock:({y})=>({typeId:y===pos.y+column[2]?'minecraft:deepslate':y<=20?'minecraft:basalt':y<=40?'minecraft:lava':'minecraft:air'}),fillBlocks(v,type){writes.push({v,type});}};
+ finish(fillSolidFoundation(d,pos,s.size,{x:100,z:100,sx:16,sz:7},49,()=>true,'minecraft:polished_blackstone_bricks',[column]));
+ assert.equal(writes.length,1);assert.equal(writes[0].v.from.y,21);assert.equal(writes[0].v.to.y,62);assert.equal(writes[0].type,'minecraft:polished_blackstone_bricks');
 });

@@ -20,13 +20,13 @@ test('unchanged encounters do one version read on world load and schedule no wor
  try{world.afterEvents.worldLoad.emit({});assert.equal(reads,1);assert.equal(timeouts.length,start);assert.equal(intervals.length,0);}
  finally{world.getDynamicProperty=get;world.getDynamicPropertyIds=ids;clean();}
 });
-test('existing natural structures use their recorded origins and only Mega keep spawners are registered',()=>{
+test('existing natural structures use their recorded origins and Mega keep and lower-chamber spawners are registered',()=>{
  clean();const key='underworld_landmarks:site_giant_test';
  world.setDynamicProperty(key,JSON.stringify({state:'built',id:'mega_fortress',origin:{x:100,y:30,z:200},modular:true}));
  try{
-  const sites=recordedEncounterSites();assert.equal(sites.length,1);assert.equal(sites[0].slots.length,5);
+  const sites=recordedEncounterSites();assert.equal(sites.length,1);assert.equal(sites[0].slots.length,9);
   assert(sites[0].slots.every(s=>s.profile.startsWith('mega_keep/')));
-  assert(sites[0].slots.every(s=>s.position.x>=79&&s.position.x<=121&&s.position.z>=179&&s.position.z<=221));
+  assert(sites[0].slots.some(s=>Math.abs(s.position.x-100)>21||Math.abs(s.position.z-200)>21),'Lower chamber positions must be included');
  }finally{clean();}
 });
 test('native presets update existing spawners once, without restoring mined spawners or replacing player blocks',()=>{
@@ -69,4 +69,13 @@ test('old saved mob roles are reassigned to the new crowded-group roles without 
   for(const wanted of expected){const placed=f.placed.find(p=>p.p.x===wanted.position.x&&p.p.y===wanted.position.y&&p.p.z===wanted.position.z);assert(placed);assert.equal(placed.id,wanted.preset);}
   assert(f.placed.some(p=>p.id.endsWith('_stray')),'Existing crowded groups must receive their Stray assignments');
  }finally{f.restore();}
+});
+
+test('revision migration adds lower-chamber positions to an older five-spawner keep record',()=>{
+ const f=fixture(),site=encounterSite('mega_fortress',{x:100,y:30,z:200},'minecraft:nether','old_keep',true);
+ const old=site.slots.filter(s=>Math.abs(s.position.x-100)<=21&&Math.abs(s.position.z-200)<=21);assert.equal(old.length,5);
+ site.slots=old;site.revision='old';
+ for(const slot of encounterSite('mega_fortress',site.origin,'minecraft:nether','old_keep',true).slots)f.put(slot.position,'minecraft:mob_spawner');
+ try{assert.equal(finish(migrateEncounterSite(site)).updated,9);assert.equal(JSON.parse(world.getDynamicProperty(PREFIX+site.key)).slots.length,9);assert.equal(f.placed.length,9);}
+ finally{f.restore();}
 });

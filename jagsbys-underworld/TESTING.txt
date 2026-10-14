@@ -1,6 +1,6 @@
-Jagsby's Underworld v0.2.105 — current Bedrock checklist
+Jagsby's Underworld v0.2.106 — current Bedrock checklist
 
-Status: the v0.2.105 gameplay build passed 396 automated checks. These cover
+Status: the v0.2.106 gameplay build passed 403 automated checks. These cover
 asset/reference integrity and mocked script behavior, not Bedrock client
 rendering, native trial activation/rewards, natural encounter frequency or FPS.
 There is no Bedrock client in the development workspace. Record actual results
@@ -8,7 +8,7 @@ and Content Log messages rather than treating every item below as unverified
 or already proven by automation.
 
 1. Installation and upgrades
-   Import Jagsbys_Underworld_v0.2.105.mcaddon and activate both Underworld packs.
+   Import Jagsbys_Underworld_v0.2.106.mcaddon and activate both Underworld packs.
    Use Bedrock 26.52 with cheats for commands; Beta APIs are not required.
    Disable the separate Nether Settlements/Agriculture packs. Test upgrades on
    a world copy. Normal Underworld updates retain their UUIDs/world records;
@@ -56,8 +56,8 @@ or already proven by automation.
    Arenas require Basalt Deltas. For giants, Dragon's largest starting footprint
    is checked first; Large and the Mega keep must also qualify before the equal
    three-way choice. Starting footprints must be completely over lava with clear
-   building volume, without initial terrain carving. Mega needs only its keep
-   initially and grows through connected modules. Check required lower chambers,
+   building volume, with bounded optional-module terrain carving. Mega needs only its keep
+   initially and grows through connected modules. Check all four required lower chambers (preflighted before the keep),
    bounded optional carving, branch stops, pause/resume and reload recovery.
    Dragon foundations must follow the irregular authored ground base, with no
    square corner fill. Mega bridge spans stay open under decks; only pier feet
@@ -76,7 +76,7 @@ or already proven by automation.
 7. Trial encounters and updates — requires native live verification
    Test Small/Large/Dragon arenas and the central Mega keep. Every arena/keep
    spawner is a trial spawner: Piglin Brutes by default, with Strays assigned when
-   two earlier Brute spawners are within 16 blocks in 3D. Other Mega module
+   two earlier Brute spawners are within 16 blocks in 3D. Other optional Mega module
    spawners remain ordinary. Check activation, actual mobs, wave completion,
    cooldowns, player scaling and ominous behavior in Survival.
    Test player breaking (including Creative) and explosions in the Nether.

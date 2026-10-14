@@ -65,7 +65,7 @@ def generate():
  location_file=ROOT/'behavior_pack/scripts/trial_encounter_catalog.js'
  if location_file.exists():prior=json.loads(location_file.read_text().split(' = ',1)[1].rstrip(';\n'))['sites']
  sites={name:process(arenas[name]['sections'],name,config,prior=prior.get(name)) for name in ['small_arena','large_arena','dragon_arena']}
- core=process(modules[0]['sections'],'mega_keep',config,prior=prior.get('mega_modular'))
+ core=process([s for m in modules[:5] for s in m['sections']],'mega_keep',config,prior=prior.get('mega_modular'))
  sites['mega_modular']=core
  # Manual full-fortress origin differs from the modular keep-centre origin.
  meta=json.loads((ROOT/'MOOGS_ARENAS_SOURCE.json').read_text())['converted_templates']['mega_fortress']

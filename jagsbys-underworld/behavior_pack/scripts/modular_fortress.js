@@ -3,6 +3,7 @@ import {FORTRESS_MODULES} from './modular_fortress_catalog.js';
 import {chunkLease} from './chunk_loading.js';
 import {surfaceAt,clearVolume,obstructionReason,CARVABLE,lavaFootprint,footprintBudget} from './landmark_terrain.js';
 export function moduleBox(c,m){return {x:c.x+m.offset[0],z:c.z+m.offset[2],sx:m.size[0],sz:m.size[2]};}
+export function fortressBuildVolumes(section,pos){return (section.buildVolumes??[{offset:[0,0,0],size:section.size}]).map(v=>({pos:{x:pos.x+v.offset[0],y:pos.y+v.offset[1],z:pos.z+v.offset[2]},size:v.size}));}
 export function modularSections(indices){return indices.flatMap(i=>FORTRESS_MODULES[i].sections);}
 export function modularCoreBox(c){return moduleBox(c,FORTRESS_MODULES[0]);}
 export function* surveyModularFortress(c,dimension,{progress=()=>{},allowed=()=>true,coreOnly=false,sampling=dimension}={}){
@@ -13,7 +14,7 @@ export function* surveyModularFortress(c,dimension,{progress=()=>{},allowed=()=>
   lease.release();lease=undefined;
   if(surface===undefined)return {outcome:'unsuitable',reason:'No exposed lava surface for fortress core'};
   const origin={x:c.x,y:surface-1,z:c.z},lavaBudget=footprintBudget(FORTRESS_MODULES[0].size);let box;
-  for(const m of (coreOnly?FORTRESS_MODULES.slice(0,1):FORTRESS_MODULES)){
+  for(const m of (coreOnly?FORTRESS_MODULES.slice(0,5):FORTRESS_MODULES)){
    if(m.parent!==null&&!accepted.includes(m.parent)){skipped.push(m.index);continue;}
    const footprint=moduleBox(c,m);let reason;
    if(!allowed(footprint))reason='Spacing or player clearance';
@@ -26,11 +27,11 @@ export function* surveyModularFortress(c,dimension,{progress=()=>{},allowed=()=>
     if(!reason&&!(yield* clearVolume(sampling,pos,[section.size[0],section.size[1]+2,section.size[2]],surface,true,[],true)))reason=obstructionReason();
     lease.release();lease=undefined;if(reason)break;yield;
    }
-   if(reason){if(m.index===0)return {outcome:'unsuitable',reason:`Fortress core: ${reason}`};skipped.push(m.index);continue;}
+   if(reason){if(m.index===0||(coreOnly&&fortressModuleRequired(m.index)))return {outcome:'unsuitable',reason:`Fortress ${m.index===0?'core':`required lower chamber ${m.index}`}: ${reason}`};skipped.push(m.index);continue;}
    accepted.push(m.index);sections.push(...m.sections);
    if(!box)box={...footprint};else{const right=Math.max(box.x+box.sx,footprint.x+footprint.sx),far=Math.max(box.z+box.sz,footprint.z+footprint.sz);box.x=Math.min(box.x,footprint.x);box.z=Math.min(box.z,footprint.z);box.sx=right-box.x;box.sz=far-box.z;}
   }
-  return {outcome:'ready',id:'mega_fortress',modular:true,modules:accepted,skippedModules:skipped,sections,origin,box,surface,ocean:true,carve:true,solidFoundation:true,coreNoCarve:false,coverage:1-lavaBudget.missing/lavaBudget.area,supports:[]};
+  return {outcome:'ready',id:'mega_fortress',modular:true,modules:accepted,skippedModules:skipped,sections,origin,box:coreOnly?modularCoreBox(c):box,surface,ocean:true,carve:true,solidFoundation:true,coreNoCarve:false,coverage:1-lavaBudget.missing/lavaBudget.area,supports:[]};
  }catch(error){return {outcome:'deferred',reason:`Modular fortress survey incomplete: ${error.message}`};}
  finally{lease?.release();}
 }
@@ -47,10 +48,10 @@ export function fortressParent(index){return FORTRESS_MODULES[index].parent;}
 // Count native query results only during an active optional-module survey.
 // Vegetation and small decorations do not consume the solid-terrain budget.
 const SOLID_TERRAIN=CARVABLE.filter(id=>!/(roots|sprouts|fungus|mushroom|vines|fire)$/.test(id));
-export const FORTRESS_CARVING={maxBlocks:512,maxFraction:.08,stopBlocks:128,stopFraction:.02};
+export const FORTRESS_CARVING={stopBlocks:128,stopFraction:.02};
 export function fortressCarveDecision(blocks,volume){
  const fraction=blocks/Math.max(1,volume);
- return {allowed:blocks<=FORTRESS_CARVING.maxBlocks&&fraction<=FORTRESS_CARVING.maxFraction,
+ return {allowed:true,
   stop:blocks>FORTRESS_CARVING.stopBlocks||fraction>FORTRESS_CARVING.stopFraction};
 }
 export function* countFortressTerrain(dimension,pos,size,remaining){
@@ -68,7 +69,7 @@ export function* surveyFortressModule(c,dimension,record,index,{progress=()=>{},
  const m=FORTRESS_MODULES[index],box=moduleBox(c,m);let lease,carvedBlocks=0;
  const volume=m.sections.reduce((total,s)=>total+s.size[0]*s.size[1]*s.size[2],0);
  const required=fortressModuleRequired(index);
- const budget=Math.min(FORTRESS_CARVING.maxBlocks,Math.floor(volume*FORTRESS_CARVING.maxFraction));
+ const stopThreshold=Math.min(FORTRESS_CARVING.stopBlocks,Math.floor(volume*FORTRESS_CARVING.stopFraction));
  if(!allowed(box))return {outcome:'unsuitable',reason:'Module spacing conflict'};
  if(record.origin.y+m.offset[1]+m.size[1]+2>128)return {outcome:'unsuitable',reason:'Module exceeds Nether ceiling'};
  try{
@@ -76,10 +77,13 @@ export function* surveyFortressModule(c,dimension,record,index,{progress=()=>{},
    const pos={x:record.origin.x+s.offset[0],y:record.origin.y+s.offset[1],z:record.origin.z+s.offset[2]};
    progress(`Surveying next fortress module ${index+1}/${FORTRESS_MODULES.length}`);
    lease=chunkLease(dimension,'modular');yield* lease.load({...pos,y:0},[s.size[0],128,s.size[2]]);
-   if(!(yield* clearVolume(dimension,pos,[s.size[0],s.size[1]+2,s.size[2]],record.surface,true,[],true)))return {outcome:'unsuitable',reason:obstructionReason()};
-   if(!required){
-    carvedBlocks+=yield* countFortressTerrain(dimension,pos,s.size,budget-carvedBlocks);
-    if(carvedBlocks>budget)return {outcome:'unsuitable',reason:`Excessive carving: more than ${budget} solid blocks needed`};
+   for(const v of fortressBuildVolumes(s,pos)){
+    if(!(yield* clearVolume(dimension,v.pos,v.size,record.surface,true,[],true)))return {outcome:'unsuitable',reason:obstructionReason()};
+    if(!required&&carvedBlocks<=stopThreshold){
+     // Only enough counting to decide whether this placed module ends its
+     // branch. Heavy natural terrain is carved once, not rejected outright.
+     carvedBlocks+=yield* countFortressTerrain(dimension,v.pos,v.size,stopThreshold-carvedBlocks);
+    }
    }
    lease.release();lease=undefined;yield;
   }

@@ -4043,7 +4043,7 @@
     "terrain_policy": "Filtered ordinary Nether terrain carving; ocean coverage 60% Large / 55% Dragon / 35% Mega; supports placed after templates"
   },
   "modular_fortress": {
-    "version": "0.2.85",
+    "version": "0.2.106",
     "generator": "tools/generate_modular_fortress.py",
     "source": "same credited source pieces and original connector graph",
     "required_core": [
@@ -4052,15 +4052,20 @@
       43
     ],
     "modules": 81,
-    "policy": "mandatory centre and roof; optional connected branches pruned at conflicts; fixed source rotations retained",
-    "foundation_policy": "per-column structural underside; solid polished blackstone bricks for non-core modules",
+    "policy": "Keep and four required lower chambers preflighted; only the keep needs 90% lava; optional modules carve their authored envelope once, then stop only their own branch above 128 solid blocks or 2%; no hard natural-terrain carving rejection",
+    "foundation_policy": "Source red-glass pillar triggers become polished blackstone bricks; every authored ground/pier foot, including raised markers, fills air/lava down to existing solid terrain; unmarked decks stay suspended",
     "required_completion_modules": [
       0,
       1,
       2,
       3,
       4
-    ]
+    ],
+    "foundation_mix": {
+      "polished_blackstone_bricks": 0.65,
+      "deepslate": 0.35,
+      "policy": "All Mega foundations; deterministic coordinate pattern, 13/7 in complete 20-block bands, native vertical runs only during active generation"
+    }
   },
   "removed_spawn_suppressing_lights": {
     "version": "0.2.87",
@@ -4073,13 +4078,14 @@
     "method": "replace with air and remove associated block entities"
   },
   "replacement_lighting": {
-    "version": "0.2.89",
+    "version": "0.2.106",
     "hanging_soul_lanterns": "attached minecraft:glow_lichen",
     "other_soul_lights": "lit red candles where floor-supported; wall-only redstone torches",
     "tool": "tools/restore_arena_dim_lights.py",
     "reference_release": "4b0d849",
     "scope": "imported manual/natural/modular structures; spawners unchanged",
-    "soul_campfires": "three lit red candles"
+    "soul_campfires": "Three lit red candles with supporting slabs upgraded to full double slabs; no continuous lighting scan",
+    "support_tool": "tools/update_campfire_candles.py"
   },
   "small_arena_spawners": {
     "version": "0.2.90",
@@ -4091,16 +4097,27 @@
     "change": "replace zombie_pigman spawners; source reference NBT retained"
   },
   "underworld_trial_spawner_override": {
-    "version": "0.2.99",
+    "version": "0.2.106",
     "configured_ordinary_spawners": {
       "small_arena": 8,
-      "large_arena": 22,
-      "dragon_arena": 10,
-      "mega_fortress_keep": 5
+      "large_arena": 26,
+      "dragon_arena": 13,
+      "mega_fortress_keep_and_lower_chambers": 9
     },
-    "excluded": "Other Mega Fortress modules and Grave Yard retain ordinary spawners. Original Java source hashes and licenses remain unchanged.",
+    "excluded": "Other optional Mega Fortress modules (3 spawners in the full layout) and Grave Yard retain ordinary spawners. Original Java source hashes and licenses remain unchanged.",
     "config": "TRIAL_ENCOUNTERS.json",
     "conversion_tool": "tools/update_trial_encounters.py",
     "runtime": "One encounter-revision gate on world load and a finite recorded-site migration; no recurring polling."
+  },
+  "dispenser_splash_override": {
+    "version": "0.2.106",
+    "mix": {
+      "harming_II": 24,
+      "poison_II": 27,
+      "decay_wither_II": 36
+    },
+    "policy": "Replace imported dispenser splash water bottle slots offline; preserve counts, slots, and other ammunition; no runtime inventory scan",
+    "tool": "tools/update_dispenser_potions.py",
+    "reference": "https://github.com/CloudburstMC/Nukkit/blob/master/src/main/java/cn/nukkit/potion/Potion.java"
   }
 }
