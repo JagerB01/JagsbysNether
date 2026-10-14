@@ -1,4 +1,4 @@
-# Skitterchests — v0.2.57 native-screen test build
+# Skitterchests — current v0.2.101
 
 This build removes the custom ActionForm storage menu entirely. Standing
 interaction with a tamed Crimson/Warped opens a real native 27-slot container;
@@ -23,7 +23,7 @@ item data. Copying completes before original slots are cleared; interrupted
 copies can be retried. A persisted link identifies the container across reloads.
 An unavailable linked container is never silently replaced, preventing duplication
 or item loss from delayed chunk loading. Native container contents become the
-single authoritative storage after migration. On owner death, contents drop and
+single authoritative storage after migration. On Skitterchest death, contents drop and
 the helper is removed. Failed death-drop operations leave remaining items in the
 helper with an owner-dead marker for retry after load. The native before-hurt event
 cancels hits to the helper and forwards calculated damage and attacker to the pet,
@@ -38,7 +38,7 @@ and the visible mobs’ strider/glow-squid/nautilus sounds are unchanged. Script
 chest open/close clips still play separately. Native rolling-sound suppression
 needs an in-game check because this environment cannot run Bedrock.
 
-The previous v0.2.38 changed only the native window title. The user confirmed the v0.2.37
+Historical compatibility note: v0.2.38 changed only the native window title. The user confirmed the v0.2.37
 native inventory and other behavior work in-game. Untamed Crimson/Warped retain their
 4-block hostile detection range and 10 XP player-kill reward. Blackstone flees
 within 8 blocks and gives 30 XP. Lava avoidance, fire immunity, one-block traversal,

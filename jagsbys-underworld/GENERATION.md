@@ -1,102 +1,55 @@
-# Non-village generation — v0.2.57
+# Villages, camps and structure loot — current v0.2.101
 
-Larger abandoned campgrounds and both Nether-brick outpost tower variants have
-50% more placement attempts. Every individual tent’s marginal per-chunk attempt
-probability is unchanged. Existing biome filters, floor searches, vertical ranges,
-grounded/unburied/intersection constraints and structure templates are retained.
-This affects newly generated chunks, not previously explored terrain.
+For arenas, ruins and Mega Fortress generation, see [ARENAS.md](ARENAS.md). This page describes the current village and original camp/outpost systems. Earlier generation revisions are preserved in [history/GENERATION.md](history/GENERATION.md).
 
-| Category (in its eligible biome) | Old attempt chance per chunk | New chance |
-| --- | --- | --- |
-| Any abandoned-camp tent | 1.7361% | 1.7361% |
-| Any larger campground | 1.3889% | 2.0833% |
-| Any outpost tent (Nether Wastes) | 0.5208% | 0.5208% |
-| Any outpost tower (Nether Wastes) | 0.5208% | 0.7813% |
+## Village eligibility and size
 
-Each of the five biome camp pools changes campsite weight 2 to 3 while retaining
-tent weight 1. The pool’s roll rises from 1/32 to 11/288, compensating for the
-changed proportions: tent probability stays 10/18 × 1/32 = 10/22 × 11/288.
-The outpost pool uses tent weight 2 and tower weight 3, with its roll changing
-from 1/96 to 5/384: tent probability stays 2/4 × 1/96 = 4/10 × 5/384.
+A complete layout must fit **at least four residential houses and one farm** before the first world write. Insufficient layouts place no center, roads, houses, villagers or crops. Farm/amenity buildings do not count as residential houses. Only the small farm remains in the pools; Crimson/Warped large-farm templates and their feature entries are removed.
 
-These are attempts, not guaranteed successful placements. Terrain constraints
-can reject a selected structure, and additional structures can affect available
-space. Actual successful counts and appearance need a Bedrock terrain survey.
-The scripted village planner, three-house minimum and village spacing are unchanged.
+Village targets are small 6–8, medium 9–11 and large 12–14 residential houses, with a separate farm and up to two other amenities. Terrain can reduce those targets, but cannot bypass the four-house/one-farm minimum. New village centers must be **256 blocks apart**, including separation from older recorded villages. Existing villages are not expanded or rebuilt.
 
-Village planning now prioritizes a first farm after three residential houses
-fit. Both farm sizes are attempted ahead of other building choices until one
-fits, while preserving terrain, collision and village-size checks. Farms still
-do not count toward the three-house minimum, and blocked layouts may lack one.
-This affects new generation only; existing villages are not modified.
+Nether Wastes and Crimson Forest select Crimson style; Warped Forest and Soul Sand Valley select Warped style. Native biome queries classify locations, rather than decorative surface blocks. Original style fallback remains for unavailable biome queries.
 
-New structure chests and barrels receive native randomized Nether loot. Each
-container has 4–7 supply rolls (gold nuggets, quartz, bones, coal, string, leather,
-glowstone dust, fungi, obsidian and soul torches), plus independent 12% gold
-ingot and 4% crying obsidian chances. A single 5% planting-item roll selects Sorgum seeds, Murky Gourd seeds,
-Scarberries or Polyps equally, giving 1–3 (1.25% per crop per container). No Nether Wart appears
-in this table. Existing intentional container contents/loot tables are preserved.
-Loot is attached to the template's native block-entity data; no scanning or
-periodic refill script runs. Existing placed containers are not changed.
+## Surveying and performance
 
-## Extended village search — v0.2.66
+Eligible sites can be considered from nearby terrain out to 768 blocks from a Nether player. Searches compare up to six distinct regions before detailed planning; equal-quality areas use seeded ordering rather than preferring the first loaded area or a portal. There is no minimum distance band or guaranteed out-of-view placement.
 
-Automatic village generation can now inspect eligible regions up to 768 blocks
-from a Nether player. The existing terrain-ranked survey of loaded nearby sites is retained.
-When it has no eligible site, the planner tries a farther region; there is no
-minimum distance band. Existing terrain scoring and the three-house requirement remain
-in effect. One candidate at a time is temporarily loaded in a 113×113-block
-survey footprint (at most 64 chunks), then fully planned before placement.
-Failed sites stay eligible with a ten-minute retry cooldown; new attempts start
-no more often than every 30 seconds. Owned temporary areas are released after
-completion/failure. This extends reach; it does not guarantee distant placement
-or remove visible construction for nearby eligible sites.
+A remote village comparison area is 145×145 blocks, within Bedrock's 100-chunk temporary ticking-area limit. Chunk loading awaits actual availability and times out after 30 seconds. Comparison results and per-plan terrain reads are bounded caches; final layouts revalidate current blocks. Villages, landmarks and manual templates share a budgeted job queue (up to 24 generator steps/about 2 ms per callback). Temporary areas are released when work finishes or fails.
 
-The stable server 2.10 API's ticking-area load promise confirms completion before
-block probes and placement. Command fallback requests preload and waits for
-actual availability up to 30 seconds. API areas left after a world closes mid-job
-and tracked fallback command areas are cleaned on the next startup.
+Fully assessed unsuitable areas are persisted as horizontal footprints, so excavating them later does not make them eligible. Unloaded/incomplete assessments and temporary player/loading interruptions defer rather than permanently fail. Evaluation is based on the whole layout, not independent chunk suitability. See [PERFORMANCE.md](PERFORMANCE.md) for measurement history and limits.
 
-## Village retry correction — v0.2.67
+## Crops and residents
 
-A player inside the temporary survey square no longer rejects the whole site;
-only actual building footprints must clear players. Each automatic search can
-try eight terrain-ranked local sites and two remote regions before giving up.
-Failed local sites have a one-minute per-cell cooldown, not a ten-minute ban on
-the whole region. Failed remote region probes retry after two minutes. The
-scheduler checks every five seconds while idle, keeping one search job active.
-Loaded local sites retain their surveyed floor height.
+Village redstone torches become soul torches. Farm soul sand becomes soul soil; planted positions become custom soul-soil farmland. Former Nether Wart plant spots receive Sorgum in Crimson Forest/Nether Wastes and Polyps in Warped Forest/Soul Sand Valley, using each planting position's actual biome. Other unsupported biomes and standalone structures remain wart-free without replacement crops. Nether-wart building blocks remain intact.
 
-Use `/scriptevent nether_settlements:status` in the Nether to see whether the
-search is loading, planning, idle, or rejected because insufficient houses fit.
-The three-house requirement, terrain checks and existing village spacing remain.
+One native villager is placed per residential house. Roads, centers and amenities add no residents. Definitions, trades and ordinary movement remain supplied by Minecraft or Conquest & Commerce. No village-boundary return behavior was added. Adult farmers harvest/replant nearby ripe custom crops during working hours; this does not add pathfinding to distant fields. See [VILLAGER_FOOD.md](VILLAGER_FOOD.md).
 
-## Residential growth — v0.2.68
+## Original camp/outpost attempts
 
-Village targets now count residential houses only: small 6–8, medium 9–11,
-large 12–14. One farm and up to two other amenities have separate slots. Roads
-with building entrances are preferred, with longer branches and 40/48/56-block
-layout radii. Farms are prioritized after three homes fit; the planner continues
-trying for a first farm even after reaching its residential target. Terrain can
-still prevent a farm or truncate a village; the minimum remains three homes.
+These native feature rules affect newly generated chunks; they are separate from scripted village/landmark surveys. Larger campgrounds and outpost towers receive 50% more placement attempts while individual tent rates remain unchanged.
 
-Remote survey footprints grow to 145×145 blocks, covering layout radius plus
-site offsets while touching at most 100 Bedrock chunks. Changes affect new
-villages only; existing villages are not expanded or rebuilt.
+| Category in an eligible biome | Current attempt chance per chunk |
+| --- | --- |
+| Any abandoned-camp tent | 1.7361% |
+| Any larger campground | 2.0833% |
+| Any outpost tent in Nether Wastes | 0.5208% |
+| Any outpost tower in Nether Wastes | 0.7813% |
 
-## Performance and durable unsuitable sites — v0.2.69
+These are placement attempts, not guaranteed successful structures; terrain restrictions still apply. The original pools and probability calculations are retained in the historical guide.
 
-See PERFORMANCE.md for the profile findings, per-plan terrain caching, bounded
-job scheduling, and permanent area-based terrain rejection. Village layouts
-and size targets are unchanged. Rejected areas do not become eligible through
-mining; incomplete or player-blocked assessments are not permanent rejections.
+## Container loot
 
-## Regional village comparison — v0.2.74
+New template chests/barrels use native randomized Nether loot: 4–7 supply rolls (gold nuggets, quartz, bones, coal, string, leather, glowstone dust, fungi, obsidian and soul torches), plus independent 12% gold-ingot and 4% crying-obsidian rolls. One 5% planting-item roll chooses Sorgum seeds, Murky Gourd seeds, Scarberries or Polyps equally, giving 1–3 items (1.25% per crop per container). Nether Wart is excluded.
 
-Automatic searches compare up to six distinct regions before placing any village: up to two strong loaded sites plus candidates distributed across the 0–768-block search range. Every comparison area is temporarily loaded and assessed for connected terrain, building headroom and slope. Completed assessments are retained in a bounded 512-entry cache; full layouts and final placements still read current terrain. Equal-quality areas use deterministic seeded ordering, not player distance or loaded-first preference. No portal exclusion radius is added.
+Intentional original container contents/loot tables are preserved. Existing placed containers are not refilled. No periodic container scanner runs. End-game arena-specific loot and imported Java vault rewards remain separate unfinished work.
 
-Only fully assessed absence of floor is persisted as unsuitable. Incomplete comparison data/loading errors defer that region and prevent placement during that comparison batch. Cached completed comparisons do not reload their footprints; construction still loads and verifies the selected area. The selected area still uses the existing detailed village planner and three-house minimum; failed layouts can fall back to the next compared area. The shared queue and per-tick budget remain. Comparison adds some initial wait, with loading and comparison counts shown in status.
+## Commands
 
-Version 0.2.94 requires at least four residential houses and one farm before any village blocks are placed. Farm templates use soul soil instead of soul sand; planted crops use soul-soil farmland. New village centers must be at least 256 blocks from recorded villages. Existing villages are not rebuilt.
+```mcfunction
+/scriptevent nether_settlements:test crimson
+/scriptevent nether_settlements:test warped
+/scriptevent nether_settlements:find village
+/scriptevent nether_settlements:status
+```
 
-Version 0.2.95 removes the Crimson and Warped large-farm templates and all their pool/feature entries. Villages still require four residential houses and a farm, using the small-farm template.
+Manual village tests use the same minimum layout requirements. `/find village` reports recorded villages; vanilla `/locate` does not find this scripted village index.

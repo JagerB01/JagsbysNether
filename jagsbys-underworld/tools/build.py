@@ -165,6 +165,7 @@ def main():
     docs.mkdir(parents=True, exist_ok=True)
     for name in ('TESTING.txt', 'TRIAL_ENCOUNTERS.json', 'FOOD_BUFFS.md', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md', 'GENERATION.md', 'VILLAGER_FOOD.md', 'CONQUEST_COMPATIBILITY.json', 'ARENAS.md', 'MOOGS_ARENAS_SOURCE.json', 'PERFORMANCE.md'):
         (docs / name).write_bytes((ROOT / name).read_bytes())
+    shutil.copytree(ROOT / 'history', docs / 'history', dirs_exist_ok=True)
     (docs / 'SKITTERCHESTS.md').write_bytes((ROOT / 'SKITTERCHESTS.md').read_bytes())
     (docs / 'STRUCTURE_BLOCK_CONVERSIONS.json').write_text(json.dumps(block_conversions, indent=2) + '\n')
     assert not (BUILD / 'behavior_pack/entities/villager_v2.json').exists(), 'Food integration must not override C&C villagers'

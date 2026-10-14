@@ -1,152 +1,57 @@
-# Jagsby's Underworld v0.2.57
+# Jagsby's Underworld v0.2.101
 
-Combined test build of Nether Settlements v0.8.24 and Nether Agriculture v0.1.6.
-One `.mcaddon` imports one behavior pack and one resource pack. A single script
-entry point loads both subsystems exactly once. Stable `@minecraft/server` 2.10.0
-and Bedrock 26.50 or newer are required; no Beta APIs are needed.
+Underworld combines Nether villages and structures, agriculture, lava fishing, Skitterchests, Hongos and crafted food buffs in one `.mcaddon` containing one behavior pack and one resource pack. It uses stable `@minecraft/server` 2.10.0 and requires Bedrock 26.50 or newer; the target playtest version is 26.52. Beta APIs are not required.
 
-Activate **Jagsby's Underworld v0.2.57 Behavior** and **Resources** together.
-Deactivate the separate Nether Settlements and Nether Agriculture packs so
-scripts do not run twice. The user-supplied cover is installed as `pack_icon.png`
-in both packs when the original PNG file has been provided.
+## Installation and upgrades
 
-Use a new test world for the first combined test on Bedrock 26.52. To test an
-existing world, use a copy, remove the old active packs and activate both new
-packs. Original `nether_settlements` and `jagsby_nether` identifiers are preserved
-so existing crops, items and structure identifiers remain recognizable.
-The combined packs use new UUIDs to permit the requested v0.2.57 version alongside
-the higher-version standalone releases. Old village-generation seed/spacing
-records are scoped to the old behavior-pack UUID and do not automatically
-transfer. Existing village blocks and entities remain, but the new generator
-cannot use the old pack's village index. Full existing-world migration has not
-been verified; use a new world to evaluate this first combined build.
+Activate **Jagsby's Underworld v0.2.101 Behavior** and **Resources** together. Disable the separate Nether Settlements and Nether Agriculture packs to avoid duplicate scripts. The supplied cover is included in both packs.
 
-The merge keeps the existing gameplay: 20% smooth-basalt road/center selection,
-one native villager per residential house, gradual farmland heating, dry-soil crop
-growth, native tilling/fertilizer handlers and Grol-o’-Lantern naming. Empty fully
-cooled plots revert after about 30 loaded seconds; planted and lava-protected
-plots stay tilled. Former nether-wart spots in villages now use soul soil farmland: Sorgum in
-crimson forests and Nether wastes, Polyps in warped forests and soul sand valleys.
+Test upgrades on a copy of your world. Updates within Underworld retain its behavior/resource pack UUIDs, item identifiers and saved world records. Existing structures are not rebuilt to change their foundations, crops or village size. Encounter-data updates can update recorded trial-spawner locations once without rebuilding structures.
 
-Commands remain:
+The original standalone Settlements/Agriculture packs used different UUIDs. Their old script-owned village indexes do not automatically transfer to Underworld, even though existing blocks and entities remain recognizable. This distinction does not apply to normal updates between Underworld releases.
+
+Food bonuses require the supplied **MineScape v1.5.18 + Underworld Food Buffs** compatibility behavior pack, plus MineScape's original resource pack. That compatibility BP replaces the original MineScape BP rather than running alongside a second copy. See [FOOD_BUFFS.md](FOOD_BUFFS.md). Conquest & Commerce v1.1.0 can remain enabled; Underworld does not override its villager definition or trades.
+
+## Current features
+
+- **Villages:** at least four residential houses and one small farm must fit before anything is placed. Centers are at least 256 blocks apart. Targets remain 6–8, 9–11 or 12–14 homes, subject to terrain. Large farms are removed. Actual biomes select the village style and crops; villagers retain native behavior and can use Sorgum/Polyps as breeding food. See [GENERATION.md](GENERATION.md) and [VILLAGER_FOOD.md](VILLAGER_FOOD.md).
+- **Natural landmarks:** Small Arenas spawn only in Basalt Deltas. Large Arena, Dragon Arena and Mega Fortress have equal giant-selection chances after all three starting layouts qualify, surveying the largest footprint first. Initial footprints must be entirely over lava with clear building space. Mega Fortress starts with its keep and expands through connected modules. See [ARENAS.md](ARENAS.md).
+- **Arena encounters:** arena and Mega keep trial spawners use Piglin Brutes, with Strays assigned where two Brute spawners are already within 16 blocks. Other fortress modules retain ordinary spawners. Nether trial spawners are protected by break/explosion events. Encounter changes use one revision comparison on world load and a finite migration of recorded locations; there is no periodic protection or crowding scan.
+- **Agriculture:** planted soil grows crops without lava; lava heating improves growth. Empty fully cooled plots revert after about 30 loaded seconds. Native tilling and Wither Bone Meal handlers remain.
+- **Lava fishing:** one Obsidian Fishing Rod, seven fish, biome-specific specialist catches, launched catch items, hunger/saturation without raw-fish effects, and 1.5× vanilla fishing XP. Junk and treasure are not implemented. See [FISHING.md](FISHING.md).
+- **Skitterchests and Hongos:** tamed Crimson/Warped Skitterchests have native 27-slot storage; standing opens it and crouching toggles sitting. Matching tamed Hongos deposit nuggets only into sitting tamed chests. Owners may differ. Warped produces gold every 25–35 seconds; Crimson produces iron every 40–60 seconds while loaded. See [SKITTERCHESTS.md](SKITTERCHESTS.md) and [HONGOS.md](HONGOS.md).
+- **Food buffs:** five crafted foods, stack size 16, one active 20-minute buff, doubling selected MineScape primary percentage bonuses. See [FOOD_BUFFS.md](FOOD_BUFFS.md).
+- **Soul lights:** new hostile spawns are checked against soul torches (12 blocks), lanterns (16) and lit campfires (20). Rejected mobs are removed after spawning without loot/XP; existing mobs remain. See [SOUL_LIGHTS.md](SOUL_LIGHTS.md).
+
+## Useful commands
 
 ```mcfunction
 /scriptevent jagsby_nether:kit
+/scriptevent jagsby_nether:fishing_kit
 /scriptevent nether_settlements:test crimson
 /scriptevent nether_settlements:test warped
 /scriptevent nether_settlements:find village
+/scriptevent nether_settlements:status
+/scriptevent jagsby_nether:template list
+/scriptevent jagsby_nether:structures_status
+/scriptevent jagsby_nether:structures_diagnostics
+/scriptevent jagsby_nether:structures_find
+/scriptevent jagsby_nether:encounters_status
+/scriptevent jagsby_nether:food_buff_status
 ```
 
-See [TESTING.txt](TESTING.txt) for the combined in-game checks.
+Use `/scriptevent nether_settlements:find village` to find a recorded Nether village; vanilla `/locate` does not index these scripted villages. Manual placement commands and older manual-spawner registration are documented in [ARENAS.md](ARENAS.md).
 
-## Build
+## Build and validation
 
-The builder combines the exact checked-in standalone release archives. It checks
-archive paths/collisions, preserves source scripts/assets byte-for-byte except the settlement population/generation
-overrides and removal of nether wart from structure palettes (scripts
-move into separate subfolders), verifies pack references, and runs the existing
-crop tests plus combined startup/command tests. Generated merged source is in
-ignored `.build/behavior_pack` and `.build/resource_pack` for inspection.
-
-Place the original supplied square PNG at `jagsbys-underworld/pack_icon.png`, then:
+From the project directory:
 
 ```sh
-cd jagsbys-underworld
-python3 tools/build.py
+PYTHONDONTWRITEBYTECODE=1 python3 tools/build.py
 ```
 
-This writes `downloads/Jagsbys_Underworld_v0.2.57.mcaddon`. The cover is copied
-unchanged into both packs. For local verification while the original icon is
-unavailable, `--allow-placeholder-icon` produces an explicitly marked local build
-inside `.build/`, never a release download. Original source licenses and credits
-remain bundled; see [CREDITS.txt](CREDITS.txt).
+The builder merges the retained standalone archives, applies the authorized village/crop/block/loot changes, bakes native trial encounters, validates references and runs Python and Node tests. It writes `../downloads/Jagsbys_Underworld_v0.2.101.mcaddon`; merged inspection files are under ignored `.build/behavior_pack` and `.build/resource_pack`.
 
-## Village residents
+The original square cover must be at `pack_icon.png`. `--allow-placeholder-icon` is for local verification only and does not publish a release download. Original source references, credits and licenses remain bundled; see [CREDITS.txt](CREDITS.txt).
 
-New villages spawn one native `minecraft:villager_v2` per residential house.
-Nonresidential amenities, centers and roads receive no residents. Unsafe or
-unloaded spawn positions are reported and skipped. Existing mobs are not replaced.
-Appearance, age, profession and names use the active entity definition unchanged.
-Conquest & Commerce v1.1.0 replaces that vanilla ID and selects Nether biome
-variants in its normal spawn event, so no custom compatibility hook is needed.
-Enable its behavior and resource packs together. Other villager overrides may
-conflict. Pack inspection verifies this design; live gameplay remains untested.
-
-## Structure crops
-
-Every bundled structure has vanilla nether wart removed from its palette,
-including abandoned camps and unused variants. During village generation, each
-former wart position is replanted on soul soil farmland according to its actual
-biome: Sorgum in crimson forests/Nether wastes, Polyps in warped forests/soul sand
-valleys. Crop age and soil heat start at their normal defaults. Other crops and
-nether-wart blocks used as building materials are unchanged. Standalone houses,
-camps and basalt-delta planting spots remain empty where wart was removed.
-
-An invisible, temporary native biome probe uses Bedrock `has_biome_tag` filters because
-the stable server 2.0.0 API has no biome-query method. Each probe is removed after
-classification, with a ten-second cleanup timer as a fallback. Selection is per
-planting position and independent of forced village style. Existing structures
-already placed in saved worlds are not retroactively edited.
-
-## Lava fishing (v0.2.57 prototype)
-
-Fishing-only adaptation of the supplied Lava Fishing 1.3.1 Java mod: one
-Obsidian Fishing Rod and its seven catch species, with original textures,
-item artwork and durability, with a custom rod recipe and biome-specific catch weights.
-See [FISHING.md](FISHING.md) for controls, catches and Bedrock differences.
-No separate hooks, buckets, extra rods, tackle boxes, gear, junk or treasure
-are included. Native rod input and bobber/line rendering require a Bedrock playtest.
-
-Fish are catchable inventory items only. No fish creatures, natural spawning
-or fish spawn eggs are included. The fishing bobber remains for casting.
-
-## Skitterchests
-
-Three Nether chest mobs with natural spawning and spawn eggs. Crimson and Warped tame with Netherite Scrap; Blackstone cannot be tamed. Only tamed Crimson and Warped have accessible 27-slot storage. Blackstone has no accessible inventory. No riding or breeding. See [SKITTERCHESTS.md](SKITTERCHESTS.md).
-
-## Hongos
-
-Crimson and Warped Hongos are passive, tameable mushroom mobs which roam
-independently. Near a matching tamed Skitterchest they occasionally deposit iron
-(Crimson) or gold (Warped) nuggets into its native inventory. Any owners qualify.
-See [HONGOS.md](HONGOS.md) for taming, range, cooldowns and playtest checks.
-
-Villages require at least **four residential houses and one farm** to fit during planning.
-Smaller layouts place nothing: no lone-house fallback, roads, center, crops or
-villagers, and no village/spacing record. Farms, stables and other amenities
-do not count as residential houses. New village centers must be at least 256 blocks apart. This applies to natural and command generation.
-Existing villages are unchanged.
-
-## Soul-light spawn protection
-
-Soul torches suppress new hostile mobs within 12 blocks; soul lanterns within
-16; soul campfires within 20. Protection is checked on spawn only, with no constant scan. Existing mobs
-and tame pets remain. See [SOUL_LIGHTS.md](SOUL_LIGHTS.md) for scope and testing.
-
-Larger campgrounds and outpost towers receive 50% more placement attempts in
-new chunks, while individual tent attempt rates are preserved. See
-[GENERATION.md](GENERATION.md) for probabilities and terrain constraints.
-
-Village redstone torches are converted to soul torches, preserving mounting
-directions. Imported jigsaw blocks are replaced with their stored final blocks;
-Java stair/gate states are translated to matching Bedrock states, and structure-void
-markers retain existing terrain. Connector metadata stays in the static planner
-catalog. Generated STRUCTURE_BLOCK_CONVERSIONS.json records each changed template.
-
-Adult villagers accept dropped Sorgum and Polyps for breeding food: 12 per
-parent, within 1.5 blocks, with normal bed and mobGriefing requirements. The
-active villager AI/appearance/trades stay intact. See [VILLAGER_FOOD.md](VILLAGER_FOOD.md).
-Automatic Nether Wastes villages explicitly use the Crimson style.
-
-## Manual arena templates
-
-Small Arena, Large Arena and Dragon Arena from Moogs Nether Structures are
-available for testing with `/scriptevent jagsby_nether:arena <arena_name>`.
-Use `small_arena`, `large_arena` or `dragon_arena`, optionally followed by
-absolute X Y Z coordinates. No natural placement rules or spawn weights are
-assigned. See [ARENAS.md](ARENAS.md) for sizes, commands and conversion limits.
-
-The manual template catalog also includes `grave_yard`,
-`large_blackstone_pillars`, `large_blackstone_walls`, and a representative
-`mega_fortress` assembly. Use `/scriptevent jagsby_nether:template <name>`;
-none have natural spawning enabled.
+The v0.2.101 gameplay build passed **365 automated checks**. These do not verify native client rendering, natural encounter frequency, trial activation, vault rewards or frame-rate impact. Follow [TESTING.txt](TESTING.txt) and use fresh CPU profiles; [PERFORMANCE.md](PERFORMANCE.md) distinguishes script measurements from FPS. No Bedrock client is available in this workspace.

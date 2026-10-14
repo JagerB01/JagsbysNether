@@ -1,53 +1,140 @@
-Jagsby's Underworld v0.2.57 — combined test build
+Jagsby's Underworld v0.2.101 — current Bedrock checklist
 
-1. Import Jagsbys_Underworld_v0.2.57.mcaddon. Confirm both pack-selection entries
-   show the supplied Jagsby's Underworld artwork and the v0.2.57 name/version.
-   Activate both Behavior and Resources. Use a new test world on Bedrock 26.52,
-   with cheats enabled. Disable the separate Nether Settlements and Agriculture
-   packs to prevent duplicate script execution. Beta APIs are not required.
+Status: the v0.2.101 gameplay build passed 365 automated checks. These cover
+asset/reference integrity and mocked script behavior, not Bedrock client
+rendering, native trial activation/rewards, natural encounter frequency or FPS.
+There is no Bedrock client in the development workspace. Record actual results
+and Content Log messages rather than treating every item below as unverified
+or already proven by automation.
 
-2. Enter the Nether. Run /scriptevent jagsby_nether:kit and verify it gives one
-   starter kit. Till soul soil with a vanilla hoe, plant each crop and use Wither
-   Bone Meal. Check arm motion, sounds, particles, textures and item consumption.
+1. Installation and upgrades
+   Import Jagsbys_Underworld_v0.2.101.mcaddon and activate both Underworld packs.
+   Use Bedrock 26.52 with cheats for commands; Beta APIs are not required.
+   Disable the separate Nether Settlements/Agriculture packs. Test upgrades on
+   a world copy. Normal Underworld updates retain their UUIDs/world records;
+   indexes owned by the older standalone pack UUIDs do not automatically transfer.
+   Enable MineScape's patched compatibility BP and original RP for food bonuses,
+   with only one MineScape BP active. Test C&C v1.1.0 with its BP and RP together.
 
-3. Compare planted dry soil, empty dry soil and empty lava-protected soil.
-   Planted soil stays tilled and grows crops without lava. Empty fully cold soil
-   reverts after about 30 loaded seconds. Lava-protected empty soil stays tilled.
-   Lava takes about 14 seconds to fully heat a new plot; growth is faster when
-   fully heated. Confirm crops do not flicker and Grollet can produce fruit.
+2. Agriculture
+   /scriptevent jagsby_nether:kit
+   Till soul soil, plant each crop, and use Wither Bone Meal. Check item use,
+   sounds, particles and growth. Planted cold soil remains planted; empty fully
+   cooled farmland reverts after about 30 loaded seconds. Lava heating takes
+   about 14 seconds to reach full heat and improves growth. Verify Grollet fruit
+   and the existing crop/food recipes without duplicated actions or effects.
 
-4. Generate a new Crimson village in a clear test area:
+3. Villages
    /scriptevent nether_settlements:test crimson
-   Check center/meeting floors and roads use basalt with more smooth basalt,
-   structures connect correctly, and each residential house has one villager and no piglin defenders.
-   Move to another clear area and repeat with:
    /scriptevent nether_settlements:test warped
-   Use /scriptevent nether_settlements:find village to check the new village index.
+   /scriptevent nether_settlements:find village
+   /scriptevent nether_settlements:status
+   Use separate clear test areas. A village must fit at least four residential
+   houses and one small farm before any blocks are placed. Large farms are gone.
+   Natural targets are 6–8, 9–11 or 12–14 houses, subject to terrain; natural
+   village centers must be at least 256 blocks apart. Check the first farm,
+   composter, soul-soil/farmland beds, soul torches, roads and native residents.
+   Crimson Forest/Nether Wastes use Crimson style and Sorgum; Warped Forest/
+   Soul Sand Valley use Warped style and Polyps. Planting uses the actual biome,
+   including forced style and biome boundaries. Standalone structures remain
+   wart-free without village crop planting; Nether-wart building blocks remain.
 
-5. Plant and harvest the new crops close to a village. Both subsystems should
-   keep working without doubled mobs, kits, sounds, item use or generation jobs.
-   Former wart beds should now contain Sorgum or Polyps on soul soil farmland.
+4. Villager food and farming
+   Give each adult parent 12 raw Sorgum/Polyps (24 total for two unfed parents),
+   with a spare valid bed and mobGriefing enabled. Test partial/mixed servings
+   and retained stack remainders. Farmers next to their fields/composters should
+   harvest and immediately replant nearby ripe custom crops during working hours.
+   Walls, non-farmers, babies and mobGriefing=false should prevent custom harvest.
+   Do not expect added pathfinding to distant fields or a village return boundary.
+   Check C&C appearance, professions, trades and breeding remain intact.
 
-6. Check Sorgum Bread, Grollet Pie and Grol-o’-Lantern names/recipes. Test food
-   effects in survival. Save/reload and confirm crops, villagers, village lookup
-   and both packs still work. Check the Content Log for script or asset errors.
+5. Natural landmarks and foundations
+   /scriptevent jagsby_nether:structures_status
+   /scriptevent jagsby_nether:structures_diagnostics
+   /scriptevent jagsby_nether:structures_find
+   Explore loaded/open Nether areas and observe complete survey results. Small
+   Arenas require Basalt Deltas. For giants, Dragon's largest starting footprint
+   is checked first; Large and the Mega keep must also qualify before the equal
+   three-way choice. Starting footprints must be completely over lava with clear
+   building volume, without initial terrain carving. Mega needs only its keep
+   initially and grows through connected modules. Check required lower chambers,
+   bounded optional carving, branch stops, pause/resume and reload recovery.
+   Dragon foundations must follow the irregular authored ground base, with no
+   square corner fill. Mega bridge spans stay open under decks; only pier feet
+   and chamber bases extend to the first existing solid block. Old completed
+   foundations/layouts are not rebuilt. Older diagnostic entries can describe
+   a previous policy; capture the current version and latest messages.
 
-7. Existing-world upgrade testing is optional and should use a copy. Original
-   crop/item identifiers are retained, but village records from the old behavior
-   pack UUID do not transfer automatically to this new combined pack. A fresh
-   world avoids that unverified migration behavior during v0.2.57 testing.
+6. Manual templates
+   /scriptevent jagsby_nether:template list
+   /scriptevent jagsby_nether:template dragon_arena 100 32 100
+   Use a disposable clear area; these commands can overwrite existing blocks.
+   Manual placement bypasses natural suitability and does not add natural
+   foundations. Manual Mega places the fixed full assembly, not modular growth.
+   See ARENAS.md for dimensions and other template names.
 
-8. Repeat generation with Conquest & Commerce behavior and resource packs
-   enabled, then disabled. Check native villagers without it and its matching
-   Nether-biome variants with it. Centers and amenities should add no residents.
+7. Trial encounters and updates — requires native live verification
+   Test Small/Large/Dragon arenas and the central Mega keep. Every arena/keep
+   spawner is a trial spawner: Piglin Brutes by default, with Strays assigned when
+   two earlier Brute spawners are within 16 blocks in 3D. Other Mega module
+   spawners remain ordinary. Check activation, actual mobs, wave completion,
+   cooldowns, player scaling and ominous behavior in Survival.
+   Test player breaking (including Creative) and explosions in the Nether.
+   Operator commands are still an override; Overworld trial spawners and ordinary
+   module spawners are not covered by this protection.
+   /scriptevent jagsby_nether:encounters_status
+   /scriptevent jagsby_nether:encounters_update
+   On an encounter-data upgrade, recorded locations update once without rebuilding
+   their structure. Confirm removed spawners/player blocks remain untouched and
+   unchanged data does no migration work on later world loads. Changed data resets
+   affected native encounter/cooldown state. Old manual placements need their
+   original origin registered, for example:
+   /scriptevent jagsby_nether:encounters_register dragon_arena 100 32 100
+   Vault reward/key configuration and end-game loot progression remain unfinished;
+   native vault blocks alone do not prove those systems function.
 
-9. Generate villages in crimson forest and Nether wastes (Sorgum), and warped
-   forest and soul sand valley (Polyps). Verify former wart positions use soul
-   soil farmland, grow and can be harvested. Force the opposite village style
-   to confirm actual biome still selects the crop. Check rotated farms and
-   biome boundaries. In basalt deltas, standalone houses and abandoned camps,
-   former wart spots should be empty. Keep nether-wart building blocks intact.
-   No visible biome probes should appear or remain; check the Content Log.
+8. Fishing
+   /scriptevent jagsby_nether:fishing_kit
+   Follow FISHING.md: rod recipe, casting/line art, sounds, early reels, missed
+   bites requiring recast, launched catches, inventory-full pickup, 1.5x vanilla
+   XP and fishing enchantments. Check all five specialist biomes, common-only
+   catches outside the Nether, dimension changes and reloads. Raw fish restore
+   hunger/saturation only. Junk/treasure and their Luck of the Sea loot behavior
+   are not implemented. There are no naturally spawning fish or fish spawn eggs.
 
-10. Follow FISHING.md for the new scoped lava-fishing prototype, particularly
-    native rod input, bobber/line rendering, biome catches and fish catch items.
+9. Skitterchests and Hongos
+   Check spawn eggs, native movement, one-block steps and lava avoidance. Only
+   Crimson/Warped Skitterchests tame; no riding/breeding. Stand to open native
+   27-slot storage; crouch to sit/stand. Check blank window heading, no overhead
+   name, sound mapping, unpushable seated pets, and following starting at 4 blocks.
+   Contents must persist across reloads and drop once on death. Check variant
+   death loot/XP and the Blackstone 75% MineScape relic roll over enough trials.
+   Matching tamed Hongos within 8 blocks deposit only into sitting tamed chests,
+   with any owners: Warped gold every 25–35 seconds, Crimson iron every 40–60.
+   Full/missing storage must not create duplicate or dropped nuggets. Unloaded
+   time must not accumulate a production backlog. Hongos roam rather than follow
+   owners; leads can bring them to an enclosure.
+
+10. Crafted food buffs and integration
+    Import the MineScape food compatibility BP before evaluating percentages.
+    Check all five recipes, gold names and stacks of 16. A consumed buff lasts
+    20 real minutes (offline time counts); another food replaces it and the same
+    food refreshes it. Only selected earned primary bonuses double; secondary
+    perks, skill tiers, XP and Constitution do not. Use:
+    /scriptevent jagsby_nether:food_buff_status
+    /scriptevent passiveskills:food_buff_status
+    Compare earned percentages before/after, replacement, level changes, expiry
+    and reconnect. Custom lava-fishing/crop integration is a separate audit;
+    the patch modifies existing MineScape calculations, not every custom activity.
+
+11. Loot, soul lights and performance
+    Open fresh generated chests/barrels; test Nether supplies, rare planting
+    items and no Nether Wart. Existing placed containers are not refilled.
+    Test new hostile spawns inside/outside soul torch 12, lantern 16 and lit
+    campfire 20-block ranges. Suppression removes mobs after spawn without XP
+    or loot; existing mobs/passive/tamed creatures remain. Arena replacement
+    lights must not trigger suppression. Check extinguished campfires separately.
+    Capture fresh stationary and exploration CPU profiles, plus generation and
+    multiplayer if possible. Compare script work separately from game FPS and
+    native terrain/lighting costs. PERFORMANCE.md preserves earlier measurements;
+    those are not current-build frame-rate claims.
