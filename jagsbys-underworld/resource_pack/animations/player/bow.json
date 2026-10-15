@@ -1,0 +1,14 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.arrow.scale": {
+      "loop": false,
+      "animation_length": 0.5,
+      "bones": {
+        "body": {
+          "scale": "query.property('dungeons:scale')/10"
+        }
+      }
+    }
+  }
+}

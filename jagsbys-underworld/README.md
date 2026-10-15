@@ -1,10 +1,10 @@
-# Jagsby's Underworld v0.2.107
+# Jagsby's Underworld v0.2.108
 
 Underworld combines Nether villages and structures, agriculture, lava fishing, Skitterchests, Hongos and crafted food buffs in one `.mcaddon` containing one behavior pack and one resource pack. It uses stable `@minecraft/server` 2.10.0 and requires Bedrock 26.50 or newer; the target playtest version is 26.52. Beta APIs are not required.
 
 ## Installation and upgrades
 
-Activate **Jagsby's Underworld v0.2.107 Behavior** and **Resources** together. Disable the separate Nether Settlements and Nether Agriculture packs to avoid duplicate scripts. The supplied cover is included in both packs.
+Activate **Jagsby's Underworld v0.2.108 Behavior** and **Resources** together. Disable the separate Nether Settlements and Nether Agriculture packs to avoid duplicate scripts. The supplied cover is included in both packs.
 
 Test upgrades on a copy of your world. Updates within Underworld retain its behavior/resource pack UUIDs, item identifiers and saved world records. Existing structures are not rebuilt to change their foundations, crops or village size. Encounter-data updates can update recorded trial-spawner locations once without rebuilding structures.
 
@@ -52,8 +52,17 @@ From the project directory:
 PYTHONDONTWRITEBYTECODE=1 python3 tools/build.py
 ```
 
-The builder merges the retained standalone archives, applies the authorized village/crop/block/loot changes, bakes native trial encounters, validates references and runs Python and Node tests. It writes `../downloads/Jagsbys_Underworld_v0.2.107.mcaddon`; merged inspection files are under ignored `.build/behavior_pack` and `.build/resource_pack`.
+The builder merges the retained standalone archives, applies the authorized village/crop/block/loot changes, bakes native trial encounters, validates references and runs Python and Node tests. It writes `../downloads/Jagsbys_Underworld_v0.2.108.mcaddon`; merged inspection files are under ignored `.build/behavior_pack` and `.build/resource_pack`.
 
 The original square cover must be at `pack_icon.png`. `--allow-placeholder-icon` is for local verification only and does not publish a release download. Original source references, credits and licenses remain bundled; see [CREDITS.txt](CREDITS.txt).
 
-The v0.2.107 gameplay build passed **411 automated checks**. These do not verify native client rendering, natural encounter frequency, trial activation, vault rewards or frame-rate impact. Follow [TESTING.txt](TESTING.txt) and use fresh CPU profiles; [PERFORMANCE.md](PERFORMANCE.md) distinguishes script measurements from FPS. No Bedrock client is available in this workspace.
+The v0.2.108 gameplay build passed **427 automated checks**. These do not verify native client rendering, natural encounter frequency, trial activation, vault rewards or frame-rate impact. Follow [TESTING.txt](TESTING.txt) and use fresh CPU profiles; [PERFORMANCE.md](PERFORMANCE.md) distinguishes script measurements from FPS. No Bedrock client is available in this workspace.
+
+## Infernal Lords integration test
+
+v0.2.108 adds Malzareth, Nerezhal, Baelgor, the Ashen Tower Wraith, Crimson
+Necromancer and scoped original enchanted-mob handlers. Use Underworld alone;
+disable the original Dungeons and five-mob test packs. Dormant bosses now appear once in new matching giant structures and new manual
+template placements; existing structures are not backfilled. See [INFERNAL_LORDS.md](INFERNAL_LORDS.md) for commands, dependency
+scope, future enchanted-variant API and required combat/HUD/audio tests. Full
+in-game acceptance is pending; offline checks do not establish combat readiness.

@@ -1,0 +1,114 @@
+{
+  "format_version": "1.21.130",
+  "minecraft:item": {
+    "description": {
+      "identifier": "dungeons:glaive",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": {
+          "default": "glaive"
+        }
+      },
+      "minecraft:tags": {
+        "tags": [
+          "minecraft:is_spear"
+        ]
+      },
+      "dungeons:durability_fix": {
+        "tag": "minecraft:is_sword_item_destructible"
+      },
+      "dungeons:glaive": {
+        "spooky": false
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:durability": {
+        "max_durability": 322
+      },
+      "minecraft:repairable": {
+        "repair_items": [
+          {
+            "items": [
+              "dungeons:glaive"
+            ],
+            "repair_amount": "context.other->query.remaining_durability"
+          },
+          {
+            "items": [
+              "iron_ingot"
+            ],
+            "repair_amount": "query.max_durability * 0.25"
+          }
+        ]
+      },
+      "minecraft:enchantable": {
+        "slot": "melee_spear",
+        "value": 15
+      },
+      "minecraft:hand_equipped": {
+        "value": false
+      },
+      "minecraft:cooldown": {
+        "category": "glaive",
+        "duration": 1.2,
+        "type": "attack"
+      },
+      "minecraft:swing_duration": {
+        "value": 1.2
+      },
+      "minecraft:swing_sounds": {
+        "attack_miss": "item.spear.attack_miss",
+        "attack_hit": "item.spear.attack_hit"
+      },
+      "minecraft:damage": {
+        "value": 7
+      },
+      "minecraft:use_modifiers": {
+        "use_duration": 0,
+        "movement_modifier": 1
+      },
+      "minecraft:piercing_weapon": {
+        "reach": {
+          "min": 2.0,
+          "max": 4.5
+        },
+        "creative_reach": {
+          "min": 2.0,
+          "max": 7.5
+        },
+        "hitbox_margin": 0.7
+      },
+      "minecraft:kinetic_weapon": {
+        "delay": 12,
+        "reach": {
+          "min": 2.0,
+          "max": 4.5
+        },
+        "creative_reach": {
+          "min": 2.0,
+          "max": 7.5
+        },
+        "hitbox_margin": 0,
+        "damage_multiplier": 0.0,
+        "damage_conditions": {
+          "max_duration": 225,
+          "min_relative_speed": 4.6
+        },
+        "knockback_conditions": {
+          "max_duration": 90,
+          "min_speed": 5.1
+        },
+        "dismount_conditions": {
+          "max_duration": 50,
+          "min_speed": 11.0
+        }
+      },
+      "minecraft:display_name": {
+        "value": "item.dungeons:glaive"
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.necromancer": {
+      "geometry": "geometry.default",
+      "materials": [
+        {
+          "*": "Material.default",
+          "head*": "Material.glow",
+          "staff*": "Material.glow",
+          "crown*": "Material.default"
+        }
+      ],
+      "textures": [
+        "texture.default"
+      ]
+    }
+  }
+}

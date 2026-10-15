@@ -1,0 +1,127 @@
+{
+  "format_version": "1.21.130",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "dungeons:enchanted_fire",
+      "is_summonable": true,
+      "is_spawnable": false,
+      "is_experimental": false,
+      "properties": {
+        "dungeons:ancient": {
+          "client_sync": true,
+          "default": false,
+          "type": "bool"
+        }
+      }
+    },
+    "component_groups": {
+      "dungeons:despawn": {
+        "minecraft:instant_despawn": {}
+      }
+    },
+    "components": {
+      "minecraft:rotation_axis_aligned": {},
+      "minecraft:body_rotation_blocked": {},
+      "minecraft:cannot_be_attacked": {},
+      "minecraft:vibration_damper": {},
+      "minecraft:transient": {},
+      "minecraft:tameable": {},
+      "minecraft:type_family": {
+        "family": [
+          "ignore",
+          "dungeons_fire"
+        ]
+      },
+      "minecraft:health": {
+        "max": 20,
+        "value": 20
+      },
+      "minecraft:timer": {
+        "looping": false,
+        "time": 9,
+        "time_down_event": {
+          "event": "dungeons:despawn"
+        }
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "all",
+            "deals_damage": "no"
+          }
+        ]
+      },
+      "minecraft:custom_hit_test": {
+        "hitboxes": [
+          {
+            "pivot": [
+              0,
+              1000,
+              0
+            ],
+            "width": 0,
+            "height": 0
+          }
+        ]
+      },
+      "minecraft:physics": {
+        "has_collision": false,
+        "has_gravity": false
+      },
+      "minecraft:knockback_resistance": {
+        "value": 1.0
+      },
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": false
+      },
+      "minecraft:collision_box": {
+        "width": 0.0,
+        "height": 0.0
+      },
+      "minecraft:environment_sensor": {
+        "triggers": [
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "on_ground",
+                  "subject": "self",
+                  "value": false
+                },
+                {
+                  "test": "in_water",
+                  "subject": "self",
+                  "operator": "==",
+                  "value": true
+                }
+              ]
+            },
+            "event": "dungeons:despawn"
+          }
+        ]
+      },
+      "minecraft:behavior.timer_flag_1": {
+        "duration_range": 0.25,
+        "cooldown_range": 0,
+        "on_end": {
+          "event": "dungeons:wraith_fire_hit"
+        },
+        "priority": 0
+      }
+    },
+    "events": {
+      "dungeons:wraith_fire_hit": {},
+      "minecraft:entity_spawned": {
+        "stop_movement": {}
+      },
+      "dungeons:despawn": {
+        "add": {
+          "component_groups": [
+            "dungeons:despawn"
+          ]
+        }
+      }
+    }
+  }
+}

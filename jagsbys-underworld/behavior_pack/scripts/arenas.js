@@ -1,3 +1,4 @@
+import {placeStructureBoss} from './infernal_lords/structure_bosses.js';
 import {recordEncounterSite} from './trial_encounters.js';
 import {runGenerationJob} from './generation_queue.js';
 import {world,system} from '@minecraft/server';
@@ -34,6 +35,7 @@ export function* placeArena({id,arena,dimension,origin},notify=()=>{}){
    yield;
    if(perSection)clear();
   }
+  yield* placeStructureBoss(id,origin,dimension);
   recordEncounterSite(id,origin,dimension.id);
   notify(`${arena.display_name} placed. Manual template placement complete.`);
  }finally{

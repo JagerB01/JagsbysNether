@@ -1,0 +1,113 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.nameless_one_v2.move": {
+      "initial_state": "static",
+      "states": {
+        "walking": {
+          "animations": [
+            "move"
+          ],
+          "transitions": [
+            {
+              "static": "q.modified_move_speed <= 0.1"
+            }
+          ],
+          "blend_transition": 0.4
+        },
+        "static": {
+          "transitions": [
+            {
+              "walking": "q.is_moving && q.modified_move_speed > 0.1"
+            }
+          ],
+          "blend_transition": 0.3
+        }
+      }
+    },
+    "controller.animation.nameless_one_v2.ranged_attack": {
+      "initial_state": "default",
+      "states": {
+        "attacking": {
+          "animations": [
+            "ranged_attack"
+          ],
+          "transitions": [
+            {
+              "default": "query.all_animations_finished"
+            }
+          ],
+          "blend_transition": 0.0
+        },
+        "default": {
+          "transitions": [
+            {
+              "attacking": "query.is_charged"
+            }
+          ],
+          "blend_transition": 0.6
+        }
+      }
+    },
+    "controller.animation.nameless_one_v2.awaken": {
+      "initial_state": "default",
+      "states": {
+        "attacking": {
+          "animations": [
+            "awaken"
+          ],
+          "blend_transition": 0
+        },
+        "default": {
+          "animations": [
+            "resting"
+          ],
+          "transitions": [
+            {
+              "attacking": "query.variant == 1"
+            }
+          ],
+          "blend_transition": 0
+        }
+      }
+    },
+    "controller.animation.nameless_one_v2.cast_spell": {
+      "initial_state": "default",
+      "states": {
+        "cast_short": {
+          "animations": [
+            "cast_short"
+          ],
+          "transitions": [
+            {
+              "default": "query.all_animations_finished"
+            }
+          ],
+          "blend_transition": 0.0
+        },
+        "cast_long": {
+          "animations": [
+            "cast_long"
+          ],
+          "transitions": [
+            {
+              "default": "query.all_animations_finished"
+            }
+          ],
+          "blend_transition": 0.0
+        },
+        "default": {
+          "transitions": [
+            {
+              "cast_long": "query.is_casting && q.property('dungeons:vanguards') == true"
+            },
+            {
+              "cast_short": "query.is_casting && q.property('dungeons:vanguards') == false"
+            }
+          ],
+          "blend_transition": 0.0
+        }
+      }
+    }
+  }
+}

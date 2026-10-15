@@ -1,0 +1,127 @@
+"""Validate the scoped Dungeons integration without needing either source pack installed."""
+import hashlib
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+
+def read(path):
+    return json.loads(path.read_text())
+
+def strings(value):
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, dict):
+        for key, child in value.items():
+            yield key
+            yield from strings(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from strings(child)
+
+def validate(bp, rp):
+    source = read(ROOT / 'INFERNAL_LORDS_SOURCE.json')
+    for key, record in source['files'].items():
+        pack, relative = key.split('/', 1)
+        path = (bp if pack == 'BP' else rp) / relative
+        assert path.is_file(), f'Missing imported asset: {key}'
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == record['integrated_sha256'], f'Changed imported asset without source note: {key}'
+    ids = set(read(bp / 'scripts/infernal_lords/entity_ids.json'))
+    actors = {}
+    for path in (bp / 'entities').rglob('*.json'):
+        entity = read(path)['minecraft:entity']
+        identifier = entity['description']['identifier']
+        assert identifier not in actors, f'Duplicate BP actor: {identifier}'
+        actors[identifier] = entity
+    assert ids <= actors.keys()
+    assert 'dungeons:ancient_terror' not in actors
+    assert not any(identifier.startswith('minecraft:') for identifier in ids)
+    for identifier, hp in [('nameless_one',600),('wretched_wraith',500),('boss_wildfire',500),('tower_wraith',36),('necromancer',50)]:
+        entity = actors['dungeons:'+identifier]
+        assert entity['components']['minecraft:health'] == {'value': hp, 'max': hp}
+    for identifier in ('necromancer','tower_wraith'):
+        base = actors['dungeons:'+identifier]['components']
+        enchanted = actors['dungeons:enchanted_'+identifier]['components']
+        assert enchanted['minecraft:health']['max'] == base['minecraft:health']['max'] * 2
+        assert abs(enchanted['minecraft:scale']['value'] / base.get('minecraft:scale',{'value':1})['value'] - 1.1) < 1e-9
+        assert abs(enchanted['minecraft:knockback_resistance']['value'] - base.get('minecraft:knockback_resistance',{'value':0})['value'] - 0.2) < 1e-9
+    for key in source['files']:
+        if not key.startswith('BP/'):
+            continue
+        path = bp / key[3:]
+        if path.suffix not in ('.js', '.json'):
+            continue
+        text = path.read_text()
+        for target in re.findall(r'(?:"(?:entity_type|spawn_entity|into)"\s*:\s*"|summon\s+|spawnEntity\([\'"])(dungeons:[\w_]+)', text):
+            assert target in ids, f'{path}: missing actor {target}'
+        for table in re.findall(r'loot_tables/[\w/]+\.json', text):
+            assert (bp / table).is_file() or table in source['native_loot_tables'], f'{path}: {table}'
+    definitions = set()
+    documents = []
+    for key in source['files']:
+        if not key.startswith('RP/') or not key.endswith('.json'):
+            continue
+        doc = read(rp / key[3:]); documents.append((key,doc))
+        for group in ('animations','animation_controllers','render_controllers'):
+            for identifier in doc.get(group, {}):
+                assert identifier not in definitions, f'Duplicate client definition {identifier}'
+                definitions.add(identifier)
+        definitions.update(key for key in doc if key.startswith('geometry.'))
+        for geometry in doc.get('minecraft:geometry', []):
+            definitions.add(geometry['description']['identifier'])
+        if 'particle_effect' in doc:
+            definitions.add(doc['particle_effect']['description']['identifier'])
+    # Vanilla humanoid/arrow resources intentionally resolve from Bedrock itself.
+    native_prefixes = ('animation.humanoid.', 'controller.animation.humanoid.', 'animation.common.', 'animation.skeleton.', 'animation.zombie.', 'controller.animation.zombie.', 'animation.spear.')
+    native = {'controller.render.default','controller.render.arrow','geometry.arrow','geometry.zombie.v1.8','geometry.zombie.baby','geometry.spear','geometry.fireball','geometry.default','controller.render.armor','controller.render.fireball','controller.render.item_default','controller.render.zombie.v2','animation.actor.billboard'}
+    for key, doc in documents:
+        values = list(strings(doc))
+        for value in values:
+            for identifier in re.findall(r'(?:animation\.[\w.]+|controller\.(?:animation|render)\.[\w.]+|geometry\.[\w.]+)', value):
+                assert identifier in definitions or identifier in native or identifier.startswith(native_prefixes), f'{key}: {identifier}'
+            if value.startswith('textures/') and not any(c in value for c in ' ;\n'):
+                assert any((rp / (value + ext)).is_file() for ext in ('','.png','.tga')) or value in source['native_textures'], f'{key}: missing {value}'
+    # Custom shader and PBR dependencies must be present, not silently treated as native.
+    materials = {}
+    for path in (rp / 'materials').glob('*.material'):
+        materials.update(read(path).get('materials', {}))
+    assert 'underworld_dungeons_enchant:entity_static' in materials
+    for key, doc in documents:
+        description = doc.get('minecraft:client_entity',{}).get('description',{})
+        for material in description.get('materials',{}).values():
+            if material.startswith('underworld_dungeons_'):
+                assert any(name.split(':')[0] == material for name in materials), material
+        if 'minecraft:texture_set' in doc:
+            folder = (rp / key[3:]).parent
+            for value in doc['minecraft:texture_set'].values():
+                if isinstance(value,str):
+                    assert (folder / (value+'.png')).is_file(), f'{key}: {value}'
+    assert 'geometry.arrow' not in definitions, 'Do not override vanilla arrow geometry'
+    for identifier in source['dynamic_particles']:
+        assert identifier in definitions, identifier
+    sounds = read(rp / 'sounds/sound_definitions.json')['sound_definitions']
+    for identifier in source['required_sound_events']:
+        assert identifier in sounds, identifier
+        for sound in sounds[identifier]['sounds']:
+            name = sound if isinstance(sound,str) else sound['name']
+            assert any((rp / (name+ext)).is_file() for ext in ('','.ogg','.wav')), name
+    language = (rp / 'texts/en_US.lang').read_text()
+    for key in ('nameless_one','wretched_wraith','wretched_wraith_immune','hovering_inferno'):
+        assert 'dungeons.bossbar.'+key+'=' in language, key
+    for identifier, name in [('nameless_one','Malzareth, Lord of Decay'),('wretched_wraith','Nerezhal, Lord of Lamentation'),('boss_wildfire','Baelgor, Lord of Ruin'),('tower_wraith','Ashen Tower Wraith'),('necromancer','Crimson Necromancer')]:
+        assert 'entity.dungeons:'+identifier+'.name='+name+'\n' in language, identifier
+    for key in source['files']:
+        if key.startswith('BP/items/'):
+            item = read(bp / key[3:])['minecraft:item']
+            label = item['components']['minecraft:display_name']['value']
+            assert label+'=' in language, label
+    for identifier in ('nameless_one','wretched_wraith','boss_wildfire'):
+        assert 'chests/underworld_structure' in (bp / f'functions/loot/{identifier}.mcfunction').read_text()
+    assert all(not list((bp / 'spawn_rules').rglob(f'*{name}*')) for name in ('nameless','wretched','wildfire','necromancer','tower_wraith'))
+    print(f'Infernal Lords: verified {len(ids)} scoped actors, {len(source["files"])} assets, {len(source["required_sound_events"])} recorded custom sounds')
+
+if __name__ == '__main__':
+    import sys
+    base = ROOT / '.build' if '--built' in sys.argv else ROOT
+    validate(base / 'behavior_pack', base / 'resource_pack')

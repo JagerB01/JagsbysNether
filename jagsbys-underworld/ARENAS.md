@@ -100,3 +100,15 @@ Large Arena has 4 native vault blocks; Dragon Arena has 3. Java vault reward/key
 ## Asset tooling
 
 The converter preserves architecture and supported native block data, removes Nether Wart plants and Java jigsaw markers, and retains source/licenses. Java entity attachments/custom bosses and terrain processors are not executed. Use `tools/update_trial_encounters.py` after conversion to bake current mob roles/presets; `tools/build.py` does this automatically and regenerates natural tiles. Native trial NBT field verification used PowerNukkitX's [Bedrock-compatible implementation](https://github.com/PowerNukkitX/PowerNukkitX/blob/master/src/main/java/org/powernukkitx/blockentity/BlockEntityTrialSpawner.java) as a format reference, not a dependency. Automated asset checks do not verify activation in the target Bedrock client.
+
+## Dormant bosses in new structures (v0.2.108)
+
+New Mega Fortresses place Malzareth in the center of the four roof trial
+spawners. New Dragon Arenas place Nerezhal on the main hall's purple-glass boss
+platform; new Large Arenas place Baelgor on their central ground-level fighting
+floor. The original authored encounter markers and real template clearances
+were checked; see BOSS_PLACEMENTS.json and INFERNAL_LORDS.md for exact offsets.
+Placement runs once after completion with a small temporary chunk lease, with
+no periodic mob checks or backfill of existing structures. Manual template
+commands use the same sites. A saved placement claim prevents respawning after
+defeat or update. Containment and progression remain future work.

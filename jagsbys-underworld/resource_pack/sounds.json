@@ -74,6 +74,300 @@
           "hurt": "",
           "death": ""
         }
+      },
+      "dungeons:necromancer": {
+        "events": {
+          "ambient": "mob.skeleton.say",
+          "death": "mob.skeleton.death",
+          "hurt": {
+            "sound": "mob.skeleton.hurt",
+            "volume": 0.7
+          },
+          "cast.spell": {
+            "pitch": 1,
+            "sound": "mob.evocation_illager.cast_spell",
+            "volume": 1
+          },
+          "step": {
+            "pitch": 1,
+            "sound": "mob.skeleton.step",
+            "volume": 1
+          },
+          "shoot": {
+            "pitch": 1.2,
+            "sound": "mob.nameless_one.attack",
+            "volume": 0.66
+          }
+        },
+        "pitch": [
+          0.4,
+          0.8
+        ],
+        "volume": 1
+      },
+      "dungeons:enchanted_necromancer": {
+        "events": {
+          "ambient": "mob.skeleton.say",
+          "death": "mob.skeleton.death",
+          "hurt": {
+            "sound": "mob.skeleton.hurt",
+            "volume": 0.7
+          },
+          "cast.spell": {
+            "pitch": 1,
+            "sound": "mob.evocation_illager.cast_spell",
+            "volume": 1
+          },
+          "step": {
+            "pitch": 1,
+            "sound": "mob.skeleton.step",
+            "volume": 1
+          },
+          "shoot": {
+            "pitch": 1.2,
+            "sound": "mob.nameless_one.attack",
+            "volume": 0.66
+          }
+        },
+        "pitch": [
+          0.4,
+          0.8
+        ],
+        "volume": 1
+      },
+      "dungeons:wraith": {
+        "events": {
+          "ambient": "mob.wraith.idle",
+          "death": "mob.wraith.death",
+          "hurt": "mob.wraith.hurt",
+          "cast.spell": {
+            "pitch": 1,
+            "sound": "mob.wraith.attack",
+            "volume": 1.2
+          }
+        },
+        "pitch": [
+          0.8,
+          1.2
+        ],
+        "volume": 1
+      },
+      "dungeons:enchanted_wraith": {
+        "events": {
+          "ambient": "mob.wraith.idle",
+          "death": "mob.wraith.death",
+          "hurt": "mob.wraith.hurt",
+          "cast.spell": {
+            "pitch": 1,
+            "sound": "mob.wraith.attack",
+            "volume": 1.2
+          }
+        },
+        "pitch": [
+          0.8,
+          1.2
+        ],
+        "volume": 1
+      },
+      "dungeons:tower_wraith": {
+        "events": {
+          "ambient": "mob.wraith.idle",
+          "death": "mob.wraith.death",
+          "hurt": "mob.wraith.hurt",
+          "cast.spell": {
+            "pitch": 0.8,
+            "sound": "mob.wraith.attack",
+            "volume": 1.2
+          }
+        },
+        "pitch": [
+          0.5,
+          1
+        ],
+        "volume": 1
+      },
+      "dungeons:vanguard": {
+        "events": {
+          "ambient": "mob.skeleton.say",
+          "death": "mob.skeleton.death",
+          "hurt": {
+            "sound": "mob.skeleton.hurt",
+            "volume": 0.7
+          },
+          "step": {
+            "pitch": 0.75,
+            "sound": "mob.skeleton.step",
+            "volume": 1
+          }
+        },
+        "pitch": [
+          0.7,
+          1.05
+        ],
+        "volume": 1
+      },
+      "dungeons:enchanted_vanguard": {
+        "events": {
+          "ambient": "mob.skeleton.say",
+          "death": "mob.skeleton.death",
+          "hurt": {
+            "sound": "mob.skeleton.hurt",
+            "volume": 0.7
+          },
+          "step": {
+            "pitch": 0.75,
+            "sound": "mob.skeleton.step",
+            "volume": 1
+          }
+        },
+        "pitch": [
+          0.7,
+          1.05
+        ],
+        "volume": 1
+      },
+      "dungeons:jungle_zombie": {
+        "events": {
+          "ambient": "mob.zombie.say",
+          "death": "mob.zombie.death",
+          "hurt": "mob.zombie.hurt",
+          "step": {
+            "pitch": 1,
+            "sound": "mob.zombie.step",
+            "volume": 0.45
+          }
+        },
+        "pitch": [
+          0.4,
+          0.6
+        ],
+        "volume": 1
+      },
+      "dungeons:enchanted_jungle_zombie": {
+        "events": {
+          "ambient": "mob.zombie.say",
+          "death": "mob.zombie.death",
+          "hurt": "mob.zombie.hurt",
+          "step": {
+            "pitch": 1,
+            "sound": "mob.zombie.step",
+            "volume": 0.45
+          }
+        },
+        "pitch": [
+          0.4,
+          0.6
+        ],
+        "volume": 1
+      },
+      "dungeons:enchanted_frozen_zombie": {
+        "events": {
+          "ambient": "mob.zombie.say",
+          "death": "mob.husk.death",
+          "hurt": "mob.husk.hurt",
+          "step": {
+            "pitch": 1,
+            "sound": "mob.zombie.step",
+            "volume": 0.45
+          }
+        },
+        "pitch": [
+          0.988,
+          1.25
+        ],
+        "volume": 0.75
+      },
+      "dungeons:frozen_zombie": {
+        "events": {
+          "ambient": "mob.zombie.say",
+          "death": "mob.husk.death",
+          "hurt": "mob.husk.hurt",
+          "step": {
+            "pitch": 1,
+            "sound": "mob.zombie.step",
+            "volume": 0.45
+          }
+        },
+        "pitch": [
+          0.988,
+          1.25
+        ],
+        "volume": 0.75
+      },
+      "dungeons:nameless_one": {
+        "events": {
+          "ambient": "mob.nameless_one.idle",
+          "death": "mob.nameless_one.death",
+          "hurt": "mob.nameless_one.hurt",
+          "step": {
+            "pitch": 0.75,
+            "sound": "mob.skeleton.step",
+            "volume": 0
+          },
+          "shoot": {
+            "pitch": 1,
+            "sound": "mob.nameless_one.attack",
+            "volume": 2
+          }
+        },
+        "pitch": [
+          0.8,
+          1.2
+        ],
+        "volume": 1.5
+      },
+      "dungeons:wretched_wraith": {
+        "events": {
+          "ambient": "mob.wretched_wraith.idle",
+          "death": "mob.wretched_wraith.death",
+          "hurt": "mob.wretched_wraith.hurt",
+          "shoot": "mob.wretched_wraith.shoot",
+          "cast.spell": {
+            "pitch": 1,
+            "sound": "mob.wretched_wraith.summon",
+            "volume": 2
+          }
+        },
+        "pitch": [
+          0.8,
+          1.2
+        ],
+        "volume": 2
+      },
+      "dungeons:boss_wildfire": {
+        "events": {
+          "ambient": "mob.wildfire.idle",
+          "death": "mob.wildfire.death",
+          "hurt": "mob.wildfire.hurt",
+          "shoot": "mob.wildfire.shoot",
+          "step": {
+            "pitch": 1,
+            "sound": "mob.skeleton.step",
+            "volume": 0
+          }
+        },
+        "pitch": [
+          0.5,
+          0.8
+        ],
+        "volume": 2.6
+      },
+      "dungeons:enchanted_tower_wraith": {
+        "events": {
+          "ambient": "mob.wraith.idle",
+          "death": "mob.wraith.death",
+          "hurt": "mob.wraith.hurt",
+          "cast.spell": {
+            "pitch": 0.8,
+            "sound": "mob.wraith.attack",
+            "volume": 1.2
+          }
+        },
+        "pitch": [
+          0.5,
+          1
+        ],
+        "volume": 1
       }
     }
   }

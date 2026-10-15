@@ -12,6 +12,304 @@
       "sounds": [
         "sounds/skitterchests/close"
       ]
+    },
+    "mob.wraith.attack": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wraith/attack"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wraith.attack"
+    },
+    "mob.wraith.hurt": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wraith/hurt0",
+        "sounds/mobNew/wraith/hurt1"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wraith.hurt"
+    },
+    "mob.wraith.death": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wraith/death0",
+        "sounds/mobNew/wraith/death1"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wraith.death"
+    },
+    "mob.wraith.idle": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wraith/idle0",
+        "sounds/mobNew/wraith/idle1",
+        "sounds/mobNew/wraith/idle2"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wraith.idle"
+    },
+    "mob.wildfire.shoot": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/wildfire/shoot"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wildfire.shoot"
+    },
+    "mob.wildfire.hurt": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/wildfire/hurt_1",
+        "sounds/wildfire/hurt_2"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wildfire.hurt"
+    },
+    "mob.wildfire.death": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/wildfire/death"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wildfire.death"
+    },
+    "mob.wildfire.idle": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/wildfire/idle_1",
+        "sounds/wildfire/idle_2"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wildfire.idle"
+    },
+    "mob.wretched_wraith.summon": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wretched_wraith/summon"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wretched_wraith.summon"
+    },
+    "mob.wretched_wraith.shoot": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wretched_wraith/shoot"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wretched_wraith.shoot"
+    },
+    "mob.wretched_wraith.hurt": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wretched_wraith/hurt0",
+        "sounds/mobNew/wretched_wraith/hurt1"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wretched_wraith.hurt"
+    },
+    "mob.wretched_wraith.death": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wretched_wraith/death"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wretched_wraith.death"
+    },
+    "mob.wretched_wraith.idle": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wretched_wraith/idle0",
+        "sounds/mobNew/wretched_wraith/idle1"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wretched_wraith.idle"
+    },
+    "mob.wretched_wraith.spawn": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wretched_wraith/spawn"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wretched_wraith.spawn"
+    },
+    "mob.nameless_one.attack": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/nameless_one/spell1",
+        "sounds/nameless_one/spell2"
+      ],
+      "subtitle": "dungeons.subtitle.mob.nameless_one.attack"
+    },
+    "mob.nameless_one.hurt": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/nameless_one/hurt0",
+        "sounds/mobNew/nameless_one/hurt1"
+      ],
+      "subtitle": "dungeons.subtitle.mob.nameless_one.hurt"
+    },
+    "mob.nameless_one.death": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/nameless_one/death"
+      ],
+      "subtitle": "dungeons.subtitle.mob.nameless_one.death"
+    },
+    "mob.nameless_one.idle": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/nameless_one/idle0",
+        "sounds/mobNew/nameless_one/idle1"
+      ],
+      "subtitle": "dungeons.subtitle.mob.nameless_one.idle"
+    },
+    "mob.wraith.rise": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wraith/rise"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wraith.rise"
+    },
+    "mob.wildfire.shield_impact": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/wildfire/impact_1",
+        "sounds/wildfire/impact_2"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wildfire.shield_impact"
+    },
+    "mob.wildfire.shield_break": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/wildfire/break_shield"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wildfire.shield_break"
+    },
+    "mob.nameless_one.wake": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/nameless_one/wake"
+      ],
+      "subtitle": "dungeons.subtitle.mob.nameless_one.wake"
+    },
+    "armour.rush.activate": {
+      "category": "player",
+      "sounds": [
+        "sounds/armourNew/rush/rush"
+      ],
+      "subtitle": "dungeons.subtitle.armour.rush.activate"
+    },
+    "weapon.daggers.hit": {
+      "category": "player",
+      "sounds": [
+        "sounds/weapon/daggers/swing_1",
+        "sounds/weapon/daggers/swing_2",
+        "sounds/weapon/daggers/swing_3",
+        "sounds/weapon/daggers/swing_4"
+      ]
+    },
+    "weapon.enchant.exploding": {
+      "category": "player",
+      "sounds": [
+        "sounds/weapon/exploding_1",
+        "sounds/weapon/exploding_2",
+        "sounds/weapon/exploding_3"
+      ],
+      "subtitle": "dungeons.subtitle.weapon.enchant.exploding"
+    },
+    "ancient_mob.spawn": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/ancientHunt/spawnMob"
+      ],
+      "subtitle": "dungeons.subtitle.ancient_mob.spawn"
+    },
+    "mob.wraith.fire": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wraith/fire"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wraith.fire"
+    },
+    "weapon.enchant.poison": {
+      "category": "player",
+      "sounds": [
+        "sounds/weapon/poison1",
+        "sounds/weapon/poison2"
+      ],
+      "subtitle": "dungeons.subtitle.weapon.enchant.poison"
+    },
+    "artefact.swiftness_boot.use": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/artefactNew/switfnessBoot/use"
+      ],
+      "subtitle": "dungeons.subtitle.artefact.swiftness_boot.use"
+    },
+    "weapon.enchant.thundering": {
+      "category": "player",
+      "sounds": [
+        "sounds/weapon/zap1",
+        "sounds/weapon/zap2",
+        "sounds/weapon/zap3"
+      ],
+      "subtitle": "dungeons.subtitle.weapon.enchant.thundering"
+    },
+    "weapon.enchant.swirling": {
+      "category": "player",
+      "sounds": [
+        "sounds/weapon/swirling1",
+        "sounds/weapon/swirling2"
+      ],
+      "subtitle": "dungeons.subtitle.weapon.enchant.swirling"
+    },
+    "mob.wraith.teleport": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wraith/teleport0",
+        "sounds/mobNew/wraith/teleport1"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wraith.teleport"
+    },
+    "mob.wretched_wraith.bullethell": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/wretched_wraith/bullethell"
+      ],
+      "subtitle": "dungeons.subtitle.mob.wretched_wraith.bullethell"
+    },
+    "weapon.glaive.swing": {
+      "category": "player",
+      "sounds": [
+        "sounds/weapon/glaive/swing1",
+        "sounds/weapon/glaive/swing2",
+        "sounds/weapon/glaive/swing3"
+      ],
+      "subtitle": "dungeons.subtitle.weapon.glaive.swing"
+    },
+    "weapon.cackling_broom.swing": {
+      "category": "player",
+      "sounds": [
+        "sounds/weapon/cacklebroom_1",
+        "sounds/weapon/cacklebroom_2"
+      ],
+      "subtitle": "dungeons.subtitle.weapon.cackling_broom.swing"
+    },
+    "mob.nameless_one.teleport_in": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/nameless_one/teleport_in0",
+        "sounds/mobNew/nameless_one/teleport_in1"
+      ],
+      "subtitle": "dungeons.subtitle.mob.nameless_one.teleport_in"
+    },
+    "mob.nameless_one.teleport_out": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/nameless_one/teleport_out"
+      ],
+      "subtitle": "dungeons.subtitle.mob.nameless_one.teleport_out"
+    },
+    "mob.nameless_one.charge": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/nameless_one/charge_short"
+      ],
+      "subtitle": "dungeons.subtitle.mob.nameless_one.charge"
+    },
+    "mob.nameless_one.charge_long": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mobNew/nameless_one/charge_long"
+      ],
+      "subtitle": "dungeons.subtitle.mob.nameless_one.charge_long"
     }
   }
 }

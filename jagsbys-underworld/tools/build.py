@@ -166,7 +166,7 @@ def main():
     # Loose documents in a .mcaddon are treated as failed pack imports.
     docs = BUILD / 'behavior_pack/docs/underworld'
     docs.mkdir(parents=True, exist_ok=True)
-    for name in ('TESTING.txt', 'GLOWSQUITO.md', 'TRIAL_ENCOUNTERS.json', 'FOOD_BUFFS.md', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md', 'GENERATION.md', 'VILLAGER_FOOD.md', 'CONQUEST_COMPATIBILITY.json', 'ARENAS.md', 'MOOGS_ARENAS_SOURCE.json', 'PERFORMANCE.md'):
+    for name in ('TESTING.txt', 'GLOWSQUITO.md', 'INFERNAL_LORDS.md', 'INFERNAL_LORDS_SOURCE.json', 'BOSS_PLACEMENTS.json', 'TRIAL_ENCOUNTERS.json', 'FOOD_BUFFS.md', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md', 'GENERATION.md', 'VILLAGER_FOOD.md', 'CONQUEST_COMPATIBILITY.json', 'ARENAS.md', 'MOOGS_ARENAS_SOURCE.json', 'PERFORMANCE.md'):
         (docs / name).write_bytes((ROOT / name).read_bytes())
     shutil.copytree(ROOT / 'history', docs / 'history', dirs_exist_ok=True)
     (docs / 'SKITTERCHESTS.md').write_bytes((ROOT / 'SKITTERCHESTS.md').read_bytes())
@@ -178,6 +178,8 @@ def main():
     subprocess.run(['python3', 'tools/test_moogs_arenas.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/test_natural_landmarks.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/validate.py'], cwd=ROOT, check=True)
+    subprocess.run(['python3', 'tools/validate_infernal_lords.py', '--built'], cwd=ROOT, check=True)
+    subprocess.run(['python3', 'tools/validate_boss_sites.py', '--built'], cwd=ROOT, check=True)
     subprocess.run(['node', '--import', './tests/register-mock.mjs', '--test',
                     *[str(p.relative_to(ROOT)) for p in sorted((ROOT / 'tests').glob('*.test.mjs'))]],
                    cwd=ROOT, check=True)

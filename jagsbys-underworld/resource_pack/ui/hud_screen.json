@@ -1,0 +1,391 @@
+{
+  "namespace": "hud",
+  "boss_health_panel": {
+    "type": "panel",
+    "size": [
+      182,
+      20
+    ],
+    "anchor_from": "top_middle",
+    "anchor_to": "top_middle",
+    "$progress_bar_collection": "boss_bars",
+    "controls": [
+      {
+        "boss_name@boss_name_panel": {}
+      },
+      {
+        "progress_bar_for_collections@common.progress_bar_for_collections": {
+          "offset": [
+            0,
+            10
+          ]
+        }
+      },
+      {
+        "namelessone_health@namelessone_health": {
+          "offset": [
+            0,
+            -50
+          ],
+          "layer": 2,
+          "bindings": [
+            {
+              "binding_name": "#bossName",
+              "binding_type": "collection",
+              "binding_collection_name": "boss_bars"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#bossName = '§6Malzareth, Lord of Decay')",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "wretchedwraith_health@wretchedwraith_health": {
+          "offset": [
+            0,
+            -50
+          ],
+          "layer": 2,
+          "bindings": [
+            {
+              "binding_name": "#bossName",
+              "binding_type": "collection",
+              "binding_collection_name": "boss_bars"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#bossName = '§dNerezhal, Lord of Lamentation')",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "wretchedwraith2_health@wretchedwraith2_health": {
+          "offset": [
+            0,
+            -50
+          ],
+          "layer": 2,
+          "bindings": [
+            {
+              "binding_name": "#bossName",
+              "binding_type": "collection",
+              "binding_collection_name": "boss_bars"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#bossName = '§5Nerezhal, Lord of Lamentation')",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "bosswildfire_health@bosswildfire_health": {
+          "offset": [
+            0,
+            -50
+          ],
+          "layer": 2,
+          "bindings": [
+            {
+              "binding_name": "#bossName",
+              "binding_type": "collection",
+              "binding_collection_name": "boss_bars"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#bossName = '§cBaelgor, Lord of Ruin')",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      }
+    ],
+    "bindings": [
+      {
+        "binding_name": "#bar_visible",
+        "binding_type": "collection",
+        "binding_collection_name": "boss_bars",
+        "binding_name_override": "#visible"
+      },
+      {
+        "binding_name": "#bossName",
+        "binding_type": "collection",
+        "binding_collection_name": "boss_bars"
+      }
+    ]
+  },
+  "namelessone_health": {
+    "type": "panel",
+    "anchor_from": "top_middle",
+    "anchor_to": "top_middle",
+    "size": [
+      300,
+      128
+    ],
+    "bindings": [
+      {
+        "binding_name": "(#bossName = '§6Malzareth, Lord of Decay')",
+        "binding_type": "collection",
+        "binding_collection_name": "boss_bars",
+        "binding_name_override": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "empty_namelessone_health@empty_namelessone_health": {
+          "layer": 1,
+          "keep_ratio": false
+        }
+      },
+      {
+        "filled_namelessone_bossbar@filled_namelessone_bossbar": {
+          "layer": 2,
+          "keep_ratio": false
+        }
+      },
+      {
+        "overlay_namelessone_bossbar@overlay_namelessone_bossbar": {
+          "layer": 3,
+          "keep_ratio": false
+        }
+      }
+    ]
+  },
+  "filled_namelessone_bossbar@filled_namelessone_health": {
+    "clip_pixelperfect": true,
+    "bindings": [
+      {
+        "binding_name": "#progress_percentage",
+        "binding_name_override": "#clip_ratio",
+        "binding_type": "collection",
+        "binding_collection_name": "$progress_bar_collection"
+      }
+    ]
+  },
+  "filled_namelessone_health": {
+    "type": "image",
+    "texture": "textures/ui/bossbars/namelessone/fullBar",
+    "clip_direction": "left",
+    "bindings": [
+      {
+        "binding_name": "#progress_percentage",
+        "binding_name_override": "#clip_ratio"
+      }
+    ]
+  },
+  "empty_namelessone_health": {
+    "type": "image",
+    "texture": "textures/ui/bossbars/namelessone/emptyBar"
+  },
+  "overlay_namelessone_bossbar": {
+    "type": "image",
+    "texture": "textures/ui/bossbars/namelessone/overlayBar"
+  },
+  "wretchedwraith_health": {
+    "type": "panel",
+    "anchor_from": "top_middle",
+    "anchor_to": "top_middle",
+    "size": [
+      300,
+      128
+    ],
+    "bindings": [
+      {
+        "binding_name": "(#bossName = '§dNerezhal, Lord of Lamentation')",
+        "binding_type": "collection",
+        "binding_collection_name": "boss_bars",
+        "binding_name_override": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "empty_wretchedwraith_health@empty_wretchedwraith_health": {
+          "layer": 1,
+          "keep_ratio": false
+        }
+      },
+      {
+        "filled_wretchedwraith_bossbar@filled_wretchedwraith_bossbar": {
+          "layer": 2,
+          "keep_ratio": false
+        }
+      },
+      {
+        "overlay_wretchedwraith_bossbar@overlay_wretchedwraith_bossbar": {
+          "layer": 3,
+          "keep_ratio": false
+        }
+      }
+    ]
+  },
+  "filled_wretchedwraith_bossbar@filled_wretchedwraith_health": {
+    "clip_pixelperfect": true,
+    "bindings": [
+      {
+        "binding_name": "#progress_percentage",
+        "binding_name_override": "#clip_ratio",
+        "binding_type": "collection",
+        "binding_collection_name": "$progress_bar_collection"
+      }
+    ]
+  },
+  "filled_wretchedwraith_health": {
+    "type": "image",
+    "texture": "textures/ui/bossbars/wretchedwraith/fullBar",
+    "clip_direction": "left",
+    "bindings": [
+      {
+        "binding_name": "#progress_percentage",
+        "binding_name_override": "#clip_ratio"
+      }
+    ]
+  },
+  "empty_wretchedwraith_health": {
+    "type": "image",
+    "texture": "textures/ui/bossbars/wretchedwraith/emptyBar"
+  },
+  "overlay_wretchedwraith_bossbar": {
+    "type": "image",
+    "texture": "textures/ui/bossbars/wretchedwraith/overlayBar"
+  },
+  "wretchedwraith2_health": {
+    "type": "panel",
+    "anchor_from": "top_middle",
+    "anchor_to": "top_middle",
+    "size": [
+      300,
+      128
+    ],
+    "bindings": [
+      {
+        "binding_name": "(#bossName = '§5Nerezhal, Lord of Lamentation')",
+        "binding_type": "collection",
+        "binding_collection_name": "boss_bars",
+        "binding_name_override": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "empty_wretchedwraith2_health@empty_wretchedwraith2_health": {
+          "layer": 1,
+          "keep_ratio": false
+        }
+      },
+      {
+        "filled_wretchedwraith2_bossbar@filled_wretchedwraith2_bossbar": {
+          "layer": 2,
+          "keep_ratio": false
+        }
+      },
+      {
+        "overlay_wretchedwraith2_bossbar@overlay_wretchedwraith2_bossbar": {
+          "layer": 3,
+          "keep_ratio": false
+        }
+      }
+    ]
+  },
+  "filled_wretchedwraith2_bossbar@filled_wretchedwraith2_health": {
+    "clip_pixelperfect": true,
+    "bindings": [
+      {
+        "binding_name": "#progress_percentage",
+        "binding_name_override": "#clip_ratio",
+        "binding_type": "collection",
+        "binding_collection_name": "$progress_bar_collection"
+      }
+    ]
+  },
+  "filled_wretchedwraith2_health": {
+    "type": "image",
+    "texture": "textures/ui/bossbars/wretchedwraith/fullBar2",
+    "clip_direction": "left",
+    "bindings": [
+      {
+        "binding_name": "#progress_percentage",
+        "binding_name_override": "#clip_ratio"
+      }
+    ]
+  },
+  "empty_wretchedwraith2_health": {
+    "type": "image",
+    "texture": "textures/ui/bossbars/wretchedwraith/emptyBar2"
+  },
+  "overlay_wretchedwraith2_bossbar": {
+    "type": "image",
+    "texture": "textures/ui/bossbars/wretchedwraith/overlayBar"
+  },
+  "bosswildfire_health": {
+    "type": "panel",
+    "anchor_from": "top_middle",
+    "anchor_to": "top_middle",
+    "size": [
+      300,
+      128
+    ],
+    "bindings": [
+      {
+        "binding_name": "(#bossName = '§cBaelgor, Lord of Ruin')",
+        "binding_type": "collection",
+        "binding_collection_name": "boss_bars",
+        "binding_name_override": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "empty_bosswildfire_health@empty_bosswildfire_health": {
+          "layer": 1,
+          "keep_ratio": false
+        }
+      },
+      {
+        "filled_bosswildfire_bossbar@filled_bosswildfire_bossbar": {
+          "layer": 2,
+          "keep_ratio": false
+        }
+      },
+      {
+        "overlay_bosswildfire_bossbar@overlay_bosswildfire_bossbar": {
+          "layer": 3,
+          "keep_ratio": false
+        }
+      }
+    ]
+  },
+  "filled_bosswildfire_bossbar@filled_bosswildfire_health": {
+    "clip_pixelperfect": true,
+    "bindings": [
+      {
+        "binding_name": "#progress_percentage",
+        "binding_name_override": "#clip_ratio",
+        "binding_type": "collection",
+        "binding_collection_name": "$progress_bar_collection"
+      }
+    ]
+  },
+  "filled_bosswildfire_health": {
+    "type": "image",
+    "texture": "textures/ui/bossbars/bosswildfire/fullBar",
+    "clip_direction": "left",
+    "bindings": [
+      {
+        "binding_name": "#progress_percentage",
+        "binding_name_override": "#clip_ratio"
+      }
+    ]
+  },
+  "empty_bosswildfire_health": {
+    "type": "image",
+    "texture": "textures/ui/bossbars/bosswildfire/emptyBar"
+  },
+  "overlay_bosswildfire_bossbar": {
+    "type": "image",
+    "texture": "textures/ui/bossbars/bosswildfire/overlayBar"
+  }
+}

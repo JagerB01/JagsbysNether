@@ -5,7 +5,7 @@ import {ARENAS} from '../behavior_pack/scripts/arena_catalog.js';
 import {arenaRequest,placeArena} from '../behavior_pack/scripts/arenas.js';
 function fixture(){
  const calls=[],places=[];
- const dimension={heightRange:{min:0,max:128},getBlock(){return {typeId:'minecraft:air'};},runCommand(command){calls.push(command);}};
+ const dimension={id:'minecraft:nether',heightRange:{min:0,max:128},getBlock(){return {typeId:'minecraft:air'};},runCommand(command){calls.push(command);}};
  const player={location:{x:0,y:32,z:0},dimension};
  return {dimension,player,calls,places};
 }
@@ -38,7 +38,8 @@ test('Mega Fortress loads and cleans each section below the 100-chunk ticking-ar
  const f=fixture(),old=world.structureManager;world.structureManager={place(id,dim,pos){f.places.push({id,pos});}};
  try{finish(placeArena(arenaRequest('mega_fortress 100 32 100',f.player)));}finally{world.structureManager=old;}
  assert.equal(f.places.length,ARENAS.mega_fortress.sections.length);
- assert.equal(f.calls.length,f.places.length*2);
+ assert.equal(f.calls.length,f.places.length*2+2);
+ assert(f.calls.at(-2).includes("dormant_boss"));
  for(let i=0;i<f.calls.length;i+=2){
   assert(f.calls[i].startsWith('tickingarea add '));assert(f.calls[i+1].startsWith('tickingarea remove '));
   const parts=f.calls[i].split(' '),x=Number(parts[2]),z=Number(parts[4]),endX=Number(parts[5]),endZ=Number(parts[7]);

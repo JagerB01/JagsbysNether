@@ -97,6 +97,66 @@
     },
     "jagsby_food_wickspit": {
       "textures": "textures/items/food_buffs/wickspit"
+    },
+    "wretched_key": {
+      "textures": "textures/items/key/wretched_wraith"
+    },
+    "nameless_key": {
+      "textures": "textures/items/key/nameless_one"
+    },
+    "blaze_key": {
+      "textures": "textures/items/key/hovering_inferno"
+    },
+    "frost_chestplate": {
+      "textures": "textures/items/armor/chestplate_frost"
+    },
+    "frost_helmet": {
+      "textures": "textures/items/armor/helmet_frost"
+    },
+    "glaive": {
+      "textures": "textures/items/weapon/glaive"
+    },
+    "egg_frozen_zombie": {
+      "textures": "textures/items/spawn_eggs/spawn_egg_frozen_zombie"
+    },
+    "egg_enchanted_frozen_zombie": {
+      "textures": "textures/items/spawn_eggs/enchanted/frozen_zombie"
+    },
+    "egg_enchanted_mossy_zombie": {
+      "textures": "textures/items/spawn_eggs/enchanted/mossy_zombie"
+    },
+    "egg_mossy_zombie": {
+      "textures": "textures/items/spawn_eggs/spawn_egg_mossy_zombie"
+    },
+    "egg_enchanted_vanguard": {
+      "textures": "textures/items/spawn_eggs/enchanted/vanguard"
+    },
+    "egg_vanguard": {
+      "textures": "textures/items/spawn_eggs/spawn_egg_vanguard"
+    },
+    "egg_tower_wraith": {
+      "textures": "textures/items/spawn_eggs/spawn_egg_tower_wraith"
+    },
+    "egg_enchanted_wraith": {
+      "textures": "textures/items/spawn_eggs/enchanted/wraith"
+    },
+    "egg_wraith": {
+      "textures": "textures/items/spawn_eggs/spawn_egg_wraith"
+    },
+    "egg_enchanted_necromancer": {
+      "textures": "textures/items/spawn_eggs/enchanted/necromancer"
+    },
+    "egg_necromancer": {
+      "textures": "textures/items/spawn_eggs/spawn_egg_necromancer"
+    },
+    "egg_wretched_wraith": {
+      "textures": "textures/items/spawn_eggs/spawn_egg_wretched_wraith"
+    },
+    "egg_hovering_inferno": {
+      "textures": "textures/items/spawn_eggs/spawn_egg_hovering_inferno"
+    },
+    "egg_nameless_one": {
+      "textures": "textures/items/spawn_eggs/spawn_egg_nameless_one"
     }
   }
 }

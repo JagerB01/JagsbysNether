@@ -1,0 +1,30 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.vanguard": {
+      "geometry": "Geometry.default",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Texture.default"
+      ],
+      "part_visibility": [
+        {
+          "legClothleft": "!q.equipped_item_any_tag('slot.armor.legs','minecraft:is_armor')"
+        },
+        {
+          "legClothright": "!q.equipped_item_any_tag('slot.armor.legs','minecraft:is_armor')"
+        },
+        {
+          "chestplate": "!q.equipped_item_any_tag('slot.armor.chest','minecraft:is_armor')"
+        },
+        {
+          "helmet": "!q.equipped_item_any_tag('slot.armor.head','minecraft:is_armor')"
+        }
+      ]
+    }
+  }
+}

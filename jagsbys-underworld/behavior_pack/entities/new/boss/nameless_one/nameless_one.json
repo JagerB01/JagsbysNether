@@ -1,0 +1,482 @@
+{
+  "format_version": "1.21.130",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "dungeons:nameless_one",
+      "runtime_identifier": "minecraft:zombie",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "is_experimental": false,
+      "animations": {
+        "casting": "controller.animation.nameless_one.casting"
+      },
+      "properties": {
+        "dungeons:vanguards": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "dungeons:casting": {
+          "type": "bool",
+          "default": false
+        }
+      },
+      "scripts": {
+        "animate": [
+          "casting"
+        ]
+      }
+    },
+    "component_groups": {
+      "dungeons:summon_cooldown": {
+        "minecraft:attack_cooldown": {
+          "attack_cooldown_time": 10,
+          "attack_cooldown_complete_event": {
+            "event": "dungeons:summon_cooldown_complete",
+            "target": "self"
+          }
+        }
+      },
+      "dungeons:summon_cooldown_short": {
+        "minecraft:attack_cooldown": {
+          "attack_cooldown_time": 5,
+          "attack_cooldown_complete_event": {
+            "event": "dungeons:summon_cooldown_complete",
+            "target": "self"
+          }
+        }
+      },
+      "dungeons:vanguard_mode": {
+        "minecraft:behavior.summon_entity": {
+          "priority": 1,
+          "summon_choices": [
+            {
+              "cast_duration": 1.6,
+              "do_casting": true,
+              "cooldown_time": 10,
+              "weight": 1,
+              "start_sound_event": "squish.big",
+              "max_activation_range": 64,
+              "filters": [
+                {
+                  "all_of": [
+                    {
+                      "test": "has_component",
+                      "value": "minecraft:attack_cooldown",
+                      "subject": "self",
+                      "operator": "not"
+                    }
+                  ]
+                }
+              ],
+              "sequence": [
+                {
+                  "base_delay": 1.7,
+                  "delay_per_summon": 0,
+                  "entity_type": "dungeons:nameless_vanguard",
+                  "entity_lifespan": -1,
+                  "num_entities_spawned": 4,
+                  "shape": "circle",
+                  "size": 3,
+                  "target": "self"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "dungeons:illusion_mode": {
+        "minecraft:behavior.summon_entity": {
+          "priority": 1,
+          "summon_choices": [
+            {
+              "cast_duration": 3.1,
+              "do_casting": true,
+              "cooldown_time": 10,
+              "start_sound_event": "admire",
+              "weight": 1,
+              "max_activation_range": 64,
+              "filters": [
+                {
+                  "all_of": [
+                    {
+                      "test": "has_component",
+                      "value": "minecraft:attack_cooldown",
+                      "subject": "self",
+                      "operator": "not"
+                    }
+                  ]
+                }
+              ],
+              "sequence": [
+                {
+                  "base_delay": 2.9,
+                  "delay_per_summon": 0,
+                  "entity_type": "dungeons:nameless_one_illusion",
+                  "entity_lifespan": -1,
+                  "num_entities_spawned": 6,
+                  "shape": "circle",
+                  "size": 8,
+                  "target": "self"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "components": {
+      "minecraft:is_hidden_when_invisible": {},
+      "minecraft:nameable": {},
+      "minecraft:movement": {
+        "value": 0.27
+      },
+      "minecraft:experience_reward": {
+        "on_death": "query.last_hit_by_player ? 750 : 375"
+      },
+      "minecraft:type_family": {
+        "family": [
+          "dungeons_musicbox",
+          "nameless_one",
+          "boss",
+          "undead",
+          "monster",
+          "mob"
+        ]
+      },
+      "minecraft:knockback_resistance": {
+        "value": 0.8
+      },
+      "minecraft:collision_box": {
+        "width": 0.65,
+        "height": 2.15
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:navigation.walk": {
+        "is_amphibious": true,
+        "avoid_sun": false,
+        "can_walk": true
+      },
+      "minecraft:boss": {
+        "should_darken_sky": false,
+        "hud_range": 32,
+        "name": "dungeons.bossbar.nameless_one"
+      },
+      "minecraft:jump.static": {},
+      "minecraft:can_climb": {},
+      "minecraft:health": {
+        "value": 600,
+        "max": 600
+      },
+      "minecraft:scale": {
+        "value": 1.2
+      },
+      "minecraft:hurt_on_condition": {
+        "damage_conditions": [
+          {
+            "filters": {
+              "test": "in_lava",
+              "subject": "self",
+              "operator": "==",
+              "value": true
+            },
+            "cause": "lava",
+            "damage_per_tick": 4
+          }
+        ]
+      },
+      "minecraft:breathable": {
+        "total_supply": 15,
+        "suffocate_time": 0,
+        "breathes_air": true,
+        "breathes_water": true
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/entities/nameless_one.json"
+      },
+      "minecraft:shooter": {
+        "def": "dungeons:nameless_one_projectile"
+      },
+      "minecraft:behavior.ranged_attack": {
+        "priority": 3,
+        "attack_interval_min": 2,
+        "attack_interval_max": 2,
+        "attack_radius": 40,
+        "speed_multiplier": 1
+      },
+      "minecraft:behavior.random_stroll": {
+        "priority": 7,
+        "speed_multiplier": 1
+      },
+      "minecraft:behavior.look_at_target": {
+        "priority": 8,
+        "look_distance": 6,
+        "probability": 0.02
+      },
+      "minecraft:behavior.random_look_around": {
+        "priority": 9
+      },
+      "minecraft:behavior.nearest_attackable_target": {
+        "priority": 2,
+        "must_see": false,
+        "reselect_targets": true,
+        "within_radius": 64,
+        "entity_types": [
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "snowgolem"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "irongolem"
+                }
+              ]
+            },
+            "max_dist": 64
+          }
+        ]
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "fall",
+            "deals_damage": "no"
+          }
+        ]
+      },
+      "minecraft:entity_sensor": {
+        "subsensors": [
+          {
+            "cooldown": 7.5,
+            "event_filters": [
+              {
+                "all_of": [
+                  {
+                    "test": "bool_property",
+                    "value": false,
+                    "subject": "self",
+                    "domain": "dungeons:casting"
+                  },
+                  {
+                    "any_of": [
+                      {
+                        "test": "is_target",
+                        "subject": "other",
+                        "value": true
+                      },
+                      {
+                        "test": "was_last_hurt_by",
+                        "subject": "other"
+                      },
+                      {
+                        "all_of": [
+                          {
+                            "test": "is_family",
+                            "value": "player",
+                            "subject": "other"
+                          },
+                          {
+                            "test": "has_ability",
+                            "value": "instabuild",
+                            "operator": "not",
+                            "subject": "other"
+                          },
+                          {
+                            "test": "has_mob_effect",
+                            "value": "invisibility",
+                            "operator": "not",
+                            "subject": "other"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "range": [
+              5,
+              4
+            ],
+            "minimum_count": 1,
+            "maximum_count": -1,
+            "event": "dungeons:nameless_one_teleport"
+          },
+          {
+            "cooldown": 6,
+            "maximum_count": 0,
+            "minimum_count": 0,
+            "event_filters": [
+              {
+                "all_of": [
+                  {
+                    "test": "bool_property",
+                    "value": false,
+                    "subject": "self",
+                    "domain": "dungeons:casting"
+                  },
+                  {
+                    "test": "has_target",
+                    "value": true,
+                    "subject": "self"
+                  },
+                  {
+                    "test": "is_target",
+                    "value": true,
+                    "subject": "other"
+                  }
+                ]
+              }
+            ],
+            "event": "dungeons:nameless_one_teleport_to_player",
+            "range": [
+              20,
+              10
+            ]
+          }
+        ]
+      },
+      "minecraft:physics": {},
+      "minecraft:home": {
+        "restriction_radius": 32,
+        "restriction_type": "random_movement"
+      },
+      "minecraft:pushable": {
+        "is_pushable": true,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:on_death": {
+        "event": "dungeons:start_death",
+        "target": "self"
+      },
+      "minecraft:conditional_bandwidth_optimization": {},
+      "minecraft:environment_sensor": {
+        "triggers": [
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "in_block",
+                  "value": "web",
+                  "subject": "self"
+                }
+              ]
+            },
+            "event": "dungeons:nameless_one_teleport"
+          }
+        ]
+      },
+      "minecraft:behavior.timer_flag_1": {
+        "cooldown_range": [
+          0,
+          0
+        ],
+        "duration_range": [
+          1,
+          1
+        ],
+        "on_start": {
+          "event": "dungeons:detect_vanguards",
+          "target": "self"
+        },
+        "priority": 0
+      },
+      "minecraft:follow_range": {
+        "max": 64,
+        "value": 64
+      }
+    },
+    "events": {
+      "dungeons:vanguards_in_range": {
+        "remove": {
+          "component_groups": [
+            "dungeons:vanguard_mode"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "dungeons:illusion_mode"
+          ]
+        }
+      },
+      "dungeons:no_vanguards_in_range": {
+        "add": {
+          "component_groups": [
+            "dungeons:vanguard_mode",
+            "dungeons:summon_cooldown_short"
+          ]
+        },
+        "remove": {
+          "component_groups": [
+            "dungeons:illusion_mode"
+          ]
+        }
+      },
+      "dungeons:detect_vanguards": {},
+      "dungeons:nameless_one_teleport": {},
+      "dungeons:nameless_one_teleport_to_player": {},
+      "dungeons:begin_casting": {
+        "set_property": {
+          "dungeons:casting": true
+        },
+        "queue_command": {
+          "command": [
+            "particle dungeons:nameless_one_cast ~~~",
+            "execute as @s[has_property={dungeons:vanguards=true}] at @s run playsound mob.nameless_one.charge_long @a ~~~",
+            "execute as @s[has_property={dungeons:vanguards=false}] at @s run playsound mob.nameless_one.charge @a ~~~"
+          ]
+        }
+      },
+      "dungeons:complete_casting": {
+        "set_property": {
+          "dungeons:casting": false
+        },
+        "add": {
+          "component_groups": [
+            "dungeons:summon_cooldown"
+          ]
+        }
+      },
+      "dungeons:summon_cooldown_complete": {
+        "remove": {
+          "component_groups": [
+            "dungeons:summon_cooldown",
+            "dungeons:summon_cooldown_short"
+          ]
+        }
+      },
+      "minecraft:entity_spawned": {
+        "add": {
+          "component_groups": [
+            "dungeons:vanguard_mode"
+          ]
+        }
+      },
+      "minecraft:entity_transformed": {
+        "add": {
+          "component_groups": [
+            "dungeons:vanguard_mode"
+          ]
+        }
+      },
+      "dungeons:start_death": {
+        "queue_command": {
+          "command": [
+            "particle dungeons:nameless_death ~~~",
+            "particle dungeons:nameless_death2 ~~1.5~"
+          ]
+        }
+      }
+    }
+  }
+}

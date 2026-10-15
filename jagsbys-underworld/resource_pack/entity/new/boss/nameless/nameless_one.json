@@ -1,0 +1,53 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "dungeons:nameless_one",
+      "materials": {
+        "default": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/entity/nameless_one/nameless_one"
+      },
+      "geometry": {
+        "default": "geometry.nameless_one"
+      },
+      "render_controllers": [
+        "controller.render.default"
+      ],
+      "animations": {
+        "idle": "animation.nameless_one_v2.idle",
+        "move": "animation.nameless_one_v2.walk",
+        "move_controller": "controller.animation.nameless_one_v2.move",
+        "orb": "animation.nameless_one_v2.orb",
+        "orb_particles": "animation.nameless_one_v2.orb_particles",
+        "ranged_attack": "animation.nameless_one_v2.ranged_attack",
+        "ranged_controller": "controller.animation.nameless_one_v2.ranged_attack",
+        "look_at_target": "animation.nameless_one_v2.look_at_target",
+        "cast_short": "animation.nameless_one_v2.summon",
+        "cast_long": "animation.nameless_one_v2.summon_long",
+        "cast_spell_controller": "controller.animation.nameless_one_v2.cast_spell"
+      },
+      "scripts": {
+        "animate": [
+          "orb",
+          "orb_particles",
+          "look_at_target",
+          "idle",
+          "move_controller",
+          "ranged_controller",
+          "cast_spell_controller"
+        ]
+      },
+      "particle_effects": {
+        "orb_magic_0": "dungeons:nameless_one_orb_0",
+        "orb_magic_1": "dungeons:nameless_one_orb_1",
+        "legs": "dungeons:nameless_one_feet"
+      },
+      "spawn_egg": {
+        "base_color": "#1d0021",
+        "overlay_color": "#097a64"
+      }
+    }
+  }
+}

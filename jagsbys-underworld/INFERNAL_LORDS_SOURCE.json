@@ -1,0 +1,3125 @@
+{
+  "original": "Alylica’s Dungeons 2.1.3",
+  "nether_reference": "Underworld standalone test v0.1.4 AUDIO FIX",
+  "scope": "Five primary mobs, essential support actors, original enchanted handlers, and one-shot dormant boss placement only in newly generated corresponding structures. No free-roaming spawn rules; original direct drops and Underworld bonus loot.",
+  "files": {
+    "BP/entities/enchanted/new/enchanted_frozen_zombie.json": {
+      "source": "BP/entities/enchanted/new/enchanted_frozen_zombie.json",
+      "source_sha256": "923a91df457917b57cfda6af4ea2e4ca29413e10cb09b49982f285dec58fe9f7",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "b9932721d2baa5047dac1f9e0545250b347c644a79928c2bd4d6f3a468237c8a"
+    },
+    "BP/entities/enchanted/new/enchanted_jungle_zombie.json": {
+      "source": "BP/entities/enchanted/new/enchanted_jungle_zombie.json",
+      "source_sha256": "0f2b1d84dae17bf29df336fc9a33b1f9d9d553f0388cdd2a46c6daf34ef68880",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e9c2008fa1d3269689303dbac57ec9c136dbb9de71e1b18f3707388751ed40d7"
+    },
+    "BP/entities/enchanted/new/enchanted_necromancer.json": {
+      "source": "BP/entities/enchanted/new/enchanted_necromancer.json",
+      "source_sha256": "3bfea4203f26a01fa2ac5ae7ea8d0ba5a83d996ad15a29b74e9299b574715680",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9baa00b3d2a80c024863126fd310b7ad4fd1d6c15cdcc012b8ce9bff25ba556d"
+    },
+    "BP/entities/enchanted/new/enchanted_vanguard.json": {
+      "source": "BP/entities/enchanted/new/enchanted_vanguard.json",
+      "source_sha256": "728be67ee671933ee9d826a52ff275bb040d5c59c9a25a2c1cd3deff3ac06ceb",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "a43ce7406c8e2dfd1b7bc517314c075199ab641159a27c7427ac1aaefde5346e"
+    },
+    "BP/entities/enchanted/new/enchanted_wraith.json": {
+      "source": "BP/entities/enchanted/new/enchanted_wraith.json",
+      "source_sha256": "f36d6a45643f5f2fcabae074205c49a1feeaaa479f8482c4a1fd316317041999",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "fa16b6fed4a04bbd2dd0f79f141f949f6c90ec1276670b01cfcfe526128e4fc6"
+    },
+    "BP/entities/new/boss/nameless_one/nameless_one.json": {
+      "source": "BP/entities/new/boss/nameless_one/nameless_one.json",
+      "source_sha256": "8a3e5eb447653f587b5729e119e4963a73f108a3ea37ce03737a026af28cb87f",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "794bced6bc77d6d7a029e066ca697c5c7cfc387c04b0607e1df4c927bb8303f0"
+    },
+    "BP/entities/new/boss/nameless_one/nameless_one_projectile.json": {
+      "source": "BP/entities/new/boss/nameless_one/nameless_one_projectile.json",
+      "source_sha256": "2ffd9d92d02e87ec72d0556809706c2f54b5dbeb6ea1f6faf94df05061c06401",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d9a0ba18969fcf8f93d9473e4a913baa296bb894767a87a4749719f15f373276"
+    },
+    "BP/entities/new/boss/nameless_one/poser_king.json": {
+      "source": "BP/entities/new/boss/nameless_one/poser_king.json",
+      "source_sha256": "be9cf640bb83d4d9247f735dfb75d4cb7de0e38aa35d21ac125abd19afdf3048",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "7d5d052a56968ef06c8e1b271a39f66355feea9249975cc130ef8da6e3cf38db"
+    },
+    "BP/entities/new/boss/nameless_one/resting_one.json": {
+      "source": "BP/entities/new/boss/nameless_one/resting_one.json",
+      "source_sha256": "9b1ed54a7177b2eb3f7decf09185a84d2c3eea4e44cbe1474722993baef49fa1",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "68efbfc5d52fef84d3b21af7cc80f1ed48ba4905fbaf7d731530dc440c670619"
+    },
+    "BP/entities/new/boss/wildfire/wildfire.json": {
+      "source": "BP/entities/new/boss/wildfire/wildfire.json",
+      "source_sha256": "df46a0ee9a913876baf1d8a01cfcf0ec7de8fa9e5872ffef06138b12fd9857b7",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "7a05bf1c34c5c91fcb965ed30503a8ba6d4a6c8335a1b73f329a35990eee23c0"
+    },
+    "BP/entities/new/boss/wildfire/wildfire_resting.json": {
+      "source": "BP/entities/new/boss/wildfire/wildfire_resting.json",
+      "source_sha256": "6929ff3654ba3798436cc3f712d448627cce604983210872cc122759196381ce",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "8480c28a723e23260d8b416bb56edfb15cbf3e242dfbaf997e546c69e792738d"
+    },
+    "BP/entities/new/boss/wretched_wraith/projectile.json": {
+      "source": "BP/entities/new/boss/wretched_wraith/projectile.json",
+      "source_sha256": "fa26e94be5f4397a76efa4fa200fedf8d688c3e06d64564e38e5d05cedab8cb2",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9925ebbe6fc253eb6c992036642462cb90323e7e0966eb37d43c13a8a8bc5477"
+    },
+    "BP/entities/new/boss/wretched_wraith/resting_wraith.json": {
+      "source": "BP/entities/new/boss/wretched_wraith/resting_wraith.json",
+      "source_sha256": "0951bb62f892cf1a9a9664213b24dbb4da2fae2d33429fd864094b225a122117",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d90768fd1d1c75096f7270bd8d7d3e7d17a7313745ae61c7f519dbfa405c0da3"
+    },
+    "BP/entities/new/boss/wretched_wraith/wretched_wraith.json": {
+      "source": "BP/entities/new/boss/wretched_wraith/wretched_wraith.json",
+      "source_sha256": "bc860fede9b6b1d6c62e501490801889bd3c15634466736f02cd5c919ea5d985",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "eed0ddc1a7feeb3cf3c878d226411fe2d23de090ea7cbce5a5fd6e6ac3118027"
+    },
+    "BP/entities/new/boss/wretched_wraith/wretched_wraith_fire.json": {
+      "source": "BP/entities/new/boss/wretched_wraith/wretched_wraith_fire.json",
+      "source_sha256": "903bf60d713414d17cb55d4f8fedd588d02db58bbb5e509e0ed4d943116d8cb3",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "8e5a69df7a3931908ad65accdd7410cc1b289830bb01d86ed8a3f8e98e16dec9"
+    },
+    "BP/entities/new/frozen_zombie/frozen_zombie.json": {
+      "source": "BP/entities/new/frozen_zombie/frozen_zombie.json",
+      "source_sha256": "6c468220f87774d8f28a775483f6dcad82406150ef6860a77e748b08df7d8450",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "7568643877230d38606c3b61753aefc7e9cf8b2fb7f203ff8a3f5a9bd757a6c2"
+    },
+    "BP/entities/new/frozen_zombie/snowball.json": {
+      "source": "BP/entities/new/frozen_zombie/snowball.json",
+      "source_sha256": "2efe43ac50e1476bf84c1972e4a59bcbd0192a151a727e714b1b9da912a9a47b",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "4236745b08e91e3b1f2f72cff50555ff5aaeccb1f03df3749ee75ba9d788ab39"
+    },
+    "BP/entities/new/jungle_zombie.json": {
+      "source": "BP/entities/new/jungle_zombie.json",
+      "source_sha256": "a328dc2df8594fde8993e6543e32b952bc134de3086641765e1f58f2a525610e",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "52a878c528cc86e25650d97ebcb798322e4ee04e055d0fce1224b6de16bd0f7a"
+    },
+    "BP/entities/new/necromancer/necromancer.json": {
+      "source": "BP/entities/new/necromancer/necromancer.json",
+      "source_sha256": "6f52e4113afd10025fa042c234c8287d4d7df8ce99016014a3127ffdf8e528ec",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "4eca81d98e9e744278cf3410c8c63cae854bfcd421b630e92b9335b811909559"
+    },
+    "BP/entities/new/necromancer/necromancer_spawnpoint.json": {
+      "source": "BP/entities/new/necromancer/necromancer_spawnpoint.json",
+      "source_sha256": "88cf2cc71baeecd402453285cd861797feee08508e0ad342c72ba6b668ea5abe",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "8484aa4c241e4c0ec8def0599ccc4b83ef6bdcdf24d38f8dd14ea056f4472490"
+    },
+    "BP/entities/new/tower_wraith.json": {
+      "source": "BP/entities/new/tower_wraith.json",
+      "source_sha256": "bf94d241c3dcc4240c38dabb409459551e4555e5d7bbad54a50c59632fd5ef91",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "01293483fe1fe573b2f4bd6774b1ccd49ef5f0a0f65d29855279976612ef8f74"
+    },
+    "BP/entities/new/vanguard.json": {
+      "source": "BP/entities/new/vanguard.json",
+      "source_sha256": "9a01555bfbcc38a4e25dfd9d55d9f0c8834a17c3fe00de4b76e8af6d8232db57",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9c70e04a2f5b6562e0873034f9866a487f292426e39678b8cbd5e3a30ac600be"
+    },
+    "BP/entities/new/wraith/wraith.json": {
+      "source": "BP/entities/new/wraith/wraith.json",
+      "source_sha256": "31a77d48e92826adc53ac39ea566f1c7db905b0acae283374551f7894cc15c14",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "213f4ba0d0f6ac83352c65402aa6d3e4894f73c0381e6d7bc23a50f260470768"
+    },
+    "BP/entities/new/wraith/wraith_fire.json": {
+      "source": "BP/entities/new/wraith/wraith_fire.json",
+      "source_sha256": "2735704d51a7a5002f44f8d2d1df996cea9e3579ba8b193b35a6c94e2ab94f84",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "be307b91d7d86c161c044cbb57924dcc91865056d2086c4e534f8d2ddeaac5ec"
+    },
+    "BP/entities/utility/chest/diamond/boss_wildfire.json": {
+      "source": "BP/entities/utility/chest/diamond/boss_wildfire.json",
+      "source_sha256": "c78f48d6bf34ca591a9c4f248114bf75efa36946badd67971a7f3864727b97a4",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "645666fe6de54370885592e806f4e71b5df1489260effaf8c6042529a6572cf1"
+    },
+    "BP/entities/utility/chest/diamond/nameless_one_loot.json": {
+      "source": "BP/entities/utility/chest/diamond/nameless_one_loot.json",
+      "source_sha256": "860e557ae64dc63fadf6f5535fd107fb749b53c09173c3f2b77849f4cda8babf",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "43e9b8119f92ea79fc3bbc7e5f1077c85b665c1d635a03f2611f36cabef28ed0"
+    },
+    "BP/entities/utility/chest/diamond/wretched_wraith_loot.json": {
+      "source": "BP/entities/utility/chest/diamond/wretched_wraith_loot.json",
+      "source_sha256": "c4d965e8fc2c3f5e2624eb17e8f832f47eceb1faad190e535f6d032243d12a33",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "28638e90f6d11a59f701b7f8486504ae96f3a77d69a11aa8c0a6ae13a240cef8"
+    },
+    "BP/entities/utility/nameless_one_awaken.json": {
+      "source": "BP/entities/utility/nameless_one_awaken.json",
+      "source_sha256": "73e4e0000b866baabf374c4aeb000e50f310f5a97cfd25a1854de6178a936ff5",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e138cb70a57db1137241939d3da7a9ad37cda1e90125691d7e34a06a1b3c4a4a"
+    },
+    "BP/entities/utility/nameless_vanguard.json": {
+      "source": "BP/entities/utility/nameless_vanguard.json",
+      "source_sha256": "6edcf9d19f599ab5ab0bbe172a475c488324d1ba9f02c5105fd46c827c643b2a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "81508a294e26b9356178f738c8964e1e08b5ce99c7ff4b42a47eb877ca8c0886"
+    },
+    "BP/entities/utility/necromancer_shot.json": {
+      "source": "BP/entities/utility/necromancer_shot.json",
+      "source_sha256": "ef7b02d921923bba95d87ec18101562db0a768d581366f0f6c32130e82ba1008",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "2284274b2a67845d43271b12ebae558fd1f585b92c313a174bb2ffdac55afd0c"
+    },
+    "BP/entities/utility/tower_wraith_fire.json": {
+      "source": "BP/entities/utility/tower_wraith_fire.json",
+      "source_sha256": "666411715922dda496e14a07466b452da421c3b936beb48f2eb7377ce5ea2c12",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e708434707f0790edf38434afde5cd2c0da922ee1459a5e592f2c0895cfa1c79"
+    },
+    "BP/entities/utility/tower_wraith_poison.json": {
+      "source": "BP/entities/utility/tower_wraith_poison.json",
+      "source_sha256": "7f487f0b08437c6d8b1b0dcb881b41fa1d1ab5f9a3db96fa2792914bdeaafac6",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6974525fba3ce688d20eb523684a1ff62bf0bbaa7411c849e1c3aad544102d64"
+    },
+    "BP/entities/utility/wildfire_awaken_boom.json": {
+      "source": "BP/entities/utility/wildfire_awaken_boom.json",
+      "source_sha256": "0a90c2af6d5c503e5dc8c8e18021bb397a0d5c6bf5ba8409dc7d720263a304f5",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "8c2f2b4a2f084cdb000a2d0916f9eac88bdb32e6106e2e28cca0a3276a9243b1"
+    },
+    "BP/entities/utility/wildfire_boss_blas.json": {
+      "source": "BP/entities/utility/wildfire_boss_blas.json",
+      "source_sha256": "ad306a087116a9415a006b3ee6f2477eaaaf800f0ce9b343fc1bc322a2e9d36e",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d6dd69150166a9bd4ddd530baad4315ad17cc37368548a4c7d95c2b7b466516e"
+    },
+    "BP/entities/utility/wildfire_boss_firebal.json": {
+      "source": "BP/entities/utility/wildfire_boss_firebal.json",
+      "source_sha256": "ab664dbf7be51671c508e32c460f96dd06ea8871511acb5acbca6ec501bc104e",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "fa4dab326ac107937589ec3de800637d746bf0c34a8f6d52139bf6aa2cd43817"
+    },
+    "BP/entities/utility/wretched_awaken.json": {
+      "source": "BP/entities/utility/wretched_awaken.json",
+      "source_sha256": "b2dcd6b0f8c8d62ab2ab4a4834fa653ffc51e3fc04c7f96181d5b74ae49eade3",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "34516d0976eca64ca3f5d85023ad85f43199a485d662a10cccad1c71e149d033"
+    },
+    "BP/entities/enchanted/enchanted_fire.json": {
+      "source": "BP/entities/enchanted/enchanted_fire.json",
+      "source_sha256": "fe476bc417f79285a50fdb400a227673a3af78f56d4c44c19921266dc61ba23c",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "258f5ba10112ccf4e786f88dc0c265d572ba2a3957fa3e33fc08e38673c9ef9a"
+    },
+    "BP/entities/enchanted/new/enchanted_tower_wraith.json": {
+      "source": "integration",
+      "source_sha256": null,
+      "integrated_sha256": "c5fcf3c57663e888d0bfd7a6f9dd37ddf8675c8c3eb63c94c8c9d05aa336d6f9"
+    },
+    "BP/scripts/infernal_lords/namelessOne.js": {
+      "source": "BP/scripts/misc/entityBehaviour/namelessOne.js",
+      "source_sha256": "e648437ffcd9625fa303ea66f997171f8d5132c7a23b0cd1e0fb56b3cf96cffa",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "44ee9db361d7cc5cfef09c53b73a8e9370792c7a12f83af40406a5dec3bb26a2"
+    },
+    "BP/scripts/infernal_lords/wretchedWraith.js": {
+      "source": "BP/scripts/misc/entityBehaviour/wretchedWraith.js",
+      "source_sha256": "5762316fc9959567bd3e9bf71befd10e2b9db224e444bdbd8e9b1824e7ee1abe",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "7b48c9cae0b8df43ae860a9f26d608518e883be65ba1d90c88afc8d59950a1b2"
+    },
+    "BP/scripts/infernal_lords/hoveringInferno.js": {
+      "source": "BP/scripts/misc/entityBehaviour/hoveringInferno.js",
+      "source_sha256": "cad8ec692be35e1b70aebbc85d5250edca953e17d1c6009d10ce8bd0071e5334",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "4fcaa9ee47625540bde7fe2719c9c31f6f6a410d6cf3a9952d9060f403d13750"
+    },
+    "BP/scripts/infernal_lords/towerWraith.js": {
+      "source": "BP/scripts/misc/entityBehaviour/towerWraith.js",
+      "source_sha256": "f559613f2a912f33c8305021666d9fb5480ee33396a1ac97094e243b58e2b4b6",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6e8ea69d40161b8c62d8cc306da087fc30697ab19eaa27c49bddc35b253402a0"
+    },
+    "BP/scripts/infernal_lords/wraith.js": {
+      "source": "BP/scripts/misc/entityBehaviour/wraith.js",
+      "source_sha256": "cd4dc86cd9f4f5f36cd88d57d038ece13d4320b1599d074e560a710b91ad5e23",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "1cada01d2d72c10333845eaec2f59eb81e6ed06eae017f5dbd5d7fb3d12155ab"
+    },
+    "BP/scripts/infernal_lords/necromancer.js": {
+      "source": "BP/scripts/misc/entityBehaviour/necromancer.js",
+      "source_sha256": "af968d4b51652d0e35c361d46e08dc420b6a14915002fbcf04f970d04cd860c6",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "f5835c4e131d329de1b97a7ae1a0ebed46899fe32f1b36e4c868fc8d097e9196"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs.js",
+      "source_sha256": "96f42e04aad6ac0c7c3bf127dd96645277e6c724d29cb29c3781405bafc3b12c",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "449fe1ce464bfff04ca5a405bbb814f123477f673f996d507a6e030f559d1c92"
+    },
+    "BP/scripts/infernal_lords/bossManager.js": {
+      "source": "BP/scripts/misc/bossManager.js",
+      "source_sha256": "13dddba76a750e6b8ace13319a32262c37a2f8e68094b69f701f211b6bb597a7",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "7ee8c0eee6b93aac05d9f241bf1f8ece4db4172b6a519498e27f47355b4f4055"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/weakening.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/weakening.js",
+      "source_sha256": "a816e15a4fd8233cbb66b1056688ded3e7846e3cb93b5c2cd2fb9c5c3cd56da9",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "6a67cee4a708bd4b98ca832d349498cc253f2a8c79c99631b8fb51759f01a21c"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/thorns.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/thorns.js",
+      "source_sha256": "916be0e061c26fd739793cd0c5b6f5ef0b6c1c2ad9ca3d4a37088196b1e95561",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "569fed9671fce6f7f8c429bbd60e11dd3f7b4f03a940995c74eb9bdca0147c51"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/tempoTheft.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/tempoTheft.js",
+      "source_sha256": "08a785eefbe4510b32bbbcf691f1370e38b72261fd57557f6a95d3170193b769",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "44af1052111a730d805bdd72f481fb7884f4d3be3e10fc6f46d652d091145e2d"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/swirling.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/swirling.js",
+      "source_sha256": "cdf234863db8a5d004f1c15504c041c13b6b993cc56d9a472227527f464fed1f",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "9f5e16e3d3d72ce26eb66bd6fdec94da2c17bc35f91225fa016a35d1097c7fd8"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/shockwave.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/shockwave.js",
+      "source_sha256": "50d2e6e936261cd3d75834d818f461404d228bcbf852a46ab7e36bded09e09e4",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "cea7a4d196f44cc4a1b9148a2cd5b770f344c64429e0416206a9ce8e838a1eb7"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/sharpness.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/sharpness.js",
+      "source_sha256": "579fa109cbe3de125f0d5cc7bee96eda5e84079f997f5ae12ea88d0e0250fc82",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "01c80eef5b154db54da91cd2c5c2ed3f4d9b775a7e9c05a1150a1d64dc6ec38b"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/rush.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/rush.js",
+      "source_sha256": "351696bace207d81ab8dde54b7e0815b74ecaa6b4410b799ad231c58b68fe9af",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "e214880016043683e5dac817750372c3965b217650302ed09f2175b312205a16"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/resurrectionAura.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/resurrectionAura.js",
+      "source_sha256": "bea0ba26ae58f7d18fcd80ea40293eda4b7fbd0b6801dc399cb98bffab7202f8",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "78ee683ddf6e2568708c0fbb1fc64629ec59c1f260e616a9d90dc23ec27b205c"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/regeneration.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/regeneration.js",
+      "source_sha256": "85916d9fe68d6c98ce0289076332e3eee9c85bd7071fcb0c5933d5075d95fd8a",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "9dfe40005305fda0e40bc811c3a0ef1b488a78156fe581e8d443a70ab6f6f621"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/rampaging.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/rampaging.js",
+      "source_sha256": "d1760b46db33e78a5e666301efb246fb8349296482e951432295db760cdaf812",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "53abd7bb8055c3f2912fd2964d0e0e91928a931be0e6c9a4934c543663ffed9e"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/radiance.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/radiance.js",
+      "source_sha256": "d37b9934ffde428785f1986e12e85fc627e7be355356d4783a62c366ee2bd050",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "84cecbbf40bb953413ed3f7269424581c9fb809e4f916be9dc891f911221e794"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/quick.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/quick.js",
+      "source_sha256": "b9bd428f29c23f0439eb3f9921ed9bcc20c905a8de8f3e62b38db0e464340f44",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "87e55d6475245c969f9c8f6e639d9590b25bad7af24966025b0659a4aab939dc"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/protection.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/protection.js",
+      "source_sha256": "10ebeeab91e94f0afd62a60481b500c95cc588380c02fd0e7b5fec0200d66128",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "43ff7c7ce523d1ce7eae34742a802635ee96e781af1452223cdbad80e7d6caf3"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/poisonCloud.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/poisonCloud.js",
+      "source_sha256": "4745a062fbc7052fd676194856937d129d1c8a46848d01a395624be6cae3492a",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "5667e10a04bb3baad41e36fd72c2e79c1d9593a09544a38f89b611ae7f0eee98"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/multishot.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/multishot.js",
+      "source_sha256": "492391e693f2819cdce7cde1a91f1a6cb35fe4f098b88da7fa77994204cfda81",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "246f0cfcc3f1649dba0380ddbede953c95d9a056e7dbdbed64b7104362e5ddf4"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/mobSummon.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/mobSummon.js",
+      "source_sha256": "ced423b771ec17a8335c2d5d69fbe9be6e8334fdc747a17a1c00c9f0249f1df6",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "4cf2ecd59ceee14acf10ba018b8793fab43bae2c211384153d9e2ee389d55cfa"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/leeching.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/leeching.js",
+      "source_sha256": "2fa13487c265b6962a1eaae3d7558be698beb05714450a80cb8ef008c75d69d3",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "e1376392658bebf2a5ade089289606e5cb16368755330ad531b56043a3ced917"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/healAllies.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/healAllies.js",
+      "source_sha256": "36fcbb60c93bab49beae1715a26c85125f7f029a87f8c40269ad9198a9d89ad3",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "5b869dd153a958365e105875d8f7414c751c71da9f7b8b2d69c4914aa442a94c"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/growing.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/growing.js",
+      "source_sha256": "d7f86631caba7857b3c67dc82e0d02e886617f12acb91a129aa5c7ee91ed9a2f",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "ba600d32ad64c648f6faf662fb9f915b765a816aa5c1276780f751d9d40e0ff2"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/gravityPulse.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/gravityPulse.js",
+      "source_sha256": "44c6082165489ae52e130afcad193fd4dd2fe45de9bb977ef3577b5577455f5c",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "429e346e366de0db9d839c8ccda840158e4fdd76efb457ef170bab953d65714b"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/fuseShot.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/fuseShot.js",
+      "source_sha256": "78c8d4f9899b8a088689bf4b175d788de74c7c508055c46e088a8e0efa5550b8",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "68fcd613cf6aa1345d0aa143167939516e987f2166bd1b5dd39f478a7251a4d5"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/frenzied.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/frenzied.js",
+      "source_sha256": "7dcc3278f2505a506e0f341547bb4d27b144297b601800c3519f16018ab5ed6b",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "83f0621e00e495dd86f673f0d160c4591f27ab645f656b54ace8149829ac7c0d"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/freezing.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/freezing.js",
+      "source_sha256": "0dd7eb809360c49c6438831b8793e4b9af987ec927d7dbcada8d8dd092a9f3fa",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "1931dc6ab879b6b32c4bc30a8fc5ebbcd03b5750c1604fc4bd321f22427ffacb"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/fireTrail.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/fireTrail.js",
+      "source_sha256": "2e8afeb8491e4ae89d9ced8b4eba0dd423543830b7db235aa3250c972d2352cc",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "8c5860bf760d7edbe7b2727299632bb2221ffc4ff7ed2bf4bb0f71bd90ac9bbf"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/fireAspect.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/fireAspect.js",
+      "source_sha256": "667a5c26fb2800466848ea6cefc65f1092e6fcb2c044cfcaceeac2bc78ce1924",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "e5ac17dd25de7d06a98503bd365d6950de283e1a87fbca055373fa843ac15c93"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/electrified.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/electrified.js",
+      "source_sha256": "06a9b275e8ea4b697b899bfcd7f68bdabe6cd33e78d2f0d70da0c0b87dda982a",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "16749c1b9944d17d7a420eca53486de3e9e67805470a13c5c6a4f4e1e88c10e1"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/echo.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/echo.js",
+      "source_sha256": "cbb7e02bb3501911962e61be3f7d20d256c4c15870a6ff2ddfb87b61112081b3",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "61c8d6b44052648807a1a0a5f2e4c8e909ac81f5f5400978f61daa17230d7ce0"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/doubleDamage.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/doubleDamage.js",
+      "source_sha256": "35a6e76f7397a4d5a0f0ef86ad81fc7a2700587ea63e61692f69bd031e33665b",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "85991ca549ebfcb24813954d1fbbdabaca0c5284f647ac41e2a2882798b587ac"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/criticalHit.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/criticalHit.js",
+      "source_sha256": "abc0bee53ae4f62540efb8ea9d3aeec4842b029572013b549749898e76784286",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "2e2c239ecb642602df1a0cb6025d3842f04eee0ffc75aa65da5001b869b7c9fa"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/cowardice.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/cowardice.js",
+      "source_sha256": "993c548567f47ebbf1dcf8f654c2eba35db32e6561e9cb518e57ec0f589d9234",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "94d78915b6ef4c29fe361a4ebedcd19d3baa0fe7fc1a228426d243fcc1cb8314"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/committed.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/committed.js",
+      "source_sha256": "dc72e20b558b68848af8bee68f20e735313ec0b28a3997ab965f2fc17262b76c",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "3a2d3a399c16d05133717b259e48ad5205c799718bf79217ff9b9b085f700e97"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/chilling.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/chilling.js",
+      "source_sha256": "2bf5537a575ee9d3aeada7156bf1a2d2650c34136c0ec202582bee151647277a",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "645f680663f637ae0c6467ecc9e4349ca1a9f6a51838fd933f0c702036fdc0b0"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/chains.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/chains.js",
+      "source_sha256": "d509f82b4eed1366b1574e09cbefc2ffbad1165b1cf8f14fb23f2693b437b655",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "502c855ef64a7b3675d4ba84ee1c3250aae1034a5717416f9635a686c1b4fdac"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/burning.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/burning.js",
+      "source_sha256": "8797f5320ddaa3af6e5be5c300a151e0bf9e3a91376482de017e7c646330273b",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "c982bd6bb907e0b7f88d8395c91faebedfc7e8cdb3e27b61eaa68e4bfc9efbd0"
+    },
+    "BP/scripts/infernal_lords/enchantedMobs/accelerate.js": {
+      "source": "BP/scripts/misc/entityBehaviour/enchantedMobs/accelerate.js",
+      "source_sha256": "2973b1e62b4fd93b8ba4615dcffe4d83b5074c46705a04b00bc150fa237afb27",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "2d4669ced8f2038165dc35c528c02cc74899c2cacb9cb1935ef1c7ac9bf9dfc4"
+    },
+    "BP/functions/loot/nameless_one.mcfunction": {
+      "source": "BP/functions/loot/nameless_one.mcfunction",
+      "source_sha256": "543df071e499747c116077668fe27fc57eb452232e2392f62345be5921cc21c5",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "cd0622eb3ae5a491f9c2a3a2b4408378720e837deabb01ab797277c00c65ac3c"
+    },
+    "BP/functions/loot/wretched_wraith.mcfunction": {
+      "source": "BP/functions/loot/wretched_wraith.mcfunction",
+      "source_sha256": "0bb426170d95fd9dbc4683a262169c4836accd97e7ce7446dd4e8e4137390dfd",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "cd0622eb3ae5a491f9c2a3a2b4408378720e837deabb01ab797277c00c65ac3c"
+    },
+    "BP/functions/loot/boss_wildfire.mcfunction": {
+      "source": "BP/functions/loot/boss_wildfire.mcfunction",
+      "source_sha256": "63503a11530da55963f804f804ac0bb214f6bd958a1ad12f624e1fb5e6c7e516",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "cd0622eb3ae5a491f9c2a3a2b4408378720e837deabb01ab797277c00c65ac3c"
+    },
+    "BP/loot_tables/entities/wretched_zombie_gear.json": {
+      "source": "BP/loot_tables/entities/wretched_zombie_gear.json",
+      "source_sha256": "a1b13041d46f57a038b02b7f92078bdcb5819ce8ca68a93a80327b731d70c7b8",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "f033aefec6a1f342df07c83441b8cd2bc8c646693cfac0292b466641f30ab244"
+    },
+    "BP/loot_tables/entities/corrupted_cauldron_zombie_gear.json": {
+      "source": "BP/loot_tables/entities/corrupted_cauldron_zombie_gear.json",
+      "source_sha256": "eb84d9d353a3d5d6cfd0b02a6b186fb721e85ee2959b8ca65409be80fdcb1c60",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "32f0b78aa8a43c392e8c77d4dff5a4d1c6358bca49f350e06f31a6a999971c04"
+    },
+    "BP/loot_tables/entities/jungle_zombie_shear.json": {
+      "source": "BP/loot_tables/entities/jungle_zombie_shear.json",
+      "source_sha256": "ddfd6e21383e6422b2a62edecf96d235e78bf11877cdb560e62b1c71f50057c9",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "c86753211716dba1e0c8b81dc8c02397f94dffe7436afa240a96be24464221af"
+    },
+    "BP/loot_tables/entities/necromancer.json": {
+      "source": "BP/loot_tables/entities/necromancer.json",
+      "source_sha256": "2b3afd2535720dfd1d8540503d468b50bc5c8e4076686f70f0c9612368730b8f",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "2b3afd2535720dfd1d8540503d468b50bc5c8e4076686f70f0c9612368730b8f"
+    },
+    "BP/loot_tables/entities/vanguard.json": {
+      "source": "BP/loot_tables/entities/vanguard.json",
+      "source_sha256": "0a6b82030f16ba7cde82ad104cc7ad43e5a06b7580b2ed1bd8d1c94e9c30649d",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "bf13113bb9a00fec400ea9edb204e8c8d3a6043feff724aadd4664c655d867c6"
+    },
+    "BP/loot_tables/entities/vanguard_gear.json": {
+      "source": "BP/loot_tables/entities/vanguard_gear.json",
+      "source_sha256": "92416c5a1b1776928497416b1206c875535c4925ca16056ece0c1560261f688a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "4828a64c34123417719192cf19a6c2664d05213244e92156f51cda8b6d7470a0"
+    },
+    "BP/loot_tables/entities/wraith.json": {
+      "source": "BP/loot_tables/entities/wraith.json",
+      "source_sha256": "17d5afa7359344679200390d4b85c08d8bbaab2d5827a078de8a76023e47bc95",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "17d5afa7359344679200390d4b85c08d8bbaab2d5827a078de8a76023e47bc95"
+    },
+    "BP/loot_tables/entities/nameless_one.json": {
+      "source": "BP/loot_tables/entities/nameless_one.json",
+      "source_sha256": "a6a89eb09ada3de3e73adba352a44e3089094590291684ad60d3dfa3a161c0a1",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "a6a89eb09ada3de3e73adba352a44e3089094590291684ad60d3dfa3a161c0a1"
+    },
+    "BP/loot_tables/entities/boss_wildfire.json": {
+      "source": "BP/loot_tables/entities/boss_wildfire.json",
+      "source_sha256": "a7ff861f0aa7202f75826bb3b3484be66d988da9634cfbdc0b4d13517571f8ee",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9c3e929f6ecd9eef583ac74342834e460d664fbbc540f8decda62c31a31d2af1"
+    },
+    "BP/loot_tables/entities/wretched_wraith.json": {
+      "source": "BP/loot_tables/entities/wretched_wraith.json",
+      "source_sha256": "5c23e078a4a8393702ad0449229ca6a48c746a2d8fedd5c57d26e66cd07531a2",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "5c23e078a4a8393702ad0449229ca6a48c746a2d8fedd5c57d26e66cd07531a2"
+    },
+    "BP/loot_tables/entities/tower_wraith.json": {
+      "source": "BP/loot_tables/entities/tower_wraith.json",
+      "source_sha256": "c46a897fcdedfbe3f08534053a5c103e8c61eb39d97a98fa479a126bdaf512fa",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "c46a897fcdedfbe3f08534053a5c103e8c61eb39d97a98fa479a126bdaf512fa"
+    },
+    "BP/items/armor/unique/frost/frost_helmet.json": {
+      "source": "BP/items/armor/unique/frost/frost_helmet.json",
+      "source_sha256": "b68b5db0fbfabffb2a73f359ecbd43b9105cad50b382b6480a9c849b3ffb348b",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "20fda45a7749209b7fe68a1d73b443be2d34b678293e836f88083e8b6b4b48ca"
+    },
+    "BP/items/armor/unique/frost/frost_chestplate.json": {
+      "source": "BP/items/armor/unique/frost/frost_chestplate.json",
+      "source_sha256": "f091ccbad0cf0a421cfff4d9b3d9c2f0df31510a8c2aeafc22dfddedbca10bbc",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "bcffb80b53aca05d236dbebf06e4dcd3601587ef492e9d0a5e8952c6f0c94174"
+    },
+    "BP/items/melee/glaive/glaive.json": {
+      "source": "BP/items/melee/glaive/glaive.json",
+      "source_sha256": "62280312b9fa4335007ca18873fb106900ce8d93fb390d06e8a8153e59ccfd75",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "dcf49aa343db3169b03e47256cf1c6fb02c53a73105ba69eae436c0cad0a3cf4"
+    },
+    "BP/items/keys/nameless_key.json": {
+      "source": "BP/items/keys/nameless_key.json",
+      "source_sha256": "c36fad37c65432a232f08e9da08e6c07c3ff68a2c1a1090b675e57b6545bf28a",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "c3c0de81e51f3ad7389b8c1d3dcf436236f845802c3342d159eb212b1c45c16a"
+    },
+    "BP/items/keys/blaze_key.json": {
+      "source": "BP/items/keys/blaze_key.json",
+      "source_sha256": "271c7f066fa5b412282666fc1ca808adf266a31d431b15472dd3921b31c101e8",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "e17d24fca036d2e4fd97c0b2175e611dcb309d400dd425b449f9f3e6754a425d"
+    },
+    "BP/items/keys/wretched_key.json": {
+      "source": "BP/items/keys/wretched_key.json",
+      "source_sha256": "78274b2fa3bbe7640188c1c1077fc437369e9a65c5fd8a3ee60552b3c04788e9",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "d495ba47a6e0c29a2d3901f03ec3021cdb7e0b7dd20eb81e950e123147756ef7"
+    },
+    "RP/ui/hud_screen.json": {
+      "source": "RP/ui/hud_screen.json",
+      "source_sha256": "9f2b1fdaa22279ea5acbaa2fd2afaff1feb54f66cd0dcdfe457eb3146c251697",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "b04ba2021dd44d8cfb29bf6f6d6da14f9df863c194d2bb284b65437e7a16d758"
+    },
+    "RP/entity/enchanted/new/enchanted_frozen_zombie.entity.json.json": {
+      "source": "RP/entity/enchanted/new/enchanted_frozen_zombie.entity.json.json",
+      "source_sha256": "acf1df7553d218562b0ddfbf1459b84054a2bf26d85f7968a75ea0a6bc9c7663",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "653eb88ef3987de9cdb4bf5749acd8ac18f19b50f8a26524e215d0a6aabfa4cd"
+    },
+    "RP/entity/new/frozen_zombie/frozen_snowball.entity.json": {
+      "source": "RP/entity/new/frozen_zombie/frozen_snowball.entity.json",
+      "source_sha256": "bdcc5e02ced30bb9e87de0920a9227ee1218a74084298152e1ddbe80fc0873ff",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "5665efce76894941ad379f649cab33d12407ec6317294f238f970ed5f612d561"
+    },
+    "RP/entity/enchanted/new/enchanted_jungle_zombie.entity.json": {
+      "source": "RP/entity/enchanted/new/enchanted_jungle_zombie.entity.json",
+      "source_sha256": "664ce5c5ac3757146ad961f6becaf8ee0563461b1163b9754e697278e8671ad3",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6a35f502743c01721ce650d68a1c6158320fc10121c836ac794ec3d4108ab8fa"
+    },
+    "RP/entity/enchanted/new/enchanted_necromancer.entity.json": {
+      "source": "RP/entity/enchanted/new/enchanted_necromancer.entity.json",
+      "source_sha256": "ba16aca99e79ce877aebd3a5a6b89168ae9d550edf08984739d67bbd88be60b7",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "8aa82b64769e13ce3fb4415886ebc834c7ec90647a655d6720619872eb62b80e"
+    },
+    "RP/particles/necromancer_shot.json": {
+      "source": "RP/particles/necromancer_shot.json",
+      "source_sha256": "09192c951c8299fb628b7c387c06d1ef64e5b548778f1529187346cc944bb24b",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "81d5e38d0bcb7b888c73e5c516db524b914bfcd5e02abcf52b8d8a2d937f2591"
+    },
+    "RP/entity/enchanted/new/enchanted_vanguard.entity.json": {
+      "source": "RP/entity/enchanted/new/enchanted_vanguard.entity.json",
+      "source_sha256": "341969fad795fb45ca4c787d76057fb4c114262b28a0d55b06f1b7d5173b2898",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e0c890ed2bb9e7267e503ffbe9e5fbad6e1ca89ac9030e5f5ae67e0616bbf9bd"
+    },
+    "RP/particles/vanguard_despawn.json": {
+      "source": "RP/particles/vanguard_despawn.json",
+      "source_sha256": "f320ec2939f890430e0b4805a4633f72119ee9cb9bedf0a8e5bffe16b0813667",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "59e6c6ffe4f45fd96b0d2f7372871913adeaeddc22b683d8d5e3510ce9fc968e"
+    },
+    "RP/entity/enchanted/new/enchanted_wraith.entity.json": {
+      "source": "RP/entity/enchanted/new/enchanted_wraith.entity.json",
+      "source_sha256": "ddc64bdd045a4d9b5c63457779141e9aef64aa3df962e35d135bc4cacc2b2550",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "bdfd1eeb9dbd8fdc81a821377849bce9ad3cade656a357ab83f99580904968d7"
+    },
+    "RP/particles/wraith_fire.json": {
+      "source": "RP/particles/wraith_fire.json",
+      "source_sha256": "d9c11a879a876e113e585e0b1718131ffebd6a987a079fbdbe538d3f83f520b6",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "b008b37d3e9bbb153fcb9222034689e96d3f12e7795e26d720d1150caa109fc0"
+    },
+    "RP/entity/new/boss/nameless/nameless_one.json": {
+      "source": "RP/entity/new/boss/nameless/nameless_one.json",
+      "source_sha256": "4933dcf068d7582a2d3db31a5d741d9968d6a108b9eacd961230c55ca3968062",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "fee005cf755258017fdb1c9847184e220fd721dde41617efaace9c367cc60be0"
+    },
+    "RP/entity/utility/nameless_vanguard.json": {
+      "source": "RP/entity/utility/nameless_vanguard.json",
+      "source_sha256": "a6c4bdcf250dafd105759c1d2fbcd134e0ec845d4e2cc6c512c67cbfe700be76",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "285cf80783e53d6cdf6a513e24691b028d0cc60a875650acd534ccc1a2f892bf"
+    },
+    "RP/entity/new/boss/nameless/poser_one.json": {
+      "source": "RP/entity/new/boss/nameless/poser_one.json",
+      "source_sha256": "de9fd0b2161d39e473da393f24aff20b964e17c31ad9b41daca762b9a88a4e7a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "0a403995ba5cc0315e608e0290124e337c0206d66e6fba308ba7a5a96c34dfb8"
+    },
+    "RP/entity/new/boss/nameless/nameless_one_projectile.json": {
+      "source": "RP/entity/new/boss/nameless/nameless_one_projectile.json",
+      "source_sha256": "dbf1ecb216b7b58b93217ff8bac6d10582e4dbf6f898a8d59a892720db2910f0",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "38b2c7bdcd6bf5bb316d3d29205aed8b6159c41b1618f972e3c14162447a50ba"
+    },
+    "RP/particles/newMob/nameless_one/nameless_one_cast.particle.json": {
+      "source": "RP/particles/newMob/nameless_one/nameless_one_cast.particle.json",
+      "source_sha256": "b63814e62530e2399c224deec212e36542edd05646de21ae2e0b023d6c0736e2",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "ce8c00a6752499bf439cefc33f409b6a177c73a87962e45948479fb317809cf1"
+    },
+    "RP/particles/nameless_death.particle.json": {
+      "source": "RP/particles/nameless_death.particle.json",
+      "source_sha256": "4c11337bb8fcb7592d4cb6357f1db539e9c84c51961cad44721a4da43019873b",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "2690def345c15f1c6d6309ccd27561e51ad53563c6efb06344b747f73520ad10"
+    },
+    "RP/particles/nameless_death2.json": {
+      "source": "RP/particles/nameless_death2.json",
+      "source_sha256": "78235cde13a8cc9ebc9835651943b8dcec8000954f8d07da38c8ae95756e48c6",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "598004dc38fecf7f3db306fa3531bcf493c88c665b1387d5750869bfcab2570e"
+    },
+    "RP/entity/new/boss/nameless/sleeping_one.json": {
+      "source": "RP/entity/new/boss/nameless/sleeping_one.json",
+      "source_sha256": "9fb481b0c231a7ac279afc5f7563e1acff360dbefe43326f57e33e33ebb55df8",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "174847fa6f0781cc0eaffeaca8915969d5680af56b40871cbc99c766fc5e0c92"
+    },
+    "RP/entity/new/boss/bossWildfire/wildfire.json": {
+      "source": "RP/entity/new/boss/bossWildfire/wildfire.json",
+      "source_sha256": "79337e54491c7e2105c2509f910e5ab5836af83f0c925365111e525ca16fa0a2",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "faba92978e111897b6ff3886dcae8e98135fa97bf8cdf575c1ce4747f386b6e5"
+    },
+    "RP/entity/utility/wildfire_boss_fireball.entity.json": {
+      "source": "RP/entity/utility/wildfire_boss_fireball.entity.json",
+      "source_sha256": "6828923afefecaa98920ffe5757b1643961d7c120030f3e28c7b1f9c6d7e09fc",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6fb328902dccc92187927b835e8fed488fb69d5afae79e5a9364c883350e9305"
+    },
+    "RP/particles/wildfire_flames.json": {
+      "source": "RP/particles/wildfire_flames.json",
+      "source_sha256": "2bc5c33bba1b098d48ad72f201765c0816e7d9e8440034fe6415c06ebd39d628",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "42acfc58a0703e89fe60afd06fbcd567148b6d57ebd9b4709a67bd7e45f3e130"
+    },
+    "RP/animations/wildfire2.animation.json": {
+      "source": "RP/animations/wildfire2.animation.json",
+      "source_sha256": "2eb860dc9d41a6e50eb11ae4c9a77aae8b458bc82647ba28aabc6bca7d1864d3",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "1d61caac49395a0971a55c87f494f3e211ade18cec192bf929dd3f7c39da3077"
+    },
+    "RP/entity/new/boss/bossWildfire/wildfireR.json": {
+      "source": "RP/entity/new/boss/bossWildfire/wildfireR.json",
+      "source_sha256": "a1ff4e5ad5dd0709d580a2bac1106bd5d62fa766c9d38c1bd8495a3b65452962",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "5f51dea1493491a167a9c941fc6694fc379df5d8da30adcc42540f85c0500445"
+    },
+    "RP/particles/wildfire_spawn.json": {
+      "source": "RP/particles/wildfire_spawn.json",
+      "source_sha256": "2bceb303a42ca764d836541a00398d1981a9209ec4a305854210253e03ab0dbb",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "f81914e0685535d322cfdffef6e2b99bd53dc945d6bee692555d9ded43bf44e4"
+    },
+    "RP/entity/new/boss/wretched/wretched_shot.entity.json": {
+      "source": "RP/entity/new/boss/wretched/wretched_shot.entity.json",
+      "source_sha256": "55b83869ebd97583da7099f4ca2d86a0f92487cc3065f9d2f3780f9080086c11",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "785dddc95f6f60fbf02dd592dd05b157220c79e263a1058aa0326306857dc4df"
+    },
+    "RP/entity/new/boss/wretched/sleeping_wraith.json": {
+      "source": "RP/entity/new/boss/wretched/sleeping_wraith.json",
+      "source_sha256": "cd6cd95818eb7afa990f68b011571f8553648e34343ee21605152229257ac2d6",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "3e46339bc107df2dc803b80273dfa0294dad82ef4985d3852392937d958d274a"
+    },
+    "RP/entity/new/boss/wretched/wretched_wraith.json": {
+      "source": "RP/entity/new/boss/wretched/wretched_wraith.json",
+      "source_sha256": "2df65d66ebba6d3df6b4bd825bdb22124df271adc16979a5eed324df298772c3",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "4111f7ea7c42598e10b4afef715b8bf7b1c75d760382d972d74ded7eba556728"
+    },
+    "RP/particles/wretched_wraith_fire.json": {
+      "source": "RP/particles/wretched_wraith_fire.json",
+      "source_sha256": "c3ee7972f7f3943ff9fb9f1a7ca46b4d550138fbb4911b605c59d46cf94befbb",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e5f72c9c3903d4c64e0b3b99dc72dc6cc6fe2b0ef57abc39782ce407851867c8"
+    },
+    "RP/entity/new/frozen_zombie/frozen_zombie.entity.json.json": {
+      "source": "RP/entity/new/frozen_zombie/frozen_zombie.entity.json.json",
+      "source_sha256": "2453aaacdac4580f6c242bea21d3460f8ad146c540f5a181bda768b7b9cfd943",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9fae0587d251f3912b7844c385716780e07a303fa5735794072e6b669c1863e5"
+    },
+    "RP/entity/new/jungle_zombie.entity.json": {
+      "source": "RP/entity/new/jungle_zombie.entity.json",
+      "source_sha256": "9c85b29f2fe99e81c00351cb7b7b2e0c2aeda9d52894d6caca3f3a4ce7d74b76",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "df59ecc9abd0190c84fac60fd64ca59985c4f9650dcd90ca2cc05b475921dc35"
+    },
+    "RP/entity/new/necromancer.entity.json": {
+      "source": "RP/entity/new/necromancer.entity.json",
+      "source_sha256": "43932c6745c4979f3f841fcfd5e7b0b4ead10b329b266c78234cdea152ce9641",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "791d7f83de1bceed38c4521d0d4ba674ee94f4a2dc66a364503b6062cac0b913"
+    },
+    "RP/entity/new/tower_wraith.json": {
+      "source": "RP/entity/new/tower_wraith.json",
+      "source_sha256": "1601bc45414dc0dc2869cc3114985c60f0e3fa13d7d9918f1c075e5c6c047e5b",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "b841e5816f1efa47504f9d9caa1a4528cf4eb623a3638ce7db08aea821899b67"
+    },
+    "RP/particles/tower_wraith_poison.json": {
+      "source": "RP/particles/tower_wraith_poison.json",
+      "source_sha256": "53963409eadeb26476c77826b9b862fbfb2117e6aaffa7b33469223a59d807b5",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "7db7d3d167a3581809ad02b85a232f7253ec1781bf7ebdba9be9f6efb568e223"
+    },
+    "RP/particles/tower_wraith_black.json": {
+      "source": "RP/particles/tower_wraith_black.json",
+      "source_sha256": "f4747aa8ad9d6c096f15c3a5edc3947ade60e049346a9047d7cca8f978d5d838",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "48814b28f8f531b6a9b8caf5dd77067e9f4de3287e576ac72da9acc2de940316"
+    },
+    "RP/animations/tower_wraith.animation.json": {
+      "source": "RP/animations/tower_wraith.animation.json",
+      "source_sha256": "462eb95ccdeccf300857ed9d822833b292738f22e25fdf853aa2ce16a4dd7652",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "bfe7a6d6fe3757434438f40bd1b7c0981fde5fda9910d5d5029220fb351baad7"
+    },
+    "RP/particles/newMob/wraith/tower_wraith_become_pink.particle.json": {
+      "source": "RP/particles/newMob/wraith/tower_wraith_become_pink.particle.json",
+      "source_sha256": "2b42b906a3a67b94f51dcd3ed46880508c55c15645ad70b288e25b4961e90791",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "2a20cb7fb0f41610943fed9eca4030a51873bb72f66fe45179a73a4dbde71aae"
+    },
+    "RP/particles/tower_wraith_pink.json": {
+      "source": "RP/particles/tower_wraith_pink.json",
+      "source_sha256": "5b3b9ef3b6e9e3a88078499f2c8bb881df12c296f9bafea122fa62a09f6c8892",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "96ca1f94c64f57ee7d161fa3e9c241f33cc716141da5c731e7f4d3ef5f7329ef"
+    },
+    "RP/particles/newMob/wraith/tower_wraith_become_black.particle.json": {
+      "source": "RP/particles/newMob/wraith/tower_wraith_become_black.particle.json",
+      "source_sha256": "2966e51b619bba39a23a2a87359197fa5696e4b92aa1e02991c2dccceded7376",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "2d308d50d7c0483cab342bef18f3c4af7ba54522c77243dbb29893263415e080"
+    },
+    "RP/entity/new/vanguard.entity.json": {
+      "source": "RP/entity/new/vanguard.entity.json",
+      "source_sha256": "3a982ed12c6103a24eb7cc026a9faff148de27e9f829db9ac17417e3d40b5ab5",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "89cd0608ca19a85e6e3d7003c1c8fd47a3677ff75b74a9285b040a7eb04c91eb"
+    },
+    "RP/entity/new/wraith/wraith.entity.json": {
+      "source": "RP/entity/new/wraith/wraith.entity.json",
+      "source_sha256": "28c52e1191cd43b8ca1a2a81733be86a359efbca1a690838872151bb84476a0a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "ab42932206ba5ade60452e232c528c32a1d3aaee612ee29d1704d83296a86ed3"
+    },
+    "RP/particles/nameless_awaken.json": {
+      "source": "RP/particles/nameless_awaken.json",
+      "source_sha256": "f7fdb27c3a044e9b120737c549bfa0ffbf03c3491e7546fe9557b4089f5c0ff8",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6566223d8ee0013975fdd3aabf874f77532789bc6409b0b8c31ec9cca777ac4d"
+    },
+    "RP/particles/vanguard_summon1.json": {
+      "source": "RP/particles/vanguard_summon1.json",
+      "source_sha256": "5caaaf5144643b545fa1753e80d9dd4a83ac6018480d6475d75b1be6e86d7673",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "4c858ab1c1a9170e8d1cf756c71215072331adfe72f7e3b4d46c2eeea2e6761d"
+    },
+    "RP/particles/vanguard_summon2.json": {
+      "source": "RP/particles/vanguard_summon2.json",
+      "source_sha256": "e20424b93b2f123ae3bc618cd38d95e173d3c59e1bc0b5d1d48df0e43dbb7c3e",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "3ac14e84a5ba8f6ba99e04dbe0011785f0fe7fce0a0ff94aaf0ca70f3c0adaf2"
+    },
+    "RP/particles/tower_wraith_smoke.json": {
+      "source": "RP/particles/tower_wraith_smoke.json",
+      "source_sha256": "7a17db606354c219688b7cf9a072c19ada561ec0676f133402b25ac30c117d64",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6c71aa7904221ea85ff136e8f179e69aff0de3cdcec7a063f364cc1cac07fe09"
+    },
+    "RP/particles/wildfire_awaken.json": {
+      "source": "RP/particles/wildfire_awaken.json",
+      "source_sha256": "257af7b05aeb0a5fc8958e4f1c08d0c85f91141a60481860dca21d28c69d59fd",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "f0c0f4d1251e68eae775eaf4fe5bbd1fd796a8b5fbfc40c8d45f0651fa39ca65"
+    },
+    "RP/particles/wretched_smoke.json": {
+      "source": "RP/particles/wretched_smoke.json",
+      "source_sha256": "76170c608439cf60b9cbb5fd6245419e15d63bdfa8a8483c78d5d61ada453d23",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "89b67c7c0acf11ffb46be1b113254f997945f85a83f742d89cf59b87f8b906a9"
+    },
+    "RP/particles/enchanted_fire.json": {
+      "source": "RP/particles/enchanted_fire.json",
+      "source_sha256": "7f13aa0c1628450f21c3e8c5d02bdcb37c4906d319ebbab5b21c64761dcff285",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "fd195510b7971b03d7fb115c2361c80531308c2639dedbb89b78879bfef8e5fc"
+    },
+    "RP/particles/newMob/nameless_one/teleport_out.particle.json": {
+      "source": "RP/particles/newMob/nameless_one/teleport_out.particle.json",
+      "source_sha256": "21153b7d7ca5056ed03d7db75685bfc5ab5954691b443f86ea9b8a4290503d5d",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "75b45755851ef56263aa44ba77af039ea25e30d131146dcf365b0a2f6b36772f"
+    },
+    "RP/particles/newMob/nameless_one/teleport_in.particle.json": {
+      "source": "RP/particles/newMob/nameless_one/teleport_in.particle.json",
+      "source_sha256": "7b0210eade4947f4618c62df18e5470fd9d9ff7c4fbd9a3272842b502a3003af",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "1efb4e8be984fd9e5bd7192935c077744afe321c8c9f2442728177f0ead9ee41"
+    },
+    "RP/particles/newMob/nameless_one/nameless_one_orb_1.particle.json": {
+      "source": "RP/particles/newMob/nameless_one/nameless_one_orb_1.particle.json",
+      "source_sha256": "bf301292d04c1e5adebd0ab8e679758ce3f258403d155541fd803a93dc926571",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6dcbc0c24f3e374f6d63b7a0dca05fff1e943f87177feb29396e6ed67d7ceb05"
+    },
+    "RP/particles/newMob/nameless_one/nameless_teleport_trail.particle.json": {
+      "source": "RP/particles/newMob/nameless_one/nameless_teleport_trail.particle.json",
+      "source_sha256": "be864d8e8ab1af1ce38517e12b97949feceb41fa94972e90610d6b1ae7e78845",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "67514040cf8f4cd3e83d112e411d4b2ddd90f47bbabaa910f3fc04d802f52066"
+    },
+    "RP/particles/newArmour/teleport_out.particle.json": {
+      "source": "RP/particles/newArmour/teleport_out.particle.json",
+      "source_sha256": "5ccfab2acd58478ba05aed19fcb5426545ba6e1c90974829f944046296a49d47",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6d5f8e61692a0ae8d4657a1cd10ee30734b99424772531e8e08325b073160ce6"
+    },
+    "RP/particles/newArmour/teleport_in.particle.json": {
+      "source": "RP/particles/newArmour/teleport_in.particle.json",
+      "source_sha256": "4f2af6a78fefddc3efe444c4f988c20eece6252344efa0ed81447162e1edb226",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "39489b28dee0626e3527139fb04459f4b238ad159334d3c0f11af1eaabf4b680"
+    },
+    "RP/particles/newArmour/teleport_beam.json": {
+      "source": "RP/particles/newArmour/teleport_beam.json",
+      "source_sha256": "d5cc43d6415f70057327837e09fb101f87772e07c2d00128313b657e61ad12d5",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "25bd6f8e5530104195a1777c748789e0487a5b402db8fd6cc28ac8608f14db46"
+    },
+    "RP/animations/v2/wretched_wraith_v2.animation.json": {
+      "source": "RP/animations/v2/wretched_wraith_v2.animation.json",
+      "source_sha256": "75952dc5044c430454edd8cf2d6c7c89a57cdde268de77cf69176d60560bc65c",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "2562a0ae65a080adb618ca65ddb387224ac2765ffd76b600d59c896a2efb5367"
+    },
+    "RP/particles/newMob/wretched_wraith/wraith_ice_burst.particle.json": {
+      "source": "RP/particles/newMob/wretched_wraith/wraith_ice_burst.particle.json",
+      "source_sha256": "26ec4144315322ee331f9986262ed64da5602731eebc7dcf9488f057d0223e06",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "ffebdf8aacb6fe89c5ab950cc091daf84731dedff0cc07adf4da40087f86a5d2"
+    },
+    "RP/particles/newMob/wraith/teleport_out.particle.json": {
+      "source": "RP/particles/newMob/wraith/teleport_out.particle.json",
+      "source_sha256": "3bb639c27e90c25a76d3657a1fb94a5775169afd3119ce9b315af17384f8d3f3",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "348c64f77ddc872789466e0e85662e3535e5a3c458e2cf8ca834638d92338550"
+    },
+    "RP/particles/newMob/wraith/teleport_in.particle.json": {
+      "source": "RP/particles/newMob/wraith/teleport_in.particle.json",
+      "source_sha256": "7a8092be464b8c810029e84eed09636acbe515c09f565573b85280822a7f103a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "be7a08716c358506bbbd12e909aa7dd6f384d253dbe25d9e8a68ebae84f2f617"
+    },
+    "RP/particles/newMob/wretched_wraith/wraith_fire_smoke.particle.json": {
+      "source": "RP/particles/newMob/wretched_wraith/wraith_fire_smoke.particle.json",
+      "source_sha256": "89dc7920fab7598a3d685414e2f66030c68c48ef5a1a6810624e7e0691100f2e",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "344e8a3c0f8187f54d8e3eb5ba45ae8e61f05d8fe40dc3c7cf98e2a32536d362"
+    },
+    "RP/particles/newWeapon/enemy_poison_cloud_smoke.particle.json": {
+      "source": "RP/particles/newWeapon/enemy_poison_cloud_smoke.particle.json",
+      "source_sha256": "ad902b18aa72d63149da55a07cea0e1fc9d0d04c4c25855de0ab4b1330fc8e2b",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "07af3910b7e825131dd6eafb126a51d81bbd04846b1d5263e1854984ca844404"
+    },
+    "RP/particles/newWeapon/enemy_poison_cloud_swirls.particle.json": {
+      "source": "RP/particles/newWeapon/enemy_poison_cloud_swirls.particle.json",
+      "source_sha256": "e4c29dde0f1015e203f19dd8c4eacc34ddd752fdbce16120afcffd49d68afea4",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "3759085fa0ed7a4bb9e972c144f3f95ec48c133ca46c24392c5158cb1bb3add7"
+    },
+    "RP/particles/newMob/wraith/teleport_beam.json": {
+      "source": "RP/particles/newMob/wraith/teleport_beam.json",
+      "source_sha256": "76b9a81d39edcb2c09b248d74d0325901eba07e4d24de8d412b4286130d04949",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "74245a552d9ae43830cfa5e016c1434a04083db10370444db9a2a1b25af7f781"
+    },
+    "RP/animations/wraith.animation.json": {
+      "source": "RP/animations/wraith.animation.json",
+      "source_sha256": "d6b4b65a26f45d26e2f1d4060eb654e4bddba4302bfd28aad28e7b3ba4d33154",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "c0d45b55b3e49d511ee9f14ad68aa919f5597a817cc03f0579c557e3f9b29605"
+    },
+    "RP/particles/newMob/wraith/wraith_fire_smoke.particle.json": {
+      "source": "RP/particles/newMob/wraith/wraith_fire_smoke.particle.json",
+      "source_sha256": "227fd532982aa745b43e5f13b054457c3122cadeb7ab7a77abb1746b9ee6b356",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "af808d29cff3e1e3d5093d2d8da6b07e052f2acdb2f6c7638bdcae16438b1499"
+    },
+    "RP/particles/newMob/necromancer/necromancer_zombie_spawn.json": {
+      "source": "RP/particles/newMob/necromancer/necromancer_zombie_spawn.json",
+      "source_sha256": "a22995edd3e7c3dd2c25561dbe7b12bfaee7777f4ab51a6761a14485805e6a98",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "8daa9361593b5fa25f3e023970441928c1f9367e654f681cbededd35e7e447ef"
+    },
+    "RP/particles/newEffect/enchanted_sparks.json": {
+      "source": "RP/particles/newEffect/enchanted_sparks.json",
+      "source_sha256": "f56fa7fe2aacb92112b33bbcfccc675a132f9a1bc5b3e0bd5f2cd30a2b7fb6a8",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "d1e1843a2baf94f907f1e11cbd5ea58e47516529227a70e16d95c94bb464ef26"
+    },
+    "RP/particles/newEffect/enchanted_smoke.particle.json": {
+      "source": "RP/particles/newEffect/enchanted_smoke.particle.json",
+      "source_sha256": "45d47f83d3e747f49c237319a37ffdf84fc45d6149ea59e764c35cd30a4d54b5",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "28285fcbd536ee42eaff49edadd7974eda64c57c365b0d9884b2e2773b345f7a"
+    },
+    "RP/particles/cauldron_summon.json": {
+      "source": "RP/particles/cauldron_summon.json",
+      "source_sha256": "9b7a087c6fec6a7ee51d7588e402e28c3f0df77264f4e17b37734686d9ec3780",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "031623002ef4ebca7fdc5a20ad3260e01bdcdf34d542a2a4e4687159f43ae23b"
+    },
+    "RP/particles/swiftness.json": {
+      "source": "RP/particles/swiftness.json",
+      "source_sha256": "eb29212c0d3e6afa0da2ad763a00792c41a0bce389897851164e33e1e5255729",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "1e41a2367891d537879f18aaca566fd3e86a7a5ed78cf77fc99436a48f0191d5"
+    },
+    "RP/particles/swirling.json": {
+      "source": "RP/particles/swirling.json",
+      "source_sha256": "6c2268db4cb10fc32f7004f2b05e8247d21dc5f30da1d03515362012b1046816",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "1a6060d0aee159bfbe095d56f7b12d57e477406c30fce28a9d3960270a55bfc6"
+    },
+    "RP/particles/newWeapon/radiance_aura2.particle.json": {
+      "source": "RP/particles/newWeapon/radiance_aura2.particle.json",
+      "source_sha256": "24df2b843bec87afee7e01d7731be36dbc43d1011db564c34aca22678a14a974",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "ca5916d9607c70a209896de0aa02c5991793277007e3904d4bfcd5ff94a3d4f2"
+    },
+    "RP/particles/newWeapon/radiance_aura.particle.json": {
+      "source": "RP/particles/newWeapon/radiance_aura.particle.json",
+      "source_sha256": "b28491969c04b7e88cf62bd0f620afcff7006bcb7f91522a6de5bb3e0e76a88e",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "b4618f39f263b02943b1ff37c71498d19f02cabacf54cef0807a170a7ea51dbd"
+    },
+    "RP/particles/newBlock/spawn_ancient_minion.particle.json": {
+      "source": "RP/particles/newBlock/spawn_ancient_minion.particle.json",
+      "source_sha256": "1431d12351eaa0b9b2a42d633d1b97cb444be861b8f9991e5acb0d3abb313622",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "1a357c90ec5eb76a43bea6376685132406ed21741d0614e3dc2b99938abe6e36"
+    },
+    "RP/animations/player/bow.json": {
+      "source": "RP/animations/player/bow.json",
+      "source_sha256": "59ddd202ac5d4a4f0466f53855b791e3d693d8be22e521fb20c995b2bcf2f708",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "2667ac41427896128f26fed3ac78f711505f4a585224e2cad4afcf6a7feaa4d6"
+    },
+    "RP/particles/newBow/ranged_gravity.json": {
+      "source": "RP/particles/newBow/ranged_gravity.json",
+      "source_sha256": "f3e12a615c1d27fd9d9a64cb3af81be1736d54bf5bbf7f6910ed74bce652acce",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "06da94ab22bd92ca326262ae864936259d2ed1e60b5850fe8665f74e1cc57420"
+    },
+    "RP/particles/newEffect/large_gravity_pulse.json": {
+      "source": "RP/particles/newEffect/large_gravity_pulse.json",
+      "source_sha256": "f44623935b2582f4c85b5d8ce7e2b165f5f9712a821e3951b2294acb5bbe63fa",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "4bb31317fdbd04eb86aaff0b05fc5fd816f4c224af3c900d5b4da5baaa5e1442"
+    },
+    "RP/particles/newArtefact/satchel_elements_ice.json": {
+      "source": "RP/particles/newArtefact/satchel_elements_ice.json",
+      "source_sha256": "59e12726d3f045f2d69afb022101bf7f073158eda697d02274ca0bbd7cf52f09",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "2a120a0e9027cc35fdc98e94d1f4a26a96b6028dc7bde7e10428e7109bfb5071"
+    },
+    "RP/particles/newArtefact/lightning_wand_shock.particle.json": {
+      "source": "RP/particles/newArtefact/lightning_wand_shock.particle.json",
+      "source_sha256": "6a4ab4ddff65860f8b85e97705cb798c266d9929e058534a2190463557432d53",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "98d8fa7eb018a1182b1bef35346a00c6f30ae528af6439b5961f121628cb5d68"
+    },
+    "RP/particles/newArtefact/satchel_elements_use_electric.json": {
+      "source": "RP/particles/newArtefact/satchel_elements_use_electric.json",
+      "source_sha256": "1ec0cba5cc57212e150388632677838325530ce006d3b9e0660a636f4069c404",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "121d897c7ee0fe334fa4afce16012b34bd685d9e8f1a26761f5a3d1b0a9ecf83"
+    },
+    "RP/particles/newWeapon/echo.particle.json": {
+      "source": "RP/particles/newWeapon/echo.particle.json",
+      "source_sha256": "f9f86fc88898ce021e0c933655d9f7130c40d6a59301dd89d736dedcb7b4893d",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "f01363974be606dd09969ca4f95740b2e5f4424d582b5c1be458adb4c5bc64c2"
+    },
+    "RP/particles/skull_crit.json": {
+      "source": "RP/particles/skull_crit.json",
+      "source_sha256": "7d277da36de0f84185c62c3be7669848ba193f842669b29c7afee4e6e2e19e97",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "c768890e5e0942c5a3d2422b9d0cd29bcc0a3a9914277be3cc39114c70bd04a3"
+    },
+    "RP/particles/skull_burst.json": {
+      "source": "RP/particles/skull_burst.json",
+      "source_sha256": "6cb4c743427b3e3d7f9dac8e58d8eedae443e23d3015258c04149d9703d7d1e0",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "da24b0366fa85e2ea21a2a8afaefc7992c30d930c6eaa128bc28f55d3c95df8e"
+    },
+    "RP/particles/newArtefact/satchel_elements_use_ice.json": {
+      "source": "RP/particles/newArtefact/satchel_elements_use_ice.json",
+      "source_sha256": "1a469025e19cd65c0c26a86b2b7bf22a37d838f5763b2f12378e47ed9fad6634",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "10cb7be947f96aabddfeec50e7f6cff1a80bcf133516087333bf733f4694960c"
+    },
+    "RP/particles/newWeapon/chain_point.particle.json": {
+      "source": "RP/particles/newWeapon/chain_point.particle.json",
+      "source_sha256": "3a099dee77398bb426c278922fa376ee7bc4c97739ba5a8c9b6bb4f8453ddfbd",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "8690201f7f973e5408cdfec323897727ee4383e7e991e592a921524f64f687b6"
+    },
+    "RP/particles/newWeapon/chain_connection.particle.json": {
+      "source": "RP/particles/newWeapon/chain_connection.particle.json",
+      "source_sha256": "6b2b736d3f45a224401dcf27c10aa451918e1644d6fd761e97a3c552e6a136d9",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "09501c22c6a2cbd08c09e81b167a7ed98933c838db8faeef7ee91ad4773764cf"
+    },
+    "RP/particles/newArtefact/satchel_elements_use_fire.json": {
+      "source": "RP/particles/newArtefact/satchel_elements_use_fire.json",
+      "source_sha256": "af2a0ace8260b5d0ecf44f8bf2735835708ee91aa256b5499556b8d623b4de81",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "fc93fe36935f752d2df7626f5078dac5a3d11e82ced92f7e1f14b402435f810f"
+    },
+    "RP/textures/ui/bossbars/namelessone/fullBar.png": {
+      "source": "RP/textures/ui/bossbars/namelessone/fullBar.png",
+      "source_sha256": "e281f4f363c0f9477d2a1b04a9bde45b791695fb05e7dafcd63d310d87e07429",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e281f4f363c0f9477d2a1b04a9bde45b791695fb05e7dafcd63d310d87e07429"
+    },
+    "RP/textures/ui/bossbars/namelessone/emptyBar.png": {
+      "source": "RP/textures/ui/bossbars/namelessone/emptyBar.png",
+      "source_sha256": "3494f28107cc3eb9c110657d7cbfa7a4e6ff0276f925498983a964058ae70c9f",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "3494f28107cc3eb9c110657d7cbfa7a4e6ff0276f925498983a964058ae70c9f"
+    },
+    "RP/textures/ui/bossbars/namelessone/overlayBar.png": {
+      "source": "RP/textures/ui/bossbars/namelessone/overlayBar.png",
+      "source_sha256": "dba08ddd21d2743f3210aea6ac1e0f75bb49a451b6d440c1288a929d78e65e6d",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "dba08ddd21d2743f3210aea6ac1e0f75bb49a451b6d440c1288a929d78e65e6d"
+    },
+    "RP/textures/ui/bossbars/wretchedwraith/fullBar.png": {
+      "source": "RP/textures/ui/bossbars/wretchedwraith/fullBar.png",
+      "source_sha256": "77e3527c55d3257413dbac35b769779263f67c5c7bf2ebfeb53f5a0b1a24455b",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "77e3527c55d3257413dbac35b769779263f67c5c7bf2ebfeb53f5a0b1a24455b"
+    },
+    "RP/textures/ui/bossbars/wretchedwraith/emptyBar.png": {
+      "source": "RP/textures/ui/bossbars/wretchedwraith/emptyBar.png",
+      "source_sha256": "d5bf3ab0513d2a41aa6c651ca3f5645c9de19aa5ef76fd03a7826fdba9b1871b",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d5bf3ab0513d2a41aa6c651ca3f5645c9de19aa5ef76fd03a7826fdba9b1871b"
+    },
+    "RP/textures/ui/bossbars/wretchedwraith/overlayBar.png": {
+      "source": "RP/textures/ui/bossbars/wretchedwraith/overlayBar.png",
+      "source_sha256": "0418646b0a310cc6464a7a47edc4075c073ab460c388aed8c57adb42541ef28f",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "0418646b0a310cc6464a7a47edc4075c073ab460c388aed8c57adb42541ef28f"
+    },
+    "RP/textures/ui/bossbars/wretchedwraith/fullBar2.png": {
+      "source": "RP/textures/ui/bossbars/wretchedwraith/fullBar2.png",
+      "source_sha256": "8b05461cce98d243bd6cc3c18e489fc9700e88738aee5624f373b63a58260625",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "8b05461cce98d243bd6cc3c18e489fc9700e88738aee5624f373b63a58260625"
+    },
+    "RP/textures/ui/bossbars/wretchedwraith/emptyBar2.png": {
+      "source": "RP/textures/ui/bossbars/wretchedwraith/emptyBar2.png",
+      "source_sha256": "2762d05879c78fb9655460667e19189881fa1c400004a91fd2b4981dd83483ae",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "2762d05879c78fb9655460667e19189881fa1c400004a91fd2b4981dd83483ae"
+    },
+    "RP/textures/ui/bossbars/bosswildfire/fullBar.png": {
+      "source": "RP/textures/ui/bossbars/bosswildfire/fullBar.png",
+      "source_sha256": "dbb17702d079f6189527ca55637df5d711eaadc963481473e03f47d58b63cef6",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "dbb17702d079f6189527ca55637df5d711eaadc963481473e03f47d58b63cef6"
+    },
+    "RP/textures/ui/bossbars/bosswildfire/emptyBar.png": {
+      "source": "RP/textures/ui/bossbars/bosswildfire/emptyBar.png",
+      "source_sha256": "4f2a036e7ed73d519a32871ff75ba67997ea6f9ccb49ff71cd8cd213e5174c8f",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "4f2a036e7ed73d519a32871ff75ba67997ea6f9ccb49ff71cd8cd213e5174c8f"
+    },
+    "RP/textures/ui/bossbars/bosswildfire/overlayBar.png": {
+      "source": "RP/textures/ui/bossbars/bosswildfire/overlayBar.png",
+      "source_sha256": "d7d418c4482b75cf20ebf79eda23c380b33c875a27469c066114010060133ad4",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d7d418c4482b75cf20ebf79eda23c380b33c875a27469c066114010060133ad4"
+    },
+    "RP/textures/entity/enchanted_mob/frozen_zombie.png": {
+      "source": "RP/textures/entity/enchanted_mob/frozen_zombie.png",
+      "source_sha256": "db6cba55ec6f866181b516f744cc942c1a5d31e491602f689a22e6664233f49a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "db6cba55ec6f866181b516f744cc942c1a5d31e491602f689a22e6664233f49a"
+    },
+    "RP/textures/entity/enchanted_mob/frozen_zombie_baby.png": {
+      "source": "RP/textures/entity/enchanted_mob/frozen_zombie_baby.png",
+      "source_sha256": "4d7184f76b8ece167cab5e523475db1aaef5190c8b984dd2a5c471959bbaf8dd",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "4d7184f76b8ece167cab5e523475db1aaef5190c8b984dd2a5c471959bbaf8dd"
+    },
+    "RP/textures/misc/enchanted_entity_glint.png": {
+      "source": "RP/textures/misc/enchanted_entity_glint.png",
+      "source_sha256": "9fd9bfa01f16672738a3559d043d91259ecf90b218b682a3436c7c66612f7a0c",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9fd9bfa01f16672738a3559d043d91259ecf90b218b682a3436c7c66612f7a0c"
+    },
+    "RP/render_controllers/entity_enchanted.rc.json": {
+      "source": "RP/render_controllers/entity_enchanted.rc.json",
+      "source_sha256": "4ddc9bb18905d14a4abd438f75ea3d0ba02856cd816e6f5ff65d3eec3819165b",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "f9ccf56c5df5ed027e94171f225945b075f5a8d48d6638fa8c5071e216637140"
+    },
+    "RP/textures/entity/frostball.png": {
+      "source": "RP/textures/entity/frostball.png",
+      "source_sha256": "90f0803e56a73233e0dda5aa2edd0565a6ac95cb143cf9fd4f031ccd283b1605",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "90f0803e56a73233e0dda5aa2edd0565a6ac95cb143cf9fd4f031ccd283b1605"
+    },
+    "RP/animations/necromancer_shot.animation.json": {
+      "source": "RP/animations/necromancer_shot.animation.json",
+      "source_sha256": "aa43fecfc15f717a8380a5be039b146b37b4a9877c778e1a5a1e2aa915379189",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "90a51710dc9bf78eac87ac8d6e2b2f0427b94f0dff6850056516bb475b9c7a22"
+    },
+    "RP/textures/entity/enchanted_mob/jungle_zombie.png": {
+      "source": "RP/textures/entity/enchanted_mob/jungle_zombie.png",
+      "source_sha256": "e29e79a751235eb17c4aea63eb2e39e48835fd7248420d9c36a1d88ddd7e3517",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e29e79a751235eb17c4aea63eb2e39e48835fd7248420d9c36a1d88ddd7e3517"
+    },
+    "RP/textures/entity/enchanted_mob/jungle_zombie_baby.png": {
+      "source": "RP/textures/entity/enchanted_mob/jungle_zombie_baby.png",
+      "source_sha256": "e4c995a6e265db0dadd8135f0c366ea199a64f81b75b961dbd03bd4e087737af",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e4c995a6e265db0dadd8135f0c366ea199a64f81b75b961dbd03bd4e087737af"
+    },
+    "RP/models/entity/jungle_zombie.geo.json": {
+      "source": "RP/models/entity/jungle_zombie.geo.json",
+      "source_sha256": "6d2fc8238d70b8bef03cb554f13ed3d1a4ac3cdf6fbbd8ac6e987494b59e2421",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "adcb1b035f94f3440d8d59d612a848ad666523c5df14ba5eace482b4006722c2"
+    },
+    "RP/textures/entity/enchanted_mob/necromancer.png": {
+      "source": "RP/textures/entity/enchanted_mob/necromancer.png",
+      "source_sha256": "0cbd6f0ceb0ebfe8b617422655e986e080a4d604e520589c90afa48234b57f91",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "0cbd6f0ceb0ebfe8b617422655e986e080a4d604e520589c90afa48234b57f91"
+    },
+    "RP/models/entity/necromancer.geo.json": {
+      "source": "RP/models/entity/necromancer.geo.json",
+      "source_sha256": "d3058676c807327e4b832ffee246b8460100081d53278c64aa2b1e2765640efa",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "bbc20cafcb4aba3f424ac11617a23327bf29c7f142e747a2085dc9c8ac1af8dd"
+    },
+    "RP/render_controllers/necromancer.rc.json": {
+      "source": "RP/render_controllers/necromancer.rc.json",
+      "source_sha256": "8a1647446db41c2c4491290622542781cdcb69da1f900667fe8d86ffe4cc20aa",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "7e7de69dd369f665e3fee591eb243c04b5a7c4effa840cb79569c1886383889b"
+    },
+    "RP/animations/necromancer.animation.json": {
+      "source": "RP/animations/necromancer.animation.json",
+      "source_sha256": "ccdd63b3fe272b4e9ef42c3023fda0efb9f2e945ae856c4ecc6daae7509eaa25",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d278810db0bc007929785bbcfd62691393befcab07bef744856d6f5f00afe367"
+    },
+    "RP/animation_controllers/necromancer.ac.json": {
+      "source": "RP/animation_controllers/necromancer.ac.json",
+      "source_sha256": "9bb764ca9fe475dea46ac9be13b23e7b70fe4372306bff1eb3888c3515342730",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9ba046854330fa269e31388e3a4fa5e0af260c033a2fa3897e48a4c3bf64fba5"
+    },
+    "RP/particles/necromancer_orb.json": {
+      "source": "RP/particles/necromancer_orb.json",
+      "source_sha256": "3efd29bc89020eb3f045fa4e51d3460ac6b3af8b13d4970838c146288e2a91cc",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "0a84d5a847bd894a4289775551916aa5732572b23d69f73a5bf65b733e132a57"
+    },
+    "RP/particles/necromancer_summon.json": {
+      "source": "RP/particles/necromancer_summon.json",
+      "source_sha256": "c454c9474f7f1d57820b526862fb6a1e9a22d0fc5400c26c78d0ecc242e60998",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "a866dd8b100b285fac792a7e8d41651141488ce073ee0f3248ef8fc0677fb4e6"
+    },
+    "RP/textures/particles/glow_dot.png": {
+      "source": "RP/textures/particles/glow_dot.png",
+      "source_sha256": "b6fc6563528a036214f8d8dbe16e73bf4d8fc58bb782f29d84554073df729844",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "b6fc6563528a036214f8d8dbe16e73bf4d8fc58bb782f29d84554073df729844"
+    },
+    "RP/textures/entity/enchanted_mob/vanguard.png": {
+      "source": "RP/textures/entity/enchanted_mob/vanguard.png",
+      "source_sha256": "9400281ba93ffcf1559c1893476987f4e213354a30e2303bfdf4f95c9ec474c7",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9400281ba93ffcf1559c1893476987f4e213354a30e2303bfdf4f95c9ec474c7"
+    },
+    "RP/models/entity/vanguard.geo.json": {
+      "source": "RP/models/entity/vanguard.geo.json",
+      "source_sha256": "9ddd6718e338cefcf8effd5e462ff6f6e317914783113cab7d7d2e4ebe2c5f71",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9a833a7bf78d17b6c63c439c686aa7d459721ffbae83bc39df96833d2ce3f8d0"
+    },
+    "RP/render_controllers/vanguard.json": {
+      "source": "RP/render_controllers/vanguard.json",
+      "source_sha256": "46f5fe06e56d890d15c37a5352b2ef45da687cce66f9087d7735e2733c42fa41",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "810b4ac21fa742654e71e98ecf9b82b28723f1f0ed064b6d89c2c63aa5e60b97"
+    },
+    "RP/animation_controllers/redstone_golem.ac.json": {
+      "source": "RP/animation_controllers/redstone_golem.ac.json",
+      "source_sha256": "8672301ac7bfac7f7cc96b83abb9d200a8b7efbff3dc2b99a277074c535ceaf1",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "821f91634009f1f7c68dd8484a3b846f49f5bb3ba1e180b2738775744ca0364e"
+    },
+    "RP/animations/vanguard.animation.json": {
+      "source": "RP/animations/vanguard.animation.json",
+      "source_sha256": "646aa54d3a2a13c1e72ab52ca0227dd6d5d8197b6eb1aa55ab9a6614e01ad1e3",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "242ccfcdd29bbc69fb19345397d5ee176f092cd184306b7a32a2a09dd74958a6"
+    },
+    "RP/particles/vanguard_shield.json": {
+      "source": "RP/particles/vanguard_shield.json",
+      "source_sha256": "4cae5085e9d5629cd9b51271888c165a7fa1d8030308f3c1233918ce3bf3c84d",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "a110a4875757bab8393e24eccfdcc4c6d4c6d1df98a0c051aa585eeadda965b2"
+    },
+    "RP/textures/particles/smoke_white.png": {
+      "source": "RP/textures/particles/smoke_white.png",
+      "source_sha256": "aabbe9aceb5514f68211fbb48df285bd73efe8554ff065c332ce6bb21cf6a02a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "aabbe9aceb5514f68211fbb48df285bd73efe8554ff065c332ce6bb21cf6a02a"
+    },
+    "RP/textures/entity/enchanted_mob/wraith.png": {
+      "source": "RP/textures/entity/enchanted_mob/wraith.png",
+      "source_sha256": "5b50d57ebf6211d33a94ffd94cdc0ad5bd457f1d070767ef2ebf10b786d9a5cc",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "5b50d57ebf6211d33a94ffd94cdc0ad5bd457f1d070767ef2ebf10b786d9a5cc"
+    },
+    "RP/textures/entity/wraith/wraith_spooky.png": {
+      "source": "RP/textures/entity/wraith/wraith_spooky.png",
+      "source_sha256": "5ac71a371df3de413f84f94d868d3588d4e90f9978f413ac10eed01b01031c50",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "5ac71a371df3de413f84f94d868d3588d4e90f9978f413ac10eed01b01031c50"
+    },
+    "RP/models/entity/wraith.geo.json": {
+      "source": "RP/models/entity/wraith.geo.json",
+      "source_sha256": "455a36ed8ed1b4625b153e89359fd52cb23c38280ef7d5fd1fff194618c01545",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "33ab9385fffba251c766f78e1c40031b8b996139440b75d2159a2380030cecde"
+    },
+    "RP/render_controllers/dungeons_costume.json": {
+      "source": "RP/render_controllers/dungeons_costume.json",
+      "source_sha256": "0eb505f15a94cbba9658e2dcb716bf66274fddbd7af12c9d7062c6e47c5cabdc",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e424715754b767b5fd15515b73b71b7de7d7a885eb995156c7604aa3c027c3b7"
+    },
+    "RP/animation_controllers/v2/wraith.ac.json": {
+      "source": "RP/animation_controllers/v2/wraith.ac.json",
+      "source_sha256": "b8d7ff7b6de09e067ddbfe99fd4eeb4e0be2141624aef33e8b7dcbdd59374dcf",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "38ec8c962986fd2141b379cd7cc619cea27991148e4889bd67471a4c97a74901"
+    },
+    "RP/textures/particles/blue_flame.png": {
+      "source": "RP/textures/particles/blue_flame.png",
+      "source_sha256": "aeb61a2280a01178c120a6fb511971388e84429a469e917fb8514b083aa69554",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "aeb61a2280a01178c120a6fb511971388e84429a469e917fb8514b083aa69554"
+    },
+    "RP/textures/entity/nameless_one/nameless_one.png": {
+      "source": "RP/textures/entity/nameless_one/nameless_one.png",
+      "source_sha256": "e3d3a8ab09f8ab48ed0191b04a1e4c481df4fd2ea389d546175e8bce7c65cbbd",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e3d3a8ab09f8ab48ed0191b04a1e4c481df4fd2ea389d546175e8bce7c65cbbd"
+    },
+    "RP/models/entity/nameless_one.v2.geo.json": {
+      "source": "RP/models/entity/nameless_one.v2.geo.json",
+      "source_sha256": "27cdf975fa6757306d5cb441250a93074325c4b3c0a0d1a00eb7eb5d4595b0be",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9d5d0ebe415154f78ba944b1a4c5546432108e2d6b9337ec3b4f4c128295fb4e"
+    },
+    "RP/animations/v2/nameless_one.v2.animation.json": {
+      "source": "RP/animations/v2/nameless_one.v2.animation.json",
+      "source_sha256": "e91686e05d838415997923f6f805fac218a714f7ece439e432a42131b63120fe",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "484af5a8ecee53ae65db35f82a2bd515f14a9b11ba0a92795b52ce64d10f9b52"
+    },
+    "RP/animation_controllers/v2/nameless_one_v2.json": {
+      "source": "RP/animation_controllers/v2/nameless_one_v2.json",
+      "source_sha256": "f6073c3f94449e416e96a0bdb4e78365f4033a731ec49e68ff81ae8555cbea9b",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "318194705e450dfa2d95e152af69403fef493dd90985570daa50303366012217"
+    },
+    "RP/particles/newMob/nameless_one/nameless_one_orb_0.particle.json": {
+      "source": "RP/particles/newMob/nameless_one/nameless_one_orb_0.particle.json",
+      "source_sha256": "47ba39aebeaa2a76556993921193af723c4033d11f00cc6f317f092491bf9ce5",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "75941ff1ccf4bc9ecea3424d80a37302374dac0325a915d6b48236d3db5f5acc"
+    },
+    "RP/particles/newMob/nameless_one/nameless_one_feet.particle.json": {
+      "source": "RP/particles/newMob/nameless_one/nameless_one_feet.particle.json",
+      "source_sha256": "b1a629c314cbe92ad1298cee30ba4f1b59d84b3aa024d10a3d64e3bb0df97506",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "45f43c09352f3f606c3c8dc0b06d1158beb33c90bc867ca8dc90dc5d71a25a0b"
+    },
+    "RP/textures/entity/skeleton/vanguard.png": {
+      "source": "RP/textures/entity/skeleton/vanguard.png",
+      "source_sha256": "4265072ea88958dc0c6fefcde3eaf1553ad3716ea7ae510e64c37a8fa4ad9465",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "4265072ea88958dc0c6fefcde3eaf1553ad3716ea7ae510e64c37a8fa4ad9465"
+    },
+    "RP/models/entity/nameless_projectile.geo.json": {
+      "source": "RP/models/entity/nameless_projectile.geo.json",
+      "source_sha256": "d63667c34f45b8be24d7d00fa0f5daf30e5377fba5b1e181f21350860454aa8e",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9d46d367eee66afae845fa23435bb03a4b0b5d7bff83cdb293afae8d2d6c775d"
+    },
+    "RP/animations/v2/nameless_one_projectile.animation.json": {
+      "source": "RP/animations/v2/nameless_one_projectile.animation.json",
+      "source_sha256": "625fd5fb47a95a6241675f34b49b5238d65d48ace1017e5ccc5148c6c8b71c81",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "31022c4e76ee5a7b6d0e4983ba3d131df2227fdc2dcabb8e2f6075b8fc022aa6"
+    },
+    "RP/particles/newMob/nameless_one/nameless_projectile_trail.particle.json": {
+      "source": "RP/particles/newMob/nameless_one/nameless_projectile_trail.particle.json",
+      "source_sha256": "a742330f6b7304b997d66f95d0e77dc31c274cdd7a7d70c0cec856ba23733430",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "1643e3b649b5ec2a1d22cbbbad8b8c2653e9e6050b77750c56383860d62f76eb"
+    },
+    "RP/textures/particles/forceglow_particles.png": {
+      "source": "RP/textures/particles/forceglow_particles.png",
+      "source_sha256": "6cb7e65f0afd2043ed5986b0ffb4576f6f3613cc521086d1946c621f01d84b7a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6cb7e65f0afd2043ed5986b0ffb4576f6f3613cc521086d1946c621f01d84b7a"
+    },
+    "RP/textures/particles/radiance.png": {
+      "source": "RP/textures/particles/radiance.png",
+      "source_sha256": "456c9590fd2af1fc1fa24d3e945da6e3e3bd482d86a8e8ad2a3869a2d41238ba",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "456c9590fd2af1fc1fa24d3e945da6e3e3bd482d86a8e8ad2a3869a2d41238ba"
+    },
+    "RP/textures/particles/not_circle.png": {
+      "source": "RP/textures/particles/not_circle.png",
+      "source_sha256": "145bfb5c27dc313ea483c16f044650cd7dd94a2612d6645cd66f562c59e2fe22",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "145bfb5c27dc313ea483c16f044650cd7dd94a2612d6645cd66f562c59e2fe22"
+    },
+    "RP/textures/entity/wildfire/boss_wildfire.png": {
+      "source": "RP/textures/entity/wildfire/boss_wildfire.png",
+      "source_sha256": "97624cf6dfa09a3cddcbc32d27998a15e99aa9e737abb30b32661b9d1a8f92cc",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "97624cf6dfa09a3cddcbc32d27998a15e99aa9e737abb30b32661b9d1a8f92cc"
+    },
+    "RP/models/entity/boss_wildfire.json": {
+      "source": "RP/models/entity/boss_wildfire.json",
+      "source_sha256": "701870d33caadd881a5983b1c5f3a898321c9c31cc3ff9e9c1f8abc67a69572f",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "5c11d89a20d0e4f00d3010ee0fe64576fd08e44a20b406ad728e6a3b8bdeba7c"
+    },
+    "RP/particles/wildfire_smoke.particle.json": {
+      "source": "RP/particles/wildfire_smoke.particle.json",
+      "source_sha256": "4b14f77321466379413715c92ed2b6ebcfed7b75ee1cdd1b2eaf7bbe07abc43e",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "a7acd23bf8a5e1273804a7ba23daf6ec06d6dd6f718a93e3a39df3bbab203ca0"
+    },
+    "RP/particles/wildfire_slam.particle.json": {
+      "source": "RP/particles/wildfire_slam.particle.json",
+      "source_sha256": "a4f04472dc428cc25cc89db761a5455405afc0d85f83f5b47a315d6ca14542eb",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "7fb59adb10fcbdfee32c6164dff4bf101c4ee4a716bc71606e37d658c9356602"
+    },
+    "RP/animations/wildfire.animation.json": {
+      "source": "RP/animations/wildfire.animation.json",
+      "source_sha256": "1a2229821b63a9bfe88a1922025779faae049b0ea12d7e93bd0f0405a615f527",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "45b152cc27fe23dc8a423acc6683812657b336fe527290ab9bcbbb51f2f2287d"
+    },
+    "RP/animations/underworld_baelgor_idle.animation.json": {
+      "source": "RP/animations/underworld_baelgor_idle.animation.json",
+      "source_sha256": "4ac90348aa22ee72a9ff4d8006ad1a1fd66942b0928b330cb132f2f148ed411d",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "8d5bca82f7ab5bd64dd19e6fe76c87a13f2ceecce866c033a4f683c32facd2e9"
+    },
+    "RP/render_controllers/wildfire.rc.json": {
+      "source": "RP/render_controllers/wildfire.rc.json",
+      "source_sha256": "35f02f7589073bd7446205710b83afbe1d5c0f0aa031c5d30cd679d948812ab0",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "c2d829b6428ba2cc5b6f6bfceaa6f0daa0e9ef4ab88196b531c64c4e40ec8407"
+    },
+    "RP/textures/entity/wildfire/wildfire_projectile.png": {
+      "source": "RP/textures/entity/wildfire/wildfire_projectile.png",
+      "source_sha256": "0af4d931c0c5e4ef1dd27a792a47e73c92f54fa85fb6f38fe86e024e0a266b10",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "0af4d931c0c5e4ef1dd27a792a47e73c92f54fa85fb6f38fe86e024e0a266b10"
+    },
+    "RP/textures/entity/wildfire/boss_wildfire_resting.png": {
+      "source": "RP/textures/entity/wildfire/boss_wildfire_resting.png",
+      "source_sha256": "67009b92c78417b5b683be54ce5558bb74f7b19b8d09a88da92ce9cccf810715",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "67009b92c78417b5b683be54ce5558bb74f7b19b8d09a88da92ce9cccf810715"
+    },
+    "RP/models/entity/boss_wildfire_rest.geo.json": {
+      "source": "RP/models/entity/boss_wildfire_rest.geo.json",
+      "source_sha256": "20a66d0b7f747aa65e6307a18e91aa00eee3335a0351e98cbf8230fe9b299f49",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "89fbbfbbdd0b80e08b4ab8a13cc8150ad4b7007f502c5a239c29566fae986ab2"
+    },
+    "RP/animations/boss_wildfire_rest.animation.json": {
+      "source": "RP/animations/boss_wildfire_rest.animation.json",
+      "source_sha256": "6bb2e607ad131b5ace5418703ce59545ca174dc5a5aa704c11b381e026fbd3e5",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "00b40a9c7908848bfcc956b31ddc713d3e75a1c3621dc0605d8d60723a84f70f"
+    },
+    "RP/animation_controllers/redstone_monstrosity.ac.json": {
+      "source": "RP/animation_controllers/redstone_monstrosity.ac.json",
+      "source_sha256": "735bcc3fd760d9efc04090973b4f0b5f0e145bcee44f9b1118cfa9828622cbfe",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "b9e8221997145174cdee0f66185c1ed15dd0fa4e6a72b597bebf7fa2fdb436a2"
+    },
+    "RP/textures/entity/wretched_wraith/wretched_wraith_projectile.png": {
+      "source": "RP/textures/entity/wretched_wraith/wretched_wraith_projectile.png",
+      "source_sha256": "6899a0df5b50a8b925c33ac96352c531d89a3d89d3d075fc213a9b5e3c900875",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6899a0df5b50a8b925c33ac96352c531d89a3d89d3d075fc213a9b5e3c900875"
+    },
+    "RP/models/entity/redstone_monstrosity_projectile.json": {
+      "source": "RP/models/entity/redstone_monstrosity_projectile.json",
+      "source_sha256": "81f36354740e53ea5f0bf4f2a067402908ed5fa575a05226a6fa11fc3430d21c",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e291fffd3d664a21e69dca5ef2f35bf6338bc7cd9e1c19722de3a89cc63193c3"
+    },
+    "RP/animations/blast_fungus.animation.json": {
+      "source": "RP/animations/blast_fungus.animation.json",
+      "source_sha256": "090675f33ff162f14b7af3acf840de09548c9285e604316c2c89e48e8c3ee9bb",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "566f3e948217f8e8d68c8f9df9d773ffb0d28819d8c2ff6916497baf747bc228"
+    },
+    "RP/particles/wretched_shot.json": {
+      "source": "RP/particles/wretched_shot.json",
+      "source_sha256": "5228ab892a319fcd2f7e4633fb86c72fd7c6b3eca76f086d8c66239efa85f477",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "f22fe7c3bcceb702ea5753ad73c9c9401b5f5a026aaf6ea2e3215e6eddbf7285"
+    },
+    "RP/textures/entity/wretched_wraith/wretched_wraith.png": {
+      "source": "RP/textures/entity/wretched_wraith/wretched_wraith.png",
+      "source_sha256": "9856fad8eb783a2b7418749c04bdeed2b4b2df47916a83aad9a01ae915d383ea",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9856fad8eb783a2b7418749c04bdeed2b4b2df47916a83aad9a01ae915d383ea"
+    },
+    "RP/models/entity/wretched_wraith.geo.json": {
+      "source": "RP/models/entity/wretched_wraith.geo.json",
+      "source_sha256": "98e38dc5fb66d7fe2639328261ebd6ffe84e8f3d131911258e67bfd3e0c3ad55",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "2e72469e6859b7c6f97a65183154331e6bec75e5b6fdc446f13efef816dd5064"
+    },
+    "RP/animation_controllers/v2/wretched_wraith_v2.json": {
+      "source": "RP/animation_controllers/v2/wretched_wraith_v2.json",
+      "source_sha256": "fb2f495e67a70e370c80766a86c27c189417f0eb6e6786e904114611108ce303",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "93f460cc5d1e9ca6179cf3031693c359dbcefa2e82d08edff9cc0135da4b7881"
+    },
+    "RP/animations/v2/redstone_monstrosity_v2.animation.json": {
+      "source": "RP/animations/v2/redstone_monstrosity_v2.animation.json",
+      "source_sha256": "bccf8967b0c5f7f3ed36083fbabe1123aa97993b4d1c3bc63917fce5383d057c",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "a82d0f4a18dc6e1fad53f5f1177029c2f6195b979ea57e3172aa67bcaa17821e"
+    },
+    "RP/textures/particles/wretched_wraith_fire.png": {
+      "source": "RP/textures/particles/wretched_wraith_fire.png",
+      "source_sha256": "aeb01195a3b1a7c24bda6843629fa4c83d42ca3c6d59c77184fddcf35d7cd57f",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "aeb01195a3b1a7c24bda6843629fa4c83d42ca3c6d59c77184fddcf35d7cd57f"
+    },
+    "RP/textures/entity/zombie/frozen_zombie.png": {
+      "source": "RP/textures/entity/zombie/frozen_zombie.png",
+      "source_sha256": "f799f05abbb8dff198b054b4bba385e413bd73b0eacd005e70122ba4bf575e11",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "f799f05abbb8dff198b054b4bba385e413bd73b0eacd005e70122ba4bf575e11"
+    },
+    "RP/textures/entity/zombie/frozen_zombie_baby.png": {
+      "source": "RP/textures/entity/zombie/frozen_zombie_baby.png",
+      "source_sha256": "7455db8cdcbfd57a75ac08044294c42f8295517988c6ca864b9694b00a602286",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "7455db8cdcbfd57a75ac08044294c42f8295517988c6ca864b9694b00a602286"
+    },
+    "RP/textures/entity/zombie/jungle_zombie.png": {
+      "source": "RP/textures/entity/zombie/jungle_zombie.png",
+      "source_sha256": "6678a8237c827968417de419ff10c130b76a2ed3b3f38a1ea6a276c52969ec97",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6678a8237c827968417de419ff10c130b76a2ed3b3f38a1ea6a276c52969ec97"
+    },
+    "RP/textures/entity/zombie/jungle_zombie_baby.png": {
+      "source": "RP/textures/entity/zombie/jungle_zombie_baby.png",
+      "source_sha256": "112f5951a82bd04f3037a14b19562fc7c14a0a39f8da0892cdf82ade7c412f95",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "112f5951a82bd04f3037a14b19562fc7c14a0a39f8da0892cdf82ade7c412f95"
+    },
+    "RP/textures/entity/necromancer/necromancer.png": {
+      "source": "RP/textures/entity/necromancer/necromancer.png",
+      "source_sha256": "82516b9b07c3a645bba39b6099becab63f6ffe780abc45e740e4ce5deb661c49",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "82516b9b07c3a645bba39b6099becab63f6ffe780abc45e740e4ce5deb661c49"
+    },
+    "RP/textures/entity/tower_wraith/tower_wraith.png": {
+      "source": "RP/textures/entity/tower_wraith/tower_wraith.png",
+      "source_sha256": "8c60ee46e6c2d31fc22bb4dc9be19c67244fc0938537d23b91b26b4e7c8d9f33",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "8c60ee46e6c2d31fc22bb4dc9be19c67244fc0938537d23b91b26b4e7c8d9f33"
+    },
+    "RP/textures/entity/tower_wraith/tower_wraith_pink.png": {
+      "source": "RP/textures/entity/tower_wraith/tower_wraith_pink.png",
+      "source_sha256": "a058ae6387216105d4bc30d6762ce737a1afd02bbde17c6223f7cdfc3d88a677",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "a058ae6387216105d4bc30d6762ce737a1afd02bbde17c6223f7cdfc3d88a677"
+    },
+    "RP/models/entity/tower_wraith.geo.json": {
+      "source": "RP/models/entity/tower_wraith.geo.json",
+      "source_sha256": "688c1da8241424386218f61a1a7287635c6971214f4aacdbe7d0ba53e363d169",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "32dfb2428acdd5dcc0f40ddf621a48970dc0455efbcf2cfe4d3663bddab07d0c"
+    },
+    "RP/render_controllers/tower_wraith.json": {
+      "source": "RP/render_controllers/tower_wraith.json",
+      "source_sha256": "292b73792abe73b84ac0411733ae717830216db3dfe0c932f763a99bae9de94d",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "1a7851134916e727fe3f353d65e48d5b2eaa07acea7be5ee4d88b0548a806ddf"
+    },
+    "RP/animation_controllers/tower_wraith.json": {
+      "source": "RP/animation_controllers/tower_wraith.json",
+      "source_sha256": "8c0fa197e2b937995a1e47402411e28007428941e61a47b558388fed192875f8",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "ddb6471e36d6b0d766c992556e09c8f1943dc8a8709dcdbc55289812ebfb90d7"
+    },
+    "RP/animation_controllers/wraith.ac.json": {
+      "source": "RP/animation_controllers/wraith.ac.json",
+      "source_sha256": "27ff37900807166444a7efa63d9091986e9bc7faadeadcccbae3bc336f436a7a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "472aeb6b94da68d3388c4a77c38dd60a0fcd3814027955af146d8373ce2f133d"
+    },
+    "RP/textures/particles/soul_fire.png": {
+      "source": "RP/textures/particles/soul_fire.png",
+      "source_sha256": "1c87f9f5cab6f1ce03605cc9e97f91e9d0c5ced094402421e380f252ab2162b0",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "1c87f9f5cab6f1ce03605cc9e97f91e9d0c5ced094402421e380f252ab2162b0"
+    },
+    "RP/textures/entity/wraith/wraith.png": {
+      "source": "RP/textures/entity/wraith/wraith.png",
+      "source_sha256": "28ccde4d6b050383c76d18c1f83b39c7a516af7a5e8cfa03419d49f0d891c941",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "28ccde4d6b050383c76d18c1f83b39c7a516af7a5e8cfa03419d49f0d891c941"
+    },
+    "RP/textures/particles/forceglow_smoke_white.png": {
+      "source": "RP/textures/particles/forceglow_smoke_white.png",
+      "source_sha256": "53199289244bf812a727e7aadeff700484e146b1afd20dd9707f6d770409ce79",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "53199289244bf812a727e7aadeff700484e146b1afd20dd9707f6d770409ce79"
+    },
+    "RP/textures/particles/dot.png": {
+      "source": "RP/textures/particles/dot.png",
+      "source_sha256": "5a3fece265679137ee12d2595421b8252c1e17c7d52e7b1e017248f1890ad0e0",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "5a3fece265679137ee12d2595421b8252c1e17c7d52e7b1e017248f1890ad0e0"
+    },
+    "RP/textures/particles/ancient_minion_ring.png": {
+      "source": "RP/textures/particles/ancient_minion_ring.png",
+      "source_sha256": "a3f9e40573a6138e18cadf5ff8904755bb8e28196e33375af0b696fb91c8af0b",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "a3f9e40573a6138e18cadf5ff8904755bb8e28196e33375af0b696fb91c8af0b"
+    },
+    "RP/textures/particles/snowflake.png": {
+      "source": "RP/textures/particles/snowflake.png",
+      "source_sha256": "757184545ee6bc3a91ba846c3500675d987fb32ca673b98b46cdf3151a58eacf",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "757184545ee6bc3a91ba846c3500675d987fb32ca673b98b46cdf3151a58eacf"
+    },
+    "RP/textures/particles/lightning_wand_bolt.png": {
+      "source": "RP/textures/particles/lightning_wand_bolt.png",
+      "source_sha256": "f076af8a8f00cabe021abc5f7038d3b2599cdbf984add6080f0a80978291fb01",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "f076af8a8f00cabe021abc5f7038d3b2599cdbf984add6080f0a80978291fb01"
+    },
+    "RP/textures/particles/echo_slash.png": {
+      "source": "RP/textures/particles/echo_slash.png",
+      "source_sha256": "4967c5f9f7adacccc15b04d310fdda54af4c3a1539deeb8a9d2939836c463b06",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "4967c5f9f7adacccc15b04d310fdda54af4c3a1539deeb8a9d2939836c463b06"
+    },
+    "RP/textures/particles/evil_skulls.png": {
+      "source": "RP/textures/particles/evil_skulls.png",
+      "source_sha256": "00d38bc36958037e78b6eb4bba598499fd6c1e9a787e487bc38013aa5baeef1e",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "00d38bc36958037e78b6eb4bba598499fd6c1e9a787e487bc38013aa5baeef1e"
+    },
+    "RP/textures/particles/chain.png": {
+      "source": "RP/textures/particles/chain.png",
+      "source_sha256": "0a9a998ff95f19f64fcea7ee4b2fcfa88bdccf1a336d073a66afe130a5545cca",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "0a9a998ff95f19f64fcea7ee4b2fcfa88bdccf1a336d073a66afe130a5545cca"
+    },
+    "RP/textures/items/armor/helmet_frost.png": {
+      "source": "RP/textures/items/armor/helmet_frost.png",
+      "source_sha256": "7f70f0ee0478b22d045764cf8d085b6bffce7c65d6964e9eae08b2e6e953af7c",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "7f70f0ee0478b22d045764cf8d085b6bffce7c65d6964e9eae08b2e6e953af7c"
+    },
+    "RP/textures/items/armor/chestplate_frost.png": {
+      "source": "RP/textures/items/armor/chestplate_frost.png",
+      "source_sha256": "dcb43f0bce3826b913c39191494ed3382c435d1a0e77576526544deac93712dd",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "dcb43f0bce3826b913c39191494ed3382c435d1a0e77576526544deac93712dd"
+    },
+    "RP/textures/items/weapon/glaive.png": {
+      "source": "RP/textures/items/weapon/glaive.png",
+      "source_sha256": "65218bce78fb424f631451e4f1e79d076797307a938457030c0472aa1990c638",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "65218bce78fb424f631451e4f1e79d076797307a938457030c0472aa1990c638"
+    },
+    "RP/textures/items/key/nameless_one.png": {
+      "source": "RP/textures/items/key/nameless_one.png",
+      "source_sha256": "0a18c1113d5154b60ccdfcdf4d475dfbb0aa185468bf14f82ae66c119021f9ed",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "0a18c1113d5154b60ccdfcdf4d475dfbb0aa185468bf14f82ae66c119021f9ed"
+    },
+    "RP/textures/items/key/hovering_inferno.png": {
+      "source": "RP/textures/items/key/hovering_inferno.png",
+      "source_sha256": "4aaa45717f942ac2cf9d3f25eef3c1ba97b78874c6b78bbdd7319eb5ca630e4d",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "4aaa45717f942ac2cf9d3f25eef3c1ba97b78874c6b78bbdd7319eb5ca630e4d"
+    },
+    "RP/textures/items/key/wretched_wraith.png": {
+      "source": "RP/textures/items/key/wretched_wraith.png",
+      "source_sha256": "eaa08208a483a5f11be4b91bf33e7cb234f16fed8374c7a6ef54c9243e026a73",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "eaa08208a483a5f11be4b91bf33e7cb234f16fed8374c7a6ef54c9243e026a73"
+    },
+    "RP/sounds/nameless_one/spell1.ogg": {
+      "source": "RP/sounds/nameless_one/spell1.ogg",
+      "source_sha256": "0aa0cebc15350ca05f7dd8c1d695211ae51f98b360a80b4631acade374c0185c",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "0aa0cebc15350ca05f7dd8c1d695211ae51f98b360a80b4631acade374c0185c"
+    },
+    "RP/sounds/nameless_one/spell2.ogg": {
+      "source": "RP/sounds/nameless_one/spell2.ogg",
+      "source_sha256": "e824c6f594094267622ad5f1dae63e3060f64dd4b4424f6fbe2b536c7f3b8a7c",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e824c6f594094267622ad5f1dae63e3060f64dd4b4424f6fbe2b536c7f3b8a7c"
+    },
+    "RP/sounds/mobNew/wraith/idle0.ogg": {
+      "source": "RP/sounds/mobNew/wraith/idle0.ogg",
+      "source_sha256": "648704a5abe9b8222e45a5941a29ab51a57495d99b9e4db247335264e5b2d303",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "648704a5abe9b8222e45a5941a29ab51a57495d99b9e4db247335264e5b2d303"
+    },
+    "RP/sounds/mobNew/wraith/idle1.ogg": {
+      "source": "RP/sounds/mobNew/wraith/idle1.ogg",
+      "source_sha256": "8ed735751e304f50caff58dffab8a9e85e75b7b5d40aef0a4778c99f36553eb9",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "8ed735751e304f50caff58dffab8a9e85e75b7b5d40aef0a4778c99f36553eb9"
+    },
+    "RP/sounds/mobNew/wraith/idle2.ogg": {
+      "source": "RP/sounds/mobNew/wraith/idle2.ogg",
+      "source_sha256": "ca3ca213256f3fc9c0f070986019c9104bf3393af8c1773b53dced64da6dce2c",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "ca3ca213256f3fc9c0f070986019c9104bf3393af8c1773b53dced64da6dce2c"
+    },
+    "RP/sounds/mobNew/wraith/death0.ogg": {
+      "source": "RP/sounds/mobNew/wraith/death0.ogg",
+      "source_sha256": "d77bdc7f3d9065e83d5c806508cf14239de55fde0e28574a8fe1f12b2babfa53",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d77bdc7f3d9065e83d5c806508cf14239de55fde0e28574a8fe1f12b2babfa53"
+    },
+    "RP/sounds/mobNew/wraith/death1.ogg": {
+      "source": "RP/sounds/mobNew/wraith/death1.ogg",
+      "source_sha256": "123b851986b909656428c886e7ca0ec5b6ddb149f3ededefa6d9d3d533122672",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "123b851986b909656428c886e7ca0ec5b6ddb149f3ededefa6d9d3d533122672"
+    },
+    "RP/sounds/mobNew/wraith/hurt0.ogg": {
+      "source": "RP/sounds/mobNew/wraith/hurt0.ogg",
+      "source_sha256": "3b316ec11a42e0a1ce0bface687838d1cec1a85d1fd7e329ffeff608c6410cd8",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "3b316ec11a42e0a1ce0bface687838d1cec1a85d1fd7e329ffeff608c6410cd8"
+    },
+    "RP/sounds/mobNew/wraith/hurt1.ogg": {
+      "source": "RP/sounds/mobNew/wraith/hurt1.ogg",
+      "source_sha256": "995a417e798a8d932459ac8a98c8f641d7e7e06c5f8c211deff3a84ae3d51806",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "995a417e798a8d932459ac8a98c8f641d7e7e06c5f8c211deff3a84ae3d51806"
+    },
+    "RP/sounds/mobNew/wraith/attack.ogg": {
+      "source": "RP/sounds/mobNew/wraith/attack.ogg",
+      "source_sha256": "fc0206fb3cd3029e618bae6946f65dcc54a9ad67d29c01ea7c0b0ab6bee1e9e3",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "fc0206fb3cd3029e618bae6946f65dcc54a9ad67d29c01ea7c0b0ab6bee1e9e3"
+    },
+    "RP/sounds/mobNew/nameless_one/idle0.ogg": {
+      "source": "RP/sounds/mobNew/nameless_one/idle0.ogg",
+      "source_sha256": "4a05303d5d09fea3cf5ee2d86c0bb7a4e18bc9679e1e9cef838b41db8ac97896",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "4a05303d5d09fea3cf5ee2d86c0bb7a4e18bc9679e1e9cef838b41db8ac97896"
+    },
+    "RP/sounds/mobNew/nameless_one/idle1.ogg": {
+      "source": "RP/sounds/mobNew/nameless_one/idle1.ogg",
+      "source_sha256": "4db123493af1a1a080fdf80d352f782170b09054c693c23548bc61acf3a477c4",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "4db123493af1a1a080fdf80d352f782170b09054c693c23548bc61acf3a477c4"
+    },
+    "RP/sounds/mobNew/nameless_one/death.ogg": {
+      "source": "RP/sounds/mobNew/nameless_one/death.ogg",
+      "source_sha256": "ec4f0ae3b2bcfb05e2cc06dd6e2545f5b79cefde9efc4403004f6161e8d76af1",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "ec4f0ae3b2bcfb05e2cc06dd6e2545f5b79cefde9efc4403004f6161e8d76af1"
+    },
+    "RP/sounds/mobNew/nameless_one/hurt0.ogg": {
+      "source": "RP/sounds/mobNew/nameless_one/hurt0.ogg",
+      "source_sha256": "17a7160077384459d4759cd9f662159d0968d81f8580fe4ee51ddc4b287e9087",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "17a7160077384459d4759cd9f662159d0968d81f8580fe4ee51ddc4b287e9087"
+    },
+    "RP/sounds/mobNew/nameless_one/hurt1.ogg": {
+      "source": "RP/sounds/mobNew/nameless_one/hurt1.ogg",
+      "source_sha256": "3b77dfb7805d3fa9612b3230086c26aab4bb2e2dc04cb58c2c1670e886e327fb",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "3b77dfb7805d3fa9612b3230086c26aab4bb2e2dc04cb58c2c1670e886e327fb"
+    },
+    "RP/sounds/mobNew/wretched_wraith/idle0.ogg": {
+      "source": "RP/sounds/mobNew/wretched_wraith/idle0.ogg",
+      "source_sha256": "1efb9d772ed2356375f2cca2fce55e82c8f7ecf8222cd2dd7024065edeeb34bc",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "1efb9d772ed2356375f2cca2fce55e82c8f7ecf8222cd2dd7024065edeeb34bc"
+    },
+    "RP/sounds/mobNew/wretched_wraith/idle1.ogg": {
+      "source": "RP/sounds/mobNew/wretched_wraith/idle1.ogg",
+      "source_sha256": "eaa8f26a4a90320b106373795a78a3b78729989f5f11e7dc676581c74f56f838",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "eaa8f26a4a90320b106373795a78a3b78729989f5f11e7dc676581c74f56f838"
+    },
+    "RP/sounds/mobNew/wretched_wraith/death.ogg": {
+      "source": "RP/sounds/mobNew/wretched_wraith/death.ogg",
+      "source_sha256": "c002ca27c3546325dc841961025e3cc096f204f92a16fb503659e45d87ae3d60",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "c002ca27c3546325dc841961025e3cc096f204f92a16fb503659e45d87ae3d60"
+    },
+    "RP/sounds/mobNew/wretched_wraith/hurt0.ogg": {
+      "source": "RP/sounds/mobNew/wretched_wraith/hurt0.ogg",
+      "source_sha256": "798a18265a58843dc1455ca6c386a15aed37a7a51c3be0a70ac4d6065286301a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "798a18265a58843dc1455ca6c386a15aed37a7a51c3be0a70ac4d6065286301a"
+    },
+    "RP/sounds/mobNew/wretched_wraith/hurt1.ogg": {
+      "source": "RP/sounds/mobNew/wretched_wraith/hurt1.ogg",
+      "source_sha256": "c79198560b0c08f482162d7583350a1cca7c06b39d8501424617b477e3553b76",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "c79198560b0c08f482162d7583350a1cca7c06b39d8501424617b477e3553b76"
+    },
+    "RP/sounds/mobNew/wretched_wraith/shoot.ogg": {
+      "source": "RP/sounds/mobNew/wretched_wraith/shoot.ogg",
+      "source_sha256": "05f66b57c9fcf69e19403ae7474f1fca3df8eb409ae5d4b061bc95cfc3cd37ac",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "05f66b57c9fcf69e19403ae7474f1fca3df8eb409ae5d4b061bc95cfc3cd37ac"
+    },
+    "RP/sounds/mobNew/wretched_wraith/summon.ogg": {
+      "source": "RP/sounds/mobNew/wretched_wraith/summon.ogg",
+      "source_sha256": "50fe140c2f6db3855b1346ad7a1da2e323ecea8e4ac42fb2836d588745bb5fc0",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "50fe140c2f6db3855b1346ad7a1da2e323ecea8e4ac42fb2836d588745bb5fc0"
+    },
+    "RP/sounds/wildfire/idle_1.ogg": {
+      "source": "RP/sounds/wildfire/idle_1.ogg",
+      "source_sha256": "579e45514c57f62c591f467585c188453c79ce7889c10f9824dbac9878bea99b",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "579e45514c57f62c591f467585c188453c79ce7889c10f9824dbac9878bea99b"
+    },
+    "RP/sounds/wildfire/idle_2.ogg": {
+      "source": "RP/sounds/wildfire/idle_2.ogg",
+      "source_sha256": "c07b8873b993369f53b28438ad57828cbc02658999793cd71a25e5fb1e47d88a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "c07b8873b993369f53b28438ad57828cbc02658999793cd71a25e5fb1e47d88a"
+    },
+    "RP/sounds/wildfire/death.ogg": {
+      "source": "RP/sounds/wildfire/death.ogg",
+      "source_sha256": "172c4ad19811576861869a35039d2d785651ff8a886c7b4a8bfda4b2b3180d6b",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "172c4ad19811576861869a35039d2d785651ff8a886c7b4a8bfda4b2b3180d6b"
+    },
+    "RP/sounds/wildfire/hurt_1.ogg": {
+      "source": "RP/sounds/wildfire/hurt_1.ogg",
+      "source_sha256": "94d7b9b86d9518755ecbe714743aa316ca327865289f6c1dfa4f0b4e27e9861c",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "94d7b9b86d9518755ecbe714743aa316ca327865289f6c1dfa4f0b4e27e9861c"
+    },
+    "RP/sounds/wildfire/hurt_2.ogg": {
+      "source": "RP/sounds/wildfire/hurt_2.ogg",
+      "source_sha256": "8df737ef5233d98f9d6b8526dd54ab74f576f1fe34f26be0c47b6cb263b88e0d",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "8df737ef5233d98f9d6b8526dd54ab74f576f1fe34f26be0c47b6cb263b88e0d"
+    },
+    "RP/sounds/wildfire/shoot.ogg": {
+      "source": "RP/sounds/wildfire/shoot.ogg",
+      "source_sha256": "a8ee173a91e9ee5b83c1e33ea7ad4dad201daaedf58ced48a3cd3f7de5488753",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "a8ee173a91e9ee5b83c1e33ea7ad4dad201daaedf58ced48a3cd3f7de5488753"
+    },
+    "RP/textures/items/spawn_eggs/enchanted/frozen_zombie.png": {
+      "source": "RP/textures/items/spawn_eggs/enchanted/frozen_zombie.png",
+      "source_sha256": "80185b39e69c34776d623bef98260339e20b0f402468500dadaf427d2b8619f7",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "80185b39e69c34776d623bef98260339e20b0f402468500dadaf427d2b8619f7"
+    },
+    "RP/textures/items/spawn_eggs/enchanted/mossy_zombie.png": {
+      "source": "RP/textures/items/spawn_eggs/enchanted/mossy_zombie.png",
+      "source_sha256": "fb9e5438430d531494e531c0cd36b2a67938fc370da9081cc9734528235913fc",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "fb9e5438430d531494e531c0cd36b2a67938fc370da9081cc9734528235913fc"
+    },
+    "RP/textures/items/spawn_eggs/enchanted/necromancer.png": {
+      "source": "RP/textures/items/spawn_eggs/enchanted/necromancer.png",
+      "source_sha256": "1171b824a574439239a3b923e211c19d46c2b7e5aac4f5901d4f2c1393fed497",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "1171b824a574439239a3b923e211c19d46c2b7e5aac4f5901d4f2c1393fed497"
+    },
+    "RP/textures/items/spawn_eggs/enchanted/vanguard.png": {
+      "source": "RP/textures/items/spawn_eggs/enchanted/vanguard.png",
+      "source_sha256": "31ebfb7ccdf1b6543a5f754ab9631ef34f90a688b73da443a3db0603ac2f6fa1",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "31ebfb7ccdf1b6543a5f754ab9631ef34f90a688b73da443a3db0603ac2f6fa1"
+    },
+    "RP/sounds/mobNew/wraith/rise.ogg": {
+      "source": "RP/sounds/mobNew/wraith/rise.ogg",
+      "source_sha256": "a8e52bba10342490979b7b557db3b7b93664fc18867ddfd831bdec98badfd06f",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "a8e52bba10342490979b7b557db3b7b93664fc18867ddfd831bdec98badfd06f"
+    },
+    "RP/textures/items/spawn_eggs/enchanted/wraith.png": {
+      "source": "RP/textures/items/spawn_eggs/enchanted/wraith.png",
+      "source_sha256": "45d5dc9565fa5cb1ca9a109f6a5740d525371eedfc51370894a3edcc85b49621",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "45d5dc9565fa5cb1ca9a109f6a5740d525371eedfc51370894a3edcc85b49621"
+    },
+    "RP/sounds/mobNew/nameless_one/wake.ogg": {
+      "source": "RP/sounds/mobNew/nameless_one/wake.ogg",
+      "source_sha256": "882119b0f55797d7efe5a4d9c853b33e6c9cb17189dddf4a6f9c2ae16fedf801",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "882119b0f55797d7efe5a4d9c853b33e6c9cb17189dddf4a6f9c2ae16fedf801"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_nameless_one.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_nameless_one.png",
+      "source_sha256": "e009431bf0a9cdf9d829a7eb0642845a9460d8276b213995664ec36f8658ea41",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "e009431bf0a9cdf9d829a7eb0642845a9460d8276b213995664ec36f8658ea41"
+    },
+    "RP/sounds/wildfire/break_shield.ogg": {
+      "source": "RP/sounds/wildfire/break_shield.ogg",
+      "source_sha256": "36d238620493086f29b4929ca93222d0cc3e7b805e95d8422355a6c72214030f",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "36d238620493086f29b4929ca93222d0cc3e7b805e95d8422355a6c72214030f"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_hovering_inferno.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_hovering_inferno.png",
+      "source_sha256": "133a885eb2a7d2e6c67b6b901052a4e02e449bace41b7414d4d46896b7c2cf75",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "133a885eb2a7d2e6c67b6b901052a4e02e449bace41b7414d4d46896b7c2cf75"
+    },
+    "RP/textures/particles/wretched_flame.png": {
+      "source": "RP/textures/particles/wretched_flame.png",
+      "source_sha256": "339e9d02c05b609e594d21c005fb2849792b6bf33be6c24e35c81e437c7e10d1",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "339e9d02c05b609e594d21c005fb2849792b6bf33be6c24e35c81e437c7e10d1"
+    },
+    "RP/sounds/mobNew/wretched_wraith/spawn.ogg": {
+      "source": "RP/sounds/mobNew/wretched_wraith/spawn.ogg",
+      "source_sha256": "9b7fd80c46c128c1c5bca9c013f319e4dd5d3cbd92a0b7136bf4bbef786b0042",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9b7fd80c46c128c1c5bca9c013f319e4dd5d3cbd92a0b7136bf4bbef786b0042"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_wretched_wraith.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_wretched_wraith.png",
+      "source_sha256": "0b750d78cab1caf6156ea09bb19f0131cb79df1de8efe192ee19205d474cdd03",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "0b750d78cab1caf6156ea09bb19f0131cb79df1de8efe192ee19205d474cdd03"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_frozen_zombie.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_frozen_zombie.png",
+      "source_sha256": "26e37c3bcacd420b3a2aa4e0415d5b7b33b16cff72585ee991c82005e8f644e1",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "26e37c3bcacd420b3a2aa4e0415d5b7b33b16cff72585ee991c82005e8f644e1"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_mossy_zombie.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_mossy_zombie.png",
+      "source_sha256": "a1dee2d10163101b4e1d76369e12341c9c7b6d1acc32fffa719b874674246fb2",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "a1dee2d10163101b4e1d76369e12341c9c7b6d1acc32fffa719b874674246fb2"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_necromancer.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_necromancer.png",
+      "source_sha256": "1f6a91d3272192c85e6c119ab86f3a5a442bcc174b89ed08347daa75e603bf62",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "1f6a91d3272192c85e6c119ab86f3a5a442bcc174b89ed08347daa75e603bf62"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_tower_wraith.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_tower_wraith.png",
+      "source_sha256": "f082f0d33afc58fada2fe80d8a91fe0e22f47f7b6e1f61490a00a17e5f861910",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "f082f0d33afc58fada2fe80d8a91fe0e22f47f7b6e1f61490a00a17e5f861910"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_vanguard.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_vanguard.png",
+      "source_sha256": "2762d796c891ac2c9ddabc7e41da4e0c080d29df7c52c0625ee7449dfcc876cf",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "2762d796c891ac2c9ddabc7e41da4e0c080d29df7c52c0625ee7449dfcc876cf"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_wraith.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_wraith.png",
+      "source_sha256": "98425c3d43ff46d239e26bffa860a33c987e43f89203a5435698b053fab35e80",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "98425c3d43ff46d239e26bffa860a33c987e43f89203a5435698b053fab35e80"
+    },
+    "RP/entity/underworld/enchanted_tower_wraith.json": {
+      "source": "integration",
+      "source_sha256": null,
+      "integrated_sha256": "11e21a461d46d3c14d9f9e0dde56b9a5d5957eabc64fd84edd8e4c4c7840cfaf"
+    },
+    "RP/render_controllers/underworld_wildfire_resting.json": {
+      "source": "integration",
+      "source_sha256": null,
+      "integrated_sha256": "7daa7c613855cfc7d3fe389098bdad4d1f8aa77bcbdc8412dd2a0be7e726b028"
+    },
+    "BP/scripts/infernal_lords/gearArmour.js": {
+      "source": "BP/scripts/components/armour.js",
+      "source_sha256": "d21cf1a224717964f17462b58ad8b9496cbd41cb2a1f8ec7ff13d4c0c92d1d07",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "b204222da5adfd6ef9c1e56c1a17c49a6a016b11ca76c33130904e413572bfac"
+    },
+    "BP/scripts/infernal_lords/gearGlaive.js": {
+      "source": "BP/scripts/components/weapons/glaive.js",
+      "source_sha256": "248e4dbc6fa913151dadb7ce9b4e120dba146e6333fc646bf0130dc16c81e9dc",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "19d45f008097606453d8e0397739e9f4db389fbf2799b35c66f59ebd7ad23898"
+    },
+    "BP/scripts/infernal_lords/gearDurability.js": {
+      "source": "BP/scripts/components/other/depleteDurability.js",
+      "source_sha256": "81c530d54c2ca66852a052f2aff39333e9d4736b71d7230a38c0b3c274bc59ad",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "22080e3af4c45ed7f9535bca8c2ae5549b99f580902047cc4ec8131cb7496a9c"
+    },
+    "RP/attachables/armour/frost_armour/frost_helmet.json": {
+      "source": "RP/attachables/armour/frost_armour/frost_helmet.json",
+      "source_sha256": "7087754ed8c6034fbb7968816e1f443c026b9603a9794fb20de18b17b3012642",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "ec94de1fee134df7bc139cf55f5f472e83a2e0fdd5faf8d7dbbe54d482eeaae8"
+    },
+    "RP/attachables/armour/frost_armour/frost_chestplate.json": {
+      "source": "RP/attachables/armour/frost_armour/frost_chestplate.json",
+      "source_sha256": "53e3dce6888d18a353199a53726707e9819109dc8487dcbd08e60876a6bf4fbf",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "cc2119f1e95e43ee68a5ea9e16f423193dbed5b6aeae339695657dd5e8ab2f46"
+    },
+    "RP/attachables/melee/glaive/glaive.json": {
+      "source": "RP/attachables/melee/glaive/glaive.json",
+      "source_sha256": "d74676fbb8901082362e2530096038adf0b8ce66d7bfa51531fe486f1448b0a2",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "2295ad60b8329b62c63ea8bbc24a2eed8d1b01da39a5af4478dfeda61af60ef6"
+    },
+    "RP/particles/glaive_sweep_common.json": {
+      "source": "RP/particles/glaive_sweep_common.json",
+      "source_sha256": "e397270d499c873761420f6a7bc30535348f52b6ea1270819db53ae908baa7f7",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "85e482a59c7366299756210b6bf818180fd798207b3d21582a66c38713687b0e"
+    },
+    "RP/textures/armour/frost_armour.png": {
+      "source": "RP/textures/armour/frost_armour.png",
+      "source_sha256": "79eea12750d993611449f705a79fe81919ba80ea6c0790dcf96d3427edc0d72e",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "79eea12750d993611449f705a79fe81919ba80ea6c0790dcf96d3427edc0d72e"
+    },
+    "RP/models/entity/attachable/armor/snow/frost_helmet.json": {
+      "source": "RP/models/entity/attachable/armor/snow/frost_helmet.json",
+      "source_sha256": "7503732f235eccf02b4cd2f06d6d30161bce06292a1d3de0a37d1915f693bf36",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "b4391909130c95868ca4aee4375b8e375820e33769eb49da06d622c1bb3da1d1"
+    },
+    "RP/models/entity/attachable/armor/snow/frost_chestplate.json": {
+      "source": "RP/models/entity/attachable/armor/snow/frost_chestplate.json",
+      "source_sha256": "c1a745f147d96873feedca4139fe1eda8bc5ef9962ea8d05d7c2e4081034ce87",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "c54bf1d9515eeb8d8958afadcdf59de61fbcc4531c61fda0bcccd8e0b2f64cc9"
+    },
+    "RP/textures/items/attachables/glaive.png": {
+      "source": "RP/textures/items/attachables/glaive.png",
+      "source_sha256": "0445747e8cf914656fa4436798a24c13faf17cbe57bbcc5b4990d51aca0b2648",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "0445747e8cf914656fa4436798a24c13faf17cbe57bbcc5b4990d51aca0b2648"
+    },
+    "RP/textures/particles/sweep.png": {
+      "source": "RP/textures/particles/sweep.png",
+      "source_sha256": "1396a6497d729c4d8b21aefcdbe74210c73d119d6b62b0beab8438436949b493",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "1396a6497d729c4d8b21aefcdbe74210c73d119d6b62b0beab8438436949b493"
+    },
+    "RP/sounds/mobNew/nameless_one/teleport_out.ogg": {
+      "source": "RP/sounds/mobNew/nameless_one/teleport_out.ogg",
+      "source_sha256": "1628a73663ae48d0923273c5e9e76965467dde0b89c73fac6153d47a254a7cfd",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "1628a73663ae48d0923273c5e9e76965467dde0b89c73fac6153d47a254a7cfd"
+    },
+    "RP/sounds/mobNew/nameless_one/teleport_in0.ogg": {
+      "source": "RP/sounds/mobNew/nameless_one/teleport_in0.ogg",
+      "source_sha256": "a7350da4b62f009643b7a47a60a25fb4365dbd1425a26e7df4eb1a8a0cf00ad3",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "a7350da4b62f009643b7a47a60a25fb4365dbd1425a26e7df4eb1a8a0cf00ad3"
+    },
+    "RP/sounds/mobNew/nameless_one/teleport_in1.ogg": {
+      "source": "RP/sounds/mobNew/nameless_one/teleport_in1.ogg",
+      "source_sha256": "6453d446875ce8bab58205840a055aae41265c887dce8a79e165bc0b0ab467ac",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6453d446875ce8bab58205840a055aae41265c887dce8a79e165bc0b0ab467ac"
+    },
+    "RP/sounds/mobNew/wraith/teleport0.ogg": {
+      "source": "RP/sounds/mobNew/wraith/teleport0.ogg",
+      "source_sha256": "9482c98078d61bab770be5b70b95d6da93cdc6b0922bf2501d250b90ff10e95d",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9482c98078d61bab770be5b70b95d6da93cdc6b0922bf2501d250b90ff10e95d"
+    },
+    "RP/sounds/mobNew/wraith/teleport1.ogg": {
+      "source": "RP/sounds/mobNew/wraith/teleport1.ogg",
+      "source_sha256": "e2d5fb70a3706ba650f829fcfddde66d13f4c0c8018eb8cd9d531a8898d95f9c",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e2d5fb70a3706ba650f829fcfddde66d13f4c0c8018eb8cd9d531a8898d95f9c"
+    },
+    "RP/sounds/mobNew/wretched_wraith/bullethell.ogg": {
+      "source": "RP/sounds/mobNew/wretched_wraith/bullethell.ogg",
+      "source_sha256": "bef6802a28328802e1e8f3cd1841efef1d88c6d4f4565c23c23c89840cbb333c",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "bef6802a28328802e1e8f3cd1841efef1d88c6d4f4565c23c23c89840cbb333c"
+    },
+    "RP/sounds/mobNew/wraith/fire.ogg": {
+      "source": "RP/sounds/mobNew/wraith/fire.ogg",
+      "source_sha256": "e36cfe4e0143604162ff3f2d87e36138e635bca01a51efbd84f0dfcc59c86d19",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e36cfe4e0143604162ff3f2d87e36138e635bca01a51efbd84f0dfcc59c86d19"
+    },
+    "RP/sounds/weapon/poison1.ogg": {
+      "source": "RP/sounds/weapon/poison1.ogg",
+      "source_sha256": "730852b1b06e138637736d10b463d114334bbedb33d1c87d6339083e479c6d77",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "730852b1b06e138637736d10b463d114334bbedb33d1c87d6339083e479c6d77"
+    },
+    "RP/sounds/weapon/poison2.ogg": {
+      "source": "RP/sounds/weapon/poison2.ogg",
+      "source_sha256": "1e2d69aeae177a1098270034e8ac34b06d79632b3e98e8701ca7476510894937",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "1e2d69aeae177a1098270034e8ac34b06d79632b3e98e8701ca7476510894937"
+    },
+    "RP/sounds/artefactNew/switfnessBoot/use.ogg": {
+      "source": "RP/sounds/artefactNew/switfnessBoot/use.ogg",
+      "source_sha256": "fbc31546f9e6fcaeaf92187b997b67438831563703cb7a7c81cd67a1b20be10a",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "fbc31546f9e6fcaeaf92187b997b67438831563703cb7a7c81cd67a1b20be10a"
+    },
+    "RP/sounds/weapon/swirling1.ogg": {
+      "source": "RP/sounds/weapon/swirling1.ogg",
+      "source_sha256": "e86982c35af77b8ac330a6ebd0a1559415f63f323d1a16802151eac8f980d6ca",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "e86982c35af77b8ac330a6ebd0a1559415f63f323d1a16802151eac8f980d6ca"
+    },
+    "RP/sounds/weapon/swirling2.ogg": {
+      "source": "RP/sounds/weapon/swirling2.ogg",
+      "source_sha256": "73b59c4a87339d8ffa95b19755d267ae0b1776f7f797dfe10fee8c3a584e9e83",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "73b59c4a87339d8ffa95b19755d267ae0b1776f7f797dfe10fee8c3a584e9e83"
+    },
+    "RP/sounds/armourNew/rush/rush.ogg": {
+      "source": "RP/sounds/armourNew/rush/rush.ogg",
+      "source_sha256": "021e1e47131424702e99bec78182fa9bd0e35fa8102e45d164dbacccf04519ca",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "021e1e47131424702e99bec78182fa9bd0e35fa8102e45d164dbacccf04519ca"
+    },
+    "RP/sounds/ancientHunt/spawnMob.ogg": {
+      "source": "RP/sounds/ancientHunt/spawnMob.ogg",
+      "source_sha256": "3cc3286b5760c5a5d5225488f68340f39da05de063c9c66b4b34eb7d7d2d968b",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "3cc3286b5760c5a5d5225488f68340f39da05de063c9c66b4b34eb7d7d2d968b"
+    },
+    "RP/sounds/weapon/exploding_1.ogg": {
+      "source": "RP/sounds/weapon/exploding_1.ogg",
+      "source_sha256": "0e65bbf9e24db5f094192e47cb4a8a8345ce6a1476092953fae78f8f591fb964",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "0e65bbf9e24db5f094192e47cb4a8a8345ce6a1476092953fae78f8f591fb964"
+    },
+    "RP/sounds/weapon/exploding_2.ogg": {
+      "source": "RP/sounds/weapon/exploding_2.ogg",
+      "source_sha256": "920f2af0642c125b77074f7d2a1ea1de7c8fdce15dae39d16da528e13d9b4a38",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "920f2af0642c125b77074f7d2a1ea1de7c8fdce15dae39d16da528e13d9b4a38"
+    },
+    "RP/sounds/weapon/exploding_3.ogg": {
+      "source": "RP/sounds/weapon/exploding_3.ogg",
+      "source_sha256": "4cf684e37efe8094b7f02d0ed3aa065a4a7ef7c67d1e2e69a822928241467cdb",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "4cf684e37efe8094b7f02d0ed3aa065a4a7ef7c67d1e2e69a822928241467cdb"
+    },
+    "RP/sounds/weapon/zap1.ogg": {
+      "source": "RP/sounds/weapon/zap1.ogg",
+      "source_sha256": "a56afeaa1f69819cb7c0f5832dbbf8296a1383f3d292200af5fa53fc8f170d6c",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "a56afeaa1f69819cb7c0f5832dbbf8296a1383f3d292200af5fa53fc8f170d6c"
+    },
+    "RP/sounds/weapon/zap2.ogg": {
+      "source": "RP/sounds/weapon/zap2.ogg",
+      "source_sha256": "ba533f107c570914c6bdeefffd7ce69dd8507a7c28228808efcd7c63f5c23c8f",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "ba533f107c570914c6bdeefffd7ce69dd8507a7c28228808efcd7c63f5c23c8f"
+    },
+    "RP/sounds/weapon/zap3.ogg": {
+      "source": "RP/sounds/weapon/zap3.ogg",
+      "source_sha256": "775329eb774994bfa3142d654abf3e795e578f77ed14bf6015d7b9945a8c5dd2",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "775329eb774994bfa3142d654abf3e795e578f77ed14bf6015d7b9945a8c5dd2"
+    },
+    "RP/sounds/weapon/daggers/swing_1.ogg": {
+      "source": "RP/sounds/weapon/daggers/swing_1.ogg",
+      "source_sha256": "818d48cc604c34ecb30ede8afb449bf5621eb5a67e03373b0eab76d70590a39a",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "818d48cc604c34ecb30ede8afb449bf5621eb5a67e03373b0eab76d70590a39a"
+    },
+    "RP/sounds/weapon/daggers/swing_2.ogg": {
+      "source": "RP/sounds/weapon/daggers/swing_2.ogg",
+      "source_sha256": "e3d81f8b9a09bfd870518b63a009bb0065a6141c9f758d5b4974f2e6d61c352f",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "e3d81f8b9a09bfd870518b63a009bb0065a6141c9f758d5b4974f2e6d61c352f"
+    },
+    "RP/sounds/weapon/daggers/swing_3.ogg": {
+      "source": "RP/sounds/weapon/daggers/swing_3.ogg",
+      "source_sha256": "972e885a4bf460ad7f37defd681164d83c64a2201ede6dec11630ec6857fcbed",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "972e885a4bf460ad7f37defd681164d83c64a2201ede6dec11630ec6857fcbed"
+    },
+    "RP/sounds/weapon/daggers/swing_4.ogg": {
+      "source": "RP/sounds/weapon/daggers/swing_4.ogg",
+      "source_sha256": "43936215377ce6af6156d550be5fd3ff1b2d0eb7e6449b8a9cad0927685a3652",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "43936215377ce6af6156d550be5fd3ff1b2d0eb7e6449b8a9cad0927685a3652"
+    },
+    "RP/sounds/weapon/cacklebroom_1.ogg": {
+      "source": "RP/sounds/weapon/cacklebroom_1.ogg",
+      "source_sha256": "219a23e6ba932e31f32d35e8a954e5c6a25b6355d9649a584c149e3de43ec63c",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "219a23e6ba932e31f32d35e8a954e5c6a25b6355d9649a584c149e3de43ec63c"
+    },
+    "RP/sounds/weapon/cacklebroom_2.ogg": {
+      "source": "RP/sounds/weapon/cacklebroom_2.ogg",
+      "source_sha256": "254c223e05fc7c2097fbb97070a8a97741bb0a0f34937ed60c41b97dd56d2f58",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "254c223e05fc7c2097fbb97070a8a97741bb0a0f34937ed60c41b97dd56d2f58"
+    },
+    "RP/sounds/weapon/glaive/swing1.ogg": {
+      "source": "RP/sounds/weaponNew/axe/swing0.ogg",
+      "source_sha256": "0e8bd553f0186fe868fb377162aeb0f4b02de0ce1e0269ade44502b6827d8d14",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "0e8bd553f0186fe868fb377162aeb0f4b02de0ce1e0269ade44502b6827d8d14"
+    },
+    "RP/sounds/weapon/glaive/swing2.ogg": {
+      "source": "RP/sounds/weapon/glaive/swing2.ogg",
+      "source_sha256": "05b3d1891cb13f6416d40fec1ddefedae4ec1abbfec071d89de294aef0996569",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "05b3d1891cb13f6416d40fec1ddefedae4ec1abbfec071d89de294aef0996569"
+    },
+    "RP/sounds/weapon/glaive/swing3.ogg": {
+      "source": "RP/sounds/weaponNew/axe/swing1.ogg",
+      "source_sha256": "20255edb8949105b2239bb9c2a32076a976844a706ead565a819f841e761e145",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "20255edb8949105b2239bb9c2a32076a976844a706ead565a819f841e761e145"
+    },
+    "RP/sounds/wildfire/impact_1.ogg": {
+      "source": "RP/sounds/wildfire/impact_1.ogg",
+      "source_sha256": "8dc6c105296263ef794aa1166d19e6d400442274f860bc5003c4e5d739cebe6a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "8dc6c105296263ef794aa1166d19e6d400442274f860bc5003c4e5d739cebe6a"
+    },
+    "RP/sounds/wildfire/impact_2.ogg": {
+      "source": "RP/sounds/wildfire/impact_2.ogg",
+      "source_sha256": "d379195c0dbb7ec468b44f9f10970201f85e57e99de6d40b439c6e5a4ca9a90f",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d379195c0dbb7ec468b44f9f10970201f85e57e99de6d40b439c6e5a4ca9a90f"
+    },
+    "BP/entities/enchanted/enchanted_arrow.json": {
+      "source": "BP/entities/vanilla/arrow.json",
+      "source_sha256": "a02c38478e9199c13d6a4949fe51ec42314832ad7c8be0fdddc48eceb2c742b4",
+      "adaptation": "Unique identifier, no vanilla arrow override.",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "be2b8d4c138f1f1f5112394f3a59a19ff95c0b3688a298d28586e8296ad3820c"
+    },
+    "RP/entity/underworld/enchanted_arrow.json": {
+      "source": "integration: vanilla arrow renderer with original scale animation",
+      "integrated_sha256": "db54be843d61bd5497bced454b7ae8c56fe46b5d64a5125528af7df9cba8d73c"
+    },
+    "RP/models/entity/arrow.geo.json": {
+      "source": "RP/models/entity/arrow.geo.json",
+      "source_sha256": "47940c405e95c45093ecad2e57f41375f860ec57c5bf0d5b8c41aa331f20c79a",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "d868bee02a4cb85c1677eafa2d2db544960e72e8ccb3d3a1964428e8d1d10e5a"
+    },
+    "RP/particles/newBlock/spawn_ancient_minion_strike.json": {
+      "source": "RP/particles/newBlock/spawn_ancient_minion_strike.json",
+      "source_sha256": "b274e5ec311115c4680ad15e349dd5eab744c00a5a2e46fcf53a8acc00073d10",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "1021aef0dd6ac9b95c404bdb5b8ecf7b9461a71967afb9cefc1f300cc49ae8fd"
+    },
+    "RP/particles/newBow/fuse_shot_boom.particle.json": {
+      "source": "RP/particles/newBow/fuse_shot_boom.particle.json",
+      "source_sha256": "3d5bfb0cbc1cf61eccbd280fad5f50c80e0209b75b30ae09f4bc0a700972cfef",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "af224ddc6a126749d685b9c55b77524fde79d46cf9a559ed0ed452f5a6d43de1"
+    },
+    "RP/particles/newBow/fuse_shot_boom_dust.particle.json": {
+      "source": "RP/particles/newBow/fuse_shot_boom_dust.particle.json",
+      "source_sha256": "ae57abb0f64588a194be0c7927da012cd6cfa3d54de14ce87aacbb4f702100bd",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "cd5e90963e47f250240bdd138fde5b6dc8d182e965d02062a7b315b9f57772d9"
+    },
+    "RP/particles/newBow/purple_fuse_shot_boom.particle.json": {
+      "source": "RP/particles/newBow/purple_fuse_shot_boom.particle.json",
+      "source_sha256": "77ffe5b489a054dd7994125fd3dde28a977c3df693c603daca3434722323a25b",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "d5f430e4fac080bb65fa5093bb7ddd889f92d9b8bec897599fbbfdd2ca05d614"
+    },
+    "RP/particles/newBow/purple_fuse_shot_boom_dust.particle.json": {
+      "source": "RP/particles/newBow/purple_fuse_shot_boom_dust.particle.json",
+      "source_sha256": "18a140b4373febe71418a8ec73c01970029c5b880d1bb71354a2386837b2f533",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "5879c0bfddfe6d03b4d233c6be923e53e22ba2b4a6302537df87686d6b2aaa17"
+    },
+    "RP/sounds/mobNew/nameless_one/charge_short.ogg": {
+      "source": "RP/sounds/mobNew/nameless_one/charge_short.ogg",
+      "source_sha256": "47535291bd739b84e8aafeb4beed955a519fecfa29913ae8ca4c690fc6f6fbeb",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "47535291bd739b84e8aafeb4beed955a519fecfa29913ae8ca4c690fc6f6fbeb"
+    },
+    "RP/sounds/mobNew/nameless_one/charge_long.ogg": {
+      "source": "RP/sounds/mobNew/nameless_one/charge_long.ogg",
+      "source_sha256": "d0d7d55c7643dbfa1a999ae00fcf7ee70eb12205254513b4cfbe1aa4efd8357d",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d0d7d55c7643dbfa1a999ae00fcf7ee70eb12205254513b4cfbe1aa4efd8357d"
+    },
+    "BP/scripts/infernal_lords/entity_ids.js": {
+      "source": "Underworld integration",
+      "integrated_sha256": "4e50bd3723892761a05fcae64f1078b1e26acfe099884c32366dd9ea609cca59"
+    },
+    "BP/scripts/infernal_lords/main.js": {
+      "source": "Underworld integration",
+      "integrated_sha256": "368c220082d1e5a4d14eb07535e42dac50a426b67c4c4b9e08cf8756c372bb46"
+    },
+    "BP/scripts/infernal_lords/entity_ids.json": {
+      "source": "Underworld integration",
+      "integrated_sha256": "d205a15ceba6a249921f6d3c9810c2aac019c101c99e9f6d1039ddda4a01c7ac"
+    },
+    "BP/scripts/infernal_lords/runtime.js": {
+      "source": "Underworld integration",
+      "integrated_sha256": "c2044b0596aea63d31766143ff6e772fd6cbb225801fa27c0f55279b5ccfae53"
+    },
+    "BP/scripts/infernal_lords/helpers.js": {
+      "source": "Underworld integration",
+      "integrated_sha256": "76f713d71a51c8515ab551041c46aeef15a2e592db0187e9613e62cee9450301"
+    },
+    "BP/loot_tables/infernal_lords/empty.json": {
+      "source": "integration: explicit empty table for transient actors",
+      "integrated_sha256": "4b26570bb8729e26aed2b988e1ac9dcc40fc27cd92f2460b640c4b112edecb59"
+    },
+    "RP/render_controllers/jungle_zombie.json": {
+      "source": "RP/render_controllers/jungle_zombie.json",
+      "source_sha256": "f2d4e2ed1786817d8a885794ab64940c99d0612f1327c7a73ce94dafe378c584",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "41633bda75257c65d88d4e967c737036f6b8aaf1733d7fe278a6865a0f431efe"
+    },
+    "RP/materials/underworld_dungeons.material": {
+      "source": "RP/materials/entity.material",
+      "source_sha256": "9b46544cc9a7ff22d95ce89093e6e6a8cd7e35b483be46d964424d662551311d",
+      "adaptation": "Only used glint definition, renamed to avoid shared material names.",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "cea1150944ac76bb1430a5349a4067751c7db4e5135b5a081bd2aea07bd38f36"
+    },
+    "RP/textures/entity/enchanted_mob/frozen_zombie.texture_set.json": {
+      "source": "RP/textures/entity/zombie/frozen_zombie.texture_set.json",
+      "source_sha256": "b88a44c79dc6b27d997d35e888e75ae407cd981586ec1f16c8c0c03a2ab7f9f7",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "fb349f712d0cb53d3339fa03f633a86463f309f770f6cdcd657d0ff364894273"
+    },
+    "RP/textures/entity/enchanted_mob/frozen_zombie_mer.png": {
+      "source": "RP/textures/entity/enchanted_mob/frozen_zombie_mer.png",
+      "source_sha256": "48dbedb412f6b3bb0e355710f4e218f71fc52bbb8c65719e5ae4532d6d5d49d7",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "48dbedb412f6b3bb0e355710f4e218f71fc52bbb8c65719e5ae4532d6d5d49d7"
+    },
+    "RP/textures/entity/enchanted_mob/frozen_zombie_baby.texture_set.json": {
+      "source": "RP/textures/entity/zombie/frozen_zombie_baby.texture_set.json",
+      "source_sha256": "a692bfdf415ebfd79b13fef56b7c406bef08267ae01dd5a61c9bee4186e09ae5",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "cfc77d801c26fd184f2500c2f53519df39a4eec04a5b39502396f538b3ab76db"
+    },
+    "RP/textures/entity/enchanted_mob/frozen_zombie_baby_mer.png": {
+      "source": "RP/textures/entity/enchanted_mob/zombie_baby_mer.png",
+      "source_sha256": "692c4d750ba6c1a8b2d97f6ce4199a19382937a5545a627832aaf623e65714ba",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "692c4d750ba6c1a8b2d97f6ce4199a19382937a5545a627832aaf623e65714ba"
+    },
+    "RP/textures/misc/enchanted_entity_glint.texture_set.json": {
+      "source": "RP/textures/misc/enchanted_entity_glint.texture_set.json",
+      "source_sha256": "f890093ca73cfddf2a4fbb9cdce0823c23c6d242d1da1a4394e300a36795c6aa",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "d4a0b836ea18d3ef4864877784725417a0ece898a81f63528c62d35bfba18943"
+    },
+    "RP/textures/misc/enchanted_entity_glint_mer.png": {
+      "source": "RP/textures/misc/enchanted_entity_glint_mer.png",
+      "source_sha256": "baf80c0496f3330467de3db64d52cc6690b454538bc124f7600a9cbdb339e3e0",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "baf80c0496f3330467de3db64d52cc6690b454538bc124f7600a9cbdb339e3e0"
+    },
+    "RP/textures/entity/enchanted_mob/jungle_zombie.texture_set.json": {
+      "source": "RP/textures/entity/zombie/jungle_zombie.texture_set.json",
+      "source_sha256": "35d2d3f024712981a3653a7601b1d4af934c2fba856fc62f8093ae0d9019d44d",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "cfd03362fa8e0b212122d3ad3db1fa6860db4d639594d41cfe09bdd5bb92a260"
+    },
+    "RP/textures/entity/enchanted_mob/jungle_zombie_mer.png": {
+      "source": "RP/textures/entity/enchanted_mob/jungle_zombie_mer.png",
+      "source_sha256": "0ee900c8ffe4d2f5131f193c13c9a49cb9ab622165cbabe364d3484cf5c6ef8f",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "0ee900c8ffe4d2f5131f193c13c9a49cb9ab622165cbabe364d3484cf5c6ef8f"
+    },
+    "RP/textures/entity/enchanted_mob/jungle_zombie_baby.texture_set.json": {
+      "source": "RP/textures/entity/zombie/jungle_zombie_baby.texture_set.json",
+      "source_sha256": "f87b017c36b151f821beb7e84830749ce704755eb644a004b9cf09587b646c44",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "417dd424e8d40eb9723fc89f9b58e61c880ec0ca759a8460449206f88bcafd55"
+    },
+    "RP/textures/entity/enchanted_mob/jungle_zombie_baby_mer.png": {
+      "source": "RP/textures/entity/enchanted_mob/jungle_zombie_baby_mer.png",
+      "source_sha256": "bcba8ffae40c1b1e9e6bfd72d5b360ad7f556a2b0f00a5178915e1f171ca7812",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "bcba8ffae40c1b1e9e6bfd72d5b360ad7f556a2b0f00a5178915e1f171ca7812"
+    },
+    "RP/textures/entity/enchanted_mob/necromancer.texture_set.json": {
+      "source": "RP/textures/entity/necromancer/necromancer.texture_set.json",
+      "source_sha256": "75eafc3ce30bbe2efa93bb3be1ba1c6283cc624bf8309f6d05bd8da5d59c052d",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "3fd29d2f633882f1bfcec048142d72591edb75f5294ff43c0a645f65aa72be4a"
+    },
+    "RP/textures/entity/enchanted_mob/necromancer_mer.png": {
+      "source": "RP/textures/entity/enchanted_mob/necromancer_mer.png",
+      "source_sha256": "81bb843d90b0937aed58d6ea81be0210575577cd3d450c47e273f18a7f3feace",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "81bb843d90b0937aed58d6ea81be0210575577cd3d450c47e273f18a7f3feace"
+    },
+    "RP/textures/particles/glow_dot.texture_set.json": {
+      "source": "RP/textures/particles/glow_dot.texture_set.json",
+      "source_sha256": "cbc6ea7ff2bd9aef411ecfd8634c18677d5c3cff3a42b6e1f3b024598932fc03",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "d377ea82d05ca1797552fee7f7a1d8c0975acb35404471ad00bb7b1eaa1fc656"
+    },
+    "RP/textures/particles/glow_dot_mer.png": {
+      "source": "RP/textures/particles/glow_dot_mer.png",
+      "source_sha256": "9710e65c114fe5103b3cdfd6252e033a002c34043ef8ba3fb1f5893e6262d1e2",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "9710e65c114fe5103b3cdfd6252e033a002c34043ef8ba3fb1f5893e6262d1e2"
+    },
+    "RP/textures/entity/enchanted_mob/vanguard.texture_set.json": {
+      "source": "RP/textures/entity/skeleton/vanguard.texture_set.json",
+      "source_sha256": "3b35adb494d09cb61f8fed952019f640bd50186621383677e6ab54e7213cd49e",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "c893dcdd1727b0f5e7d3adaf7b94662d0e738e69eede71c18af5dc5d6405f1ba"
+    },
+    "RP/textures/entity/enchanted_mob/vanguard_mer.png": {
+      "source": "RP/textures/entity/enchanted_mob/vanguard_mer.png",
+      "source_sha256": "9016a63529422ca6485626964e6849db65e2256bed4e67dd0639546ab5be4721",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9016a63529422ca6485626964e6849db65e2256bed4e67dd0639546ab5be4721"
+    },
+    "RP/textures/entity/enchanted_mob/wraith.texture_set.json": {
+      "source": "RP/textures/entity/wraith/wraith.texture_set.json",
+      "source_sha256": "16469456a0db4d4bea193120e3979c121b8b247d186bfbb93ebbce4c7acba8dc",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d2417396d0327e6cb00360b9675da3bdc3e2a618c85181b683c25cd8e7f24802"
+    },
+    "RP/textures/entity/enchanted_mob/wraith_mer.png": {
+      "source": "RP/textures/entity/enchanted_mob/wraith_mer.png",
+      "source_sha256": "87a60ed498e10ba822bb1e38ceaa4d3ab7dc7d6b7220a0b586298f7704b6bc3b",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "87a60ed498e10ba822bb1e38ceaa4d3ab7dc7d6b7220a0b586298f7704b6bc3b"
+    },
+    "RP/textures/entity/wraith/wraith_spooky.texture_set.json": {
+      "source": "RP/textures/entity/wraith/wraith_spooky.texture_set.json",
+      "source_sha256": "66f8a20869265cb9e444fbac8c51e314caa52e39d31582c7d74a3bed20e769aa",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d7c0caeb81a9093b7c5ef69d37aea230fff8f8b0b765e5ec7d9ed501185c1c6b"
+    },
+    "RP/textures/entity/wraith/wraith_spooky_mer.png": {
+      "source": "RP/textures/entity/wraith/wraith_spooky_mer.png",
+      "source_sha256": "e6412bb6a9bc39335c01b6f27fa03dae03cb8b8c921ca7bed017957393901a3a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "e6412bb6a9bc39335c01b6f27fa03dae03cb8b8c921ca7bed017957393901a3a"
+    },
+    "RP/textures/particles/blue_flame.texture_set.json": {
+      "source": "RP/textures/particles/blue_flame.texture_set.json",
+      "source_sha256": "c3ffddf9a6b0ca15bc4df4e6c89ba309e7f4ecd921f6f37519082b798ed630d3",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "7bfd555e83aaca1dbb748ffafecb78bb48805aa1056e4d9b1436e7bfd7f8c304"
+    },
+    "RP/textures/particles/blue_flame_mer.png": {
+      "source": "RP/textures/particles/wretched_flame_mer.png",
+      "source_sha256": "70d512d965380e119343a9b027760a46bfae24ecae919e90a2258e386311c348",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "70d512d965380e119343a9b027760a46bfae24ecae919e90a2258e386311c348"
+    },
+    "RP/textures/entity/nameless_one/nameless_one.texture_set.json": {
+      "source": "RP/textures/entity/nameless_one/nameless_one.texture_set.json",
+      "source_sha256": "a3e2468a7fbc4fb0cb588ac8b20ce37142211797c14509eb20e8d9ef33eab29a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6782423c5a55175419f00b1395fde9fea7177f44322f18d3e65e00d1d199e2c3"
+    },
+    "RP/textures/entity/nameless_one/nameless_one_mer.png": {
+      "source": "RP/textures/entity/nameless_one/nameless_one_mer.png",
+      "source_sha256": "2e32c34d287e61e210131a26b64229e09d2ea3b3454a4e4a327455bcea995bbf",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "2e32c34d287e61e210131a26b64229e09d2ea3b3454a4e4a327455bcea995bbf"
+    },
+    "RP/textures/entity/skeleton/vanguard.texture_set.json": {
+      "source": "RP/textures/entity/skeleton/vanguard.texture_set.json",
+      "source_sha256": "3b35adb494d09cb61f8fed952019f640bd50186621383677e6ab54e7213cd49e",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "c893dcdd1727b0f5e7d3adaf7b94662d0e738e69eede71c18af5dc5d6405f1ba"
+    },
+    "RP/textures/entity/skeleton/vanguard_mer.png": {
+      "source": "RP/textures/entity/skeleton/vanguard_mer.png",
+      "source_sha256": "4fb08956cc6a3a8fde6f0cf75a837294a3dde022771e8f4530484518a467ba3e",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "4fb08956cc6a3a8fde6f0cf75a837294a3dde022771e8f4530484518a467ba3e"
+    },
+    "RP/textures/particles/forceglow_particles.texture_set.json": {
+      "source": "RP/textures/particles/forceglow_particles.texture_set.json",
+      "source_sha256": "a290fcc66ba9f249429d15f2acb0d85ffd5d91064f786726435dc6b6d29ed400",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "3eac65e56a4b1b179219d4a8569ffb8e446adb156447137e5aa9e1e9b90f421d"
+    },
+    "RP/textures/particles/forceglow_particles_mer.png": {
+      "source": "RP/textures/particles/forceglow_particles_mer.png",
+      "source_sha256": "d94dc53e64fc7c7c01b0757e1adfecf2d625b67385696d2f6d2551c58ed653a9",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "d94dc53e64fc7c7c01b0757e1adfecf2d625b67385696d2f6d2551c58ed653a9"
+    },
+    "RP/textures/particles/radiance.texture_set.json": {
+      "source": "RP/textures/particles/radiance.texture_set.json",
+      "source_sha256": "d141c56a85b96f946f9a1814aa2c05d1989cf8b580b8fb8316cb4f13d726fadf",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "05344a6180d5cf804cb65a1be3ac0bdf1dd0d6b4b2f12417207ce101dfad4583"
+    },
+    "RP/textures/particles/radiance_mer.png": {
+      "source": "RP/textures/particles/radiance_mer.png",
+      "source_sha256": "8b76ae2e37b1166de55938432bee314ae22c21ec663cbfc244f0631c6ac9ac24",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "8b76ae2e37b1166de55938432bee314ae22c21ec663cbfc244f0631c6ac9ac24"
+    },
+    "RP/textures/particles/not_circle.texture_set.json": {
+      "source": "RP/textures/particles/not_circle.texture_set.json",
+      "source_sha256": "ce5c5a0c2267a4877f333471b6b9ba6e5c950aa93ed811b0a71d8d57fe568e25",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "b0378c68a2bb2e5739b39aeb998a991bffe298f6d3747b8c494315b9c8c12305"
+    },
+    "RP/textures/particles/not_circle_mer.png": {
+      "source": "RP/textures/particles/not_circle_mer.png",
+      "source_sha256": "954192b6560cc1d06d1c5f65d63f0f2af73675e5a510fe195cfc678b93f9c1e3",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "954192b6560cc1d06d1c5f65d63f0f2af73675e5a510fe195cfc678b93f9c1e3"
+    },
+    "RP/textures/entity/wildfire/boss_wildfire.texture_set.json": {
+      "source": "RP/textures/entity/wildfire/boss_wildfire.texture_set.json",
+      "source_sha256": "723510834531903043fa0d5daac8f6f22285ae432deb9ea702a3e3eb08667ec3",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "f5496d743d8fd7afc26053f3960c4a8c9ade8440c1eaccffeed014855306e539"
+    },
+    "RP/textures/entity/wildfire/boss_wildfire_mer.png": {
+      "source": "RP/textures/entity/wildfire/boss_wildfire_mer.png",
+      "source_sha256": "3b45bb1a7a6dc5cb4267f17075b18b568c2d85b3a7f7c3c8de4d6a8cda1bf051",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "3b45bb1a7a6dc5cb4267f17075b18b568c2d85b3a7f7c3c8de4d6a8cda1bf051"
+    },
+    "RP/textures/entity/wretched_wraith/wretched_wraith_projectile.texture_set.json": {
+      "source": "RP/textures/entity/wretched_wraith/wretched_wraith_projectile.texture_set.json",
+      "source_sha256": "ce473bea6224020eefdfd40691eba6badcbade803f86d3902dc43316e25be465",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "66a35ec150a2a9c514f423df63621119bb322486f84f88eced663808cca435e4"
+    },
+    "RP/textures/entity/wretched_wraith/wretched_wraith_projectile_mer.png": {
+      "source": "RP/textures/entity/wretched_wraith/wretched_wraith_projectile_mer.png",
+      "source_sha256": "67d523ed1d3d582b9c00da7ee9f16b665e773aa4503b21205f4d647ebb5815ad",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "67d523ed1d3d582b9c00da7ee9f16b665e773aa4503b21205f4d647ebb5815ad"
+    },
+    "RP/textures/entity/wretched_wraith/wretched_wraith.texture_set.json": {
+      "source": "RP/textures/entity/wretched_wraith/wretched_wraith.texture_set.json",
+      "source_sha256": "be038273326ecffce6933adcb3df2793fdaea3311ad0e69a5ccde2b4924b8216",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "1f57b135678088c69f101a9cb94731a2d614ba4f6c012cd5e3820637ef56440b"
+    },
+    "RP/textures/entity/wretched_wraith/wretched_wraith_mer.png": {
+      "source": "RP/textures/entity/wretched_wraith/wretched_wraith_mer.png",
+      "source_sha256": "488365edf358f036ff83f248ddd89a05aeb971b3f7f47b954d62e25ff9fb7dfe",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "488365edf358f036ff83f248ddd89a05aeb971b3f7f47b954d62e25ff9fb7dfe"
+    },
+    "RP/textures/particles/wretched_wraith_fire.texture_set.json": {
+      "source": "RP/textures/particles/wretched_wraith_fire.texture_set.json",
+      "source_sha256": "6250f8a880d654b9de5497e029d9179a6f3cf50ce5720810741bcac15f9c8dc5",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "fd47c8daed5f63fe977b35f545a50e85656d52cfb5f276b86c206c419463c1da"
+    },
+    "RP/textures/particles/wretched_wraith_fire_mer.png": {
+      "source": "RP/textures/particles/wretched_wraith_fire_mer.png",
+      "source_sha256": "0bc958761903c2c154cb84f51c89c73c7646dd8673954e3f1800d8b4c2be1942",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "0bc958761903c2c154cb84f51c89c73c7646dd8673954e3f1800d8b4c2be1942"
+    },
+    "RP/textures/entity/zombie/frozen_zombie.texture_set.json": {
+      "source": "RP/textures/entity/zombie/frozen_zombie.texture_set.json",
+      "source_sha256": "b88a44c79dc6b27d997d35e888e75ae407cd981586ec1f16c8c0c03a2ab7f9f7",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "fb349f712d0cb53d3339fa03f633a86463f309f770f6cdcd657d0ff364894273"
+    },
+    "RP/textures/entity/zombie/frozen_zombie_mer.png": {
+      "source": "RP/textures/entity/zombie/frozen_zombie_mer.png",
+      "source_sha256": "990a65ab5fa57f10a9a09df93def78b6c971f5129982a488f6e51ffa532114e6",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "990a65ab5fa57f10a9a09df93def78b6c971f5129982a488f6e51ffa532114e6"
+    },
+    "RP/textures/entity/zombie/frozen_zombie_baby.texture_set.json": {
+      "source": "RP/textures/entity/zombie/frozen_zombie_baby.texture_set.json",
+      "source_sha256": "a692bfdf415ebfd79b13fef56b7c406bef08267ae01dd5a61c9bee4186e09ae5",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "cfc77d801c26fd184f2500c2f53519df39a4eec04a5b39502396f538b3ab76db"
+    },
+    "RP/textures/entity/zombie/frozen_zombie_baby_mer.png": {
+      "source": "RP/textures/entity/zombie/frozen_zombie_baby_mer.png",
+      "source_sha256": "3d81553eb5d452bb88ac8113073d724d99015cf679de6fe665ffb74127650b32",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "3d81553eb5d452bb88ac8113073d724d99015cf679de6fe665ffb74127650b32"
+    },
+    "RP/textures/entity/zombie/jungle_zombie.texture_set.json": {
+      "source": "RP/textures/entity/zombie/jungle_zombie.texture_set.json",
+      "source_sha256": "35d2d3f024712981a3653a7601b1d4af934c2fba856fc62f8093ae0d9019d44d",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "cfd03362fa8e0b212122d3ad3db1fa6860db4d639594d41cfe09bdd5bb92a260"
+    },
+    "RP/textures/entity/zombie/jungle_zombie_mer.png": {
+      "source": "RP/textures/entity/zombie/jungle_zombie_mer.png",
+      "source_sha256": "3ed8449da2a51d23869f3de8bd1dad60a246041cd386c1fe1e20095552e0c1fd",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "3ed8449da2a51d23869f3de8bd1dad60a246041cd386c1fe1e20095552e0c1fd"
+    },
+    "RP/textures/entity/zombie/jungle_zombie_baby.texture_set.json": {
+      "source": "RP/textures/entity/zombie/jungle_zombie_baby.texture_set.json",
+      "source_sha256": "f87b017c36b151f821beb7e84830749ce704755eb644a004b9cf09587b646c44",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "417dd424e8d40eb9723fc89f9b58e61c880ec0ca759a8460449206f88bcafd55"
+    },
+    "RP/textures/entity/zombie/jungle_zombie_baby_mer.png": {
+      "source": "RP/textures/entity/zombie/jungle_zombie_baby_mer.png",
+      "source_sha256": "af89092e736376e34317fab0669b2237daa15c2edb13a8ce7159464c8aad67cf",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "af89092e736376e34317fab0669b2237daa15c2edb13a8ce7159464c8aad67cf"
+    },
+    "RP/textures/entity/necromancer/necromancer.texture_set.json": {
+      "source": "RP/textures/entity/necromancer/necromancer.texture_set.json",
+      "source_sha256": "75eafc3ce30bbe2efa93bb3be1ba1c6283cc624bf8309f6d05bd8da5d59c052d",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "3fd29d2f633882f1bfcec048142d72591edb75f5294ff43c0a645f65aa72be4a"
+    },
+    "RP/textures/entity/necromancer/necromancer_mer.png": {
+      "source": "RP/textures/entity/necromancer/necromancer_mer.png",
+      "source_sha256": "82ef89b6a95e5aa8facbd563d54a1b705371f1ad4d3b056f398b9e4dcbcfc135",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "82ef89b6a95e5aa8facbd563d54a1b705371f1ad4d3b056f398b9e4dcbcfc135"
+    },
+    "RP/textures/entity/tower_wraith/tower_wraith.texture_set.json": {
+      "source": "RP/textures/entity/tower_wraith/tower_wraith.texture_set.json",
+      "source_sha256": "e2df06eb1038de51b5742d05b87ccc77feb293c3ced8477eb07e2fb29658a3a7",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "14ccd5e7a4efea19eec90a2618ed080d84ec6c53b285f3879d894a935db7bcf2"
+    },
+    "RP/textures/entity/tower_wraith/tower_wraith_mer.png": {
+      "source": "RP/textures/entity/tower_wraith/tower_wraith_mer.png",
+      "source_sha256": "9dfd05213da32de134a2fa04f7f40a69389b139b4580dbd76e92698e3c801f0d",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "9dfd05213da32de134a2fa04f7f40a69389b139b4580dbd76e92698e3c801f0d"
+    },
+    "RP/textures/entity/tower_wraith/tower_wraith_pink.texture_set.json": {
+      "source": "RP/textures/entity/tower_wraith/tower_wraith_pink.texture_set.json",
+      "source_sha256": "11f28e9367a19bda4c4b15fe7f3f24d851d19f14ea472ed4c484514c1581f988",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "514dc65f7e43e302050df36cc83c45d4efe8ad40b0e3bf8bf2728e110dbbc1cd"
+    },
+    "RP/textures/particles/soul_fire.texture_set.json": {
+      "source": "RP/textures/particles/soul_fire.texture_set.json",
+      "source_sha256": "733920096f9aed0ba0b412f093effe72729597c22ee809e6c6da288ac560615a",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "e8526d055c917526aeb8d942102bacd65fd5ca6761f2d1ad046d214ea00784ac"
+    },
+    "RP/textures/particles/soul_fire_mer.png": {
+      "source": "RP/textures/particles/wretched_flame_mer.png",
+      "source_sha256": "70d512d965380e119343a9b027760a46bfae24ecae919e90a2258e386311c348",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "70d512d965380e119343a9b027760a46bfae24ecae919e90a2258e386311c348"
+    },
+    "RP/textures/entity/wraith/wraith.texture_set.json": {
+      "source": "RP/textures/entity/wraith/wraith.texture_set.json",
+      "source_sha256": "16469456a0db4d4bea193120e3979c121b8b247d186bfbb93ebbce4c7acba8dc",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d2417396d0327e6cb00360b9675da3bdc3e2a618c85181b683c25cd8e7f24802"
+    },
+    "RP/textures/entity/wraith/wraith_mer.png": {
+      "source": "RP/textures/entity/wraith/wraith_mer.png",
+      "source_sha256": "d9e8fbf86d3395630b81c26984ec8ee8a34478c0a3d6f7fbfb60fedb3e176206",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d9e8fbf86d3395630b81c26984ec8ee8a34478c0a3d6f7fbfb60fedb3e176206"
+    },
+    "RP/textures/particles/forceglow_smoke_white.texture_set.json": {
+      "source": "RP/textures/particles/forceglow_smoke_white.texture_set.json",
+      "source_sha256": "0c980e0e97fd4b91fe57c2af3f44fa40c18adc78bea28a4f67b3c31b5beb3167",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "c3965ab7f3bf862fcacb8bd3e9d2fbe6ffb0802c150264ebda998ef97ee5a24e"
+    },
+    "RP/textures/particles/forceglow_smoke_white_mer.png": {
+      "source": "RP/textures/particles/forceglow_smoke_white_mer.png",
+      "source_sha256": "38a44a207bed62fd5c87acdef67531b1e9c313d895632ebd7ca7eae73b492f86",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "38a44a207bed62fd5c87acdef67531b1e9c313d895632ebd7ca7eae73b492f86"
+    },
+    "RP/textures/particles/dot.texture_set.json": {
+      "source": "RP/textures/particles/dot.texture_set.json",
+      "source_sha256": "c5a8e54d31945764648c382e8108e9162564fea9df53e8134bf05e07e224263a",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "a5cee1152b3e1fa02a3b24ab98d3f2fdb055471badf92ee2733816eac7e4298e"
+    },
+    "RP/textures/particles/dot_mer.png": {
+      "source": "RP/textures/particles/dot_mer.png",
+      "source_sha256": "bc4bdff2023d314282db88d07d859ffe57e710d2a8af01135f4a7c0e7760f5d3",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "bc4bdff2023d314282db88d07d859ffe57e710d2a8af01135f4a7c0e7760f5d3"
+    },
+    "RP/textures/particles/ancient_minion_ring.texture_set.json": {
+      "source": "RP/textures/particles/ancient_minion_ring.texture_set.json",
+      "source_sha256": "49f482afb3c0c398501ec692a444b830cb60fdbde414aaa70b81f0a25408702f",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "d8d1e44ce356b34520fa4c2157993c8013d92125bb067be9e560c8153e13cb9d"
+    },
+    "RP/textures/particles/ancient_minion_ring_mer.png": {
+      "source": "RP/textures/particles/ancient_minion_ring_mer.png",
+      "source_sha256": "d424992ac3f0cf1a04e7280fae995b15d2d0d15014d721f9914248e6a99f7735",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "d424992ac3f0cf1a04e7280fae995b15d2d0d15014d721f9914248e6a99f7735"
+    },
+    "RP/textures/particles/lightning_wand_bolt.texture_set.json": {
+      "source": "RP/textures/particles/lightning_wand_bolt.texture_set.json",
+      "source_sha256": "6a93cc1b23d23e572009b95199cc5f1d0e7d27707b3704c48c1ffdd8a030fcfb",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "55c29f658444b179240a0557779da28b9162aa317d3eeb9c57966003cb3fc833"
+    },
+    "RP/textures/particles/lightning_wand_bolt_mer.png": {
+      "source": "RP/textures/particles/lightning_wand_bolt_mer.png",
+      "source_sha256": "a14d326dc5d1f1e397991b7475549bebcf8450c301760dee3097f17db592a737",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "a14d326dc5d1f1e397991b7475549bebcf8450c301760dee3097f17db592a737"
+    },
+    "RP/textures/particles/echo_slash.texture_set.json": {
+      "source": "RP/textures/particles/echo_slash.texture_set.json",
+      "source_sha256": "c3866d29f3975c8e7a7b143b7f0efaaa736086a438c8d89acfc2e0f94ae43c81",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "134a006fed868b7ba57ab83d1f7145f07e50d91fb601147c7e1e65a4dd6b3df2"
+    },
+    "RP/textures/particles/echo_slash_mer.png": {
+      "source": "RP/textures/particles/echo_slash_mer.png",
+      "source_sha256": "831dff2da4b0ba4c558823060f93dece136ca38e96b56012425eeaf5889b589e",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "831dff2da4b0ba4c558823060f93dece136ca38e96b56012425eeaf5889b589e"
+    },
+    "RP/textures/particles/evil_skulls.texture_set.json": {
+      "source": "RP/textures/particles/evil_skulls.texture_set.json",
+      "source_sha256": "94a30630e3bec5d626a0f7f0c6b5d9883544f703fa9e0a07ce9e20ec7b1a7849",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "f00349d17df465544419c808ee3fd7cada02dfcd6adf670d453a03e39ee426c2"
+    },
+    "RP/textures/particles/evil_skulls_mer.png": {
+      "source": "RP/textures/particles/evil_skulls_mer.png",
+      "source_sha256": "9038ea1ded523460d28faf1c71016cb1e16aa97a71d6cb10a45270d8ceeb2dec",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "9038ea1ded523460d28faf1c71016cb1e16aa97a71d6cb10a45270d8ceeb2dec"
+    },
+    "RP/textures/particles/chain.texture_set.json": {
+      "source": "RP/textures/particles/chain.texture_set.json",
+      "source_sha256": "4c5d72027b4780eb385a39d0ced567868809caee4cde00b64ea63f66474957d2",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "7a8d2eba3c6b0afc629d929f8e1c729283242659098e1373e33f89e961e70862"
+    },
+    "RP/textures/particles/chain_mer.png": {
+      "source": "RP/textures/particles/chain_mer.png",
+      "source_sha256": "648e6ff7e6085c291a8839f16b2b4d2988694e84b72c4e12873d633edcd3de25",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "648e6ff7e6085c291a8839f16b2b4d2988694e84b72c4e12873d633edcd3de25"
+    },
+    "RP/textures/items/armor/helmet_frost.texture_set.json": {
+      "source": "RP/textures/items/armor/helmet_frost.texture_set.json",
+      "source_sha256": "15c4473ed2b02c976dbe5595076598c738fb926a41e9299d484defd8b7841f30",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "3d84f0719f8670fcd2d1759f834f1b03f97e7dc524ecdb5bea8fab09025e0f37"
+    },
+    "RP/textures/items/armor/helmet_frost_mer.png": {
+      "source": "RP/textures/items/armor/helmet_frost_mer.png",
+      "source_sha256": "d6d6356b5eadecea549b2eee199d8757756745dcf67aa14f532badb7ac448e01",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "d6d6356b5eadecea549b2eee199d8757756745dcf67aa14f532badb7ac448e01"
+    },
+    "RP/textures/items/armor/chestplate_frost.texture_set.json": {
+      "source": "RP/textures/items/armor/chestplate_frost.texture_set.json",
+      "source_sha256": "0b8a37591a6e361c69a96389997fabea6ea321518ae54eca53747bcbc1cb065b",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "15c72fa5d3f85f4075b5cebc111dc208acbf03a9645cb6940717e88e2129a2bd"
+    },
+    "RP/textures/items/armor/chestplate_frost_mer.png": {
+      "source": "RP/textures/items/armor/chestplate_frost_mer.png",
+      "source_sha256": "9fd7403d2e5b103b98a515c1d79879cfe642aa4e6114f410525a6da3c06e1f6e",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "9fd7403d2e5b103b98a515c1d79879cfe642aa4e6114f410525a6da3c06e1f6e"
+    },
+    "RP/textures/items/weapon/glaive.texture_set.json": {
+      "source": "RP/textures/items/weapon/glaive.texture_set.json",
+      "source_sha256": "b5e825452aff92f6cff48f371a2f4b221136919a44366720548df2ef1d51d9e7",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "4bde05217895aa37daf644ecbfd0a5afdec47a9c8041194cb6440e623fa26587"
+    },
+    "RP/textures/items/weapon/glaive_mer.png": {
+      "source": "RP/textures/items/weapon/glaive_mer.png",
+      "source_sha256": "f04f63d38f389dce674ccc80c95911f1d42739f3934df765d5ed5e474941289e",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "f04f63d38f389dce674ccc80c95911f1d42739f3934df765d5ed5e474941289e"
+    },
+    "RP/textures/items/key/nameless_one.texture_set.json": {
+      "source": "RP/textures/entity/nameless_one/nameless_one.texture_set.json",
+      "source_sha256": "a3e2468a7fbc4fb0cb588ac8b20ce37142211797c14509eb20e8d9ef33eab29a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6782423c5a55175419f00b1395fde9fea7177f44322f18d3e65e00d1d199e2c3"
+    },
+    "RP/textures/items/key/nameless_one_mer.png": {
+      "source": "RP/textures/items/key/nameless_one_mer.png",
+      "source_sha256": "f791a4020928f024a122f301a5968d6f6e85098842a7915a0f71694e7635a28f",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "f791a4020928f024a122f301a5968d6f6e85098842a7915a0f71694e7635a28f"
+    },
+    "RP/textures/items/key/hovering_inferno.texture_set.json": {
+      "source": "RP/textures/items/key/hovering_inferno.texture_set.json",
+      "source_sha256": "52e2623618d54961731b34eea87194f80e824fad6d93c669b99bc73a3721dd9b",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "2944015959d82090cb477326b6a230fe01f41445a906df9a245ce720800871f3"
+    },
+    "RP/textures/items/key/hovering_inferno_mer.png": {
+      "source": "RP/textures/items/key/hovering_inferno_mer.png",
+      "source_sha256": "0f7a4d657d818aa46461da8a336f4c68b78817cd01e31d723a84c8151bf94230",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "0f7a4d657d818aa46461da8a336f4c68b78817cd01e31d723a84c8151bf94230"
+    },
+    "RP/textures/items/key/wretched_wraith.texture_set.json": {
+      "source": "RP/textures/entity/wretched_wraith/wretched_wraith.texture_set.json",
+      "source_sha256": "be038273326ecffce6933adcb3df2793fdaea3311ad0e69a5ccde2b4924b8216",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "1f57b135678088c69f101a9cb94731a2d614ba4f6c012cd5e3820637ef56440b"
+    },
+    "RP/textures/items/key/wretched_wraith_mer.png": {
+      "source": "RP/textures/items/key/wretched_wraith_mer.png",
+      "source_sha256": "ba6e3ead897d07dd2aeab5fd4875d98e4a793b6f265d7b77773d305b9657766c",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "ba6e3ead897d07dd2aeab5fd4875d98e4a793b6f265d7b77773d305b9657766c"
+    },
+    "RP/textures/items/spawn_eggs/enchanted/frozen_zombie.texture_set.json": {
+      "source": "RP/textures/items/spawn_eggs/enchanted/frozen_zombie.texture_set.json",
+      "source_sha256": "2589145ce1d4a27f6b9d18e8c5cb7637b71cdca043a221f43ae3c8eff999c70c",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "cf0c64aa3ac548eded081c5708f8d8a592f4d62731466575695c3086b7e4ccc5"
+    },
+    "RP/textures/items/spawn_eggs/enchanted/default_mer.png": {
+      "source": "RP/textures/items/spawn_eggs/enchanted/default_mer.png",
+      "source_sha256": "7baa4c13bac499eeacc4ec95721baa649989f2e45ea6c3b40bfb38fc3f4eaf2c",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "7baa4c13bac499eeacc4ec95721baa649989f2e45ea6c3b40bfb38fc3f4eaf2c"
+    },
+    "RP/textures/items/spawn_eggs/enchanted/mossy_zombie.texture_set.json": {
+      "source": "RP/textures/items/spawn_eggs/enchanted/mossy_zombie.texture_set.json",
+      "source_sha256": "1627f571fefbfa739aaf03943aa9dd851f53239a02cbc0e6019cac1f38e68b7b",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "4785eba1a19a5b8ae5b3e8b605d947b53a40e1ae84621d0e649ad2f679898f50"
+    },
+    "RP/textures/items/spawn_eggs/enchanted/necromancer.texture_set.json": {
+      "source": "RP/textures/entity/necromancer/necromancer.texture_set.json",
+      "source_sha256": "75eafc3ce30bbe2efa93bb3be1ba1c6283cc624bf8309f6d05bd8da5d59c052d",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "3fd29d2f633882f1bfcec048142d72591edb75f5294ff43c0a645f65aa72be4a"
+    },
+    "RP/textures/items/spawn_eggs/enchanted/necromancer_mer.png": {
+      "source": "RP/textures/items/spawn_eggs/enchanted/necromancer_mer.png",
+      "source_sha256": "9acbf102d463e676827fd6dde85eeed94eb5141537cb8c87fefc4960c4e149f8",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "9acbf102d463e676827fd6dde85eeed94eb5141537cb8c87fefc4960c4e149f8"
+    },
+    "RP/textures/items/spawn_eggs/enchanted/vanguard.texture_set.json": {
+      "source": "RP/textures/items/spawn_eggs/enchanted/vanguard.texture_set.json",
+      "source_sha256": "ce61b763f8c443e11ff1d3ffaea73aa83b33873df3be72d3099c0110c539d537",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "0ecbaaf11c1b8e71326d586e63c3b3dfaf46d91d35e7454a080418aa80147f04"
+    },
+    "RP/textures/items/spawn_eggs/enchanted/wraith.texture_set.json": {
+      "source": "RP/textures/entity/wraith/wraith.texture_set.json",
+      "source_sha256": "16469456a0db4d4bea193120e3979c121b8b247d186bfbb93ebbce4c7acba8dc",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "d2417396d0327e6cb00360b9675da3bdc3e2a618c85181b683c25cd8e7f24802"
+    },
+    "RP/textures/items/spawn_eggs/enchanted/wraith_mer.png": {
+      "source": "RP/textures/items/spawn_eggs/enchanted/wraith_mer.png",
+      "source_sha256": "3484ed455cd8215eceb8feb5c0056af48ce8cbe6b014f82bf394dc213803704f",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "3484ed455cd8215eceb8feb5c0056af48ce8cbe6b014f82bf394dc213803704f"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_nameless_one.texture_set.json": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_nameless_one.texture_set.json",
+      "source_sha256": "6e5fe81c867f831c83e06c94950a142837503c4da9e57a10d9f919b7a07124e5",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "f7bffd359fe6a16ac8837dd385a93fe19cdcb423a8b6a30f751da8fc59edfd96"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_nameless_one_mer.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_nameless_one_mer.png",
+      "source_sha256": "b8e195b7e9878093ea6527edbffee573b7dee3c07b38a014d4774460924b07a0",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "b8e195b7e9878093ea6527edbffee573b7dee3c07b38a014d4774460924b07a0"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_hovering_inferno.texture_set.json": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_hovering_inferno.texture_set.json",
+      "source_sha256": "14d5682e8cad7218bcd36c6029aaf632d39e020dd6cfdbdb9b0fcec2d1d65dc9",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "68edc83e89e53e5b8ae089a5c84778266f04075cc5d4589e0f9b0e267070d59d"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_hovering_inferno_mer.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_hovering_inferno_mer.png",
+      "source_sha256": "fa6529a5d292568828bc9c76ce90381dbded4e28788bd2b3595b22df5406bc93",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "fa6529a5d292568828bc9c76ce90381dbded4e28788bd2b3595b22df5406bc93"
+    },
+    "RP/textures/particles/wretched_flame.texture_set.json": {
+      "source": "RP/textures/particles/wretched_flame.texture_set.json",
+      "source_sha256": "73ece7ec6f4d53871acaf2d310deb036b332603aec982b64f219105548ead6ff",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "6f3a6993073e9ed7771e47440f4bfc20b9269bfa0102b33deaf0fbef3faaec39"
+    },
+    "RP/textures/particles/wretched_flame_mer.png": {
+      "source": "RP/textures/particles/wretched_flame_mer.png",
+      "source_sha256": "69702dfbc51cbd3d67d0b860e89f480bce56688bd5e02981c56b60558cc9fb0a",
+      "source_pack": "standalone v0.1.4 AUDIO FIX",
+      "integrated_sha256": "69702dfbc51cbd3d67d0b860e89f480bce56688bd5e02981c56b60558cc9fb0a"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_wretched_wraith.texture_set.json": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_wretched_wraith.texture_set.json",
+      "source_sha256": "c01d38ade7bcab037d04281d7d9bcedf30543d042c313203252e7470b2649afe",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "55e31867a071a4372dbc3d0b67359eda69aa73dd769db2045812a6e80018ac44"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_wretched_wraith_mer.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_wretched_wraith_mer.png",
+      "source_sha256": "f8cf8178c2b8eb66700bb576f5a2f8b8cc537c7ef69f678056cccc51c208fb6f",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "f8cf8178c2b8eb66700bb576f5a2f8b8cc537c7ef69f678056cccc51c208fb6f"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_tower_wraith.texture_set.json": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_tower_wraith.texture_set.json",
+      "source_sha256": "df5945fffea2c9de38e01dad0234644408dd1a6558995508bcdee3f920bcfe9b",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "399ec4e8153e887442cf38cfed424942242f602c41ee79435444971772c0afa1"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_tower_wraith_mer.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_wraith_mer.png",
+      "source_sha256": "16931c14aaced3a1557daf7715e147db90faf62e79f17cae7e95ec7cfa3f0705",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "16931c14aaced3a1557daf7715e147db90faf62e79f17cae7e95ec7cfa3f0705"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_wraith.texture_set.json": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_wraith.texture_set.json",
+      "source_sha256": "d6ba51e6845f95d5206a273496e024c88f0c474bd570c8476fbe375fcf3e9ee0",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "70981fb4b21bb5904b94192705c4d3afb3ee705d740864c8b00f5c6f294d638b"
+    },
+    "RP/textures/items/spawn_eggs/spawn_egg_wraith_mer.png": {
+      "source": "RP/textures/items/spawn_eggs/spawn_egg_wraith_mer.png",
+      "source_sha256": "16931c14aaced3a1557daf7715e147db90faf62e79f17cae7e95ec7cfa3f0705",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "16931c14aaced3a1557daf7715e147db90faf62e79f17cae7e95ec7cfa3f0705"
+    },
+    "RP/textures/armour/frost_armour.texture_set.json": {
+      "source": "RP/textures/armour/frost_armour.texture_set.json",
+      "source_sha256": "024ae35293502ef6feb91fd775f6720c1391af1629fb27b52e837715c1695c5d",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "da39f90d0d47bb8506362693717845d4cbcc444271e15ee978a2f28888370c63"
+    },
+    "RP/textures/armour/frost_armour_mer.png": {
+      "source": "RP/textures/armour/frost_armour_mer.png",
+      "source_sha256": "d4e181cc36401f53a9cdc9b5fa7578eaadce2dbcf269a4ab0f92133fe12539e1",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "d4e181cc36401f53a9cdc9b5fa7578eaadce2dbcf269a4ab0f92133fe12539e1"
+    },
+    "RP/textures/items/attachables/glaive.texture_set.json": {
+      "source": "RP/textures/items/weapon/glaive.texture_set.json",
+      "source_sha256": "b5e825452aff92f6cff48f371a2f4b221136919a44366720548df2ef1d51d9e7",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "4bde05217895aa37daf644ecbfd0a5afdec47a9c8041194cb6440e623fa26587"
+    },
+    "RP/textures/items/attachables/glaive_mer.png": {
+      "source": "RP/textures/items/attachables/glaive_mer.png",
+      "source_sha256": "66a4117175f4cc286460d73f11fafce2a6e5aeab44c35ad48e15ca7fde03537d",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "integrated_sha256": "66a4117175f4cc286460d73f11fafce2a6e5aeab44c35ad48e15ca7fde03537d"
+    },
+    "BP/scripts/infernal_lords/structure_bosses.js": {
+      "source": "Underworld integration",
+      "integrated_sha256": "d088193d181a03c6e09273eb424ceba10cb5178eee6fc0b71878a17f1dfdc1ac"
+    },
+    "BP/scripts/infernal_lords/boss_sites.js": {
+      "source": "Underworld integration",
+      "integrated_sha256": "448b4ffafaabcb541ce41de2facbec45b6428be608bdd2eeec88ec59abd9cfe6"
+    }
+  },
+  "dynamic_particles": [
+    "dungeons:spawn_ancient_minion_strike",
+    "dungeons:fuse_shot_boom",
+    "dungeons:fuse_shot_boom_dust",
+    "dungeons:purple_fuse_shot_boom",
+    "dungeons:purple_fuse_shot_boom_dust"
+  ],
+  "required_sound_events": [
+    "ancient_mob.spawn",
+    "armour.rush.activate",
+    "artefact.swiftness_boot.use",
+    "mob.nameless_one.attack",
+    "mob.nameless_one.charge",
+    "mob.nameless_one.charge_long",
+    "mob.nameless_one.death",
+    "mob.nameless_one.hurt",
+    "mob.nameless_one.idle",
+    "mob.nameless_one.teleport_in",
+    "mob.nameless_one.teleport_out",
+    "mob.nameless_one.wake",
+    "mob.wildfire.death",
+    "mob.wildfire.hurt",
+    "mob.wildfire.idle",
+    "mob.wildfire.shield_break",
+    "mob.wildfire.shield_impact",
+    "mob.wildfire.shoot",
+    "mob.wraith.attack",
+    "mob.wraith.death",
+    "mob.wraith.fire",
+    "mob.wraith.hurt",
+    "mob.wraith.idle",
+    "mob.wraith.rise",
+    "mob.wraith.teleport",
+    "mob.wretched_wraith.bullethell",
+    "mob.wretched_wraith.death",
+    "mob.wretched_wraith.hurt",
+    "mob.wretched_wraith.idle",
+    "mob.wretched_wraith.shoot",
+    "mob.wretched_wraith.spawn",
+    "mob.wretched_wraith.summon",
+    "weapon.cackling_broom.swing",
+    "weapon.daggers.hit",
+    "weapon.enchant.exploding",
+    "weapon.enchant.poison",
+    "weapon.enchant.swirling",
+    "weapon.enchant.thundering",
+    "weapon.glaive.swing"
+  ],
+  "native_textures": [
+    "textures/entity/projectiles/arrow",
+    "textures/misc/enchanted_item_glint",
+    "textures/particle/geyser_plume",
+    "textures/particle/gust",
+    "textures/particle/particles",
+    "textures/particle/pixel"
+  ],
+  "adaptations": [
+    "Stable Underworld entry point and server 2.10 retained; no source main, UI dependency or vanilla entity override.",
+    "Original six combat modules and 35 enchanted handlers, scoped event dispatcher and lazy roster scheduler.",
+    "Original minion glaive/frost equipment and only its component/attachable dependencies; unrelated maps and bonus gear excluded.",
+    "Bonus loot functions use Underworld structure loot; original direct loot and three key items retained.",
+    "Original dormant Baelgor texture/model, unique fullbright controller; original custom audio restored including command-triggered sounds.",
+    "Shared source animation files trimmed to referenced definitions; no player animation overrides.",
+    "Enchanted Tower Wraith added with original baseline; isolated enchanted arrow supports original growing properties without overriding vanilla arrows.",
+    "Source null-owner, five-minion assignment, dead-chain removal and delayed invalid-entity bugs guarded.",
+    "Native Unicode enchant glyph avoids replacing shared font atlases used by other packs.",
+    "Glint material and custom arrow geometry scoped; original texture-set/MER companions retained.",
+    "Requested primary entity/egg display names applied; source key/equipment names explicitly localized.",
+    "Radiance ally lookup and removed-caster guards fixed without changing numerical effect values.",
+    "Dormant bosses placed once at verified authored markers in new matching structures only. A saved per-site claim prevents duplicates/respawns; no ongoing checks or existing-world backfill."
+  ],
+  "native_loot_tables": [
+    "loot_tables/entities/zombie.json",
+    "loot_tables/entities/zombie_equipment.json",
+    "loot_tables/entities/zombie_rider.json",
+    "loot_tables/entities/zombie_rider_equipment.json"
+  ],
+  "source_archives": {
+    "Dungeons2.1.3.mcaddon": "2b5057bdecb7b2641ff55e20d95cc4675e632305c83b9d1e7f85858d91ab50e8",
+    "Underworld_Nether_Dungeons_Five_Mobs_STANDALONE_TEST_v0.1.4_AUDIO_FIX.mcaddon": "3ee5f93bfef0f97e55b3440f6d2210250294bd312eb175b230618999d139c746"
+  },
+  "merged_resources": [
+    "resource_pack/texts/en_US.lang",
+    "resource_pack/sounds.json",
+    "resource_pack/sounds/sound_definitions.json",
+    "resource_pack/textures/item_texture.json",
+    "behavior_pack/scripts/landmarks.js",
+    "behavior_pack/scripts/arenas.js"
+  ]
+}

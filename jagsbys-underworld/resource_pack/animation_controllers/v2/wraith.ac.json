@@ -1,0 +1,54 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.wraith_v2.cast": {
+      "initial_state": "default",
+      "states": {
+        "casting": {
+          "animations": [
+            "cast"
+          ],
+          "transitions": [
+            {
+              "default": "!query.is_casting && query.all_animations_finished"
+            }
+          ]
+        },
+        "default": {
+          "transitions": [
+            {
+              "casting": "query.is_casting"
+            }
+          ]
+        }
+      }
+    },
+    "controller.animation.wraith_v2.move": {
+      "initial_state": "default",
+      "states": {
+        "moving": {
+          "animations": [
+            "move"
+          ],
+          "transitions": [
+            {
+              "default": "q.modified_move_speed <= 0.1 || q.variant == 1|| query.is_casting == 1.0"
+            }
+          ],
+          "blend_transition": 0.1
+        },
+        "default": {
+          "animations": [
+            "idle"
+          ],
+          "transitions": [
+            {
+              "moving": "q.modified_move_speed > 0.1 && q.variant != 1 && query.is_casting <= 0.0"
+            }
+          ],
+          "blend_transition": 0.1
+        }
+      }
+    }
+  }
+}

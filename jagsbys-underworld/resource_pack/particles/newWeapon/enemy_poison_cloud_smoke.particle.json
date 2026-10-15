@@ -1,0 +1,81 @@
+{
+  "format_version": "1.10.0",
+  "particle_effect": {
+    "description": {
+      "identifier": "dungeons:enemy_poison_cloud_smoke",
+      "basic_render_parameters": {
+        "material": "particles_blend",
+        "texture": "textures/particles/smoke_white"
+      }
+    },
+    "components": {
+      "minecraft:emitter_rate_steady": {
+        "spawn_rate": 40,
+        "max_particles": 100
+      },
+      "minecraft:emitter_lifetime_once": {
+        "active_time": 0.5
+      },
+      "minecraft:emitter_shape_sphere": {
+        "offset": [
+          0,
+          1,
+          0
+        ],
+        "radius": 1.875,
+        "direction": [
+          "(v.particle_random_1*2)-1",
+          "(v.particle_random_3)-0.5",
+          "(v.particle_random_2*2)-1"
+        ]
+      },
+      "minecraft:particle_lifetime_expression": {
+        "max_lifetime": "1 + v.particle_random_2"
+      },
+      "minecraft:particle_initial_speed": 0.77,
+      "minecraft:particle_motion_dynamic": {
+        "linear_acceleration": [
+          0,
+          "-1 + v.particle_age*2.5",
+          0
+        ],
+        "linear_drag_coefficient": 1
+      },
+      "minecraft:particle_appearance_billboard": {
+        "size": [
+          "v.particle_random_1/5 + 0.3",
+          "v.particle_random_1/5 + 0.3"
+        ],
+        "facing_camera_mode": "rotate_xyz",
+        "uv": {
+          "texture_width": 1,
+          "texture_height": 12,
+          "flipbook": {
+            "base_UV": [
+              0,
+              0
+            ],
+            "size_UV": [
+              1,
+              1
+            ],
+            "step_UV": [
+              0,
+              1
+            ],
+            "max_frame": 12,
+            "stretch_to_lifetime": true
+          }
+        }
+      },
+      "minecraft:particle_appearance_tinting": {
+        "color": [
+          "v.particle_random_3/7 + 0.4",
+          0,
+          0.5,
+          0.5
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "lightning_wand_bolt",
+    "metalness_emissive_roughness": "lightning_wand_bolt_mer"
+  }
+}

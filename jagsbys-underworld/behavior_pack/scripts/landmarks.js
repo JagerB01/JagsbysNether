@@ -1,3 +1,4 @@
+import {placePlannedStructureBoss} from './infernal_lords/structure_bosses.js';
 import {recordEncounterSite} from './trial_encounters.js';
 import {world,system} from '@minecraft/server';
 import {ARENAS} from './arena_catalog.js';
@@ -95,7 +96,7 @@ export function* generateLandmark(c,dimension){
     const x=plan.origin.x+section.offset[0],z=plan.origin.z+section.offset[2];
     world.setDynamicProperty(supportKey(c,i),JSON.stringify(supports.filter(p=>p.x>=x&&p.x<x+section.size[0]&&p.z>=z&&p.z<z+section.size[2])));
    }
-   record={state:'placing',id:c.id,family:c.family,x:c.x,z:c.z,origin:plan.origin,box:plan.box,surface:plan.surface,ocean:plan.ocean,carve:plan.carve??false,solidFoundation:plan.solidFoundation??plan.carve??false,coreNoCarve:plan.coreNoCarve??false,modular:plan.modular??false,modules:plan.modules,incremental:plan.modular??false,expansionNext:plan.modular?Math.max(...plan.modules)+1:1,next:0};
+   record={infernalLordsVersion:1,state:'placing',id:c.id,family:c.family,x:c.x,z:c.z,origin:plan.origin,box:plan.box,surface:plan.surface,ocean:plan.ocean,carve:plan.carve??false,solidFoundation:plan.solidFoundation??plan.carve??false,coreNoCarve:plan.coreNoCarve??false,modular:plan.modular??false,modules:plan.modules,incremental:plan.modular??false,expansionNext:plan.modular?Math.max(...plan.modules)+1:1,next:0};
    save(c,record);
   }
   let arena=record.modular?{display_name:'Mega Fortress',sections:modularSections(record.modules)}:NATURAL_ARENAS[c.id];
@@ -146,6 +147,7 @@ export function* generateLandmark(c,dimension){
    record.next=index+1;record.supporting=false;record.tilePlaced=false;save(c,record);world.setDynamicProperty(supportKey(c,index),undefined);
    lease.release();lease=undefined;yield {waitTicks:2};
   }
+  yield* placePlannedStructureBoss(record,dimension);
   record.state='built';save(c,record);recordEncounterSite(record.id,record.origin,dimension.id,c.key,record.modular);status=`${arena.display_name} generated at ${record.origin.x}, ${record.origin.y}, ${record.origin.z}.`;if(record.modular)status+=` (${record.modules.length} connected modules).`;recordDiagnostic(c,'built',status);return {outcome:'built'};
  }catch(error){if(error.message==='Player approached the foundation')pauseForPlayer(c);else retries.set(attemptKey(c),system.currentTick+1200);status=`Landmark deferred: ${error.message}`;console.warn(`[Underworld landmarks] ${status}`);recordDiagnostic(c,'deferred',error.message);return {outcome:'deferred'};}
  finally{lease?.release();}

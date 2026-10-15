@@ -1,0 +1,26 @@
+{
+  "format_version": "1.21.110",
+  "minecraft:item": {
+    "description": {
+      "identifier": "dungeons:wretched_key",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:rarity": "uncommon",
+      "minecraft:icon": {
+        "textures": {
+          "default": "wretched_key"
+        }
+      },
+      "minecraft:should_despawn": {
+        "value": false
+      },
+      "minecraft:fire_resistant": {},
+      "minecraft:display_name": {
+        "value": "item.dungeons:wretched_key"
+      }
+    }
+  }
+}

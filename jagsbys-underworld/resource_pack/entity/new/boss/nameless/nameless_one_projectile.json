@@ -1,0 +1,33 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "dungeons:nameless_one_projectile",
+      "materials": {
+        "default": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/entity/nameless_one/nameless_one"
+      },
+      "geometry": {
+        "default": "geometry.nameless_projectile"
+      },
+      "render_controllers": [
+        "controller.render.default"
+      ],
+      "animations": {
+        "nameless_projectile": "animation.nameless_projectile.idle",
+        "nameless_projectile_particles": "animation.nameless_projectile.particles"
+      },
+      "scripts": {
+        "animate": [
+          "nameless_projectile",
+          "nameless_projectile_particles"
+        ]
+      },
+      "particle_effects": {
+        "trail": "dungeons:nameless_projectile_trail"
+      }
+    }
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.wretched_wraith_v2.summon": {
+      "initial_state": "default",
+      "states": {
+        "attacking": {
+          "animations": [
+            "summon"
+          ],
+          "transitions": [
+            {
+              "default": "!query.is_casting"
+            }
+          ],
+          "blend_transition": 0.33
+        },
+        "default": {
+          "transitions": [
+            {
+              "attacking": "query.is_casting"
+            }
+          ],
+          "blend_transition": 0
+        }
+      }
+    },
+    "controller.animation.wretched_wraith_v2.move": {
+      "initial_state": "static",
+      "states": {
+        "walking": {
+          "animations": [
+            "move"
+          ],
+          "transitions": [
+            {
+              "static": "q.modified_move_speed <= 0.1"
+            }
+          ],
+          "blend_transition": 0.4
+        },
+        "static": {
+          "transitions": [
+            {
+              "walking": "q.is_moving && q.modified_move_speed > 0.1"
+            }
+          ],
+          "blend_transition": 0.3
+        }
+      }
+    },
+    "controller.animation.wretched_wraith_v2.ranged_attack": {
+      "initial_state": "default",
+      "states": {
+        "attacking": {
+          "animations": [
+            "ranged_attack"
+          ],
+          "transitions": [
+            {
+              "default": "query.all_animations_finished"
+            }
+          ],
+          "blend_transition": 0.4
+        },
+        "default": {
+          "transitions": [
+            {
+              "attacking": "query.is_charged"
+            }
+          ],
+          "blend_transition": 0.2
+        }
+      }
+    },
+    "controller.animation.wretched_wraith_v2.look_at_target": {
+      "initial_state": "look_at_target",
+      "states": {
+        "look_at_target": {
+          "animations": [
+            "look_at_target"
+          ],
+          "transitions": [
+            {
+              "not_looking": "query.is_charged"
+            }
+          ],
+          "blend_transition": 0.3
+        },
+        "not_looking": {
+          "transitions": [
+            {
+              "look_at_target": "!query.is_charged"
+            }
+          ],
+          "blend_transition": 0.3
+        }
+      }
+    },
+    "controller.animation.wretched_wraith_v2.idle_pose": {
+      "initial_state": "static",
+      "states": {
+        "moving": {
+          "animations": [
+            "idle"
+          ],
+          "transitions": [
+            {
+              "static": "query.modified_move_speed < 0.1"
+            }
+          ],
+          "blend_transition": 0.2
+        },
+        "static": {
+          "animations": [
+            "idle",
+            "idle_head_movement"
+          ],
+          "transitions": [
+            {
+              "moving": "q.is_moving && query.modified_move_speed > 0.1"
+            }
+          ],
+          "blend_transition": 0.2
+        }
+      }
+    },
+    "controller.animation.wretched_wraith_v2.awaken": {
+      "initial_state": "default",
+      "states": {
+        "attacking": {
+          "animations": [
+            "awaken"
+          ],
+          "blend_transition": 0
+        },
+        "default": {
+          "animations": [
+            "resting"
+          ],
+          "transitions": [
+            {
+              "attacking": "query.variant == 1"
+            }
+          ],
+          "blend_transition": 0
+        }
+      }
+    },
+    "controller.animation.wretched_wraith_v2.bullethell": {
+      "initial_state": "default",
+      "states": {
+        "end": {
+          "animations": [
+            "bullethell_end"
+          ],
+          "transitions": [
+            {
+              "default": "query.all_animations_finished"
+            }
+          ],
+          "blend_transition": 0
+        },
+        "loop": {
+          "animations": [
+            "bullethell_loop",
+            "bullethell_position"
+          ],
+          "transitions": [
+            {
+              "end": "query.property('dungeons:bullethell') == false"
+            }
+          ],
+          "blend_transition": 0
+        },
+        "start": {
+          "animations": [
+            "bullethell_startup"
+          ],
+          "transitions": [
+            {
+              "loop": "query.all_animations_finished"
+            }
+          ],
+          "blend_transition": 0
+        },
+        "default": {
+          "transitions": [
+            {
+              "start": "query.property('dungeons:bullethell') == true"
+            }
+          ],
+          "blend_transition": 0
+        }
+      }
+    }
+  }
+}

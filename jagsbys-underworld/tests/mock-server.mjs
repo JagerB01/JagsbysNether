@@ -18,20 +18,21 @@ export const world = {
   gameRules:{mobGriefing:true},
   getAbsoluteTime(){return system.currentTick;},
   getEntity(id){return entities.get(id);},
-  getDimension() { return {getEntities() { return []; }}; },
+  getDimension() { return {getEntities() { return []; },spawnEntity(typeId,location){return {id:`spawned-${typeId}-${location.x}-${location.z}`,typeId,location,addTag(){}};}}; },
   getPlayers() { return []; },
   getDynamicProperty(key) { return properties.get(key); },
   setDynamicProperty(key, value) { properties.set(key, value); },
   getDynamicPropertyIds() { return [...properties.keys()]; },
   getAllPlayers() { return []; },
   beforeEvents: {playerBreakBlock: signal(), explosion: signal(), entityHurt: signal(), playerInteractWithEntity: signal(), playerInteractWithBlock: signal()},
-  afterEvents: {worldLoad: signal(), playerSpawn: signal(), playerHotbarSelectedSlotChange: signal(), playerInventoryItemChange: signal(), entityContainerOpened: signal(), entityContainerClosed: signal(), entitySpawn: signal(1), entityLoad: signal(1), entityRemove: signal(), dataDrivenEntityTrigger: signal(), playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), itemCompleteUse: signal()},
+  afterEvents: {worldLoad: signal(), playerSpawn: signal(), playerHotbarSelectedSlotChange: signal(), playerInventoryItemChange: signal(), entityContainerOpened: signal(), entityContainerClosed: signal(), entitySpawn: signal(1), entityLoad: signal(1), entityRemove: signal(), dataDrivenEntityTrigger: signal(), playerInteractWithEntity: signal(), itemUse: signal(), playerLeave: signal(), playerBreakBlock: signal(), entityDie: signal(), entityHurt: signal(), projectileHitBlock: signal(), projectileHitEntity: signal(), itemCompleteUse: signal()},
 };
 const pending = [];
 export const intervals = [], jobs = [], timeouts = [];
 export const StructureRotation = {None: "None", Rotate90: "Rotate90", Rotate180: "Rotate180", Rotate270: "Rotate270"};
 export const system = {
   currentTick: 0,
+  clearRun(id){if(intervals[id-1])intervals[id-1].cancelled=true;},
   runTimeout(callback,ticks=1){timeouts.push({callback,due:this.currentTick+ticks});return timeouts.length;},
   runInterval(callback, ticks) { intervals.push({callback, ticks}); return intervals.length; },
   runJob(job) { jobs.push(job); return jobs.length; },
@@ -51,4 +52,14 @@ export function startup() {
 
 export class BlockVolume {
  constructor(from,to){this.from={...from};this.to={...to};}
+}
+
+export const EntityDamageCause = Object.fromEntries(['override','selfDestruct','sonicBoom','fall','fireTick','suffocation','drowning','starve','flyIntoWall','magic','void','freezing','entityExplosion','entityAttack','projectile','lightning','fire'].map(key=>[key,key]));
+export const DimensionTypes = {getAll(){return [{typeId:'minecraft:overworld'},{typeId:'minecraft:nether'},{typeId:'minecraft:the_end'}];}};
+export class MolangVariableMap {
+ constructor(){this.values=new Map();}
+ setFloat(key,value){this.values.set(key,value);}
+ setVector3(key,value){this.values.set(key,value);}
+ setColorRGB(key,value){this.values.set(key,value);}
+ setColorRGBA(key,value){this.values.set(key,value);}
 }

@@ -1,0 +1,23 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "dungeons:enchanted_arrow",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/projectiles/arrow"
+      },
+      "geometry": {
+        "default": "geometry.underworld_dungeons.enchanted_arrow"
+      },
+      "render_controllers": [
+        "controller.render.arrow"
+      ],
+      "animations": {
+        "scale": "animation.arrow.scale"
+      }
+    }
+  }
+}

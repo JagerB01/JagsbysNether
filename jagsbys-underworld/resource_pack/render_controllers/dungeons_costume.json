@@ -1,0 +1,16 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.dungeons_costume": {
+      "geometry": "Geometry.default",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "q.has_property('dungeons:spooky') ? q.property('dungeons:spooky') ? Texture.costume : Texture.default : Texture.default"
+      ]
+    }
+  }
+}

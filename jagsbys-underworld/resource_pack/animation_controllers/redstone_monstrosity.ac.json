@@ -1,0 +1,25 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.redstone_monstrosity.rest": {
+      "initial_state": "default",
+      "states": {
+        "default": {
+          "animations": [
+            "resting"
+          ],
+          "transitions": [
+            {
+              "awaken": "q.variant == 1"
+            }
+          ]
+        },
+        "awaken": {
+          "animations": [
+            "awaken"
+          ]
+        }
+      }
+    }
+  }
+}

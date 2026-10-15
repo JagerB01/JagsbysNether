@@ -1,0 +1,56 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "dungeons:wretched_wraith",
+      "materials": {
+        "default": "entity_emissive_alpha"
+      },
+      "textures": {
+        "default": "textures/entity/wretched_wraith/wretched_wraith"
+      },
+      "geometry": {
+        "default": "geometry.wretched_wraith"
+      },
+      "render_controllers": [
+        "controller.render.default"
+      ],
+      "animations": {
+        "hidecrown": "animation.wretched_wraith_v2.hidecrown",
+        "idle": "animation.wretched_wraith_v2.idle",
+        "idle_head_movement": "animation.wretched_wraith_v2.idle_head_movement",
+        "look_at_target": "animation.redstone_monstrosity_v2.face_target",
+        "move": "animation.wretched_wraith_v2.move",
+        "move_controller": "controller.animation.wretched_wraith_v2.move",
+        "ranged_attack": "animation.wretched_wraith_v2.projectile",
+        "ranged_controller": "controller.animation.wretched_wraith_v2.ranged_attack",
+        "idle_controller": "controller.animation.wretched_wraith_v2.idle_pose",
+        "look_at_target_controller": "controller.animation.wretched_wraith_v2.look_at_target",
+        "bullethell_startup": "animation.wretched_wraith_v2.bullethell_start",
+        "bullethell_loop": "animation.wretched_wraith_v2.bullethell_loop",
+        "bullethell_position": "animation.wretched_wraith_v2.bullethell_position",
+        "bullethell_end": "animation.wretched_wraith_v2.bullethell_end",
+        "bullethell_controller": "controller.animation.wretched_wraith_v2.bullethell",
+        "summon": "animation.wretched_wraith_v2.summon",
+        "summon_controller": "controller.animation.wretched_wraith_v2.summon"
+      },
+      "scripts": {
+        "animate": [
+          "hidecrown",
+          "idle_controller",
+          "move_controller",
+          "ranged_controller",
+          "bullethell_controller",
+          "summon_controller"
+        ]
+      },
+      "sound_effects": {
+        "awaken": "mob.wretched_wraith.spawn"
+      },
+      "spawn_egg": {
+        "base_color": "#210B38",
+        "overlay_color": "#5BFFE2"
+      }
+    }
+  }
+}

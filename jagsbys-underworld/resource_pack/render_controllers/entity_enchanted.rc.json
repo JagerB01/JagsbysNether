@@ -1,0 +1,73 @@
+{
+  "format_version": "1.10",
+  "render_controllers": {
+    "controller.render.dungeons_entity_enchanted": {
+      "geometry": "Geometry.default",
+      "part_visibility": [
+        {
+          "*": true
+        }
+      ],
+      "materials": [
+        {
+          "*": "Material.enchanted"
+        }
+      ],
+      "textures": [
+        "Texture.enchanted"
+      ],
+      "color": {
+        "r": 0.5,
+        "g": 0.4,
+        "b": 1.0,
+        "a": 0.5
+      },
+      "uv_anim": {
+        "offset": [
+          "(Math.floor(query.life_time * 20.0) + query.frame_alpha) * -0.02",
+          "(Math.floor(query.life_time * 20.0) + query.frame_alpha) * 0.03"
+        ],
+        "scale": [
+          1.0,
+          1.0
+        ]
+      },
+      "light_color_multiplier": 1,
+      "ignore_lighting": true
+    },
+    "controller.render.dungeons_entity_enchanted_has_baby": {
+      "geometry": "query.is_baby ? Geometry.baby : Geometry.default",
+      "part_visibility": [
+        {
+          "*": true
+        }
+      ],
+      "materials": [
+        {
+          "*": "Material.enchanted"
+        }
+      ],
+      "textures": [
+        "Texture.enchanted"
+      ],
+      "color": {
+        "r": 0.5,
+        "g": 0.4,
+        "b": 1.0,
+        "a": 0.5
+      },
+      "uv_anim": {
+        "offset": [
+          "(Math.floor(query.life_time * 20.0) + query.frame_alpha) * -0.02",
+          "(Math.floor(query.life_time * 20.0) + query.frame_alpha) * 0.03"
+        ],
+        "scale": [
+          1,
+          1
+        ]
+      },
+      "light_color_multiplier": 1,
+      "ignore_lighting": true
+    }
+  }
+}

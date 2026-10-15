@@ -1,0 +1,305 @@
+import { EntityDamageCause } from "@minecraft/server";
+import { world } from "./runtime.js";
+import { scopedSystem } from "./runtime.js";
+const system = scopedSystem("actors");
+
+
+const teleportHiddenTime = 10
+
+//projectiles
+function multiply(a, b) {
+    return { x: a.x * b.x, y: a.y * b.y, z: a.z * b.z };
+}
+
+world.afterEvents.entitySpawn.subscribe((e) => {
+    const entity = e.entity;
+    if (!entity) return;
+    if (!entity.isValid) return;
+    const cause = e.cause;
+    if (cause !== "Spawned") return;
+    if (entity.typeId == "dungeons:nameless_one_projectile" && !entity.hasTag("dungeons:chud_projectile")) {
+
+        const proj = entity.getComponent("projectile")
+        if (!proj) return;
+        const owner = proj.owner;
+        if (!owner) return;
+        if (owner.typeId == "dungeons:nameless_one_illusion") {
+            system.runTimeout(() => {
+                if (owner.isValid) owner.triggerEvent("dungeons:despawn")
+            }, 20)
+        } else if (owner.typeId == "dungeons:nameless_one") {
+            const dim = owner.dimension;
+            const viewDir = owner.getViewDirection()
+            let amount = 3
+            for (let i = 0; i < amount; i++) {
+                const angle = -((amount - 1) / 2 * 10) + 10 * i;
+                const radians = angle * (Math.PI / 180)
+                if (angle == 0) continue;
+                const hd = owner.getHeadLocation();
+                const vd = owner.getViewDirection();
+                const projectile = dim.spawnEntity(entity.typeId, { x: hd.x + vd.x, y: hd.y + vd.y, z: vd.z + hd.z })
+                const comp = projectile.getComponent('projectile');
+                let cosTheta = Math.cos(radians);
+                let sinTheta = Math.sin(radians);
+                const direction = {
+                    x: viewDir.x * cosTheta + viewDir.z * sinTheta,
+                    y: viewDir.y,
+                    z: -viewDir.x * sinTheta + viewDir.z * cosTheta
+                }
+                if (comp) {
+                    comp.owner = owner
+                    comp.shoot(multiply(direction, { x: 0.53, y: 0.53, z: 0.53 }))
+                } else {
+                    projectile.applyImpulse(multiply(direction, { x: 0.53, y: 0.53, z: 0.53 }))
+                }
+                projectile.addTag("dungeons:chud_projectile")
+            }
+
+        } else {
+            return;
+        }
+    }
+})
+
+world.afterEvents.projectileHitBlock.subscribe((e) => {
+    const entity = e.projectile;
+    const loc = e.location;
+    const dim = e.dimension;
+    if (entity.typeId == "dungeons:nameless_one_projectile") {
+        const proj = entity.getComponent("minecraft:projectile")
+        entity.remove()
+    }
+})
+world.afterEvents.projectileHitEntity.subscribe((e) => {
+    const entity = e.projectile;
+    const hit = e.getEntityHit().entity
+    if (!hit.isValid) return;
+    const dim = hit.dimension
+    const loc = e.location;
+    if (entity.typeId == "dungeons:nameless_one_projectile") {
+        system.runTimeout(() => {
+            if (entity.isValid) entity.remove()
+        }, 100)
+        if (!entity.isValid) return;
+        const proj = entity.getComponent("minecraft:projectile")
+        const owner = proj.owner;
+        if (!owner || !owner.isValid) {
+            entity.remove()
+            return;
+        }
+        if (hit.matches({ families: ["undead"] })) return;
+        if (hit.matches({ families: ["monster"] })) return;
+        var damage = 9
+        if(world.getDifficulty() == "Normal") damage = 6
+        if(world.getDifficulty() == "Easy") damage = 4
+        hit.applyDamage(damage, { damagingEntity: owner, cause: EntityDamageCause.magic })
+        entity.remove()
+    }
+})
+world.beforeEvents.entityHurt.subscribe((e) => {
+    const hurt = e.hurtEntity;
+    if (!hurt) return;
+    if (!hurt.isValid) return;
+    const projectile = e.damageSource.damagingProjectile;
+    if (!projectile) return;
+    if (!projectile.isValid) return;
+    if (projectile.typeId !== "dungeons:nameless_one_projectile") return
+    const cause = e.damageSource.cause;
+    if (cause !== EntityDamageCause.projectile) return;
+
+    if (hit.matches({ families: ["undead"] }) || hit.matches({ families: ["monster"] })) {
+        e.cancel = true;
+        e.damage = 0
+    }
+
+});
+
+//teleport
+
+function teleport(entity, loc) {
+    if (loc == undefined) loc = entity.location;
+    const entityLoc = entity.location;
+    const dim = entity.dimension;
+    var validTeleport = false
+    var teleportAttempts = 20
+    for (let i = 0; i < teleportAttempts && validTeleport == false; i++) {
+        var xMod = (Math.random() * 30) - 15
+        var zMod = (Math.random() * 30) - 15
+        if (xMod < 0 && xMod > -5) xMod = -5
+        if (xMod > 0 && xMod < 5) xMod = 5
+        if (zMod < 0 && zMod > -5) zMod = -5
+        if (zMod > 0 && zMod < 5) zMod = 5
+        var teleportLoc = { x: loc.x + xMod, y: loc.y, z: loc.z + zMod }
+        teleportLoc.y = dim.getTopmostBlock({ x: teleportLoc.x, z: teleportLoc.z }, teleportLoc.y).y + 1
+        if (teleportLoc.y < loc.y - 3 || teleportLoc.y > loc.y + 1) continue;
+
+        const baseDist = Math.hypot(teleportLoc.x - loc.x, teleportLoc.y - loc.y, teleportLoc.z - loc.z)
+        const xDif = loc.x - teleportLoc.x
+        const yDif = loc.y - teleportLoc.y
+        const zDif = loc.z - teleportLoc.z
+        var isWalled = false;
+        for (let i = 1; i < baseDist; i++) {
+            const checkBlock = dim.getBlock({ x: teleportLoc.x + (xDif * (i / baseDist)), y: 1 + teleportLoc.y + (yDif * (i / baseDist)), z: teleportLoc.z + (zDif * (i / baseDist)) })
+            if (!checkBlock) break;
+            if (checkBlock.isAir == false) {
+                isWalled = true;
+            }
+        }
+        if (isWalled) continue;
+        if (!dim.getBlock(teleportLoc)) continue;
+        if (dim.getBlock(teleportLoc).above().isAir == false || dim.getBlock(teleportLoc).above().above().isAir == false) continue;
+
+        if (teleportLoc) validTeleport = true
+    }
+    if (validTeleport == false) return;
+    entity.tryTeleport(teleportLoc)
+    dim.playSound("mob.nameless_one.teleport_out", entityLoc)
+    dim.spawnParticle("dungeons:nameless_teleport_out", entityLoc)
+    system.runTimeout(() => {
+        if (dim.isChunkLoaded(loc)) {
+            dim.playSound("mob.nameless_one.teleport_in", teleportLoc)
+            dim.spawnParticle("dungeons:nameless_teleport_in", teleportLoc)
+        }
+    }, teleportHiddenTime)
+    entity.addEffect("invisibility", teleportHiddenTime, { showParticles: false })
+    connectLine(entity, entityLoc, dim)
+}
+function connectLine(player, baseLoc, baseDim) {
+    const baseDist = Math.hypot(baseLoc.x - player.location.x, baseLoc.y - player.location.y, baseLoc.z - player.location.z)
+    for (let i = 1; i < teleportHiddenTime; i += teleportHiddenTime / baseDist) {
+        system.runTimeout(() => {
+            if (player.dimension !== baseDim) return;
+            const targetLoc = player.location;
+            const xDif = targetLoc.x - baseLoc.x
+            const yDif = targetLoc.y - baseLoc.y
+            const zDif = targetLoc.z - baseLoc.z
+            const particleLoc = { x: baseLoc.x + (xDif * (i / teleportHiddenTime)), y: 1 + baseLoc.y + (yDif * (i / teleportHiddenTime)), z: baseLoc.z + (zDif * (i / teleportHiddenTime)) }
+            if (player.dimension.isChunkLoaded(particleLoc)) {
+                player.dimension.spawnParticle("dungeons:nameless_one_orb_1", particleLoc)
+                player.dimension.spawnParticle("dungeons:nameless_teleport_trail", particleLoc)
+            }
+        }, i)
+    }
+}
+
+world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
+    const entity = e.entity;
+    const id = e.eventId;
+    if (!entity) return;
+    if (!entity.isValid) return;
+    if (entity.getProperty("dungeons:casting") == true) return
+    if (id === 'dungeons:nameless_one_teleport' && entity.typeId == "dungeons:nameless_one" && entity.hasTag("dungeons:nameless_one_teleported")) {
+        teleport(entity)
+        system.runTimeout(() => {
+            if (entity.isValid == false) return;
+            entity.addTag("dungeons:nameless_one_teleported")
+        }, 30)
+    }
+    if (id === 'dungeons:nameless_one_teleport_to_player' && entity.typeId == "dungeons:nameless_one" && entity.hasTag("dungeons:nameless_one_teleported")) {
+        const nearbyPlayer = entity.dimension.getPlayers({ location: entity.location, closest: 1, maxDistance: 64 })
+        var loc = entity.location;
+        if (nearbyPlayer.length >= 1) loc = nearbyPlayer[0].location
+        if(loc.y > entity.location.y + 10) {
+            teleport(entity)
+        } else {
+            teleport(entity, loc)
+
+        }
+        system.runTimeout(() => {
+            if (entity.isValid == false) return;
+            entity.addTag("dungeons:nameless_one_teleported")
+        }, 30)
+    }
+    if (id === 'minecraft:entity_transformed' && entity.typeId == "dungeons:nameless_one") {
+        system.runTimeout(() => {
+            if (entity.isValid == false) return;
+            teleport(entity)
+            entity.addTag("dungeons:nameless_one_teleported")
+        }, 20)
+    }
+});
+
+
+//detect vanguards
+world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
+    const entity = e.entity;
+    const id = e.eventId;
+    if (id === 'dungeons:detect_vanguards' && entity.typeId == "dungeons:nameless_one") {
+        if (entity.getProperty("dungeons:casting") == true) return;
+        const dim = entity.dimension;
+        const loc = entity.location;
+        if (!dim.isChunkLoaded(loc)) return;
+        if (dim.getEntities({ location: loc, maxDistance: 64, type: "dungeons:vanguard", excludeTags: ["dungeons:love_medallion_active"] }).length <= 0) {
+            if (entity.getProperty("dungeons:vanguards") == true) entity.triggerEvent("dungeons:no_vanguards_in_range")
+            entity.setProperty("dungeons:vanguards", false)
+        } else {
+            if (entity.getProperty("dungeons:vanguards") == false) entity.triggerEvent("dungeons:vanguards_in_range")
+            entity.setProperty("dungeons:vanguards", true)
+        }
+    }
+});
+
+
+//clone despawn
+world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
+    const entity = e.entity;
+    const id = e.eventId;
+    if (id === 'dungeons:despawn' && entity.typeId == "dungeons:nameless_one_illusion") {
+        const loc = entity.location;
+        const dim = entity.dimension;
+        dim.spawnParticle("dungeons:nameless_teleport_out", loc)
+        dim.spawnParticle("dungeons:nameless_teleport_out", entity.getHeadLocation())
+        entity.remove()
+    }
+});
+
+//clone teleport
+world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
+    const entity = e.entity;
+    const id = e.eventId;
+    if (id === 'dungeons:complete_casting' && entity.typeId == "dungeons:nameless_one" && entity.getProperty("dungeons:vanguards") == true && entity.hasTag("dungeons:nameless_one_teleported")) {
+        system.runTimeout(() => {
+            teleport(entity)
+        }, 4)
+    }
+});
+
+//clone spawn
+world.afterEvents.entitySpawn.subscribe((e) => {
+    const entity = e.entity;
+    if (!entity) return;
+    if (!entity.isValid) return;
+    const cause = e.cause;
+    if (cause !== "Spawned") return;
+    if (entity.typeId == "dungeons:nameless_one_illusion") {
+        const loc = entity.location;
+        const dim = entity.dimension;
+        var validTeleport = false
+        var teleportAttempts = 20
+        for (let i = 0; i < teleportAttempts && validTeleport == false; i++) {
+            var xMod = (Math.random() * 5) - 2.5
+            var zMod = (Math.random() * 5) - 2.5
+            var teleportLoc = { x: loc.x + xMod, y: loc.y, z: loc.z + zMod }
+            teleportLoc.y = dim.getTopmostBlock({ x: teleportLoc.x, z: teleportLoc.z }, teleportLoc.y).y + 1
+            if (teleportLoc.y < loc.y - 3 || teleportLoc.y > loc.y + 1) continue;
+
+            const baseDist = Math.hypot(teleportLoc.x - loc.x, teleportLoc.y - loc.y, teleportLoc.z - loc.z)
+            const xDif = loc.x - teleportLoc.x
+            const yDif = loc.y - teleportLoc.y
+            const zDif = loc.z - teleportLoc.z
+            var isWalled = false;
+            for (let i = 1; i < baseDist; i++) {
+                const checkBlock = dim.getBlock({ x: teleportLoc.x + (xDif * (i / baseDist)), y: 1 + teleportLoc.y + (yDif * (i / baseDist)), z: teleportLoc.z + (zDif * (i / baseDist)) })
+                if (checkBlock.isAir == false) {
+                    isWalled = true;
+                }
+            }
+            if (isWalled) continue;
+            if (dim.getBlock(teleportLoc).above().isAir == false || dim.getBlock(teleportLoc).above().above().isAir == false) continue;
+
+            if (teleportLoc) validTeleport = true
+        }
+        if (validTeleport == false) return;
+        entity.tryTeleport(teleportLoc)
+    }
+})

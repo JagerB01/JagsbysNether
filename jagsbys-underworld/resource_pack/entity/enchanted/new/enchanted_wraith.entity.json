@@ -1,0 +1,52 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "dungeons:enchanted_wraith",
+      "materials": {
+        "default": "entity_emissive_alpha",
+        "enchanted": "underworld_dungeons_enchant"
+      },
+      "textures": {
+        "default": "textures/entity/enchanted_mob/wraith",
+        "enchanted": "textures/misc/enchanted_entity_glint",
+        "costume": "textures/entity/wraith/wraith_spooky"
+      },
+      "geometry": {
+        "default": "geometry.wraith"
+      },
+      "render_controllers": [
+        "controller.render.dungeons_costume",
+        "controller.render.dungeons_entity_enchanted"
+      ],
+      "animations": {
+        "cast_controller": "controller.animation.wraith_v2.cast",
+        "cast": "animation.wraith.summon",
+        "look_at_target_default": "animation.humanoid.look_at_target.default",
+        "look_at_target_gliding": "animation.humanoid.look_at_target.gliding",
+        "look_at_target_swimming": "animation.humanoid.look_at_target.swimming",
+        "head_controller": "controller.animation.humanoid.look_at_target",
+        "move_controller": "controller.animation.wraith_v2.move",
+        "move": "animation.wraith.walk",
+        "spawn": "animation.wraith.spawn",
+        "idle": "animation.wraith.idle"
+      },
+      "scripts": {
+        "animate": [
+          "spawn",
+          "cast_controller",
+          {
+            "head_controller": "query.variant != 1"
+          },
+          "move_controller"
+        ]
+      },
+      "sound_effects": {
+        "rise": "mob.wraith.rise"
+      },
+      "spawn_egg": {
+        "texture": "egg_enchanted_wraith"
+      }
+    }
+  }
+}

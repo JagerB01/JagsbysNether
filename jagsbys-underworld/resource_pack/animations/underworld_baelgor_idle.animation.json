@@ -1,0 +1,17 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.underworld.baelgor_idle_loop": {
+      "loop": true,
+      "animation_length": 12.0,
+      "sound_effects": {
+        "3.0": {
+          "effect": "infernal_idle"
+        },
+        "10.0": {
+          "effect": "infernal_idle"
+        }
+      }
+    }
+  }
+}

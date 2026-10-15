@@ -1,0 +1,33 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "dungeons:wretched_wraith_projectile",
+      "materials": {
+        "default": "entity_emissive"
+      },
+      "textures": {
+        "default": "textures/entity/wretched_wraith/wretched_wraith_projectile"
+      },
+      "geometry": {
+        "default": "geometry.redstone_monstrosity_projectile"
+      },
+      "animations": {
+        "fly": "animation.blast_fungus.fly",
+        "particles": "animation.necromancer_shot.particles"
+      },
+      "particle_effects": {
+        "energy": "dungeons:wretched_shot"
+      },
+      "scripts": {
+        "animate": [
+          "fly",
+          "particles"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.default"
+      ]
+    }
+  }
+}

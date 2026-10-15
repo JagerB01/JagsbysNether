@@ -1,4 +1,4 @@
-Jagsby's Underworld v0.2.57 — combined personal test build.
+Jagsby's Underworld v0.2.108 — combined personal test build.
 
 Village subsystem: Jagsby's Nether Settlements v0.8.24, including its original
 structures, source notices and license. The complete original release notes
@@ -48,3 +48,14 @@ selected original templates/assembly data and conversion provenance are under
 behavior_pack/docs/moogs_arenas/. Conversion source is tools/convert_moogs_arenas.py.
 
 Glowsquito visual design: Infernal Expansion / Infernal Studios, Apache-2.0. Two Glowsquito textures and converted model/wing animation only; no other mod content imported. See docs/glowsquito/LICENSE.txt and SOURCE_METADATA.json. Glowhusk and Glow Wax temporarily reference vanilla Shroomlight and Honeycomb artwork.
+
+Infernal Lords / essential support / enchanted-mob systems: Alylica's Dungeons
+2.1.3 by Alylica, from the user-supplied Dungeons2.1.3.mcaddon. Nether recolours,
+renames, custom boss bars and preliminary audio aliases are from the user's
+Underworld five-mob standalone test v0.1.4 AUDIO FIX. Original combat/effect
+implementations and scoped dependencies are retained, with Underworld runtime
+adapters and explicit source bug fixes. Source archives and individual asset
+hashes are recorded in INFERNAL_LORDS_SOURCE.json; integration/live-test scope
+is documented in INFERNAL_LORDS.md. No separate license/credits files were found
+in the two supplied Dungeons source archives; existing subsystem notices remain
+unchanged. This integration does not relicense the original Dungeons content.

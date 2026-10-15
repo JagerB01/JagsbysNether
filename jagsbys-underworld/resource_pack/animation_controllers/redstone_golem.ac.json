@@ -1,0 +1,53 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.redstone_golem.attack": {
+      "initial_state": "default",
+      "states": {
+        "attacking": {
+          "animations": [
+            "attack.rotations"
+          ],
+          "transitions": [
+            {
+              "default": "!query.is_delayed_attacking"
+            }
+          ],
+          "blend_transition": 0.2
+        },
+        "default": {
+          "transitions": [
+            {
+              "attacking": "query.is_delayed_attacking == 1.0"
+            }
+          ],
+          "blend_transition": 0.3
+        }
+      }
+    },
+    "controller.animation.redstone_golem.move": {
+      "initial_state": "default",
+      "states": {
+        "moving": {
+          "animations": [
+            "move"
+          ],
+          "transitions": [
+            {
+              "default": "q.modified_move_speed <= 0.1 || query.is_casting == 1.0"
+            }
+          ],
+          "blend_transition": 0.5
+        },
+        "default": {
+          "transitions": [
+            {
+              "moving": "q.modified_move_speed > 0.1 && query.is_casting <= 0.0"
+            }
+          ],
+          "blend_transition": 0.5
+        }
+      }
+    }
+  }
+}

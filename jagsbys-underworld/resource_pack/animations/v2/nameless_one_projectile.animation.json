@@ -1,0 +1,42 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.nameless_projectile.particles": {
+      "loop": true,
+      "animation_length": 1,
+      "particle_effects": {
+        "0.0": {
+          "effect": "trail",
+          "locator": "particles"
+        }
+      }
+    },
+    "animation.nameless_projectile.idle": {
+      "loop": true,
+      "bones": {
+        "front": {
+          "rotation": [
+            0,
+            0,
+            "q.life_time*180"
+          ]
+        },
+        "back": {
+          "rotation": [
+            0,
+            0,
+            "q.life_time*-90"
+          ]
+        },
+        "root": {
+          "rotation": [
+            "-query.camera_rotation(0)",
+            "query.camera_rotation(1)-180",
+            0
+          ],
+          "scale": "math.sin(q.life_time*400)*0.2+1"
+        }
+      }
+    }
+  }
+}

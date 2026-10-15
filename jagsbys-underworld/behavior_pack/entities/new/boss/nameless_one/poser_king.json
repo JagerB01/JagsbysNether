@@ -1,0 +1,169 @@
+{
+  "format_version": "1.21.130",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "dungeons:nameless_one_illusion",
+      "runtime_identifier": "zombie",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "is_experimental": false
+    },
+    "components": {
+      "minecraft:scale": {
+        "value": 1.15
+      },
+      "minecraft:movement": {
+        "value": 0.0
+      },
+      "minecraft:behavior.look_at_target": {
+        "priority": 8,
+        "look_distance": 6,
+        "probability": 0.02
+      },
+      "minecraft:type_family": {
+        "family": [
+          "undead",
+          "boss",
+          "nameless_one",
+          "gravity_immune",
+          "false_king"
+        ]
+      },
+      "minecraft:variant": {
+        "value": 0
+      },
+      "minecraft:collision_box": {
+        "width": 0.65,
+        "height": 2.15
+      },
+      "minecraft:health": {
+        "value": 2000,
+        "max": 2000
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:navigation.walk": {
+        "is_amphibious": true,
+        "avoid_sun": false,
+        "can_walk": true
+      },
+      "minecraft:knockback_resistance": {
+        "value": 1
+      },
+      "minecraft:persistent": {},
+      "minecraft:physics": {},
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:shooter": {
+        "def": "dungeons:nameless_one_projectile"
+      },
+      "minecraft:behavior.ranged_attack": {
+        "priority": 3,
+        "attack_interval_min": 2,
+        "attack_interval_max": 2,
+        "attack_radius": 40,
+        "speed_multiplier": 1
+      },
+      "minecraft:behavior.nearest_attackable_target": {
+        "priority": 0,
+        "must_see": false,
+        "reselect_targets": true,
+        "within_radius": 64,
+        "entity_types": [
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "snowgolem"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "irongolem"
+                }
+              ]
+            },
+            "max_dist": 64
+          }
+        ]
+      },
+      "minecraft:entity_sensor": {
+        "subsensors": [
+          {
+            "maximum_count": 0,
+            "minimum_count": -1,
+            "range": [
+              32,
+              32
+            ],
+            "event_filters": [
+              {
+                "all_of": [
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "nameless_one"
+                  },
+                  {
+                    "test": "is_family",
+                    "value": "false_king",
+                    "operator": "not",
+                    "subject": "other"
+                  }
+                ]
+              }
+            ],
+            "event": "dungeons:despawn"
+          }
+        ]
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "on_damage": {
+              "filters": [
+                {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "damager",
+                      "value": "player"
+                    },
+                    {
+                      "test": "is_target",
+                      "subject": "damager"
+                    }
+                  ]
+                }
+              ],
+              "event": "dungeons:despawn"
+            },
+            "deals_damage": "no"
+          },
+          {
+            "cause": "all",
+            "deals_damage": "no"
+          }
+        ]
+      },
+      "minecraft:conditional_bandwidth_optimization": {},
+      "minecraft:timer": {
+        "time": 5,
+        "time_down_event": {
+          "event": "dungeons:despawn"
+        }
+      }
+    },
+    "events": {
+      "dungeons:despawn": {}
+    }
+  }
+}

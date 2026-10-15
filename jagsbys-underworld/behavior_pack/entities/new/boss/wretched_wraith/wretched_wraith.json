@@ -1,0 +1,530 @@
+{
+  "format_version": "1.21.130",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "dungeons:wretched_wraith",
+      "runtime_identifier": "minecraft:zombie",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "is_experimental": false,
+      "properties": {
+        "dungeons:can_melee_attack": {
+          "client_sync": false,
+          "type": "bool",
+          "default": true
+        },
+        "dungeons:bullethell": {
+          "client_sync": true,
+          "type": "bool",
+          "default": false
+        }
+      }
+    },
+    "component_groups": {
+      "dungeons:melee_attack_cooldown": {
+        "minecraft:timer": {
+          "time": 7,
+          "time_down_event": {
+            "event": "dungeons:can_melee_attack"
+          }
+        }
+      },
+      "dungeons:able_to_summon": {
+        "minecraft:behavior.summon_entity": {
+          "priority": 0,
+          "summon_choices": [
+            {
+              "cast_duration": 1.3,
+              "cooldown_time": 11,
+              "max_activation_range": 32,
+              "min_activation_range": 4,
+              "filters": [
+                {
+                  "test": "bool_property",
+                  "value": false,
+                  "domain": "dungeons:bullethell"
+                }
+              ],
+              "start_sound_event": "cast.spell",
+              "sequence": [
+                {
+                  "base_delay": 1,
+                  "delay_per_summon": 0.3,
+                  "entity_type": "dungeons:wretched_wraith_fire<minecraft:entity_spawned>",
+                  "shape": "circle",
+                  "size": 3,
+                  "target": "target",
+                  "summon_cap": 8,
+                  "num_entities_spawned": 4
+                }
+              ],
+              "weight": 1
+            },
+            {
+              "cast_duration": 1.3,
+              "cooldown_time": 14,
+              "do_casting": true,
+              "filters": [
+                {
+                  "test": "bool_property",
+                  "value": false,
+                  "domain": "dungeons:bullethell"
+                }
+              ],
+              "min_activation_range": 0,
+              "max_activation_range": 32,
+              "weight": 1,
+              "start_sound_event": "cast.spell",
+              "sequence": [
+                {
+                  "base_delay": 1,
+                  "delay_per_summon": 0,
+                  "entity_type": "dungeons:frozen_zombie<dungeons:spawn_wretched_wraith_minion>",
+                  "num_entities_spawned": 2,
+                  "shape": "circle",
+                  "size": 3,
+                  "target": "self",
+                  "summon_cap": 4
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "dungeons:ranged_attacking": {
+        "minecraft:behavior.timer_flag_3": {
+          "duration_range": [
+            22,
+            32
+          ],
+          "on_end": {
+            "event": "dungeons:begin_bullethell_center",
+            "target": "self"
+          },
+          "cooldown_range": 5,
+          "priority": 0
+        },
+        "minecraft:movement": {
+          "value": 0.25
+        },
+        "minecraft:behavior.ranged_attack": {
+          "priority": 1,
+          "attack_radius_min": 5,
+          "attack_interval": 2.66,
+          "attack_radius": 64,
+          "charge_charged_trigger": 0,
+          "charge_shoot_trigger": 0.5,
+          "burst_shots": 1,
+          "burst_interval": 0,
+          "speed_multiplier": 0.5
+        },
+        "minecraft:damage_sensor": {
+          "triggers": [
+            {
+              "cause": "fall",
+              "deals_damage": "no"
+            }
+          ]
+        },
+        "minecraft:pushable_by_block": {},
+        "minecraft:boss": {
+          "should_darken_sky": false,
+          "hud_range": 48,
+          "name": "dungeons.bossbar.wretched_wraith"
+        }
+      },
+      "dungeons:bullethell_attacking": {
+        "minecraft:behavior.timer_flag_1": {
+          "duration_range": 0.1,
+          "cooldown_range": 0,
+          "on_start": {
+            "event": "dungeons:bullethell_update"
+          },
+          "priority": 0
+        },
+        "minecraft:behavior.timer_flag_2": {
+          "duration_range": 1.8,
+          "cooldown_range": 0,
+          "on_end": {
+            "event": "dungeons:bullethell_projectile"
+          },
+          "priority": 0
+        },
+        "minecraft:behavior.timer_flag_3": {
+          "duration_range": 13,
+          "cooldown_range": 5,
+          "on_end": {
+            "event": "dungeons:bullethell_end",
+            "target": "self"
+          },
+          "priority": 0
+        },
+        "minecraft:movement": {
+          "value": 0.0
+        },
+        "minecraft:damage_sensor": {
+          "triggers": [
+            {
+              "cause": "all",
+              "deals_damage": "no"
+            }
+          ]
+        },
+        "minecraft:boss": {
+          "should_darken_sky": false,
+          "hud_range": 48,
+          "name": "dungeons.bossbar.wretched_wraith_immune"
+        }
+      }
+    },
+    "components": {
+      "minecraft:entity_sensor": {
+        "subsensors": [
+          {
+            "minimum_count": 1,
+            "range": [
+              4,
+              4
+            ],
+            "event": "dungeons:melee_attack",
+            "cooldown": 1,
+            "event_filters": [
+              {
+                "all_of": [
+                  {
+                    "test": "is_target",
+                    "value": true,
+                    "subject": "other"
+                  },
+                  {
+                    "test": "bool_property",
+                    "subject": "self",
+                    "domain": "dungeons:can_melee_attack",
+                    "value": true
+                  },
+                  {
+                    "test": "bool_property",
+                    "subject": "self",
+                    "domain": "dungeons:bullethell",
+                    "value": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "minecraft:shooter": {
+        "def": "dungeons:wretched_wraith_projectile"
+      },
+      "minecraft:behavior.avoid_mob_type": {
+        "max_dist": 5,
+        "max_flee": 6,
+        "priority": 0,
+        "sprint_speed_multiplier": 2.2,
+        "walk_speed_multiplier": 2.2,
+        "entity_types": [
+          {
+            "max_dist": 6,
+            "walk_speed_multiplier": 2.2,
+            "sprint_speed_multiplier": 2.2,
+            "filters": [
+              {
+                "all_of": [
+                  {
+                    "test": "bool_property",
+                    "domain": "dungeons:can_melee_attack",
+                    "value": true,
+                    "subject": "self"
+                  },
+                  {
+                    "test": "bool_property",
+                    "subject": "self",
+                    "domain": "dungeons:bullethell",
+                    "value": false
+                  },
+                  {
+                    "any_of": [
+                      {
+                        "all_of": [
+                          {
+                            "test": "is_family",
+                            "value": "player",
+                            "subject": "other"
+                          },
+                          {
+                            "test": "has_ability",
+                            "value": "instabuild",
+                            "subject": "other",
+                            "operator": "not"
+                          }
+                        ]
+                      },
+                      {
+                        "test": "was_last_hurt_by",
+                        "subject": "other",
+                        "operator": "=="
+                      },
+                      {
+                        "test": "is_target",
+                        "value": true,
+                        "subject": "other"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "minecraft:is_hidden_when_invisible": {},
+      "minecraft:nameable": {},
+      "minecraft:type_family": {
+        "family": [
+          "dungeons_musicbox",
+          "boss",
+          "monster",
+          "mob",
+          "wretched_wraith",
+          "undead",
+          "gravity_immune"
+        ]
+      },
+      "minecraft:knockback_resistance": {
+        "value": 1
+      },
+      "minecraft:collision_box": {
+        "width": 1,
+        "height": 3.5
+      },
+      "minecraft:movement": {
+        "value": 0.25
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:navigation.walk": {
+        "is_amphibious": true,
+        "avoid_sun": false,
+        "can_walk": true
+      },
+      "minecraft:behavior.float": {
+        "priority": 0
+      },
+      "minecraft:variable_max_auto_step": {
+        "base_value": 1.0625,
+        "jump_prevented_value": 0.5625
+      },
+      "minecraft:jump.static": {},
+      "minecraft:can_climb": {},
+      "minecraft:health": {
+        "value": 500,
+        "max": 500
+      },
+      "minecraft:scale": {
+        "value": 1
+      },
+      "minecraft:breathable": {
+        "total_supply": 15,
+        "suffocate_time": 0,
+        "breathes_air": true,
+        "breathes_water": true
+      },
+      "minecraft:behavior.random_stroll": {
+        "priority": 7,
+        "speed_multiplier": 1
+      },
+      "minecraft:behavior.hurt_by_target": {
+        "priority": 1,
+        "entity_types": [
+          {
+            "filters": {
+              "test": "is_family",
+              "subject": "other",
+              "operator": "!=",
+              "value": "monster"
+            }
+          }
+        ]
+      },
+      "minecraft:environment_sensor": {
+        "triggers": [
+          {
+            "filters": [
+              {
+                "all_of": [
+                  {
+                    "test": "bool_property",
+                    "domain": "dungeons:bullethell",
+                    "value": true
+                  },
+                  {
+                    "test": "distance_to_nearest_player",
+                    "operator": ">=",
+                    "value": 48
+                  }
+                ]
+              }
+            ],
+            "event": "dungeons:bullethell_end"
+          },
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "in_block",
+                  "value": "web",
+                  "subject": "self"
+                }
+              ]
+            },
+            "event": "dungeons:wretched_wraith_teleport"
+          }
+        ]
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/entities/wretched_wraith.json"
+      },
+      "minecraft:behavior.look_at_target": {
+        "priority": 8,
+        "look_distance": 6,
+        "probability": 0.02
+      },
+      "minecraft:behavior.random_look_around": {
+        "priority": 9
+      },
+      "minecraft:fire_immune": {},
+      "minecraft:behavior.nearest_attackable_target": {
+        "priority": 2,
+        "must_see": false,
+        "reselect_targets": true,
+        "within_radius": 32,
+        "entity_types": [
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "snowgolem"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "irongolem"
+                }
+              ]
+            },
+            "max_dist": 48
+          }
+        ]
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "entity_attack",
+            "on_damage": {
+              "event": "dungeons:wretched_wraith_hurt"
+            }
+          },
+          {
+            "cause": "fall",
+            "deals_damage": "no"
+          }
+        ]
+      },
+      "minecraft:physics": {},
+      "minecraft:follow_range": {
+        "value": 64,
+        "max": 64
+      },
+      "minecraft:home": {
+        "restriction_radius": 32,
+        "restriction_type": "random_movement"
+      },
+      "minecraft:conditional_bandwidth_optimization": {}
+    },
+    "events": {
+      "minecraft:entity_transformed": {
+        "trigger": "minecraft:entity_spawned"
+      },
+      "minecraft:entity_spawned": {
+        "add": {
+          "component_groups": [
+            "dungeons:ranged_attacking"
+          ]
+        }
+      },
+      "dungeons:wretched_wraith_hurt": {
+        "randomize": [
+          {
+            "trigger": "dungeons:wretched_wraith_teleport",
+            "weight": 1
+          },
+          {
+            "weight": 4
+          }
+        ]
+      },
+      "dungeons:wretched_wraith_teleport": {},
+      "dungeons:bullethell_projectile": {},
+      "dungeons:bullethell_update": {},
+      "dungeons:begin_bullethell_center": {},
+      "dungeons:melee_attack": {
+        "add": {
+          "component_groups": [
+            "dungeons:melee_attack_cooldown"
+          ]
+        },
+        "set_property": {
+          "dungeons:can_melee_attack": false
+        }
+      },
+      "dungeons:can_melee_attack": {
+        "remove": {
+          "component_groups": [
+            "dungeons:melee_attack_cooldown"
+          ]
+        },
+        "set_property": {
+          "dungeons:can_melee_attack": true
+        }
+      },
+      "dungeons:bullethell_start": {
+        "add": {
+          "component_groups": [
+            "dungeons:bullethell_attacking"
+          ]
+        },
+        "remove": {
+          "component_groups": [
+            "dungeons:ranged_attacking"
+          ]
+        },
+        "set_property": {
+          "dungeons:bullethell": true
+        }
+      },
+      "dungeons:bullethell_end": {
+        "remove": {
+          "component_groups": [
+            "dungeons:bullethell_attacking"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "dungeons:able_to_summon",
+            "dungeons:ranged_attacking"
+          ]
+        },
+        "set_property": {
+          "dungeons:bullethell": false
+        }
+      }
+    }
+  }
+}

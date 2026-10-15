@@ -1,0 +1,90 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.nameless_projectile",
+        "texture_width": 82,
+        "texture_height": 82,
+        "visible_bounds_width": 2,
+        "visible_bounds_height": 2.5,
+        "visible_bounds_offset": [
+          0,
+          0.75,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "root",
+          "pivot": [
+            0,
+            4,
+            0
+          ],
+          "locators": {
+            "particles": [
+              0,
+              4,
+              0
+            ]
+          }
+        },
+        {
+          "name": "back",
+          "parent": "root",
+          "pivot": [
+            0,
+            4,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4,
+                0,
+                0
+              ],
+              "size": [
+                8,
+                8,
+                0
+              ],
+              "uv": [
+                64,
+                72
+              ]
+            }
+          ]
+        },
+        {
+          "name": "front",
+          "parent": "root",
+          "pivot": [
+            0,
+            4,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -3,
+                1,
+                0
+              ],
+              "size": [
+                6,
+                6,
+                0
+              ],
+              "uv": [
+                70,
+                64
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

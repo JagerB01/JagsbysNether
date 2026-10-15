@@ -8,7 +8,7 @@ function invoke(ray){
  system.afterEvents.scriptEventReceive.emit({id:'jagsby_nether:glowhusk_status',sourceEntity:player});return messages;
 }
 test('status always acknowledges a command without a target, and reports raycast errors to the player',()=>{
- assert.match(invoke(()=>undefined)[0],/v0.2.107.*Command received/);
+ assert.match(invoke(()=>undefined)[0],/v0.2.108.*Command received/);
  const messages=invoke(()=>{throw Error('raycast unavailable');});assert.match(messages[0],/status failed.*raycast unavailable/);
 });
 test('status reports saved hive progress and occupancy without changing it',()=>{
