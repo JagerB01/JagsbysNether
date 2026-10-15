@@ -26,7 +26,11 @@ def generate():
      for key,entry in entities.items():
       x,rem=divmod(int(key),sy*sz);y,z=divmod(rem,sz)
       if tx<=x<tx+nx and tz<=z<tz+nz:
-       e=copy.deepcopy(entry);e[1]['block_entity_data'][1]['x']=(3,x-tx);e[1]['block_entity_data'][1]['z']=(3,z-tz);be[str((x-tx)*sy*nz+y*nz+z-tz)]=e
+       e=copy.deepcopy(entry);e[1]['block_entity_data'][1]['x']=(3,x-tx);e[1]['block_entity_data'][1]['z']=(3,z-tz)
+       compound=e[1]['block_entity_data'][1]
+       if 'pairx' in compound:compound['pairx']=(3,compound['pairx'][1]-tx)
+       if 'pairz' in compound:compound['pairz']=(3,compound['pairz'][1]-tz)
+       be[str((x-tx)*sy*nz+y*nz+z-tz)]=e
      ns['palette'][1]['default'][1]['block_position_data']=(10,be);identifier=f'jagsby_nether:arenas_natural/mega_modular/module_{n}/tile_{tx}_{tz}';out=ROOT/'behavior_pack/structures'/f'{identifier.replace(":","/")}.mcstructure';out.parent.mkdir(parents=True,exist_ok=True);w=NBT();w.write('B',10);w.put_string('');w.put(10,data);out.write_bytes(w.stream.getvalue());sections.append({'id':identifier,'offset':[offset[0]+section['offset'][0]+tx,offset[1],offset[2]+section['offset'][2]+tz],'size':[nx,sy,nz],'foundation':{'x':offset[0],'z':offset[2],'sx':a['size'][0],'sz':a['size'][2]}})
    path.unlink() # only the small placement tiles are needed
   modules.append({'index':n,'parent':None if n==0 else mapping[parents[g[0]]],'offset':offset,'size':a['size'],'sections':sections,'source':[pieces[i][0] for i in g]})

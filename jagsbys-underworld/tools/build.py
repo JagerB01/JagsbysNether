@@ -47,6 +47,7 @@ def main():
     subprocess.run(['python3', 'tools/update_campfire_candles.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/update_trial_encounters.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/update_dispenser_potions.py'], cwd=ROOT, check=True)
+    subprocess.run(['python3', 'tools/update_structure_chests.py'], cwd=ROOT, check=True)
     addon = files(AGRICULTURE.read_bytes())
     agriculture = files(addon['Nether_Agriculture_BP.mcpack'])
     resources = files(addon['Nether_Agriculture_RP.mcpack'])

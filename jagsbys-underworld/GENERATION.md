@@ -39,7 +39,11 @@ These are placement attempts, not guaranteed successful structures; terrain rest
 
 ## Container loot
 
-New template chests/barrels use native randomized Nether loot: 4–7 supply rolls (gold nuggets, quartz, bones, coal, string, leather, glowstone dust, fungi, obsidian and soul torches), plus independent 12% gold-ingot and 4% crying-obsidian rolls. One 5% planting-item roll chooses Sorgum seeds, Murky Gourd seeds, Scarberries or Polyps equally, giving 1–3 items (1.25% per crop per container). Nether Wart is excluded.
+New template chests/barrels use native randomized Nether loot: 4–7 supply rolls (gold nuggets, quartz, Wither Bones, coal, string, leather, glowstone dust, fungi, obsidian and soul torches), plus independent 12% gold-ingot and 4% crying-obsidian rolls. One 5% planting-item roll chooses Sorgum seeds, Murky Gourd seeds, Scarberries or Polyps equally, giving 1–3 items (1.25% per crop per container). Nether Wart is excluded.
+
+Additional independent rolls per container/half: Fire Resistance potion (3 minutes) **20%**, diamonds **5%** (1–2), golden apple **3%** (1), gold block **3%** (1), netherite scrap **1%** (1). One **12%** ominous-bottle roll picks tiers I/II/III/IV/V with relative weights 40/30/18/9/3, for overall chances of 4.8% / 3.6% / 2.16% / 1.08% / 0.36% respectively. Potion type and bottle amplifier use native Bedrock loot functions.
+
+Double-chest halves retain separate native loot tables and reciprocal native `pairx`/`pairz`/`pairlead` metadata. Layout-aware offline repair handles partners across placement tiles, and slicing translates partner coordinates with the chest. Both 27-slot halves are configured for loot; native opening/merging still needs a Bedrock live check. The change adds no runtime container scanner or refill handler. Pairing repairs apply to newly placed templates; already rolled/looted inventories are preserved.
 
 Intentional original container contents/loot tables are preserved. Existing placed containers are not refilled. No periodic container scanner runs. End-game arena-specific loot and imported Java vault rewards remain separate unfinished work.
 

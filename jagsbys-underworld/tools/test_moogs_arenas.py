@@ -144,6 +144,29 @@ class MoogsArenas(unittest.TestCase):
                     self.assertFalse(name.endswith('_slab') and not name.endswith('_double_slab'),str(path))
         self.assertGreater(found,0)
 
+    def test_imported_double_chests_keep_both_native_loot_tables_across_tile_boundaries(self):
+        from structure_loot import chest_records,chest_facing,LOOT_TABLE
+        def catalog(name):return json.loads((ROOT/'behavior_pack/scripts'/name).read_text().split(' = ',1)[1].rstrip(';\n'))
+        groups=[a['sections'] for name in ('arena_catalog.js','natural_arena_catalog.js') for a in catalog(name).values()]
+        groups += [m['sections'] for m in catalog('modular_fortress_catalog.js')]
+        paired=0;seams=0
+        for sections in groups:
+            records={}
+            for section in sections:
+                r=NBT((ROOT/'behavior_pack/structures'/f"{section['id'].replace(':','/')}.mcstructure").read_bytes());r.read('B');r.string();records.update(chest_records(r.payload(10),section['offset']))
+            for position,record in records.items():
+                e=record['entity']
+                if 'pairx' not in e:continue
+                x,_,z=record['local'];fx=e['x'][1]-x;fz=e['z'][1]-z
+                partner=(e['pairx'][1]+record['offset'][0]-fx,position[1],e['pairz'][1]+record['offset'][2]-fz)
+                self.assertIn(partner,records);other=records[partner];oe=other['entity'];ox,_,oz=other['local'];ofx=oe['x'][1]-ox;ofz=oe['z'][1]-oz
+                face=chest_facing(record['block']);self.assertEqual(face,chest_facing(other['block']))
+                self.assertEqual(partner[2] if face in (2,3) else partner[0],position[2] if face in (2,3) else position[0])
+                self.assertEqual((oe['pairx'][1]+other['offset'][0]-ofx,oe['pairz'][1]+other['offset'][2]-ofz),(position[0],position[2]))
+                self.assertEqual(e['pairlead'][1]+oe['pairlead'][1],1);self.assertEqual(e['LootTable'][1],LOOT_TABLE);paired+=1
+                if record['root'] is not other['root']:seams+=1
+        self.assertGreater(paired,0);self.assertGreater(seams,0,'Pairs crossing natural 16-block tiles must also be linked')
+
     def test_native_trial_presets_have_the_configured_mobs_and_valid_local_positions(self):
         encounters=json.loads((ROOT/'behavior_pack/scripts/trial_encounter_catalog.js').read_text().split(' = ',1)[1].rstrip(';\n'))
         config=json.loads((ROOT/'TRIAL_ENCOUNTERS.json').read_text())

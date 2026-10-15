@@ -31,7 +31,9 @@ class NaturalTiles(unittest.TestCase):
                         if tx<=x<tx+nx and tz<=z<tz+nz:
                             expected_count+=1;n=(x-tx)*sy*nz+y*nz+z-tz;got=actual[str(n)][1]['block_entity_data'][1];original=e[1]['block_entity_data'][1]
                             self.assertEqual(got['x'][1],x-tx);self.assertEqual(got['y'][1],y);self.assertEqual(got['z'][1],z-tz)
-                            self.assertEqual({k:v for k,v in got.items() if k not in ('x','z')},{k:v for k,v in original.items() if k not in ('x','z')})
+                            for field,delta in [('pairx',tx),('pairz',tz)]:
+                                if field in original:self.assertEqual(got[field][1],original[field][1]-delta)
+                            self.assertEqual({k:v for k,v in got.items() if k not in ('x','z','pairx','pairz')},{k:v for k,v in original.items() if k not in ('x','z','pairx','pairz')})
                     self.assertEqual(len(actual),expected_count)
                 self.assertEqual(len(covered),sx*sz)
             self.assertEqual(total,a['size'][0]*a['size'][1]*a['size'][2])

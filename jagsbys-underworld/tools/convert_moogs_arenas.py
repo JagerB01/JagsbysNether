@@ -331,6 +331,8 @@ def convert(arena,schema,layout=None,asset_folder=None):
             w=NBT();w.write('B',10);w.put_string('');w.put(10,root);tile=f'section_{x0//64}_{z0//64}'
             (out/f'{tile}.mcstructure').write_bytes(w.stream.getvalue())
             sections.append({'id':f'jagsby_nether:arenas/{asset_folder}/{tile}','offset':[x0,0,z0],'size':list(size)})
+    from update_structure_chests import process as pair_sections
+    pair_sections(sections)
     return {'display_name':arena.replace('_',' ').title(),'size':list(total),'spawn_enabled':True,'sections':sections,
             'source_pieces':[{'location':loc,'offset':list(sub(o,low)),'rotation':r*90} for loc,o,r,d in pieces],
             'joins':joints,'omitted_encounter_pools':omitted,'conversion_counts':dict(stats)}

@@ -34,7 +34,10 @@ def generate():
                     for key,entry in entities.items():
                         x,rem=divmod(int(key),sy*sz);y,z=divmod(rem,sz)
                         if tx<=x<tx+nx and tz<=z<tz+nz:
-                            e=copy.deepcopy(entry);compound=e[1]['block_entity_data'][1];compound['x']=(3,x-tx);compound['z']=(3,z-tz);be[str((x-tx)*sy*nz+y*nz+z-tz)]=e
+                            e=copy.deepcopy(entry);compound=e[1]['block_entity_data'][1];compound['x']=(3,x-tx);compound['z']=(3,z-tz)
+                            if 'pairx' in compound:compound['pairx']=(3,compound['pairx'][1]-tx)
+                            if 'pairz' in compound:compound['pairz']=(3,compound['pairz'][1]-tz)
+                            be[str((x-tx)*sy*nz+y*nz+z-tz)]=e
                     newst['palette'][1]['default'][1]['block_position_data']=(10,be)
                     ox,oy,oz=section['offset'];identifier=f'jagsby_nether:arenas_natural/{name}/tile_{ox+tx}_{oz+tz}'
                     path=ROOT/'behavior_pack/structures'/f"{identifier.replace(':','/')}.mcstructure";path.parent.mkdir(parents=True,exist_ok=True)
