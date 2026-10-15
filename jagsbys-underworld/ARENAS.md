@@ -112,3 +112,7 @@ Placement runs once after completion with a small temporary chunk lease, with
 no periodic mob checks or backfill of existing structures. Manual template
 commands use the same sites. A saved placement claim prevents respawning after
 defeat or update. Containment and progression remain future work.
+
+## Choose the next natural giant for testing
+
+Run `/scriptevent jagsby_nether:next_giant mega_fortress` (or `dragon_arena` / `large_arena`). The world remembers this one-shot choice across reloads and failed/deferred surveys. Normal all-three-footprint, spacing and loading requirements still apply; this does not place a structure instantly. It clears once the chosen new natural build reserves its site and starts generating. Existing builds and manual templates do not consume it. Use `status` to inspect or `clear` to restore equal random selection. This adds no recurring checks.

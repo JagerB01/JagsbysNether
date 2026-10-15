@@ -1,4 +1,4 @@
-# Infernal Lords — v0.2.108 integration test
+# Infernal Lords — v0.2.109 integration test
 
 This build integrates the three Infernal Lords, Ashen Tower Wraith and Crimson
 Necromancer directly into Underworld. Activate Underworld's BP and RP; disable
@@ -53,7 +53,13 @@ override. Test alongside MineScape and any other HUD packs: only one pack can ow
 a conflicting JSON UI definition, and target inspection can share action-bar
 space with other add-ons.
 
-Boss direct loot tables remain original, including Nameless/Wretched/Blaze Keys.
+Boss direct loot retains Nameless/Wretched/Blaze Keys and its existing rewards.
+Each kill additionally guarantees exactly one matching placeholder ingredient:
+Malzareth drops Withered Heart, Nerezhal drops Weeping Soul, and Baelgor drops
+Ruinous Ember. These fire-resistant, stackable items currently reuse their
+respective boss-key icons until custom artwork is supplied. Native unconditional
+loot pools provide the drops without player-kill restrictions, Looting bonuses or
+new script checks.
 Their delayed **bonus** rewards use `chests/underworld_structure`, as requested.
 The keys have no new progression use in this release. Original Vanguard glaive
 and Frozen Zombie frost equipment are included only because summoned support
@@ -177,6 +183,6 @@ correct floor contact, awakening, and no respawn after defeat or world reload.
 Do not reuse a claimed origin when testing a fresh encounter.
 
 Later work remains separate: arena containment, explicit defeat/quest tracking,
-and Withered Heart / Weeping Soul / Ruinous Ember plus the planned Grimoire.
+and the planned Grimoire recipe and uses for the three boss ingredients.
 The placement ledger prevents automatic respawns; it does not implement quests
 or containment.

@@ -1,3 +1,4 @@
+import {nextGiant,nextGiantCommand,consumeNextGiant} from './next_giant.js';
 import {placePlannedStructureBoss} from './infernal_lords/structure_bosses.js';
 import {recordEncounterSite} from './trial_encounters.js';
 import {world,system} from '@minecraft/server';
@@ -71,6 +72,7 @@ export function* generateLandmark(c,dimension){
  const progress=message=>{status=`${c.family==='giant'&&!c.saved&&!c.selected?'Giant site':ARENAS[c.id].display_name}: ${message} (${Math.floor((system.currentTick-started)/20)}s).`;};
  try{
   let record=c.saved,plan;
+  let forced;
   if(record)c={...c,id:record.id};
   else if(c.family==='giant'&&!c.selected&&TEST_ONLY_GIANT)c={...c,id:TEST_ONLY_GIANT,selected:true};
   if(!record){
@@ -81,7 +83,7 @@ export function* generateLandmark(c,dimension){
     status='Landmark skipped: spacing changed since candidate selection.';return {outcome:'skipped'};
    }
    status=`Surveying ${ARENAS[c.id].display_name} at ${c.x}, ${c.z}.`;
-   plan=c.family==='giant'&&!c.selected?yield* assessGiantSite(c,dimension,{progress,allowed:(id,box)=>spacingAllows({...c,id},box,records,villages)}):c.id==='mega_fortress'?yield* surveyModularFortress(c,dimension,{progress,coreOnly:true,allowed:box=>spacingAllows({...c,id:'mega_fortress'},box,records,villages)}):yield* surveyLandmark(c,dimension,progress);
+   plan=c.family==='giant'&&!c.selected?yield* assessGiantSite(c,dimension,{progress,forcedId:()=>{forced=nextGiant();return forced?.id;},allowed:(id,box)=>spacingAllows({...c,id},box,records,villages)}):c.id==='mega_fortress'?yield* surveyModularFortress(c,dimension,{progress,coreOnly:true,allowed:box=>spacingAllows({...c,id:'mega_fortress'},box,records,villages)}):yield* surveyLandmark(c,dimension,progress);
    if(plan.outcome!=='ready'){
     if(plan.outcome==='unsuitable')reject(c,plan.reason);
     else retries.set(attemptKey(c),system.currentTick+1200);
@@ -98,6 +100,7 @@ export function* generateLandmark(c,dimension){
    }
    record={infernalLordsVersion:1,state:'placing',id:c.id,family:c.family,x:c.x,z:c.z,origin:plan.origin,box:plan.box,surface:plan.surface,ocean:plan.ocean,carve:plan.carve??false,solidFoundation:plan.solidFoundation??plan.carve??false,coreNoCarve:plan.coreNoCarve??false,modular:plan.modular??false,modules:plan.modules,incremental:plan.modular??false,expansionNext:plan.modular?Math.max(...plan.modules)+1:1,next:0};
    save(c,record);
+   if(record.id===forced?.id)consumeNextGiant(forced);
   }
   let arena=record.modular?{display_name:'Mega Fortress',sections:modularSections(record.modules)}:NATURAL_ARENAS[c.id];
   for(let index=record.next;;index++){
@@ -171,8 +174,9 @@ system.runInterval(()=>{
  // One queued job at most; villages and templates share the same budgeted worker.
  busy=true;runGenerationJob(naturalSearch());
 },100);
-system.afterEvents.scriptEventReceive.subscribe(({id,sourceEntity:player})=>{
+system.afterEvents.scriptEventReceive.subscribe(({id,message,sourceEntity:player})=>{
  if(player?.typeId!=='minecraft:player')return;
+ if(id==='jagsby_nether:next_giant')player.sendMessage(nextGiantCommand(message));
  if(id==='jagsby_nether:structures_diagnostics'){
   let history;try{history=JSON.parse(world.getDynamicProperty('underworld_landmarks:diagnostics')??'[]');}catch{history=[];}
   player.sendMessage(history.length?history.slice(-4).map(r=>`${r.id} at ${r.x}, ${r.z}: ${r.outcome} — ${r.reason}`).join('\n'):'No completed landmark assessments recorded yet.');

@@ -1,3 +1,4 @@
+import {nextGiant,nextGiantCommand} from '../behavior_pack/scripts/next_giant.js';
 import {modularSections} from '../behavior_pack/scripts/modular_fortress.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -79,4 +80,16 @@ test('interrupted natural builds resume at the next tile without duplicating com
 });
 test('cancelling a queued worker before its first tick releases the shared queue',()=>{
  const cancel=runGenerationJob((function*(){assert.fail('Cancelled job ran');})());cancel();assert(!generationBusy());
+});
+
+test('new natural reservation consumes requested type once; resuming does not consume the next choice',()=>{
+ const c={...candidateAt('giant',180,180,222),selectionRoll:.99},f=fixture(),old=world.structureManager;
+ world.structureManager={place:()=>{}};
+ let job;
+ try{
+  nextGiantCommand('large_arena');job=generateLandmark(c,f.dimension);
+  for(let i=0;i<50000&&!world.getDynamicProperty(c.key);i++){assert.equal(job.next().done,false);system.currentTick++;}
+  const saved=JSON.parse(world.getDynamicProperty(c.key));assert.equal(saved.id,'large_arena');assert.equal(saved.state,'placing');assert.equal(nextGiant(),undefined);job.return();
+  nextGiantCommand('dragon_arena');job=generateLandmark({...c,saved},f.dimension);job.next();job.return();assert.equal(nextGiant().id,'dragon_arena');
+ }finally{job?.return();nextGiantCommand('clear');world.structureManager=old;world.setDynamicProperty(c.key,undefined);}
 });

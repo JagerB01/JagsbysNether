@@ -1,13 +1,13 @@
 {
   "format_version": 2,
   "header": {
-    "name": "Jagsby's Underworld v0.2.108 Behavior",
+    "name": "Jagsby's Underworld v0.2.109 Behavior",
     "description": "Nether villages, biome-selected crops, native villagers and scoped lava fishing.",
     "uuid": "174ec47b-0dbf-5e50-abe7-ca5c0023348a",
     "version": [
       0,
       2,
-      108
+      109
     ],
     "min_engine_version": [
       1,
@@ -22,7 +22,7 @@
       "version": [
         0,
         2,
-        108
+        109
       ]
     },
     {
@@ -32,7 +32,7 @@
       "version": [
         0,
         2,
-        108
+        109
       ],
       "entry": "scripts/main.js"
     }
@@ -43,7 +43,7 @@
       "version": [
         0,
         2,
-        108
+        109
       ]
     },
     {

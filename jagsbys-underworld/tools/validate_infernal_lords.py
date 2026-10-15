@@ -118,6 +118,18 @@ def validate(bp, rp):
             assert label+'=' in language, label
     for identifier in ('nameless_one','wretched_wraith','boss_wildfire'):
         assert 'chests/underworld_structure' in (bp / f'functions/loot/{identifier}.mcfunction').read_text()
+    for boss, drop in [('nameless_one','withered_heart'),('wretched_wraith','weeping_soul'),('boss_wildfire','ruinous_ember')]:
+        table_path = f'loot_tables/entities/{boss}.json'
+        assert actors['dungeons:'+boss]['components']['minecraft:loot']['table'] == table_path
+        table = read(bp / table_path)
+        assert not table.get('conditions'), f'{boss}: drop cannot depend on a kill condition'
+        matches = [pool for pool in table['pools'] if any(entry.get('name') == 'jagsby_nether:'+drop for entry in pool.get('entries',[]))]
+        assert len(matches) == 1, f'{boss}: exactly one guaranteed ingredient pool'
+        pool = matches[0]
+        assert pool['rolls'] == 1 and not pool.get('conditions') and len(pool['entries']) == 1
+        entry = pool['entries'][0]
+        assert entry['type'] == 'item' and not entry.get('conditions')
+        assert entry['functions'] == [{'function':'set_count','count':1}], f'{boss}: no Looting multiplier or variable quantity'
     assert all(not list((bp / 'spawn_rules').rglob(f'*{name}*')) for name in ('nameless','wretched','wildfire','necromancer','tower_wraith'))
     print(f'Infernal Lords: verified {len(ids)} scoped actors, {len(source["files"])} assets, {len(source["required_sound_events"])} recorded custom sounds')
 

@@ -157,6 +157,15 @@
     },
     "egg_nameless_one": {
       "textures": "textures/items/spawn_eggs/spawn_egg_nameless_one"
+    },
+    "jagsby_nether_withered_heart": {
+      "textures": "textures/items/key/nameless_one"
+    },
+    "jagsby_nether_weeping_soul": {
+      "textures": "textures/items/key/wretched_wraith"
+    },
+    "jagsby_nether_ruinous_ember": {
+      "textures": "textures/items/key/hovering_inferno"
     }
   }
 }

@@ -5,8 +5,9 @@ export const GIANT_WEIGHTS={large_arena:1,dragon_arena:1,mega_fortress:1};
 // Natural selection restored for all three giants.
 export const TEST_ONLY_GIANT=null;
 export const FIT_ORDER=['dragon_arena','large_arena','mega_fortress'];
-export function chooseFittingGiant(ids,roll){
+export function chooseFittingGiant(ids,roll,forcedId){
  if(!FIT_ORDER.every(id=>ids.includes(id)))return undefined;
+ if(FIT_ORDER.includes(forcedId))return forcedId;
  if(TEST_ONLY_GIANT)return TEST_ONLY_GIANT;
  const entries=Object.entries(GIANT_WEIGHTS).filter(([id])=>ids.includes(id));
  if(!entries.length)return undefined;
@@ -40,7 +41,7 @@ export function giantStartingBox(c,id){
  if(id==='mega_fortress')return modularCoreBox(c);
  const a=ARENAS[id];return {x:c.x-Math.floor(a.size[0]/2),z:c.z-Math.floor(a.size[2]/2),sx:a.size[0],sz:a.size[2]};
 }
-export function* assessGiantSite(c,dimension,{progress=()=>{},allowed=()=>true,survey=surveyGiant}={}){
+export function* assessGiantSite(c,dimension,{progress=()=>{},allowed=()=>true,survey=surveyGiant,forcedId}={}){
  const fits=new Map(),reasons=[],cache=footprintSurveyCache(dimension);
  for(const id of FIT_ORDER){
   const a=ARENAS[id],box=giantStartingBox(c,id);
@@ -51,7 +52,7 @@ export function* assessGiantSite(c,dimension,{progress=()=>{},allowed=()=>true,s
   if(plan.outcome==='deferred')return {outcome:'deferred',reason:`${a.display_name} assessment incomplete: ${plan.reason}`};
   if(plan.outcome==='ready')fits.set(id,plan);else reasons.push(`${a.display_name}: ${plan.reason}`);
  }
- const id=chooseFittingGiant([...fits.keys()],c.selectionRoll??.5);
+ const id=chooseFittingGiant([...fits.keys()],c.selectionRoll??.5,typeof forcedId==='function'?forcedId():forcedId);
  if(!id)return {outcome:'unsuitable',reason:`Site must fit all three giants. ${reasons.join('; ')}`};
  return {...fits.get(id),id,fitting:[...fits.keys()]};
 }

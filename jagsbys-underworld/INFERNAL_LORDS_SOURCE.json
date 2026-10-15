@@ -552,19 +552,22 @@
       "source": "BP/loot_tables/entities/nameless_one.json",
       "source_sha256": "a6a89eb09ada3de3e73adba352a44e3089094590291684ad60d3dfa3a161c0a1",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "a6a89eb09ada3de3e73adba352a44e3089094590291684ad60d3dfa3a161c0a1"
+      "integrated_sha256": "a33886d2d20cc40a3c316e9513a63c86654fdee07bbf767c6af09d4663a6000d",
+      "adaptation": "Adds one guaranteed matching boss ingredient; custom artwork pending."
     },
     "BP/loot_tables/entities/boss_wildfire.json": {
       "source": "BP/loot_tables/entities/boss_wildfire.json",
       "source_sha256": "a7ff861f0aa7202f75826bb3b3484be66d988da9634cfbdc0b4d13517571f8ee",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "9c3e929f6ecd9eef583ac74342834e460d664fbbc540f8decda62c31a31d2af1"
+      "integrated_sha256": "09c1886cf26e4a2b96c76761b4c36d7a8154ce78e1a8e9c3d33096f7b745e558",
+      "adaptation": "Adds one guaranteed matching boss ingredient; custom artwork pending."
     },
     "BP/loot_tables/entities/wretched_wraith.json": {
       "source": "BP/loot_tables/entities/wretched_wraith.json",
       "source_sha256": "5c23e078a4a8393702ad0449229ca6a48c746a2d8fedd5c57d26e66cd07531a2",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "5c23e078a4a8393702ad0449229ca6a48c746a2d8fedd5c57d26e66cd07531a2"
+      "integrated_sha256": "c8813cc273665d06be83cc9514b2bc4b72fcda71bd3a248093ece83e53cdd646",
+      "adaptation": "Adds one guaranteed matching boss ingredient; custom artwork pending."
     },
     "BP/loot_tables/entities/tower_wraith.json": {
       "source": "BP/loot_tables/entities/tower_wraith.json",
@@ -3031,6 +3034,21 @@
     "BP/scripts/infernal_lords/boss_sites.js": {
       "source": "Underworld integration",
       "integrated_sha256": "448b4ffafaabcb541ce41de2facbec45b6428be608bdd2eeec88ec59abd9cfe6"
+    },
+    "BP/items/infernal_lords/withered_heart.json": {
+      "source": "Underworld placeholder boss drop",
+      "integrated_sha256": "accbfbcaaa8c266bd3f03c35015295c4f76b0a0b14d0fd0d50ac6e9209d3baad",
+      "adaptation": "Adds one guaranteed matching boss ingredient; custom artwork pending."
+    },
+    "BP/items/infernal_lords/weeping_soul.json": {
+      "source": "Underworld placeholder boss drop",
+      "integrated_sha256": "51fc68a0cf34b9b931578c949b13202cd97d024b68df8835936bed0be3a45157",
+      "adaptation": "Adds one guaranteed matching boss ingredient; custom artwork pending."
+    },
+    "BP/items/infernal_lords/ruinous_ember.json": {
+      "source": "Underworld placeholder boss drop",
+      "integrated_sha256": "6e4e3edcce6b8285ab2c9455843093909a97e8438a08bf14fc56045d0d88f602",
+      "adaptation": "Adds one guaranteed matching boss ingredient; custom artwork pending."
     }
   },
   "dynamic_particles": [
@@ -3102,7 +3120,8 @@
     "Glint material and custom arrow geometry scoped; original texture-set/MER companions retained.",
     "Requested primary entity/egg display names applied; source key/equipment names explicitly localized.",
     "Radiance ally lookup and removed-caster guards fixed without changing numerical effect values.",
-    "Dormant bosses placed once at verified authored markers in new matching structures only. A saved per-site claim prevents duplicates/respawns; no ongoing checks or existing-world backfill."
+    "Dormant bosses placed once at verified authored markers in new matching structures only. A saved per-site claim prevents duplicates/respawns; no ongoing checks or existing-world backfill.",
+    "v0.2.109: Withered Heart, Weeping Soul and Ruinous Ember are placeholder ingredients, each guaranteed once in its matching boss direct loot pool. Temporary icons reuse the respective existing key artwork; no Grimoire recipe implemented."
   ],
   "native_loot_tables": [
     "loot_tables/entities/zombie.json",
