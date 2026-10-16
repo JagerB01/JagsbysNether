@@ -1,3 +1,4 @@
+import {casterHit} from './arena_damage.js';
 import { DimensionTypes } from "@minecraft/server";
 import { world } from "./runtime.js";
 import { scopedSystem } from "./runtime.js";
@@ -5,6 +6,13 @@ const system = scopedSystem("necromancer");
 
 
 import { isValidTarget, makeVector, getDirection } from "./helpers.js"
+
+
+// Set the base before the existing enchanted-mob multiplier runs.
+world.beforeEvents.entityHurt.subscribe(e=>{
+ if(e.cancel||e.damageSource.cause!=='projectile'||e.damageSource.damagingProjectile?.typeId!=='dungeons:necromancer_shot')return;
+ e.damage*=casterHit(world.getDifficulty())/10;
+});
 
 const huskBiomes = [
     "minecraft:desert",

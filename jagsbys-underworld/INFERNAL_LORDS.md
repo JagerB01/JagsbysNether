@@ -1,4 +1,4 @@
-# Infernal Lords — v0.2.110 integration test
+# Infernal Lords — v0.2.111 integration test
 
 This build integrates the three Infernal Lords, Ashen Tower Wraith and Crimson
 Necromancer directly into Underworld. Activate Underworld's BP and RP; disable
@@ -192,3 +192,13 @@ or containment.
 Malzareth's original server casting controller is restored. Teleport events no longer depend on a tag set only during transformation, so direct summons and existing untagged bosses can teleport too. Malzareth and Nerezhal use bounded local floor/clearance searches with native collision validation; failed teleports produce no success effects. Nerezhal can return home in the Nether and use teleport/floor-fire abilities on the arena's stone instead of requiring Overworld ice. Bullet-hell floor-fire placement yields between columns and stops if the caster unloads. Two projectile friendly-fire handlers now reference the actual hurt entity. All three active and dormant bosses have native fire immunity plus fire/fire-tick/lava damage exclusions in every damage-sensor phase. These changes add no idle polling.
 
 Automated ability tests cover Malzareth's close/distant/post-cast teleports, projectile fan and vanguard mode switch; Nerezhal's Nether teleport, home return, melee, floor fire and owned projectile fans; Baelgor's shield-break transition, shockwave and minions. Native awakening, combat animation timing and full encounters still need Bedrock playtesting. Check `/scriptevent jagsby_nether:lords_status` for script failures during combat.
+
+## v0.2.111 arena caster balance
+
+| Raw damage | Easy | Normal | Hard |
+|---|---:|---:|---:|
+| Necromancer projectile | 6 | 10 | 14 |
+| Tower Wraith fire/poison opening hit, per player per cast | 6 | 10 | 14 |
+| Tower Wraith lingering pulse | 1 | 1.5 | 2 |
+
+The Hard opening hit is slightly below an armed Bedrock Piglin Brute (roughly 15 raw damage). Necromancer projectile scaling preserves earlier damage modifiers and the existing enchanted 1.5x multiplier (21 on Hard). Tower Wraith spell hazards retain their fire/magic causes and existing resistance/poison behavior; these raw figures are not guaranteed final health loss. Repeating hazards do not apply a full opening hit every half-second: all patches from one fire cast share successful-hit history, while each poison cloud tracks the players it has successfully hit. Different players and fresh casts get their own opening hit. Other wraith and boss hazards are unchanged. Fire history is bounded and pruned only during active hits; no new interval or background scan is added.

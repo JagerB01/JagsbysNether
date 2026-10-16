@@ -1,3 +1,4 @@
+import {casterHit,casterLinger} from './arena_damage.js';
 import { DimensionTypes } from "@minecraft/server";
 import { world } from "./runtime.js";
 import { scopedSystem } from "./runtime.js";
@@ -5,7 +6,7 @@ const system = scopedSystem("actors");
 
 
 //cloud
-function createPoisonCloud(timeLeft, dim, loc) {
+function createPoisonCloud(timeLeft, dim, loc, hitPlayers=new Set()) {
     if (timeLeft <= 0) return;
     if (timeLeft > 1) {
         dim.spawnParticle("dungeons:enemy_poison_cloud_smoke", loc)
@@ -17,17 +18,16 @@ function createPoisonCloud(timeLeft, dim, loc) {
         families: ["player"]
     });
     for (const target of damageRange) {
-        var damage = 2
-        if(world.getDifficulty() == "Hard") damage += 3
-        if(world.getDifficulty() == "Easy") damage -= 0.5
+        const damage = hitPlayers.has(target.id)?casterLinger(world.getDifficulty()):casterHit(world.getDifficulty());
         const damageDone = target.applyDamage(damage, { cause: "magic" })
         if (damageDone) {
+            hitPlayers.add(target.id);
             target.applyKnockback({ x: 0, z: 0 }, -0.1)
             target.addEffect("fatal_poison", 11)
         }
     }
     system.runTimeout(() => {
-        createPoisonCloud(timeLeft - 1, dim, loc)
+        createPoisonCloud(timeLeft - 1, dim, loc, hitPlayers)
     }, 10)
 }
 

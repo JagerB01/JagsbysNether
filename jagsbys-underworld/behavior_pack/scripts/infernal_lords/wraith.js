@@ -1,3 +1,4 @@
+import {casterHit,casterLinger,fireCastHits} from './arena_damage.js';
 import { EntityDamageCause } from "@minecraft/server";
 import { world } from "./runtime.js";
 import { scopedSystem } from "./runtime.js";
@@ -121,6 +122,8 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
         if (damageRange.length < 1) return;
         var targets = []
 
+        const towerFire=entity.getDynamicProperty("dungeons:fire_type")==="tower_wraith";
+        const hitPlayers=towerFire?fireCastHits(entity.getDynamicProperty("jagsby_nether:fire_cast")??entity.id,system.currentTick):undefined;
         var damage = 2
         if (world.getDifficulty() == "Hard") damage += 1
         if (world.getDifficulty() == "Easy") damage -= 1
@@ -138,8 +141,10 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
         }
         if (targets.length < 1) return;
         for (const target of targets) {
-            const didDamage = target.applyDamage(damage, { cause: EntityDamageCause.fire })
-            if (didDamage && damage > 1) target.setOnFire(damage - 0.95)
+            const hitDamage=towerFire?(hitPlayers.has(target.id)?casterLinger(world.getDifficulty()):casterHit(world.getDifficulty())):damage;
+            const didDamage = target.applyDamage(hitDamage, { cause: EntityDamageCause.fire })
+            if (didDamage && towerFire) hitPlayers.add(target.id);
+            if (didDamage && damage > 1) target.setOnFire(towerFire?1:damage - 0.95)
         }
     }
 })
@@ -287,7 +292,8 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
             }
         }
         if (!entity.isValid) return;
-        entity.setDynamicProperty("dungeons:fire_type", "enchanted_wraith")
+        entity.setDynamicProperty("dungeons:fire_type", "tower_wraith")
+        entity.setDynamicProperty("jagsby_nether:fire_cast", entity.id)
         dim.playSound("mob.wraith.fire", block.bottomCenter())
         const offsets = [
             { x: 2, z: 1 },
@@ -319,7 +325,8 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
                     const isFire = dim.getEntities({ location: newblock.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 })
                     if (isFire.length >= 1) continue;
                     const newFire = dim.spawnEntity(entity.typeId, newblock.bottomCenter())
-                    newFire.setDynamicProperty("dungeons:fire_type", "enchanted_wraith")
+                    newFire.setDynamicProperty("dungeons:fire_type", "tower_wraith")
+                    newFire.setDynamicProperty("jagsby_nether:fire_cast", entity.id)
                     newFire.addEffect("invisibility", 3, { showParticles: false })
                 }
             }

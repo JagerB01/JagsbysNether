@@ -1,4 +1,4 @@
-# Glowsquito and Glowhusk — v0.2.110
+# Glowsquito and Glowhusk — v0.2.111
 
 Glowsquito imports only the user-supplied Infernal Expansion visual design: the original normal/glow textures and converted ten-part Java model with its constant wing flapping. No Java gameplay, sounds, other mobs, items, structures or biomes are imported. The separate pollen sac is a Bedrock visual extension. Apache-2.0 attribution, hashes and model reference are bundled in `docs/glowsquito/`.
 
@@ -14,7 +14,7 @@ Glowhusk currently uses vanilla Shroomlight artwork on a cube. Glow Wax uses the
 - Native fungus seeking stays at Crimson or Warped Fungus for 20 seconds and signals pollen collection. The fungus is never removed or modified. Returning to the assigned hive deposits one unit, capped at five. Residents rest hidden inside for 30 loaded seconds, then exit into a free neighboring air block. Blocked/unloaded exits retain the original resident for retry.
 - Five deposits make a Glowhusk harvestable. Use shears for **one Glow Wax**, resetting the level to zero; shears respect Creative and Unbreaking. Early shearing gives nothing. Glow Wax + Redstone Dust crafts **two Gunpowder**. No ordinary drops or recipes are overridden.
 - A lit campfire or soul campfire on the same column within five blocks beneath the hive calms harvesting, unless a solid block interrupts its smoke. Colony members otherwise become angry for 25 seconds.
-- Look at a hive and run `/scriptevent jagsby_nether:glowhusk_status` to read its wax level and assigned occupancy. v0.2.110 installs this diagnostic before mob subscriptions, acknowledges missed targets, and reports subscription/raycast failures in chat. Spawn/load subscriptions use their supported single-argument signatures.
+- Look at a hive and run `/scriptevent jagsby_nether:glowhusk_status` to read its wax level and assigned occupancy. v0.2.111 installs this diagnostic before mob subscriptions, acknowledges missed targets, and reports subscription/raycast failures in chat. Spawn/load subscriptions use their supported single-argument signatures.
 
 ## Persistence and performance
 

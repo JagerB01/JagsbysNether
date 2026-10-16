@@ -181,7 +181,7 @@
       "source": "BP/entities/utility/necromancer_shot.json",
       "source_sha256": "ef7b02d921923bba95d87ec18101562db0a768d581366f0f6c32130e82ba1008",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "2284274b2a67845d43271b12ebae558fd1f585b92c313a174bb2ffdac55afd0c"
+      "integrated_sha256": "50029a85408057875cd5a5fd12891f73e29b77fd4db463b128aab2d761e191b8"
     },
     "BP/entities/utility/tower_wraith_fire.json": {
       "source": "BP/entities/utility/tower_wraith_fire.json",
@@ -252,19 +252,19 @@
       "source": "BP/scripts/misc/entityBehaviour/towerWraith.js",
       "source_sha256": "f559613f2a912f33c8305021666d9fb5480ee33396a1ac97094e243b58e2b4b6",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "6e8ea69d40161b8c62d8cc306da087fc30697ab19eaa27c49bddc35b253402a0"
+      "integrated_sha256": "b184c858144fe4a74dee0574043b1712ba044dd5caf5d141fd882c4b8937340d"
     },
     "BP/scripts/infernal_lords/wraith.js": {
       "source": "BP/scripts/misc/entityBehaviour/wraith.js",
       "source_sha256": "cd4dc86cd9f4f5f36cd88d57d038ece13d4320b1599d074e560a710b91ad5e23",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "1cada01d2d72c10333845eaec2f59eb81e6ed06eae017f5dbd5d7fb3d12155ab"
+      "integrated_sha256": "91c78d57471fa34444504891bc201d5360452990530cbdf4c7440a17ba323c90"
     },
     "BP/scripts/infernal_lords/necromancer.js": {
       "source": "BP/scripts/misc/entityBehaviour/necromancer.js",
       "source_sha256": "af968d4b51652d0e35c361d46e08dc420b6a14915002fbcf04f970d04cd860c6",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "f5835c4e131d329de1b97a7ae1a0ebed46899fe32f1b36e4c868fc8d097e9196"
+      "integrated_sha256": "1cd6198c70233c887067edf706275b2f24f1fa37e2183f4b6cb7c8d78b81be60"
     },
     "BP/scripts/infernal_lords/enchantedMobs.js": {
       "source": "BP/scripts/misc/entityBehaviour/enchantedMobs.js",
@@ -3059,6 +3059,10 @@
     "BP/scripts/infernal_lords/teleport.js": {
       "source": "Underworld bounded local teleport adaptation",
       "integrated_sha256": "ea7d7a21f949547c3cd41bc584581d9a3d0965a5c4e019d028e943eceea925ae"
+    },
+    "BP/scripts/infernal_lords/arena_damage.js": {
+      "source": "Underworld requested arena caster balance",
+      "integrated_sha256": "3041a939e86d187eb22fb223e47fce79cb515b6d39bc9f4f1986dfaf5776d0d3"
     }
   },
   "dynamic_particles": [
@@ -3132,7 +3136,8 @@
     "Radiance ally lookup and removed-caster guards fixed without changing numerical effect values.",
     "Dormant bosses placed once at verified authored markers in new matching structures only. A saved per-site claim prevents duplicates/respawns; no ongoing checks or existing-world backfill.",
     "v0.2.109: Withered Heart, Weeping Soul and Ruinous Ember are placeholder ingredients, each guaranteed once in its matching boss direct loot pool. Temporary icons reuse the respective existing key artwork; no Grimoire recipe implemented.",
-    "v0.2.110: restored the original Malzareth server casting controller; repaired tag-gated teleports, local landing/collision checks, projectile hurt targets, and Nerezhal Nether home/stone-floor abilities; native active/dormant boss fire/lava immunity in every damage-sensor phase. Bounded combat jobs add no idle polling."
+    "v0.2.110: restored the original Malzareth server casting controller; repaired tag-gated teleports, local landing/collision checks, projectile hurt targets, and Nerezhal Nether home/stone-floor abilities; native active/dormant boss fire/lava immunity in every damage-sensor phase. Bounded combat jobs add no idle polling.",
+    "v0.2.111: requested near-Brute base hits: necromancer projectiles and Tower Wraith spell opening hits use 6/10/14 raw damage on Easy/Normal/Hard; lingering Tower Wraith pulses use 1/1.5/2. Fire patches share per-cast hit history; no new idle polling. Necromancer enchanted/upstream damage multipliers preserved. Other wraith and boss hazards unchanged."
   ],
   "native_loot_tables": [
     "loot_tables/entities/zombie.json",
