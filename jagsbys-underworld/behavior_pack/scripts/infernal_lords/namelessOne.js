@@ -1,6 +1,6 @@
 import {teleportDestination} from './teleport.js';
 import { EntityDamageCause } from "@minecraft/server";
-import { world } from "./runtime.js";
+import { world,recordBossAction } from "./runtime.js";
 import { scopedSystem } from "./runtime.js";
 const system = scopedSystem("actors");
 
@@ -62,41 +62,8 @@ world.afterEvents.entitySpawn.subscribe((e) => {
     }
 })
 
-world.afterEvents.projectileHitBlock.subscribe((e) => {
-    const entity = e.projectile;
-    const loc = e.location;
-    const dim = e.dimension;
-    if (entity.typeId == "dungeons:nameless_one_projectile") {
-        const proj = entity.getComponent("minecraft:projectile")
-        entity.remove()
-    }
-})
-world.afterEvents.projectileHitEntity.subscribe((e) => {
-    const entity = e.projectile;
-    const hit = e.getEntityHit().entity
-    if (!hit.isValid) return;
-    const dim = hit.dimension
-    const loc = e.location;
-    if (entity.typeId == "dungeons:nameless_one_projectile") {
-        system.runTimeout(() => {
-            if (entity.isValid) entity.remove()
-        }, 100)
-        if (!entity.isValid) return;
-        const proj = entity.getComponent("minecraft:projectile")
-        const owner = proj.owner;
-        if (!owner || !owner.isValid) {
-            entity.remove()
-            return;
-        }
-        if (hit.matches({ families: ["undead"] })) return;
-        if (hit.matches({ families: ["monster"] })) return;
-        var damage = 9
-        if(world.getDifficulty() == "Normal") damage = 6
-        if(world.getDifficulty() == "Easy") damage = 4
-        hit.applyDamage(damage, { damagingEntity: owner, cause: EntityDamageCause.magic })
-        entity.remove()
-    }
-})
+// Native on_hit applies impact damage and removes the projectile. This also
+// works with Fire Resistance and without a live owner in an after-hit event.
 world.beforeEvents.entityHurt.subscribe((e) => {
     const hurt = e.hurtEntity;
     if (!hurt) return;
@@ -108,6 +75,8 @@ world.beforeEvents.entityHurt.subscribe((e) => {
     const cause = e.damageSource.cause;
     if (cause !== EntityDamageCause.projectile) return;
 
+    const base=world.getDifficulty()==="Hard"?9:world.getDifficulty()==="Easy"?4:6;
+    e.damage*=base/6;
     if (hurt.matches({ families: ["undead"] }) || hurt.matches({ families: ["monster"] })) {
         e.cancel = true;
         e.damage = 0
@@ -124,6 +93,7 @@ function teleport(entity, loc) {
     const dim = entity.dimension;
     const teleportLoc = teleportDestination(entity, loc);
     if (!teleportLoc || !entity.tryTeleport(teleportLoc, {checkForBlocks: true})) return;
+    recordBossAction(entity,'teleport_success');
     dim.playSound("mob.nameless_one.teleport_out", entityLoc)
     dim.spawnParticle("dungeons:nameless_teleport_out", entityLoc)
     system.runTimeout(() => {

@@ -180,11 +180,16 @@ export function* fillSupports(dimension,supports,guard=()=>true,carve=false){
  }
 }
 
-export function carveTile(dimension,pos,size){
- // Remove only ordinary Nether terrain. Liquids, bedrock and constructed
- // blocks are not removed by this pass. Native template air clears its rooms.
- const volume=new BlockVolume(pos,{x:pos.x+size[0]-1,y:pos.y+size[1]-1,z:pos.z+size[2]-1});
- dimension.fillBlocks(volume,'minecraft:air',{blockFilter:{includeTypes:CARVABLE}});
+export function carveTile(dimension,pos,size,surface=undefined){
+ // Clear hanging lava with terrain inside this placement volume only. Keep
+ // the ocean at/below the surveyed surface and protect constructed blocks.
+ const end={x:pos.x+size[0]-1,y:pos.y+size[1]-1,z:pos.z+size[2]-1};
+ const lavaBottom=Number.isFinite(surface)?Math.max(pos.y,Math.floor(surface)+1):end.y+1;
+ const volume=new BlockVolume(pos,end);
+ dimension.fillBlocks(volume,'minecraft:air',{blockFilter:{includeTypes:lavaBottom===pos.y?[...CARVABLE,...FLUID]:CARVABLE}});
+ if(lavaBottom>pos.y&&lavaBottom<=end.y){
+  dimension.fillBlocks(new BlockVolume({...pos,y:lavaBottom},end),'minecraft:air',{blockFilter:{includeTypes:FLUID}});
+ }
 }
 
 // Fill only empty space and lava beneath the footprint; existing solids end

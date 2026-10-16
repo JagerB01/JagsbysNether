@@ -31,7 +31,15 @@
           0,
           -0.1,
           0
-        ]
+        ],
+        "on_hit": {
+          "impact_damage": {
+            "damage": 6,
+            "knockback": false,
+            "semi_random_diff_damage": false
+          },
+          "remove_on_hit": {}
+        }
       },
       "minecraft:physics": {},
       "minecraft:pushable": {

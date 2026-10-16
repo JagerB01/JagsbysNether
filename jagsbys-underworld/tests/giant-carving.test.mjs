@@ -72,6 +72,18 @@ test('native carving is filtered to ordinary terrain and never includes bedrock,
  const f=scene();carveTile(f.d,{x:0,y:30,z:0},[16,56,16]);assert.equal(f.fills.length,1);assert.equal(f.fills[0].type,'minecraft:air');assert.deepEqual(f.fills[0].options.blockFilter.includeTypes,CARVABLE);
  for(const id of ['minecraft:bedrock','minecraft:chest','minecraft:obsidian','minecraft:portal','minecraft:lava'])assert(!CARVABLE.includes(id));
 });
+test('carving removes source and flowing lava above the ocean only within the placement volume',()=>{
+ const cells=new Map();const key=p=>`${p.x},${p.y},${p.z}`;
+ for(const [p,id] of [[{x:1,y:35,z:1},'lava'],[{x:1,y:36,z:1},'flowing_lava'],[{x:1,y:31,z:1},'lava'],[{x:3,y:35,z:1},'lava'],[{x:1,y:34,z:1},'chest']])cells.set(key(p),`minecraft:${id}`);
+ const fills=[];const d={fillBlocks(v,type,{blockFilter}){fills.push(v);for(let x=v.from.x;x<=v.to.x;x++)for(let y=v.from.y;y<=v.to.y;y++)for(let z=v.from.z;z<=v.to.z;z++){const k=key({x,y,z});if(blockFilter.includeTypes.includes(cells.get(k)))cells.set(k,type);}}};
+ carveTile(d,{x:0,y:30,z:0},[3,10,3],31);
+ assert.equal(cells.get('1,35,1'),'minecraft:air');assert.equal(cells.get('1,36,1'),'minecraft:air');
+ assert.equal(cells.get('1,31,1'),'minecraft:lava');assert.equal(cells.get('3,35,1'),'minecraft:lava');assert.equal(cells.get('1,34,1'),'minecraft:chest');
+ assert.equal(fills.length,2);assert.equal(fills[1].from.y,32);
+ const f=scene();carveTile(f.d,{x:0,y:33,z:0},[16,45,16],31);
+ assert.equal(f.fills.length,1,'Fully above-surface tiles clear terrain and lava in one filtered write');
+ assert(f.fills[0].options.blockFilter.includeTypes.includes('minecraft:lava'));
+});
 test('supports reach ground below the carve plane instead of relying on an island that will be removed',()=>{
  const d={getBlock:({y})=>({typeId:y<=35?'minecraft:netherrack':'minecraft:air'})};
  const support=finish(supportFor(d,{x:0,y:30,z:0},[0,7,0],true));assert.deepEqual(support,{x:0,z:0,bottom:30,top:36});

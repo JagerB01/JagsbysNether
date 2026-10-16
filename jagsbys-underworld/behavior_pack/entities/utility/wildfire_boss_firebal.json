@@ -36,7 +36,6 @@
           0.5,
           0
         ],
-        "semi_random_diff_damage": true,
         "uncertainty_base": 0.0,
         "reflect_on_hurt": true
       },

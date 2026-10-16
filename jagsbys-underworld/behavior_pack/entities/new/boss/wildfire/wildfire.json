@@ -61,14 +61,13 @@
             }
           ]
         },
-        "minecraft:behavior.timer_flag_1": {
-          "priority": 0,
-          "cooldown_range": 0,
-          "duration_range": [
+        "minecraft:timer": {
+          "looping": false,
+          "time": [
             15,
             20
           ],
-          "on_end": {
+          "time_down_event": {
             "event": "dungeons:end_cooldown",
             "target": "self"
           }
@@ -88,67 +87,55 @@
           "attack_interval_max": 1.5,
           "attack_radius": 20
         },
-        "minecraft:behavior.avoid_mob_type": {},
         "minecraft:entity_sensor": {
-          "sensor_range": 4,
-          "maximum_count": -1,
-          "minimum_count": 1,
-          "require_all": false,
-          "event_filters": {
-            "any_of": [
-              {
-                "all_of": [
+          "subsensors": [
+            {
+              "range": [
+                4,
+                4
+              ],
+              "minimum_count": 1,
+              "cooldown": 1,
+              "event_filters": {
+                "any_of": [
+                  {
+                    "all_of": [
+                      {
+                        "test": "is_family",
+                        "subject": "other",
+                        "value": "player"
+                      },
+                      {
+                        "test": "has_ability",
+                        "subject": "other",
+                        "value": "instabuild",
+                        "operator": "not"
+                      }
+                    ]
+                  },
                   {
                     "test": "is_family",
                     "subject": "other",
-                    "value": "player"
+                    "value": "snowgolem"
                   },
                   {
-                    "test": "has_ability",
+                    "test": "is_family",
                     "subject": "other",
-                    "value": "instabuild",
-                    "operator": "not"
+                    "value": "irongolem"
                   }
                 ]
               },
-              {
-                "test": "is_family",
-                "subject": "other",
-                "value": "snowgolem"
-              },
-              {
-                "test": "is_family",
-                "subject": "other",
-                "value": "irongolem"
-              }
-            ]
-          },
-          "event": "dungeons:begin_shockwave"
+              "event": "dungeons:begin_shockwave"
+            }
+          ]
         }
       },
       "dungeons:shockwave_action": {
-        "minecraft:behavior.avoid_mob_type": {},
-        "minecraft:behavior.timer_flag_2": {
-          "priority": 0,
-          "cooldown_range": 0,
-          "duration_range": [
-            0.51,
-            0.51
-          ],
-          "on_end": {
+        "minecraft:timer": {
+          "looping": false,
+          "time": 0.51,
+          "time_down_event": {
             "event": "dungeons:shockwave_damage",
-            "target": "self"
-          }
-        },
-        "minecraft:behavior.timer_flag_3": {
-          "priority": 0,
-          "cooldown_range": 0,
-          "duration_range": [
-            1,
-            1
-          ],
-          "on_end": {
-            "event": "dungeons:shockwave_end",
             "target": "self"
           }
         }
@@ -339,6 +326,16 @@
           "value": 0.75
         },
         "minecraft:reflect_projectiles": {}
+      },
+      "dungeons:shockwave_recovery": {
+        "minecraft:timer": {
+          "looping": false,
+          "time": 0.49,
+          "time_down_event": {
+            "event": "dungeons:shockwave_end",
+            "target": "self"
+          }
+        }
       }
     },
     "components": {
@@ -541,7 +538,18 @@
           ]
         }
       },
-      "dungeons:shockwave_damage": {},
+      "dungeons:shockwave_damage": {
+        "remove": {
+          "component_groups": [
+            "dungeons:shockwave_action"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "dungeons:shockwave_recovery"
+          ]
+        }
+      },
       "dungeons:shockwave_end": {
         "add": {
           "component_groups": [
@@ -550,7 +558,8 @@
         },
         "remove": {
           "component_groups": [
-            "dungeons:shockwave_action"
+            "dungeons:shockwave_action",
+            "dungeons:shockwave_recovery"
           ]
         }
       },
@@ -577,7 +586,9 @@
         },
         "remove": {
           "component_groups": [
-            "dungeons:shockwave_ready"
+            "dungeons:shockwave_ready",
+            "dungeons:shockwave_cooldown",
+            "dungeons:shockwave_recovery"
           ]
         },
         "queue_command": {
@@ -602,6 +613,20 @@
         "add": {
           "component_groups": [
             "dungeons:shielded",
+            "dungeons:shockwave_ready"
+          ]
+        }
+      },
+      "jagsby_nether:resume_combat": {
+        "remove": {
+          "component_groups": [
+            "dungeons:shockwave_action",
+            "dungeons:shockwave_recovery",
+            "dungeons:shockwave_cooldown"
+          ]
+        },
+        "add": {
+          "component_groups": [
             "dungeons:shockwave_ready"
           ]
         }

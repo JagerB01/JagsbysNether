@@ -140,7 +140,7 @@ export function* generateLandmark(c,dimension,{preparedPlan,forcedSelection,requ
     record.supporting=true;save(c,record);
     if(tileCarve)for(const v of volumes){
      if(!playersClear(players(),activeBox,32)){pauseForPlayer(c);return;}
-     carveTile(dimension,v.pos,v.size);yield;
+     carveTile(dimension,v.pos,v.size,record.surface);yield;
     }
     // Persist native placement before yielding for supports; restart cannot
     // replace an already placed tile or mistake its architecture for terrain.

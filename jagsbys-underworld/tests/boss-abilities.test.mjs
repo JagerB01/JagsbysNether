@@ -37,7 +37,7 @@ test('teleports reject low ceilings, lava floors, unloaded blocks and failed nat
 });
 test('Nerezhal teleports on Nether stone without ice and returns home in the Nether for bullet hell',()=>{
  const f=fixture('dungeons:wretched_wraith');emit(f.entity,'minecraft:entity_spawned');emit(f.entity,'dungeons:wretched_wraith_teleport');assert.equal(f.moves.length,1);
- const start=timeouts.length;emit(f.entity,'dungeons:begin_bullethell_center');assert.deepEqual(f.moves.at(-1),{x:.5,y:64,z:.5});dueThrough(system.currentTick+27,start);assert(f.events.includes('dungeons:bullethell_start'));assert(jobs.length>0);
+ const start=timeouts.length;emit(f.entity,'dungeons:begin_bullethell_center');assert.deepEqual(f.moves.at(-1),{x:.5,y:64,z:.5});f.props.set('dungeons:bullethell',true);emit(f.entity,'dungeons:bullethell_start');dueThrough(system.currentTick+2,start);assert(jobs.length>0);
  const job=jobs.at(-1);job.next();assert.equal(f.spawned.at(-1).typeId,'dungeons:wretched_wraith_fire');f.entity.isValid=false;assert.equal(job.next().done,true);
 });
 test('Nerezhal melee burst damages players and bullet hell launches owned projectile fans',()=>{

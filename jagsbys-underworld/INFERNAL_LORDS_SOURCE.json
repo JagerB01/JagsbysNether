@@ -37,13 +37,13 @@
       "source": "BP/entities/new/boss/nameless_one/nameless_one.json",
       "source_sha256": "8a3e5eb447653f587b5729e119e4963a73f108a3ea37ce03737a026af28cb87f",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "09b0527f28a5388ac13ca0c7053c74776da9c9c6686d80a86e767f27b0f6c067"
+      "integrated_sha256": "689ac889ebb357c352fa6ce886aa8b8f24baa49b3009d50d8a87c510946874d2"
     },
     "BP/entities/new/boss/nameless_one/nameless_one_projectile.json": {
       "source": "BP/entities/new/boss/nameless_one/nameless_one_projectile.json",
       "source_sha256": "2ffd9d92d02e87ec72d0556809706c2f54b5dbeb6ea1f6faf94df05061c06401",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "d9a0ba18969fcf8f93d9473e4a913baa296bb894767a87a4749719f15f373276"
+      "integrated_sha256": "7ddf762ee5b37acea62c1df909ef5188636116012d462ddd857aea192f78ad7d"
     },
     "BP/entities/new/boss/nameless_one/poser_king.json": {
       "source": "BP/entities/new/boss/nameless_one/poser_king.json",
@@ -61,7 +61,7 @@
       "source": "BP/entities/new/boss/wildfire/wildfire.json",
       "source_sha256": "df46a0ee9a913876baf1d8a01cfcf0ec7de8fa9e5872ffef06138b12fd9857b7",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "a5a86e40ee4c722789b5a9ebd5c94ce7ab4ff3d38821fed565abf6c725928e42"
+      "integrated_sha256": "62d6b07e68aa5cbb7de034b2023ff44aee0c4983604560162c89993269cbf7a9"
     },
     "BP/entities/new/boss/wildfire/wildfire_resting.json": {
       "source": "BP/entities/new/boss/wildfire/wildfire_resting.json",
@@ -73,7 +73,7 @@
       "source": "BP/entities/new/boss/wretched_wraith/projectile.json",
       "source_sha256": "fa26e94be5f4397a76efa4fa200fedf8d688c3e06d64564e38e5d05cedab8cb2",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "9925ebbe6fc253eb6c992036642462cb90323e7e0966eb37d43c13a8a8bc5477"
+      "integrated_sha256": "8bdb6769fcf2727f103e0d4bcd73e3bbd5961bf0aaf3ac768647aa88366e3c58"
     },
     "BP/entities/new/boss/wretched_wraith/resting_wraith.json": {
       "source": "BP/entities/new/boss/wretched_wraith/resting_wraith.json",
@@ -85,7 +85,7 @@
       "source": "BP/entities/new/boss/wretched_wraith/wretched_wraith.json",
       "source_sha256": "bc860fede9b6b1d6c62e501490801889bd3c15634466736f02cd5c919ea5d985",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "e17b2fe6f11e304c464cab1b821458daed6fdfa84c49eb2611d4523695e3411f"
+      "integrated_sha256": "8deb63a0876eb36a6694bcc9c7640ce5758f7823483e1e69f55684b62221b1f0"
     },
     "BP/entities/new/boss/wretched_wraith/wretched_wraith_fire.json": {
       "source": "BP/entities/new/boss/wretched_wraith/wretched_wraith_fire.json",
@@ -211,7 +211,7 @@
       "source": "BP/entities/utility/wildfire_boss_firebal.json",
       "source_sha256": "ab664dbf7be51671c508e32c460f96dd06ea8871511acb5acbca6ec501bc104e",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "fa4dab326ac107937589ec3de800637d746bf0c34a8f6d52139bf6aa2cd43817"
+      "integrated_sha256": "ba3f9a0b7273d9a804cca144099ea09ea189600a691c0f9f58c7d661e5d78a2d"
     },
     "BP/entities/utility/wretched_awaken.json": {
       "source": "BP/entities/utility/wretched_awaken.json",
@@ -234,13 +234,13 @@
       "source": "BP/scripts/misc/entityBehaviour/namelessOne.js",
       "source_sha256": "e648437ffcd9625fa303ea66f997171f8d5132c7a23b0cd1e0fb56b3cf96cffa",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "0e990d0b8a1314d8ee37eb0770fa099402a92567cfa8d1e03093d2d4ec932a1e"
+      "integrated_sha256": "d61151e36e1af03ecbd9c311ddd729b81ce981797eafe38a380f0681c2823dd0"
     },
     "BP/scripts/infernal_lords/wretchedWraith.js": {
       "source": "BP/scripts/misc/entityBehaviour/wretchedWraith.js",
       "source_sha256": "5762316fc9959567bd3e9bf71befd10e2b9db224e444bdbd8e9b1824e7ee1abe",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "bba46683f4c9241448e887275ce5965fcd90a1ec0ce7088634c2ec05d6456bd8"
+      "integrated_sha256": "bfceaceab3fa9110b11a1b238b913b05e57726d315a29b8438e35d60517de2ae"
     },
     "BP/scripts/infernal_lords/hoveringInferno.js": {
       "source": "BP/scripts/misc/entityBehaviour/hoveringInferno.js",
@@ -2354,7 +2354,7 @@
     },
     "BP/scripts/infernal_lords/main.js": {
       "source": "Underworld integration",
-      "integrated_sha256": "368c220082d1e5a4d14eb07535e42dac50a426b67c4c4b9e08cf8756c372bb46"
+      "integrated_sha256": "48c0309fe0a965332afe3796d8c81af02b9ab9dadccc19c74484b16e2116d269"
     },
     "BP/scripts/infernal_lords/entity_ids.json": {
       "source": "Underworld integration",
@@ -2362,7 +2362,7 @@
     },
     "BP/scripts/infernal_lords/runtime.js": {
       "source": "Underworld integration",
-      "integrated_sha256": "c2044b0596aea63d31766143ff6e772fd6cbb225801fa27c0f55279b5ccfae53"
+      "integrated_sha256": "d994fc8cf34cc88d033d5288437822096b02be47f7fa189675ff9482a226344b"
     },
     "BP/scripts/infernal_lords/helpers.js": {
       "source": "Underworld integration",
@@ -3058,11 +3058,16 @@
     },
     "BP/scripts/infernal_lords/teleport.js": {
       "source": "Underworld bounded local teleport adaptation",
-      "integrated_sha256": "ea7d7a21f949547c3cd41bc584581d9a3d0965a5c4e019d028e943eceea925ae"
+      "integrated_sha256": "593d88c378293862f39cd107697ad0e1fc70420ed7ac872ef7c6caa5d3bc1a8a"
     },
     "BP/scripts/infernal_lords/arena_damage.js": {
       "source": "Underworld requested arena caster balance",
       "integrated_sha256": "3041a939e86d187eb22fb223e47fce79cb515b6d39bc9f4f1986dfaf5776d0d3"
+    },
+    "BP/scripts/infernal_lords/combat_recovery.js": {
+      "source": "Underworld phase recovery adaptation",
+      "source_pack": "Underworld",
+      "integrated_sha256": "c031a191dab7f2ac48f38dd410a00113f2bf0c407d38a146af1398875b8d606f"
     }
   },
   "dynamic_particles": [
@@ -3137,7 +3142,8 @@
     "Dormant bosses placed once at verified authored markers in new matching structures only. A saved per-site claim prevents duplicates/respawns; no ongoing checks or existing-world backfill.",
     "v0.2.109: Withered Heart, Weeping Soul and Ruinous Ember are placeholder ingredients, each guaranteed once in its matching boss direct loot pool. Temporary icons reuse the respective existing key artwork; no Grimoire recipe implemented.",
     "v0.2.110: restored the original Malzareth server casting controller; repaired tag-gated teleports, local landing/collision checks, projectile hurt targets, and Nerezhal Nether home/stone-floor abilities; native active/dormant boss fire/lava immunity in every damage-sensor phase. Bounded combat jobs add no idle polling.",
-    "v0.2.111: requested near-Brute base hits: necromancer projectiles and Tower Wraith spell opening hits use 6/10/14 raw damage on Easy/Normal/Hard; lingering Tower Wraith pulses use 1/1.5/2. Fire patches share per-cast hit history; no new idle polling. Necromancer enchanted/upstream damage multipliers preserved. Other wraith and boss hazards unchanged."
+    "v0.2.111: requested near-Brute base hits: necromancer projectiles and Tower Wraith spell opening hits use 6/10/14 raw damage on Easy/Normal/Hard; lingering Tower Wraith pulses use 1/1.5/2. Fire patches share per-cast hit history; no new idle polling. Necromancer enchanted/upstream damage multipliers preserved. Other wraith and boss hazards unchanged.",
+    "v0.2.113: native boss projectile impact damage, non-AI phase/cooldown timers, Nerezhal retreat and hurt/close-range teleport restoration, bounded pillar-aware teleport landings, reload phase recovery without health reset, and event-driven lords_status combat telemetry. Automated JSON sequence models do not replace Bedrock combat acceptance."
   ],
   "native_loot_tables": [
     "loot_tables/entities/zombie.json",

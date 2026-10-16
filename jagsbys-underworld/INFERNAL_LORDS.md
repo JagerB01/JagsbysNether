@@ -1,4 +1,4 @@
-# Infernal Lords — v0.2.112 integration test
+# Infernal Lords — v0.2.113 integration test
 
 This build integrates the three Infernal Lords, Ashen Tower Wraith and Crimson
 Necromancer directly into Underworld. Activate Underworld's BP and RP; disable
@@ -202,3 +202,11 @@ Automated ability tests cover Malzareth's close/distant/post-cast teleports, pro
 | Tower Wraith lingering pulse | 1 | 1.5 | 2 |
 
 The Hard opening hit is slightly below an armed Bedrock Piglin Brute (roughly 15 raw damage). Necromancer projectile scaling preserves earlier damage modifiers and the existing enchanted 1.5x multiplier (21 on Hard). Tower Wraith spell hazards retain their fire/magic causes and existing resistance/poison behavior; these raw figures are not guaranteed final health loss. Repeating hazards do not apply a full opening hit every half-second: all patches from one fire cast share successful-hit history, while each poison cloud tracks the players it has successfully hit. Different players and fresh casts get their own opening hit. Other wraith and boss hazards are unchanged. Fire history is bounded and pruned only during active hits; no new interval or background scan is added.
+
+## v0.2.113 combat repairs
+
+Nerezhal and Malzareth projectiles now deal native projectile impact damage rather than script fire damage. Fire Resistance no longer cancels their ordinary bolts. Nerezhal uses a 22–32-second ranged timer, a 1.25-second windup and a 13-second special phase with finite scheduled volleys. Retreat no longer depends on its melee cooldown; hurt and nearby-target teleport triggers are restored. Teleport landing checks accept structural floors and do not require a straight unobstructed flight path.
+
+Baelgor slam/recovery/cooldown and Malzareth summon cooldowns use native component timers. Malzareth detects remaining vanguards through its native entity sensor. Load events recover interrupted phases without resetting health or Baelgor shield progress. No new periodic world scans were added. `/scriptevent jagsby_nether:lords_status` reports phase events, successful teleports and delivered projectile damage for loaded bosses.
+
+Automated sequence tests execute the configured events and timers. Actual AI navigation, animation timing and complete fights remain pending Bedrock acceptance.

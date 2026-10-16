@@ -1,7 +1,17 @@
 /** Event-maintained roster. Original combat/effect intervals sleep when no relevant actors are loaded. */
 import {world as nativeWorld, system as nativeSystem} from '@minecraft/server';
 import {ENTITY_IDS} from './entity_ids.js';
-const roster=new Map(), jobs=new Map();
+const roster=new Map(), jobs=new Map(),bossTrace=new Map();
+const BOSSES=new Set(['dungeons:nameless_one','dungeons:wretched_wraith','dungeons:boss_wildfire']);
+export function recordBossAction(entity,action,value=1){
+ if(!entity||!BOSSES.has(entity.typeId))return;
+ if(!bossTrace.has(entity.id)){if(bossTrace.size>=64)bossTrace.delete(bossTrace.keys().next().value);bossTrace.set(entity.id,{counts:{},last:''});}
+ const trace=bossTrace.get(entity.id);trace.counts[action]=(trace.counts[action]??0)+value;trace.last=action;
+}
+function bossSnapshot(entity){
+ const trace=bossTrace.get(entity.id),phase=entity.typeId==='dungeons:wretched_wraith'?(entity.getProperty('dungeons:bullethell')?'special':'ranged'):entity.typeId==='dungeons:nameless_one'?(entity.getProperty('dungeons:casting')?'casting':'ranged'):'shield/slam';
+ return {id:entity.id,type:entity.typeId,phase,last:trace?.last??'',events:trace?.counts??{}};
+}
 const minionTags=['dungeons:necromancer_minion','dungeons:hovering_inferno_minion','dungeons:summoned_from_aura'];
 const variantIds=new Set([...ENTITY_IDS].filter(id=>id.includes(':enchanted_') && !['dungeons:enchanted_fire','dungeons:enchanted_arrow'].includes(id)));
 let runner, nextJob=1, failures=0, lastError='';
@@ -31,8 +41,9 @@ function tick(){
 }
 function wake(){if(runner===undefined&&[...jobs.values()].some(job=>active(job.scope)))runner=nativeSystem.runInterval(tick,1);}
 export function remember(entity){if(valid(entity)&&isImported(entity)){roster.set(entity.id,entity);wake();}}
-function forget(id){roster.delete(id);stopIfIdle();}
-export function runtimeStatus(){return {loaded:roster.size,enchanted:[...roster.values()].filter(enchanted).length,ticking:runner!==undefined,failures,lastError};}
+function forget(id){roster.delete(id);bossTrace.delete(id);stopIfIdle();}
+export function loadedImportedActors(){return [...roster.values()].filter(valid);}
+export function runtimeStatus(){return {loaded:roster.size,enchanted:[...roster.values()].filter(enchanted).length,ticking:runner!==undefined,failures,lastError,bosses:[...roster.values()].filter(e=>valid(e)&&BOSSES.has(e.typeId)).slice(0,6).map(bossSnapshot)};}
 // Local combat queries stay native. Only unbounded roster queries use the maintained set.
 function dimensionFacade(id){
  const dim=nativeWorld.getDimension(id);
@@ -54,7 +65,8 @@ function signals(kind){return new Proxy({},{get(_,name){return {subscribe(callba
   const signal=nativeWorld[kind==='before'?'beforeEvents':'afterEvents'][name];
   if(!signal)throw new Error('Missing stable API signal: '+kind+'.'+String(name));
   signal.subscribe(event=>{
-   if(name==='playerInteractWithBlock'){if(!active('actors'))return;}else if(!eventRelevant(event))return;
+   if(name==='playerInteractWithBlock'){if(!active('actors'))return;}else if(name!=='worldLoad'&&!eventRelevant(event))return;
+   if(name==='dataDrivenEntityTrigger')recordBossAction(event.entity,event.eventId);
    for(const cb of list.get(name))safely(cb,event);
   });
  }
@@ -111,3 +123,11 @@ scopedSystem('aura').runInterval(()=>{
   if(!entity.dimension.getEntities({location:entity.location,maxDistance:32,tags:['dungeons:enchanted_mob_mob_summon_aura']}).length&&!entity.dimension.getPlayers({location:entity.location,maxDistance:24}).length)entity.remove();
  }
 },20);
+
+// Damage telemetry runs only on actual hurt events and never changes damage.
+nativeWorld.afterEvents.entityHurt.subscribe(event=>{
+ try{
+  const owner=event.damageSource.damagingEntity??event.damageSource.damagingProjectile?.getComponent('projectile')?.owner;
+  if(event.damageSource.cause==='projectile'&&BOSSES.has(owner?.typeId))recordBossAction(owner,'projectile_damage',event.damage);
+ }catch{} // A removed projectile may no longer expose its owner.
+});

@@ -29,18 +29,20 @@
     },
     "component_groups": {
       "dungeons:summon_cooldown": {
-        "minecraft:attack_cooldown": {
-          "attack_cooldown_time": 10,
-          "attack_cooldown_complete_event": {
+        "minecraft:timer": {
+          "looping": false,
+          "time": 10,
+          "time_down_event": {
             "event": "dungeons:summon_cooldown_complete",
             "target": "self"
           }
         }
       },
       "dungeons:summon_cooldown_short": {
-        "minecraft:attack_cooldown": {
-          "attack_cooldown_time": 5,
-          "attack_cooldown_complete_event": {
+        "minecraft:timer": {
+          "looping": false,
+          "time": 5,
+          "time_down_event": {
             "event": "dungeons:summon_cooldown_complete",
             "target": "self"
           }
@@ -57,18 +59,16 @@
               "weight": 1,
               "start_sound_event": "squish.big",
               "max_activation_range": 64,
-              "filters": [
-                {
-                  "all_of": [
-                    {
-                      "test": "has_component",
-                      "value": "minecraft:attack_cooldown",
-                      "subject": "self",
-                      "operator": "not"
-                    }
-                  ]
-                }
-              ],
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "has_component",
+                    "value": "minecraft:timer",
+                    "subject": "self",
+                    "operator": "not"
+                  }
+                ]
+              },
               "sequence": [
                 {
                   "base_delay": 1.7,
@@ -96,18 +96,16 @@
               "start_sound_event": "admire",
               "weight": 1,
               "max_activation_range": 64,
-              "filters": [
-                {
-                  "all_of": [
-                    {
-                      "test": "has_component",
-                      "value": "minecraft:attack_cooldown",
-                      "subject": "self",
-                      "operator": "not"
-                    }
-                  ]
-                }
-              ],
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "has_component",
+                    "value": "minecraft:timer",
+                    "subject": "self",
+                    "operator": "not"
+                  }
+                ]
+              },
               "sequence": [
                 {
                   "base_delay": 2.9,
@@ -270,52 +268,50 @@
         "subsensors": [
           {
             "cooldown": 7.5,
-            "event_filters": [
-              {
-                "all_of": [
-                  {
-                    "test": "bool_property",
-                    "value": false,
-                    "subject": "self",
-                    "domain": "dungeons:casting"
-                  },
-                  {
-                    "any_of": [
-                      {
-                        "test": "is_target",
-                        "subject": "other",
-                        "value": true
-                      },
-                      {
-                        "test": "was_last_hurt_by",
-                        "subject": "other"
-                      },
-                      {
-                        "all_of": [
-                          {
-                            "test": "is_family",
-                            "value": "player",
-                            "subject": "other"
-                          },
-                          {
-                            "test": "has_ability",
-                            "value": "instabuild",
-                            "operator": "not",
-                            "subject": "other"
-                          },
-                          {
-                            "test": "has_mob_effect",
-                            "value": "invisibility",
-                            "operator": "not",
-                            "subject": "other"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
+            "event_filters": {
+              "all_of": [
+                {
+                  "test": "bool_property",
+                  "value": false,
+                  "subject": "self",
+                  "domain": "dungeons:casting"
+                },
+                {
+                  "any_of": [
+                    {
+                      "test": "is_target",
+                      "subject": "other",
+                      "value": true
+                    },
+                    {
+                      "test": "was_last_hurt_by",
+                      "subject": "other"
+                    },
+                    {
+                      "all_of": [
+                        {
+                          "test": "is_family",
+                          "value": "player",
+                          "subject": "other"
+                        },
+                        {
+                          "test": "has_ability",
+                          "value": "instabuild",
+                          "operator": "not",
+                          "subject": "other"
+                        },
+                        {
+                          "test": "has_mob_effect",
+                          "value": "invisibility",
+                          "operator": "not",
+                          "subject": "other"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             "range": [
               5,
               4
@@ -328,33 +324,45 @@
             "cooldown": 6,
             "maximum_count": 0,
             "minimum_count": 0,
-            "event_filters": [
-              {
-                "all_of": [
-                  {
-                    "test": "bool_property",
-                    "value": false,
-                    "subject": "self",
-                    "domain": "dungeons:casting"
-                  },
-                  {
-                    "test": "has_target",
-                    "value": true,
-                    "subject": "self"
-                  },
-                  {
-                    "test": "is_target",
-                    "value": true,
-                    "subject": "other"
-                  }
-                ]
-              }
-            ],
+            "event_filters": {
+              "all_of": [
+                {
+                  "test": "bool_property",
+                  "value": false,
+                  "subject": "self",
+                  "domain": "dungeons:casting"
+                },
+                {
+                  "test": "has_target",
+                  "value": true,
+                  "subject": "self"
+                },
+                {
+                  "test": "is_target",
+                  "value": true,
+                  "subject": "other"
+                }
+              ]
+            },
             "event": "dungeons:nameless_one_teleport_to_player",
             "range": [
               20,
               10
             ]
+          },
+          {
+            "cooldown": 1,
+            "range": [
+              64,
+              16
+            ],
+            "minimum_count": 0,
+            "event_filters": {
+              "test": "is_family",
+              "subject": "other",
+              "value": "vanguard"
+            },
+            "event": "dungeons:detect_vanguards"
           }
         ]
       },
@@ -387,21 +395,6 @@
             "event": "dungeons:nameless_one_teleport"
           }
         ]
-      },
-      "minecraft:behavior.timer_flag_1": {
-        "cooldown_range": [
-          0,
-          0
-        ],
-        "duration_range": [
-          1,
-          1
-        ],
-        "on_start": {
-          "event": "dungeons:detect_vanguards",
-          "target": "self"
-        },
-        "priority": 0
       },
       "minecraft:follow_range": {
         "max": 64,

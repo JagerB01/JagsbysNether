@@ -56,6 +56,15 @@ def validate(bp, rp):
             triggers = components['minecraft:damage_sensor']['triggers']
             for cause in ('fire','fire_tick','lava'):
                 assert any(t.get('cause') == cause and t.get('deals_damage') == 'no' for t in triggers), f'{identifier}: vulnerable to {cause}'
+    for name in ('nameless_one','wretched_wraith'):
+        projectile = actors['dungeons:'+name+'_projectile']['components']['minecraft:projectile']
+        assert projectile['on_hit']['impact_damage']['damage'] > 0, f'{name}: no native projectile damage'
+        assert 'remove_on_hit' in projectile['on_hit']
+    for name, phases in [('wretched_wraith', ('ranged_attacking','bullethell_windup','bullethell_attacking')), ('boss_wildfire', ('shockwave_action','shockwave_recovery','shockwave_cooldown')), ('nameless_one', ('summon_cooldown','summon_cooldown_short'))]:
+        for phase in phases:
+            group = actors['dungeons:'+name]['component_groups']['dungeons:'+phase]
+            assert 'minecraft:timer' in group, f'{name}/{phase}: needs AI-independent phase timer'
+            assert not any(k.startswith('minecraft:behavior.timer_flag_') for k in group), f'{name}/{phase}: AI goal timer reintroduced'
     for identifier in ('necromancer','tower_wraith'):
         base = actors['dungeons:'+identifier]['components']
         enchanted = actors['dungeons:enchanted_'+identifier]['components']

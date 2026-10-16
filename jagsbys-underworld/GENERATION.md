@@ -57,3 +57,7 @@ Intentional original container contents/loot tables are preserved. Existing plac
 ```
 
 Manual village tests use the same minimum layout requirements. `/find village` reports recorded villages; vanilla `/locate` does not find this scripted village index.
+
+### v0.2.113 hanging lava
+
+Active carving removes source and flowing lava inside each placement volume above the surveyed ground/ocean level. It preserves the ocean at/below that level and lava outside the volume. Adjacent external sources can still flow in. This uses filtered writes during generation, with no idle fluid scanning, and does not repair existing arenas.

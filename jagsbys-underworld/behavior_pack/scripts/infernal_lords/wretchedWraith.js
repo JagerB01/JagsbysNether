@@ -1,6 +1,6 @@
 import {teleportDestination,landingAt,solidFloor,readBlock} from './teleport.js';
-import { EntityDamageCause, BlockVolume } from "@minecraft/server";
-import { world } from "./runtime.js";
+import { EntityDamageCause } from "@minecraft/server";
+import { world,recordBossAction } from "./runtime.js";
 import { scopedSystem } from "./runtime.js";
 const system = scopedSystem("actors");
 
@@ -10,44 +10,8 @@ import { isValidTarget, getDirection, makeVector } from "./helpers.js"
 
 
 
-world.afterEvents.projectileHitBlock.subscribe((e) => {
-    const entity = e.projectile;
-    const loc = e.location;
-    const dim = e.dimension;
-    if (entity.typeId == "dungeons:wretched_wraith_projectile") {
-        if (!entity.isValid) return;
-        entity.remove()
-        return;
-    }
-})
-world.afterEvents.projectileHitEntity.subscribe((e) => {
-    const entity = e.projectile;
-    const hit = e.getEntityHit().entity
-    if (!hit.isValid) return;
-    const dim = hit.dimension
-    const loc = e.location;
-    if (entity.typeId == "dungeons:wretched_wraith_projectile") {
-        system.runTimeout(() => {
-            if (entity.isValid) entity.remove()
-        }, 100)
-        if (!entity.isValid) return;
-        const proj = entity.getComponent("minecraft:projectile")
-        const owner = proj.owner;
-        if (!owner || !owner.isValid) {
-            entity.remove()
-            return;
-        }
-        if (hit.matches({ families: ["undead"] })) return;
-        if (hit.matches({ families: ["monster"] })) return;
-        if (entity.hasTag("dungeons:chud_projectile")) {
-            hit.applyDamage(7.5, { cause: EntityDamageCause.fire })
-        } else {
-            hit.applyDamage(10, { damagingEntity: owner, cause: EntityDamageCause.fire })
-
-        }
-        entity.remove()
-    }
-})
+// Native on_hit applies impact damage and removes the projectile. This also
+// works with Fire Resistance and without a live owner in an after-hit event.
 world.beforeEvents.entityHurt.subscribe((e) => {
     const hurt = e.hurtEntity;
     if (!hurt) return;
@@ -59,6 +23,7 @@ world.beforeEvents.entityHurt.subscribe((e) => {
     const cause = e.damageSource.cause;
     if (cause !== EntityDamageCause.projectile) return;
 
+    if (projectile.hasTag("dungeons:chud_projectile")) e.damage*=.75;
     if (hurt.matches({ families: ["undead"] }) || hurt.matches({ families: ["monster"] })) {
         e.cancel = true;
         e.damage = 0
@@ -94,6 +59,7 @@ function teleport(entity, loc, originLoc) {
         ? landingAt(dim,home.x,home.z,home.y,{height:4})
         : teleportDestination(entity,loc);
     if (!teleportLoc || !entity.tryTeleport(teleportLoc, {checkForBlocks:true})) return;
+    recordBossAction(entity,'teleport_success');
     dim.playSound("mob.wraith.teleport", entityLoc, { pitch: 0.6 })
     dim.playSound("mob.wretched_wraith.bullethell", entityLoc, { pitch: 1 })
     dim.spawnParticle("dungeons:teleport_out", entityLoc)
@@ -101,9 +67,6 @@ function teleport(entity, loc, originLoc) {
         if (entity.isValid && dim.isChunkLoaded(teleportLoc)) {
             dim.playSound("mob.wraith.teleport", entityLoc, { pitch: 0.9 })
             dim.spawnParticle("dungeons:teleport_in", teleportLoc)
-            if (originLoc == true && Math.random() > 0.5) {
-                teleport(entity)
-            }
         }
     }, teleportHiddenTime)
     entity.addEffect("invisibility", teleportHiddenTime, { showParticles: false })
@@ -186,17 +149,9 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
     if (!entity.isValid) return;
     if ((id === 'dungeons:begin_bullethell_center') && entity.typeId == "dungeons:wretched_wraith") {
         teleport(entity, entity.location, true)
-        entity.addEffect("slowness", 40, { amplifier: 100, showParticles: false })
-        system.runTimeout(() => {
-            if (!entity.isValid) return;
-            entity.triggerEvent("dungeons:bullethell_start")
-            system.runTimeout(() => {
-                if (entity.isValid) fireArea(entity.getDynamicProperty("dungeons:home"), entity.dimension, entity)
-            }, 2)
-            system.runTimeout(() => {
-                if (entity.isValid) fireArea(entity.getDynamicProperty("dungeons:home"), entity.dimension, entity)
-            }, 150)
-        }, 25)
+        // The JSON windup timer starts the phase. A failed home teleport does
+        // not prevent the phase from progressing at the current safe position.
+
     }
 });
 
@@ -260,6 +215,18 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
     }
 });
 
+
+world.afterEvents.dataDrivenEntityTrigger.subscribe(({entity,eventId})=>{
+    if(entity.typeId!=="dungeons:wretched_wraith"||eventId!=="dungeons:bullethell_start"||!entity.isValid)return;
+    const active=()=>entity.isValid&&(entity.getComponent("minecraft:health")?.currentValue??1)>0&&entity.getProperty("dungeons:bullethell")===true;
+    for(let wave=0;wave<8;wave++)system.runTimeout(()=>{
+        if(!active())return;
+        entity.triggerEvent("dungeons:bullethell_projectile");
+    },1+wave*36);
+    for(const delay of [2,150])system.runTimeout(()=>{
+        if(active())fireArea(entity.getDynamicProperty("dungeons:home")??entity.location,entity.dimension,entity);
+    },delay);
+});
 
 //minions
 

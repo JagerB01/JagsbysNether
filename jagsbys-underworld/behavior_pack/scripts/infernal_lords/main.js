@@ -12,3 +12,5 @@ export {spawnEnchanted,registerEnchantedVariant,runtimeStatus} from './runtime.j
 import './gearArmour.js';
 import './gearGlaive.js';
 import './gearDurability.js';
+
+import './combat_recovery.js';
