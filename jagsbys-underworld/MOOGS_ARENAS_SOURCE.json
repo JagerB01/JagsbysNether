@@ -4124,5 +4124,33 @@
     "version": "0.2.107",
     "tool": "tools/update_structure_chests.py",
     "policy": "Restore reciprocal pairx/pairz/pairlead metadata while preserving independent native loot tables and authored contents; tile slicing translates partner coordinates; no runtime scanner"
+  },
+  "small_arena_ground": {
+    "version": "0.2.112",
+    "policy": "Authored low-layer ground footprint for sampling/foundations; built-column mask for protected terrain checks and carving; unused manual/natural columns converted to structure void; bounded best-height ground survey; six-block cap and direct floor contact. Existing sites unchanged.",
+    "tools": [
+      "tools/generate_natural_landmarks.py",
+      "behavior_pack/scripts/small_arena_terrain.js"
+    ],
+    "source_reference": "Original Java hashes and licenses retained."
+  },
+  "small_arena_chest_loot": {
+    "version": "0.2.112",
+    "table": "loot_tables/chests/small_arena.json",
+    "grollet_seeds": {
+      "chance": 0.05,
+      "count": [
+        1,
+        2
+      ]
+    },
+    "plantable_scarberries": {
+      "chance": 0.05,
+      "count": [
+        1,
+        2
+      ]
+    },
+    "scope": "Retarget authored Small Arena chests in manual/natural templates; remove both from generic chests and wild root/sprout acquisition, retain cultivation harvests and test kit."
   }
 }

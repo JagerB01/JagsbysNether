@@ -39,7 +39,7 @@ These are placement attempts, not guaranteed successful structures; terrain rest
 
 ## Container loot
 
-New template chests/barrels use native randomized Nether loot: 4–7 supply rolls (gold nuggets, quartz, Wither Bones, coal, string, leather, glowstone dust, fungi, obsidian and soul torches), plus independent 12% gold-ingot and 4% crying-obsidian rolls. One 5% planting-item roll chooses Sorgum seeds, Murky Gourd seeds, Scarberries or Polyps equally, giving 1–3 items (1.25% per crop per container). Nether Wart is excluded.
+New template chests/barrels use native randomized Nether loot: 4–7 supply rolls (gold nuggets, quartz, Wither Bones, coal, string, leather, glowstone dust, fungi, obsidian and soul torches), plus independent 12% gold-ingot and 4% crying-obsidian rolls. One 2.5% planting-item roll chooses Sorgum seeds or Polyps equally, giving 1–3 items (1.25% per crop per container). Grollet seeds and plantable Scarberries are exclusive to Small Arena chest loot, with an independent 5% roll for each, giving 1–2 items. Wild-sprout Grollet and crimson-root Scarberry starter drops are removed; cultivation harvests remain. Nether Wart is excluded.
 
 Additional independent rolls per container/half: Fire Resistance potion (3 minutes) **20%**, diamonds **5%** (1–2), golden apple **3%** (1), gold block **3%** (1), netherite scrap **1%** (1). One **12%** ominous-bottle roll picks tiers I/II/III/IV/V with relative weights 40/30/18/9/3, for overall chances of 4.8% / 3.6% / 2.16% / 1.08% / 0.36% respectively. Potion type and bottle amplifier use native Bedrock loot functions.
 

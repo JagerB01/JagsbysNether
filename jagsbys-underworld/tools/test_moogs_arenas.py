@@ -64,7 +64,7 @@ class MoogsArenas(unittest.TestCase):
                     i=int(index);self.assertTrue(0<=i<n)
                     e=entry[1]['block_entity_data'][1];x,rem=divmod(i,size[1]*size[2]);y,z=divmod(rem,size[2])
                     self.assertEqual([e[k][1] for k in ['x','y','z']],[x,y,z])
-                    if e['id'][1] in ['Chest','Barrel']:self.assertEqual(e['LootTable'][1],'loot_tables/chests/underworld_structure.json')
+                    if e['id'][1] in ['Chest','Barrel']:self.assertEqual(e['LootTable'][1],'loot_tables/chests/small_arena.json' if arena=='small_arena' and e['id'][1]=='Chest' else 'loot_tables/chests/underworld_structure.json')
                 x,_,z=section['offset'];rectangles.append((x,z,x+size[0],z+size[2]))
             self.assertEqual(volume,data['size'][0]*data['size'][1]*data['size'][2])
             for i,a in enumerate(rectangles):
@@ -145,7 +145,7 @@ class MoogsArenas(unittest.TestCase):
         self.assertGreater(found,0)
 
     def test_imported_double_chests_keep_both_native_loot_tables_across_tile_boundaries(self):
-        from structure_loot import chest_records,chest_facing,LOOT_TABLE
+        from structure_loot import chest_records,chest_facing,LOOT_TABLE,SMALL_ARENA_LOOT_TABLE
         def catalog(name):return json.loads((ROOT/'behavior_pack/scripts'/name).read_text().split(' = ',1)[1].rstrip(';\n'))
         groups=[a['sections'] for name in ('arena_catalog.js','natural_arena_catalog.js') for a in catalog(name).values()]
         groups += [m['sections'] for m in catalog('modular_fortress_catalog.js')]
@@ -163,7 +163,7 @@ class MoogsArenas(unittest.TestCase):
                 face=chest_facing(record['block']);self.assertEqual(face,chest_facing(other['block']))
                 self.assertEqual(partner[2] if face in (2,3) else partner[0],position[2] if face in (2,3) else position[0])
                 self.assertEqual((oe['pairx'][1]+other['offset'][0]-ofx,oe['pairz'][1]+other['offset'][2]-ofz),(position[0],position[2]))
-                self.assertEqual(e['pairlead'][1]+oe['pairlead'][1],1);self.assertEqual(e['LootTable'][1],LOOT_TABLE);paired+=1
+                self.assertEqual(e['pairlead'][1]+oe['pairlead'][1],1);self.assertEqual(e['LootTable'][1],SMALL_ARENA_LOOT_TABLE if '/small_arena/' in sections[0]['id'] else LOOT_TABLE);paired+=1
                 if record['root'] is not other['root']:seams+=1
         self.assertGreater(paired,0);self.assertGreater(seams,0,'Pairs crossing natural 16-block tiles must also be linked')
 

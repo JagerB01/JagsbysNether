@@ -2,6 +2,7 @@
 from structure_crops import NBT
 
 LOOT_TABLE = 'loot_tables/chests/underworld_structure.json'
+SMALL_ARENA_LOOT_TABLE = 'loot_tables/chests/small_arena.json'
 CONTAINERS = {'minecraft:chest': 'Chest', 'minecraft:trapped_chest': 'Chest', 'minecraft:barrel': 'Barrel'}
 
 

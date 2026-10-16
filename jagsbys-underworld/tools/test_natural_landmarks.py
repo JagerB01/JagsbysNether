@@ -37,27 +37,45 @@ class NaturalTiles(unittest.TestCase):
                     self.assertEqual(len(actual),expected_count)
                 self.assertEqual(len(covered),sx*sz)
             self.assertEqual(total,a['size'][0]*a['size'][1]*a['size'][2])
-    def test_dragon_foundations_follow_authored_base_and_its_irregular_perimeter(self):
-        original=catalog('arena_catalog.js')['dragon_arena'];natural=catalog('natural_arena_catalog.js')['dragon_arena'];expected={}
-        for s in original['sections']:
-            root=read(s['id']);st=root['structure'][1];names=[b['name'][1] for b in st['palette'][1]['default'][1]['block_palette'][1][1]]
-            layer=st['block_indices'][1][1][0][1];sx,sy,sz=s['size'];ox,oy,oz=s['offset']
-            for x in range(sx):
-                for z in range(sz):
-                    for y in range(min(sy,2-oy)):
-                        i=layer[(x*sy+y)*sz+z]
-                        if i>=0 and names[i] not in {'minecraft:air','minecraft:lava','minecraft:water','minecraft:flowing_lava','minecraft:flowing_water'}:
-                            expected[x+ox,z+oz]=y+oy;break
-        actual={}
-        for s in natural['sections']:
-            ox,oy,oz=s['offset']
-            for x,z,y,edge in s['foundationColumns']:
-                self.assertNotIn((x+ox,z+oz),actual)
-                actual[x+ox,z+oz]=y+oy
-                self.assertEqual(edge,any((x+ox+dx,z+oz+dz) not in expected for dx,dz in [(1,0),(-1,0),(0,1),(0,-1)]))
-        self.assertEqual(actual,expected)
-        self.assertGreater(len(actual),0)
-        self.assertLess(len(actual),original['size'][0]*original['size'][2]*.75)
-        self.assertNotIn((0,0),actual,'Empty bounding-box corner must not gain a foundation')
+    def test_ground_foundations_follow_authored_base_and_its_irregular_perimeter(self):
+        for arena_name in ('dragon_arena','small_arena'):
+            original=catalog('arena_catalog.js')[arena_name];natural=catalog('natural_arena_catalog.js')[arena_name];expected={}
+            for s in original['sections']:
+                root=read(s['id']);st=root['structure'][1];names=[b['name'][1] for b in st['palette'][1]['default'][1]['block_palette'][1][1]]
+                layer=st['block_indices'][1][1][0][1];sx,sy,sz=s['size'];ox,oy,oz=s['offset']
+                for x in range(sx):
+                    for z in range(sz):
+                        for y in range(min(sy,2-oy)):
+                            i=layer[(x*sy+y)*sz+z]
+                            if i>=0 and names[i] not in {'minecraft:air','minecraft:lava','minecraft:water','minecraft:flowing_lava','minecraft:flowing_water'}:
+                                expected[x+ox,z+oz]=y+oy;break
+            actual={}
+            for s in natural['sections']:
+                ox,oy,oz=s['offset']
+                for x,z,y,edge in s['foundationColumns']:
+                    self.assertNotIn((x+ox,z+oz),actual)
+                    actual[x+ox,z+oz]=y+oy
+                    self.assertEqual(edge,any((x+ox+dx,z+oz+dz) not in expected for dx,dz in [(1,0),(-1,0),(0,1),(0,-1)]))
+            self.assertEqual(actual,expected)
+            self.assertGreater(len(actual),0)
+            self.assertLess(len(actual),original['size'][0]*original['size'][2]*.75)
+            self.assertNotIn((0,0),actual,'Empty bounding-box corner must not gain a foundation')
+
+    def test_small_arena_unused_columns_preserve_terrain_and_all_chests_use_exclusive_loot(self):
+        from structure_loot import chest_records,SMALL_ARENA_LOOT_TABLE
+        chests=0
+        for name in ('arena_catalog.js','natural_arena_catalog.js'):
+            for section in catalog(name)['small_arena']['sections']:
+                root=read(section['id']);st=root['structure'][1];sx,sy,sz=section['size']
+                palette=st['palette'][1]['default'][1]['block_palette'][1][1];layer=st['block_indices'][1][1][0][1]
+                for x in range(sx):
+                    for z in range(sz):
+                        column=[layer[(x*sy+y)*sz+z] for y in range(sy)]
+                        if not any(i>=0 and palette[i]['name'][1]!='minecraft:air' for i in column):
+                            self.assertTrue(all(i==-1 for i in column),'Unused corner must be structure void, not destructive template air')
+                records=chest_records(root)
+                for record in records.values():self.assertEqual(record['entity']['LootTable'][1],SMALL_ARENA_LOOT_TABLE)
+                if name=='arena_catalog.js':chests+=len(records)
+        self.assertEqual(chests,22)
 
 if __name__=='__main__':unittest.main()

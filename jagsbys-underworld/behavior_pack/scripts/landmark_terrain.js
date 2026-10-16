@@ -1,3 +1,4 @@
+import {surveySmallGround} from './small_arena_terrain.js';
 import {sampleSiteQuality} from './site_quality.js';
 import {terrainSurvey} from './terrain_survey.js';
 import {BlockVolume} from '@minecraft/server';
@@ -112,7 +113,7 @@ export function* surveyLandmark(candidate,dimension,progress=()=>{},cache=undefi
   progress('Loading initial terrain probe');
   yield* lease.load({x:candidate.x-8,y:0,z:candidate.z-8},[17,128,17]);
   progress('Surveying initial terrain probe');
-  const surface=yield* surfaceAt(sampling,candidate.x,candidate.z,ocean,candidate.floorHint??candidate.surfaceHint,128-arena.size[1]-2-offset);
+  let surface=yield* surfaceAt(sampling,candidate.x,candidate.z,ocean,candidate.floorHint??candidate.surfaceHint,128-arena.size[1]-2-offset);
   if(surface===undefined)return {outcome:'unsuitable',reason:ocean?'No open lava surface':'No exposed natural ground'};
   if(ocean){terrainSurvey.ocean(candidate.x,candidate.z,surface);terrainSurvey.flush();}
   if(!ocean){
@@ -122,10 +123,15 @@ export function* surveyLandmark(candidate,dimension,progress=()=>{},cache=undefi
    if(!biome)return {outcome:'deferred',reason:`Biome unavailable (${rawBiome??'no native result'})`};
    if(!biomeAllows(candidate,biome))return {outcome:'unsuitable',reason:`Biome ${biome} does not match ${candidate.id}`};
   }
+  if(small){
+   lease.release();
+   surface=yield* surveySmallGround(candidate,dimension,surface);
+   if(surface===undefined)return {outcome:'unsuitable',reason:'Actual arena footprint has no ground level with 80% nearby support within six blocks below or eight above'};
+  }
   const origin={x:candidate.x-Math.floor(arena.size[0]/2),y:ocean?(candidate.id==='mega_fortress'?surface-1:surface+2):surface+1-floor,z:candidate.z-Math.floor(arena.size[2]/2)};
   if(origin.y+arena.size[1]+2>128)return {outcome:'unsuitable',reason:'Insufficient height below Nether ceiling'};
   const quality={solid:0,total:0};
-  const supports=[],lavaBudget=candidate.id==='dragon_arena'?dragonFootprintBudget(origin):footprintBudget(arena.size,MIN_OCEAN_COVERAGE[candidate.id]??1);let totalSamples=0,groundSamples=0;
+  const supports=[],lavaBudget=candidate.id==='dragon_arena'?dragonFootprintBudget(origin):footprintBudget(arena.size,MIN_OCEAN_COVERAGE[candidate.id]??1);
   lease.release();
   for(let index=0;index<arena.sections.length;index++){
    const section=arena.sections[index],[ox,oy,oz]=section.offset;
@@ -137,18 +143,21 @@ export function* surveyLandmark(candidate,dimension,progress=()=>{},cache=undefi
    if(ocean&&!(yield* lavaFootprint(sampling,from,section.size,surface,lavaBudget)))return {outcome:'unsuitable',reason:'Less than 90% of the footprint is over lava'};
    // Ground sampling applies to land structures; ocean coverage is exact above.
    for(let x=0;x<section.size[0];x+=8)for(let z=0;z<section.size[2];z+=8){
-    if(!ocean){
+    if(!ocean&&!small){
      let found;
      for(let y=surface+(small?12:0);y>=Math.max(1,surface-(small?12:3));y--)if(GROUND.includes(block(sampling,{x:from.x+x,y,z:from.z+z}).typeId)){found=y;break;}
-     if(small){totalSamples++;if(found!==undefined)groundSamples++;}
-     else if(found===undefined)return {outcome:'unsuitable',reason:'Ground is too uneven or unsupported'};
+     if(found===undefined)return {outcome:'unsuitable',reason:'Ground is too uneven or unsupported'};
     }
     yield;
    }
-   if(!(yield* clearVolume(sampling,from,[section.size[0],section.size[1]+2,section.size[2]],surface,ocean,[],carving)))return {outcome:'unsuitable',reason:obstructionReason()};
+   const volumes=small?NATURAL_ARENAS.small_arena.sections.filter(s=>s.offset[0]>=ox&&s.offset[0]<ox+section.size[0]&&s.offset[2]>=oz&&s.offset[2]<oz+section.size[2]).flatMap(s=>(s.buildVolumes??[]).map(v=>({...v,offset:[s.offset[0]-ox+v.offset[0],v.offset[1],s.offset[2]-oz+v.offset[2]]}))):[{offset:[0,0,0],size:section.size}];
+   for(const v of volumes){
+    const pos={x:from.x+v.offset[0],y:from.y+v.offset[1],z:from.z+v.offset[2]};
+    if(!(yield* clearVolume(sampling,pos,[v.size[0],v.size[1]+2,v.size[2]],surface,ocean,[],carving)))return {outcome:'unsuitable',reason:obstructionReason()};
+   }
    if(candidate.compareQuality)yield* sampleSiteQuality(sampling,from,section.size,quality);
    const sectionSupports=[];
-   for(const anchor of FOUNDATIONS[candidate.id])if(anchor[0]>=ox&&anchor[0]<ox+section.size[0]&&anchor[2]>=oz&&anchor[2]<oz+section.size[2]){
+   for(const anchor of (small?[]:FOUNDATIONS[candidate.id]))if(anchor[0]>=ox&&anchor[0]<ox+section.size[0]&&anchor[2]>=oz&&anchor[2]<oz+section.size[2]){
     const support=yield* supportFor(sampling,origin,anchor,carving);
     if(support===false)return {outcome:'unsuitable',reason:'Foundation cannot safely reach natural ground'};
     if(support)sectionSupports.push(support);
@@ -157,7 +166,6 @@ export function* surveyLandmark(candidate,dimension,progress=()=>{},cache=undefi
    supports.push(sectionSupports);lease.release();yield;
   }
   const coverage=ocean?1-lavaBudget.missing/lavaBudget.area:1;
-  if(small&&groundSamples/totalSamples<.5)return {outcome:'unsuitable',reason:'Less than half the Small Arena footprint has nearby natural ground'};
   if(ocean&&coverage<MIN_OCEAN_COVERAGE[candidate.id])return {outcome:'unsuitable',reason:`Insufficient ocean coverage: ${Math.round(coverage*100)}%`};
   return {outcome:'ready',origin,surface,ocean,carve:carving,solidFoundation:ocean||carving,coverage,carveFraction:quality.total?quality.solid/quality.total:0,supports,box:{x:origin.x,z:origin.z,sx:arena.size[0],sz:arena.size[2]}};
  }finally{lease.release();}
@@ -189,17 +197,18 @@ export function megaFoundationMaterial(x,y,z){
  const slot=(((y%20+20)%20)*7+(seed>>>0)%20)%20;
  return slot<13?'minecraft:polished_blackstone_bricks':'minecraft:deepslate';
 }
-export function* fillSolidFoundation(dimension,pos,size,box,top,guard=()=>true,material=undefined,columns=undefined){
+export function* fillSolidFoundation(dimension,pos,size,box,top,guard=()=>true,material=undefined,columns=undefined,maxDepth=128){
  const footprint=columns??(function*(){for(let x=0;x<size[0];x++)for(let z=0;z<size[2];z++)yield [x,z];})();
  for(const [cx,cz,floor,perimeter] of footprint){
   const x=pos.x+cx,z=pos.z+cz,columnTop=floor===undefined?top:pos.y+floor-1;
   if(!guard())throw Error('Player approached the foundation');
-  let bottom=columnTop+1;
-  for(let y=columnTop;y>=1;y--){
+  let bottom=columnTop+1,grounded=false;
+  for(let y=columnTop;y>=Math.max(1,columnTop-maxDepth);y--){
    const type=block(dimension,{x,y,z}).typeId;
-   if(!['minecraft:air',...FLUID].includes(type))break;
+   if(!['minecraft:air',...FLUID].includes(type)){grounded=true;break;}
    bottom=y;if((columnTop-y)%8===7)yield;
   }
+  if(maxDepth<128&&!grounded){yield;continue;}
   if(bottom<=columnTop){
    if(!guard())throw Error('Player approached the foundation');
    const edge=perimeter??(x===box.x||z===box.z||x===box.x+box.sx-1||z===box.z+box.sz-1);

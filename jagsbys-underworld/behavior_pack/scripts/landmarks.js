@@ -1,3 +1,4 @@
+import {SMALL_FOUNDATION_DEPTH} from './small_arena_terrain.js';
 import {nextGiant,nextGiantCommand,consumeNextGiant} from './next_giant.js';
 import {placePlannedStructureBoss} from './infernal_lords/structure_bosses.js';
 import {recordEncounterSite} from './trial_encounters.js';
@@ -134,7 +135,7 @@ export function* generateLandmark(c,dimension,{preparedPlan,forcedSelection,requ
    if(!playersClear(players(),activeBox,32)){pauseForPlayer(c);status='Landmark paused: player approached its footprint.';return;}
    const supports=JSON.parse(world.getDynamicProperty(supportKey(c,index))??'[]');
    if(!record.tilePlaced){
-    const volumes=record.modular?fortressBuildVolumes(section,pos):[{pos,size:section.size}];
+    const volumes=(record.modular||record.id==='small_arena')?fortressBuildVolumes(section,pos):[{pos,size:section.size}];
     for(const v of volumes)if(!(yield* clearVolume(dimension,v.pos,v.size,record.surface,record.ocean,record.supporting?['minecraft:polished_blackstone']:[],tileCarve))){status=`Landmark paused: ${obstructionReason()}`;retries.set(attemptKey(c),system.currentTick+1200);return;}
     record.supporting=true;save(c,record);
     if(tileCarve)for(const v of volumes){
@@ -147,7 +148,7 @@ export function* generateLandmark(c,dimension,{preparedPlan,forcedSelection,requ
     world.structureManager.place(section.id,dimension,pos,{includeEntities:false,includeBlocks:true});
     record.tilePlaced=true;save(c,record);
    }
-   if(record.solidFoundation)yield* fillSolidFoundation(dimension,pos,section.size,section.foundation?{...section.foundation,x:record.origin.x+section.foundation.x,z:record.origin.z+section.foundation.z}:record.box,record.origin.y-1,()=>playersClear(players(),activeBox,32),record.modular?megaFoundationMaterial:undefined,(record.modular||record.id==='dragon_arena')?section.foundationColumns:undefined);
+   if(record.solidFoundation)yield* fillSolidFoundation(dimension,pos,section.size,section.foundation?{...section.foundation,x:record.origin.x+section.foundation.x,z:record.origin.z+section.foundation.z}:record.box,record.origin.y-1,()=>playersClear(players(),activeBox,32),record.modular?megaFoundationMaterial:undefined,(record.modular||record.id==='dragon_arena'||record.id==='small_arena')?section.foundationColumns:undefined,record.id==='small_arena'?SMALL_FOUNDATION_DEPTH:128);
    else yield* fillSupports(dimension,supports,()=>playersClear(players(),activeBox,32),record.carve??false);
    record.next=index+1;record.supporting=false;record.tilePlaced=false;save(c,record);world.setDynamicProperty(supportKey(c,index),undefined);
    lease.release();lease=undefined;yield {waitTicks:2};

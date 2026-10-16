@@ -1,4 +1,4 @@
-# Infernal Lords — v0.2.111 integration test
+# Infernal Lords — v0.2.112 integration test
 
 This build integrates the three Infernal Lords, Ashen Tower Wraith and Crimson
 Necromancer directly into Underworld. Activate Underworld's BP and RP; disable

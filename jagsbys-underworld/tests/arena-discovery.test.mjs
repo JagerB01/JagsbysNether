@@ -9,7 +9,7 @@ import {BlockVolume} from './mock-server.mjs';
 function finish(job){for(let i=0;i<50000;i++){const s=job.next();if(s.done)return s.value;}assert.fail('Survey stalled');}
 function scene(){return {id:'minecraft:nether',runCommand(){},getBiome:()=>({id:'minecraft:basalt_deltas'}),getBlock({x,y,z}){const floor=64+(Math.floor(x/8)%2===0?8:0);return {typeId:y<=floor?'minecraft:basalt':'minecraft:air',isAir:y>floor,location:{x,y,z}};},containsBlock:()=>false};}
 test('small arena fits uneven ground and cave obstructions that it can carve',()=>{
- const c={id:'small_arena',x:0,z:0,floorHint:64,biome:'nether_wastes'},plan=finish(surveyLandmark(c,scene()));assert.equal(plan.outcome,'ready');assert(plan.carve);assert(plan.supports.flat().length>0);
+ const c={id:'small_arena',x:0,z:0,floorHint:64,biome:'nether_wastes'},plan=finish(surveyLandmark(c,scene()));assert.equal(plan.outcome,'ready');assert(plan.carve);assert.equal(plan.surface,64);assert(plan.solidFoundation);
 });
 test('giants do not depend on the native biome query and accept higher lava oceans',()=>{
  const d=scene();delete d.getBiome;d.getBlock=({y})=>({typeId:y<=4?'minecraft:netherrack':y<=75?'minecraft:lava':'minecraft:air'});

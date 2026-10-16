@@ -147,10 +147,9 @@ world.afterEvents.playerBreakBlock.subscribe(({block, brokenBlockPermutation, pl
   const type = brokenBlockPermutation.type.id;
   if (type === 'minecraft:nether_sprouts') {
     if (Math.random() < 0.125) drop(block, id('rye_seeds'));
-    else if (Math.random() < 0.125) drop(block, id('murky_seeds'));
   }
-  // Root drops substitute for the Java mod's piglin-bartering acquisition.
-  if (type === 'minecraft:crimson_roots' && Math.random() < 0.125) drop(block, id('scarberries'));
+  // Grollet/Scarberry starter crops now come only from Small Arena chests.
+  // Existing planted crops still return their ordinary harvests.
   if (type === 'minecraft:warped_roots' && Math.random() < 0.125) drop(block, id('polyp'));
 }));
 world.afterEvents.entityDie.subscribe(({deadEntity}) => guard(() => {

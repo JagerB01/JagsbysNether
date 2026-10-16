@@ -161,3 +161,14 @@ test('prepared target still tills if its native callback is skipped', () => {
   interact(soil, player, tool); flush();
   assert.equal(soil.typeId, FARMLAND); assert.equal(dimension.sounds.length, 1);
 });
+
+test('wild sprouts/roots no longer provide arena-exclusive starter crops while Polyp drops remain',()=>{
+ const {put,dimension}=worldFixture(),{player}=playerFixture(dimension),random=Math.random;
+ try{
+  let values=[.5,0];Math.random=()=>values.shift()??0;
+  world.afterEvents.playerBreakBlock.emit({block:put('minecraft:air'),brokenBlockPermutation:{type:{id:'minecraft:nether_sprouts'}},player});assert.equal(dimension.drops.length,0);
+  Math.random=()=>0;
+  world.afterEvents.playerBreakBlock.emit({block:put('minecraft:air'),brokenBlockPermutation:{type:{id:'minecraft:crimson_roots'}},player});assert.equal(dimension.drops.length,0);
+  world.afterEvents.playerBreakBlock.emit({block:put('minecraft:air'),brokenBlockPermutation:{type:{id:'minecraft:warped_roots'}},player});assert.equal(dimension.drops[0].stack.typeId,id('polyp'));
+ }finally{Math.random=random;}
+});
