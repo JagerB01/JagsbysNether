@@ -249,6 +249,18 @@
       "minecraft:damage_sensor": {
         "triggers": [
           {
+            "cause": "lava",
+            "deals_damage": "no"
+          },
+          {
+            "cause": "fire_tick",
+            "deals_damage": "no"
+          },
+          {
+            "cause": "fire",
+            "deals_damage": "no"
+          },
+          {
             "cause": "fall",
             "deals_damage": "no"
           }
@@ -394,7 +406,8 @@
       "minecraft:follow_range": {
         "max": 64,
         "value": 64
-      }
+      },
+      "minecraft:fire_immune": {}
     },
     "events": {
       "dungeons:vanguards_in_range": {

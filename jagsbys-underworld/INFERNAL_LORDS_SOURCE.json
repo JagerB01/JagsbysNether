@@ -37,7 +37,7 @@
       "source": "BP/entities/new/boss/nameless_one/nameless_one.json",
       "source_sha256": "8a3e5eb447653f587b5729e119e4963a73f108a3ea37ce03737a026af28cb87f",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "794bced6bc77d6d7a029e066ca697c5c7cfc387c04b0607e1df4c927bb8303f0"
+      "integrated_sha256": "09b0527f28a5388ac13ca0c7053c74776da9c9c6686d80a86e767f27b0f6c067"
     },
     "BP/entities/new/boss/nameless_one/nameless_one_projectile.json": {
       "source": "BP/entities/new/boss/nameless_one/nameless_one_projectile.json",
@@ -55,19 +55,19 @@
       "source": "BP/entities/new/boss/nameless_one/resting_one.json",
       "source_sha256": "9b1ed54a7177b2eb3f7decf09185a84d2c3eea4e44cbe1474722993baef49fa1",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "68efbfc5d52fef84d3b21af7cc80f1ed48ba4905fbaf7d731530dc440c670619"
+      "integrated_sha256": "91327b40c087ba023a336bc9338fae3d07a6af291f9db0c783f5ff73bd5363f2"
     },
     "BP/entities/new/boss/wildfire/wildfire.json": {
       "source": "BP/entities/new/boss/wildfire/wildfire.json",
       "source_sha256": "df46a0ee9a913876baf1d8a01cfcf0ec7de8fa9e5872ffef06138b12fd9857b7",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "7a05bf1c34c5c91fcb965ed30503a8ba6d4a6c8335a1b73f329a35990eee23c0"
+      "integrated_sha256": "a5a86e40ee4c722789b5a9ebd5c94ce7ab4ff3d38821fed565abf6c725928e42"
     },
     "BP/entities/new/boss/wildfire/wildfire_resting.json": {
       "source": "BP/entities/new/boss/wildfire/wildfire_resting.json",
       "source_sha256": "6929ff3654ba3798436cc3f712d448627cce604983210872cc122759196381ce",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "8480c28a723e23260d8b416bb56edfb15cbf3e242dfbaf997e546c69e792738d"
+      "integrated_sha256": "cd3693a55449991241c1f3b5e8a2e9312f8b54c4a1347bae968663d6da61ff62"
     },
     "BP/entities/new/boss/wretched_wraith/projectile.json": {
       "source": "BP/entities/new/boss/wretched_wraith/projectile.json",
@@ -79,13 +79,13 @@
       "source": "BP/entities/new/boss/wretched_wraith/resting_wraith.json",
       "source_sha256": "0951bb62f892cf1a9a9664213b24dbb4da2fae2d33429fd864094b225a122117",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "d90768fd1d1c75096f7270bd8d7d3e7d17a7313745ae61c7f519dbfa405c0da3"
+      "integrated_sha256": "a16f4792e39738b5ace71927e8b46cab1f423c563052770e74bd1225745738ea"
     },
     "BP/entities/new/boss/wretched_wraith/wretched_wraith.json": {
       "source": "BP/entities/new/boss/wretched_wraith/wretched_wraith.json",
       "source_sha256": "bc860fede9b6b1d6c62e501490801889bd3c15634466736f02cd5c919ea5d985",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "eed0ddc1a7feeb3cf3c878d226411fe2d23de090ea7cbce5a5fd6e6ac3118027"
+      "integrated_sha256": "e17b2fe6f11e304c464cab1b821458daed6fdfa84c49eb2611d4523695e3411f"
     },
     "BP/entities/new/boss/wretched_wraith/wretched_wraith_fire.json": {
       "source": "BP/entities/new/boss/wretched_wraith/wretched_wraith_fire.json",
@@ -234,13 +234,13 @@
       "source": "BP/scripts/misc/entityBehaviour/namelessOne.js",
       "source_sha256": "e648437ffcd9625fa303ea66f997171f8d5132c7a23b0cd1e0fb56b3cf96cffa",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "44ee9db361d7cc5cfef09c53b73a8e9370792c7a12f83af40406a5dec3bb26a2"
+      "integrated_sha256": "0e990d0b8a1314d8ee37eb0770fa099402a92567cfa8d1e03093d2d4ec932a1e"
     },
     "BP/scripts/infernal_lords/wretchedWraith.js": {
       "source": "BP/scripts/misc/entityBehaviour/wretchedWraith.js",
       "source_sha256": "5762316fc9959567bd3e9bf71befd10e2b9db224e444bdbd8e9b1824e7ee1abe",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "7b48c9cae0b8df43ae860a9f26d608518e883be65ba1d90c88afc8d59950a1b2"
+      "integrated_sha256": "bba46683f4c9241448e887275ce5965fcd90a1ec0ce7088634c2ec05d6456bd8"
     },
     "BP/scripts/infernal_lords/hoveringInferno.js": {
       "source": "BP/scripts/misc/entityBehaviour/hoveringInferno.js",
@@ -3049,6 +3049,16 @@
       "source": "Underworld placeholder boss drop",
       "integrated_sha256": "6e4e3edcce6b8285ab2c9455843093909a97e8438a08bf14fc56045d0d88f602",
       "adaptation": "Adds one guaranteed matching boss ingredient; custom artwork pending."
+    },
+    "BP/animation_controllers/infernal_lords/nameless.json": {
+      "source": "BP/animation_controllers/nameless.json",
+      "source_pack": "Dungeons 2.1.3",
+      "source_sha256": "8cde8535e811ae72e0036245d6fc33a509282d858cd31870e5a379045db9af0a",
+      "integrated_sha256": "8cde8535e811ae72e0036245d6fc33a509282d858cd31870e5a379045db9af0a"
+    },
+    "BP/scripts/infernal_lords/teleport.js": {
+      "source": "Underworld bounded local teleport adaptation",
+      "integrated_sha256": "ea7d7a21f949547c3cd41bc584581d9a3d0965a5c4e019d028e943eceea925ae"
     }
   },
   "dynamic_particles": [
@@ -3121,7 +3131,8 @@
     "Requested primary entity/egg display names applied; source key/equipment names explicitly localized.",
     "Radiance ally lookup and removed-caster guards fixed without changing numerical effect values.",
     "Dormant bosses placed once at verified authored markers in new matching structures only. A saved per-site claim prevents duplicates/respawns; no ongoing checks or existing-world backfill.",
-    "v0.2.109: Withered Heart, Weeping Soul and Ruinous Ember are placeholder ingredients, each guaranteed once in its matching boss direct loot pool. Temporary icons reuse the respective existing key artwork; no Grimoire recipe implemented."
+    "v0.2.109: Withered Heart, Weeping Soul and Ruinous Ember are placeholder ingredients, each guaranteed once in its matching boss direct loot pool. Temporary icons reuse the respective existing key artwork; no Grimoire recipe implemented.",
+    "v0.2.110: restored the original Malzareth server casting controller; repaired tag-gated teleports, local landing/collision checks, projectile hurt targets, and Nerezhal Nether home/stone-floor abilities; native active/dormant boss fire/lava immunity in every damage-sensor phase. Bounded combat jobs add no idle polling."
   ],
   "native_loot_tables": [
     "loot_tables/entities/zombie.json",

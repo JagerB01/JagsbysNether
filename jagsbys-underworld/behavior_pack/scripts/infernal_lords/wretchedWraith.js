@@ -1,3 +1,4 @@
+import {teleportDestination,landingAt,solidFloor,readBlock} from './teleport.js';
 import { EntityDamageCause, BlockVolume } from "@minecraft/server";
 import { world } from "./runtime.js";
 import { scopedSystem } from "./runtime.js";
@@ -58,13 +59,13 @@ world.beforeEvents.entityHurt.subscribe((e) => {
     const cause = e.damageSource.cause;
     if (cause !== EntityDamageCause.projectile) return;
 
-    if (hit.matches({ families: ["undead"] }) || hit.matches({ families: ["monster"] })) {
+    if (hurt.matches({ families: ["undead"] }) || hurt.matches({ families: ["monster"] })) {
         e.cancel = true;
         e.damage = 0
     }
     if (projectile.hasTag("dungeons:chud_projectile")) {
         system.run(() => {
-            hit.applyKnockback({ x: 0, z: 0 }, -0.5)
+            if (hurt.isValid) hurt.applyKnockback({ x: 0, z: 0 }, -0.5)
         })
     }
 
@@ -82,57 +83,22 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
 });
 
 function teleport(entity, loc, originLoc) {
+    if (!entity?.isValid) return;
     if (loc == undefined) loc = entity.location;
     if (originLoc == undefined) originLoc = false
     const entityLoc = entity.location;
     const dim = entity.dimension;
-    var validTeleport = false
-    var teleportAttempts = 20
-    for (let i = 0; i < teleportAttempts && validTeleport == false; i++) {
-        var xMod = (Math.random() * 30) - 15
-        var zMod = (Math.random() * 30) - 15
-        if (xMod < 0 && xMod > -5) xMod = -5
-        if (xMod > 0 && xMod < 5) xMod = 5
-        if (zMod < 0 && zMod > -5) zMod = -5
-        if (zMod > 0 && zMod < 5) zMod = 5
-        var teleportLoc = { x: loc.x + xMod, y: loc.y, z: loc.z + zMod }
-        teleportLoc.y = dim.getTopmostBlock({ x: teleportLoc.x, z: teleportLoc.z }, teleportLoc.y).y + 1
-        if (teleportLoc.y < loc.y - 0.5 || teleportLoc.y > loc.y + 1) continue;
-
-        const baseDist = Math.hypot(teleportLoc.x - loc.x, teleportLoc.y - loc.y, teleportLoc.z - loc.z)
-        const xDif = loc.x - teleportLoc.x
-        const yDif = loc.y - teleportLoc.y
-        const zDif = loc.z - teleportLoc.z
-        var isWalled = false;
-        for (let i = 1; i < baseDist; i++) {
-            const checkBlock = dim.getBlock({ x: teleportLoc.x + (xDif * (i / baseDist)), y: 1 + teleportLoc.y + (yDif * (i / baseDist)), z: teleportLoc.z + (zDif * (i / baseDist)) })
-            if (!checkBlock) break;
-            if (checkBlock.isAir == false) {
-                isWalled = true;
-            }
-        }
-        if (isWalled) continue;
-        if (!dim.getBlock(teleportLoc)) continue;
-        if (dim.getBlock(teleportLoc).above().isAir == false || dim.getBlock(teleportLoc).above().above().isAir == false) continue;
-        if (!dim.getBlock(teleportLoc).below().typeId.includes("ice") && !dim.getBlock(teleportLoc).below().typeId.includes("snow")) continue;
-        if (teleportLoc) validTeleport = true
-    }
-    if (!validTeleport || originLoc == true) {
-        const homeLoc = entity.getDynamicProperty("dungeons:home")
-        if (homeLoc) {
-            if (dim == world.getDimension("overworld") && dim.isChunkLoaded(homeLoc)) {
-                teleportLoc = homeLoc
-                validTeleport = true
-            }
-        }
-    }
-    if (!validTeleport) return;
-    entity.tryTeleport(teleportLoc)
+    const home = entity.getDynamicProperty("dungeons:home") ?? entityLoc;
+    entity.setDynamicProperty("dungeons:home", home);
+    const teleportLoc = originLoc
+        ? landingAt(dim,home.x,home.z,home.y,{height:4})
+        : teleportDestination(entity,loc);
+    if (!teleportLoc || !entity.tryTeleport(teleportLoc, {checkForBlocks:true})) return;
     dim.playSound("mob.wraith.teleport", entityLoc, { pitch: 0.6 })
     dim.playSound("mob.wretched_wraith.bullethell", entityLoc, { pitch: 1 })
     dim.spawnParticle("dungeons:teleport_out", entityLoc)
     system.runTimeout(() => {
-        if (dim.isChunkLoaded(loc)) {
+        if (entity.isValid && dim.isChunkLoaded(teleportLoc)) {
             dim.playSound("mob.wraith.teleport", entityLoc, { pitch: 0.9 })
             dim.spawnParticle("dungeons:teleport_in", teleportLoc)
             if (originLoc == true && Math.random() > 0.5) {
@@ -147,7 +113,7 @@ function connectLine(player, baseLoc, baseDim) {
     const baseDist = Math.hypot(baseLoc.x - player.location.x, baseLoc.y - player.location.y, baseLoc.z - player.location.z)
     for (let i = 1; i < teleportHiddenTime; i += teleportHiddenTime / baseDist) {
         system.runTimeout(() => {
-            if (player.dimension !== baseDim) return;
+            if (!player.isValid || player.dimension.id !== baseDim.id) return;
             const targetLoc = player.location;
             const xDif = targetLoc.x - baseLoc.x
             const yDif = targetLoc.y - baseLoc.y
@@ -178,6 +144,7 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
     if (id === 'dungeons:melee_attack' && entity.typeId == "dungeons:wretched_wraith") {
         entity.playAnimation("animation.wretched_wraith_v2.melee_attack")
         system.runTimeout(() => {
+            if (!entity.isValid) return;
             const dim = entity.dimension;
             const loc = entity.location
             dim.spawnParticle("dungeons:wraith_ice_burst", loc)
@@ -221,12 +188,13 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
         teleport(entity, entity.location, true)
         entity.addEffect("slowness", 40, { amplifier: 100, showParticles: false })
         system.runTimeout(() => {
+            if (!entity.isValid) return;
             entity.triggerEvent("dungeons:bullethell_start")
             system.runTimeout(() => {
-                fireArea(entity.getDynamicProperty("dungeons:home"), entity.dimension)
+                if (entity.isValid) fireArea(entity.getDynamicProperty("dungeons:home"), entity.dimension, entity)
             }, 2)
             system.runTimeout(() => {
-                fireArea(entity.getDynamicProperty("dungeons:home"), entity.dimension)
+                if (entity.isValid) fireArea(entity.getDynamicProperty("dungeons:home"), entity.dimension, entity)
             }, 150)
         }, 25)
     }
@@ -358,36 +326,34 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
     if (entity.typeId == "dungeons:wretched_wraith_fire" && id == "minecraft:entity_spawned") {
         const dim = entity.dimension;
         const loc = entity.location;
-        const block = dim.getTopmostBlock({ x: loc.x, z: loc.z }, loc.y + 4).above()
-        entity.addEffect("invisibility", 3, { showParticles: false })
-        if (block.below().isAir == false) {
-            const isFire = dim.getEntities({ location: block.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 })
-            if (isFire.length >= 1) {
-                entity.remove()
-            } else {
-                entity.tryTeleport(block.bottomCenter())
-            }
-        }
-        if (!entity.isValid) return;
+        const landing = landingAt(dim,loc.x,loc.z,loc.y,{height:1,maxDrop:4,maxRise:1});
+        if (!landing) {entity.remove();return;}
+        entity.addEffect("invisibility", 3, {showParticles:false});
+        if (dim.getEntities({location:landing,families:["dungeons_fire"],maxDistance:.1}).some(other=>other.id!==entity.id)) {entity.remove();return;}
+        if (!entity.tryTeleport(landing, {checkForBlocks:true})) {entity.remove();return;}
         entity.setDynamicProperty("dungeons:fire_type", "wretched_wraith")
-        dim.playSound("mob.wraith.fire", block.bottomCenter(), { pitch: 0.5 })
+        dim.playSound("mob.wraith.fire", landing, { pitch: 0.5 })
     }
 })
 
 //fire on floor
 
-function fireArea(loc, dim) {
-    var corner1 = { x: loc.x - 15, y: loc.y + -2, z: loc.z - 15 }
-    var corner2 = { x: loc.x + 15, y: loc.y - 3, z: loc.z + 15 }
-    var volume = dim.getBlocks((new BlockVolume(corner1, corner2)), {})
-    for (const blockLoc of volume.getBlockLocationIterator()) {
-        let nblock = dim.getBlock(blockLoc)
-        if (nblock.typeId.includes("ice") && nblock.above().isAir) {
-            const isFire = dim.getEntities({ location: nblock.above().bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 })
-            if (isFire.length == 0) {
-                //nblock.above().setType("iron_block")
-                dim.spawnEntity("dungeons:wretched_wraith_fire", nblock.above().location)
+function fireArea(loc, dim, owner) {
+    if (!loc) return;
+    // Attack work is spread across ticks, and stops if its owner unloads/dies.
+    system.runJob((function* () {
+        for (let x=-15;x<=15;x++) for (let z=-15;z<=15;z++) {
+            if (!owner.isValid) return;
+            const p=landingAt(dim,loc.x+x,loc.z+z,loc.y,{height:1,maxDrop:3,maxRise:0});
+            if (p) {
+                const floor=readBlock(dim,{...p,y:p.y-1});
+                const nether=dim.id==='minecraft:nether'||dim.id==='nether';
+                if ((nether&&solidFloor(floor))||floor?.typeId.includes('ice')) {
+                    if (!dim.getEntities({location:p,families:['dungeons_fire'],maxDistance:.1}).length)
+                        dim.spawnEntity('dungeons:wretched_wraith_fire',p);
+                }
             }
+            yield;
         }
-    }
+    })());
 }

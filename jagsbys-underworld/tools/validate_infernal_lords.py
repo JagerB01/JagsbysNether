@@ -40,6 +40,22 @@ def validate(bp, rp):
     for identifier, hp in [('nameless_one',600),('wretched_wraith',500),('boss_wildfire',500),('tower_wraith',36),('necromancer',50)]:
         entity = actors['dungeons:'+identifier]
         assert entity['components']['minecraft:health'] == {'value': hp, 'max': hp}
+    server_animations = set()
+    for folder, key in [('animations','animations'), ('animation_controllers','animation_controllers')]:
+        for path in (bp / folder).rglob('*.json'):
+            server_animations.update(read(path).get(key, {}))
+    for identifier in ids:
+        for reference in actors[identifier]['description'].get('animations', {}).values():
+            assert reference in server_animations, f'{identifier}: missing server animation/controller {reference}'
+    for identifier in ('nameless_one','nameless_one_resting','wretched_wraith','wretched_wraith_resting','boss_wildfire','boss_wildfire_resting'):
+        entity = actors['dungeons:'+identifier]
+        assert 'minecraft:fire_immune' in entity['components'], identifier
+        for components in [entity['components'], *entity.get('component_groups', {}).values()]:
+            if 'minecraft:damage_sensor' not in components:
+                continue
+            triggers = components['minecraft:damage_sensor']['triggers']
+            for cause in ('fire','fire_tick','lava'):
+                assert any(t.get('cause') == cause and t.get('deals_damage') == 'no' for t in triggers), f'{identifier}: vulnerable to {cause}'
     for identifier in ('necromancer','tower_wraith'):
         base = actors['dungeons:'+identifier]['components']
         enchanted = actors['dungeons:enchanted_'+identifier]['components']

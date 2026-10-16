@@ -121,6 +121,18 @@
         "minecraft:damage_sensor": {
           "triggers": [
             {
+              "cause": "lava",
+              "deals_damage": "no"
+            },
+            {
+              "cause": "fire_tick",
+              "deals_damage": "no"
+            },
+            {
+              "cause": "fire",
+              "deals_damage": "no"
+            },
+            {
               "cause": "fall",
               "deals_damage": "no"
             }
@@ -164,6 +176,18 @@
         },
         "minecraft:damage_sensor": {
           "triggers": [
+            {
+              "cause": "lava",
+              "deals_damage": "no"
+            },
+            {
+              "cause": "fire_tick",
+              "deals_damage": "no"
+            },
+            {
+              "cause": "fire",
+              "deals_damage": "no"
+            },
             {
               "cause": "all",
               "deals_damage": "no"
@@ -425,6 +449,18 @@
       },
       "minecraft:damage_sensor": {
         "triggers": [
+          {
+            "cause": "lava",
+            "deals_damage": "no"
+          },
+          {
+            "cause": "fire_tick",
+            "deals_damage": "no"
+          },
+          {
+            "cause": "fire",
+            "deals_damage": "no"
+          },
           {
             "cause": "entity_attack",
             "on_damage": {

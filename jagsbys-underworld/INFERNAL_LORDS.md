@@ -1,4 +1,4 @@
-# Infernal Lords — v0.2.109 integration test
+# Infernal Lords — v0.2.110 integration test
 
 This build integrates the three Infernal Lords, Ashen Tower Wraith and Crimson
 Necromancer directly into Underworld. Activate Underworld's BP and RP; disable
@@ -186,3 +186,9 @@ Later work remains separate: arena containment, explicit defeat/quest tracking,
 and the planned Grimoire recipe and uses for the three boss ingredients.
 The placement ledger prevents automatic respawns; it does not implement quests
 or containment.
+
+## v0.2.110 ability repairs
+
+Malzareth's original server casting controller is restored. Teleport events no longer depend on a tag set only during transformation, so direct summons and existing untagged bosses can teleport too. Malzareth and Nerezhal use bounded local floor/clearance searches with native collision validation; failed teleports produce no success effects. Nerezhal can return home in the Nether and use teleport/floor-fire abilities on the arena's stone instead of requiring Overworld ice. Bullet-hell floor-fire placement yields between columns and stops if the caster unloads. Two projectile friendly-fire handlers now reference the actual hurt entity. All three active and dormant bosses have native fire immunity plus fire/fire-tick/lava damage exclusions in every damage-sensor phase. These changes add no idle polling.
+
+Automated ability tests cover Malzareth's close/distant/post-cast teleports, projectile fan and vanguard mode switch; Nerezhal's Nether teleport, home return, melee, floor fire and owned projectile fans; Baelgor's shield-break transition, shockwave and minions. Native awakening, combat animation timing and full encounters still need Bedrock playtesting. Check `/scriptevent jagsby_nether:lords_status` for script failures during combat.

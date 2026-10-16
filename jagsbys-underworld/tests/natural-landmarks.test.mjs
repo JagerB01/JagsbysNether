@@ -1,3 +1,4 @@
+import {terrainSurvey} from '../behavior_pack/scripts/terrain_survey.js';
 import {nextGiant,nextGiantCommand} from '../behavior_pack/scripts/next_giant.js';
 import {modularSections} from '../behavior_pack/scripts/modular_fortress.js';
 import test from 'node:test';
@@ -5,7 +6,7 @@ import assert from 'node:assert/strict';
 import {world,system,timeouts} from './mock-server.mjs';
 import {candidateAt,boxGap,spacingAllows,GIANT_REGION} from '../behavior_pack/scripts/landmark_sites.js';
 import {surveyLandmark,biomeAllows,biomeName} from '../behavior_pack/scripts/landmark_terrain.js';
-import {generateLandmark,naturalCandidates,playersClear} from '../behavior_pack/scripts/landmarks.js';
+import {generateLandmark,naturalCandidates,playersClear,naturalSearch} from '../behavior_pack/scripts/landmarks.js';
 import {runGenerationJob,generationBusy} from '../behavior_pack/scripts/generation_queue.js';
 import {ARENAS} from '../behavior_pack/scripts/arena_catalog.js';
 import {NATURAL_ARENAS} from '../behavior_pack/scripts/natural_arena_catalog.js';
@@ -92,4 +93,25 @@ test('new natural reservation consumes requested type once; resuming does not co
   const saved=JSON.parse(world.getDynamicProperty(c.key));assert.equal(saved.id,'large_arena');assert.equal(saved.state,'placing');assert.equal(nextGiant(),undefined);job.return();
   nextGiantCommand('dragon_arena');job=generateLandmark({...c,saved},f.dimension);job.next();job.return();assert.equal(nextGiant().id,'dragon_arena');
  }finally{job?.return();nextGiantCommand('clear');world.structureManager=old;world.setDynamicProperty(c.key,undefined);}
+});
+
+test('natural worker compares a bounded shortlist and consumes its one-shot choice at reservation',()=>{
+ const region=candidateAt('giant',240,240,777),f=fixture(),oldPlayers=world.getPlayers,oldManager=world.structureManager,oldSeed=world.getDynamicProperty('nether_settlements:terrain_seed');
+ const online=[{dimension:f.dimension,location:{x:region.x+500,y:64,z:region.z}}];
+ for(const dx of [0,64,128])terrainSurvey.ocean(region.x+dx,region.z,31);terrainSurvey.flush();
+ world.getPlayers=()=>online;world.structureManager={place:()=>{}};world.setDynamicProperty('nether_settlements:terrain_seed',777);nextGiantCommand('large_arena');
+ const job=naturalSearch();
+ try{
+  for(let i=0;i<250000&&!world.getDynamicProperty(region.key);i++){assert.equal(job.next().done,false);system.currentTick++;}
+  const record=JSON.parse(world.getDynamicProperty(region.key));assert.equal(record.id,'large_arena');assert.equal(record.state,'placing');assert.equal(nextGiant(),undefined);
+ }finally{job.return();world.getPlayers=oldPlayers;world.structureManager=oldManager;world.setDynamicProperty(region.key,undefined);world.setDynamicProperty('nether_settlements:terrain_seed',oldSeed);nextGiantCommand('clear');}
+});
+test('active natural build checkpoints and pauses when the last Nether player leaves',()=>{
+ const c={...candidateAt('giant',260,260,777),id:'large_arena',selectionRoll:.1},f=fixture(),oldPlayers=world.getPlayers,oldManager=world.structureManager;
+ let online=[{dimension:f.dimension,location:{x:c.x+500,y:64,z:c.z}}];world.getPlayers=()=>online;world.structureManager={place:()=>{}};
+ const job=generateLandmark(c,f.dimension,{requirePlayers:true});
+ try{
+  for(let i=0;i<50000;i++){job.next();system.currentTick++;const saved=world.getDynamicProperty(c.key);if(saved&&JSON.parse(saved).next===1)break;}
+  online=[];assert.equal(finish(job).outcome,'paused');const record=JSON.parse(world.getDynamicProperty(c.key));assert.equal(record.state,'placing');assert.equal(record.next,1);
+ }finally{job.return();world.getPlayers=oldPlayers;world.structureManager=oldManager;world.setDynamicProperty(c.key,undefined);}
 });

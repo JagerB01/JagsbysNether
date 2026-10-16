@@ -54,5 +54,24 @@ export function* assessGiantSite(c,dimension,{progress=()=>{},allowed=()=>true,s
  }
  const id=chooseFittingGiant([...fits.keys()],c.selectionRoll??.5,typeof forcedId==='function'?forcedId():forcedId);
  if(!id)return {outcome:'unsuitable',reason:`Site must fit all three giants. ${reasons.join('; ')}`};
- return {...fits.get(id),id,fitting:[...fits.keys()]};
+ return {...fits.get(id),id,fitting:[...fits.keys()],plans:Object.fromEntries(fits)};
+}
+
+// Compare at most three shortlisted positions; never search indefinitely for perfection.
+export function* compareGiantSites(candidates,dimension,{assess=assessGiantSite,allowed=()=>true,progress=()=>{},onResult=()=>{},forcedId,canContinue=()=>true}={}){
+ let best;
+ for(const c of candidates.slice(0,3)){
+  if(!canContinue())return {outcome:'paused'};
+  progress(`Comparing giant site ${c.x}, ${c.z}`);
+  const plan=yield* assess({...c,compareQuality:true},dimension,{progress,allowed:(id,box)=>allowed(c,id,box)});
+  onResult(c,plan);
+  if(plan.outcome!=='ready')continue;
+  const plans=Object.values(plan.plans??{[plan.id]:plan});
+  const score=plans.reduce((sum,p)=>sum+(p.coverage??1)-(p.carveFraction??0),0)/plans.length;
+  if(!best||score>best.score)best={candidate:c,plan,score};
+ }
+ if(!canContinue())return {outcome:'paused'};
+ if(!best)return {outcome:'no_ready_site'};
+ const id=chooseFittingGiant(best.plan.fitting,best.candidate.selectionRoll??.5,typeof forcedId==='function'?forcedId():forcedId);
+ return {outcome:'ready',candidate:{...best.candidate,id,selected:true},plan:{...(best.plan.plans?.[id]??best.plan),id,fitting:best.plan.fitting},score:best.score};
 }

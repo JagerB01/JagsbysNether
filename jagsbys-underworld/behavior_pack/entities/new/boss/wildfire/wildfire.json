@@ -157,6 +157,18 @@
         "minecraft:damage_sensor": {
           "triggers": [
             {
+              "cause": "lava",
+              "deals_damage": "no"
+            },
+            {
+              "cause": "fire_tick",
+              "deals_damage": "no"
+            },
+            {
+              "cause": "fire",
+              "deals_damage": "no"
+            },
+            {
               "on_damage": {
                 "filters": {
                   "all_of": [
@@ -306,6 +318,18 @@
         "minecraft:damage_sensor": {
           "triggers": [
             {
+              "cause": "lava",
+              "deals_damage": "no"
+            },
+            {
+              "cause": "fire_tick",
+              "deals_damage": "no"
+            },
+            {
+              "cause": "fire",
+              "deals_damage": "no"
+            },
+            {
               "cause": "fall",
               "deals_damage": false
             }
@@ -428,7 +452,23 @@
         "is_pushable": true,
         "is_pushable_by_piston": true
       },
-      "minecraft:conditional_bandwidth_optimization": {}
+      "minecraft:conditional_bandwidth_optimization": {},
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "lava",
+            "deals_damage": "no"
+          },
+          {
+            "cause": "fire_tick",
+            "deals_damage": "no"
+          },
+          {
+            "cause": "fire",
+            "deals_damage": "no"
+          }
+        ]
+      }
     },
     "events": {
       "dungeons:harm_shield": {

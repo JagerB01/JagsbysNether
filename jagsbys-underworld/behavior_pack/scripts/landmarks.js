@@ -10,7 +10,7 @@ import {candidateAt,GIANTS,landmarkRecords,villageBoxes,spacingAllows,LANDMARK_P
 import {surveyLandmark,clearVolume,fillSupports,fillSolidFoundation,megaFoundationMaterial,carveTile,obstructionReason} from './landmark_terrain.js';
 import {terrainSurvey} from './terrain_survey.js';
 import {giantSearch,giantSites,smallSites,attemptKey} from './giant_search.js';
-import {TEST_ONLY_GIANT,FIT_ORDER,giantStartingBox,assessGiantSite} from './giant_fit.js';
+import {TEST_ONLY_GIANT,FIT_ORDER,giantStartingBox,assessGiantSite,compareGiantSites} from './giant_fit.js';
 import {surveyModularFortress,modularSections,modularCoreBox,pendingModuleBox,surveyFortressModule,fortressModuleCount,fortressParent,fortressModuleRequired,extendFortressBox,fortressBuildVolumes} from './modular_fortress.js';
 const retries=new Map();let busy=false,status='Waiting for unchecked landmark sites.';
 let diagnostics;
@@ -32,7 +32,7 @@ const boxFor=c=>({x:c.x-Math.floor(ARENAS[c.id].size[0]/2),z:c.z-Math.floor(AREN
 export function playersClear(online,box,margin=32){return online.every(p=>{
  const x=Math.max(box.x,Math.min(p.location.x,box.x+box.sx-1)),z=Math.max(box.z,Math.min(p.location.z,box.z+box.sz-1));return Math.hypot(p.location.x-x,p.location.z-z)>=margin;
 });}
-export function naturalCandidates(online,seed,tick=system.currentTick){
+export function naturalCandidates(online,seed,tick=system.currentTick,{sitesPerRegion=1}={}){
  const all=new Map(),visited=new Set(),observations=terrainSurvey.nearby(online),ground=terrainSurvey.nearbyGround(online);
  // Snapshot existing footprints once per candidate pass, before any leases or surveys.
  const records=landmarkRecords(),villages=villageBoxes();
@@ -59,7 +59,7 @@ export function naturalCandidates(online,seed,tick=system.currentTick){
     eligible.push({...c,distance,priority:c.saved?0:c.observed?1:family==='giant'?3:2});
    }
    eligible.sort((a,b)=>a.priority-b.priority||(b.score??0)-(a.score??0)||a.distance-b.distance||a.x-b.x||a.z-b.z);
-   if(eligible.length)all.set(region.key,eligible[0]);
+   for(const [index,c] of eligible.slice(0,family==='giant'?sitesPerRegion:1).entries())all.set(`${region.key}:${index}`,c);
   }
  }
  return [...all.values()].sort((a,b)=>a.priority-b.priority||a.distance-b.distance||a.key.localeCompare(b.key));
@@ -67,12 +67,12 @@ export function naturalCandidates(online,seed,tick=system.currentTick){
 function save(c,r){world.setDynamicProperty(c.key,JSON.stringify(r));}
 function reject(c,reason){if(['giant','small'].includes(c.family))giantSearch.reject(c,reason);else save(c,{state:'rejected',reason});}
 function supportKey(c,index){return `${SUPPORT_PREFIX}${c.family}_${c.gx}_${c.gz}_${index}`;}
-export function* generateLandmark(c,dimension){
+export function* generateLandmark(c,dimension,{preparedPlan,forcedSelection,requirePlayers=false}={}){
  let lease;const started=system.currentTick;
  const progress=message=>{status=`${c.family==='giant'&&!c.saved&&!c.selected?'Giant site':ARENAS[c.id].display_name}: ${message} (${Math.floor((system.currentTick-started)/20)}s).`;};
  try{
   let record=c.saved,plan;
-  let forced;
+  let forced=forcedSelection;
   if(record)c={...c,id:record.id};
   else if(c.family==='giant'&&!c.selected&&TEST_ONLY_GIANT)c={...c,id:TEST_ONLY_GIANT,selected:true};
   if(!record){
@@ -83,12 +83,13 @@ export function* generateLandmark(c,dimension){
     status='Landmark skipped: spacing changed since candidate selection.';return {outcome:'skipped'};
    }
    status=`Surveying ${ARENAS[c.id].display_name} at ${c.x}, ${c.z}.`;
-   plan=c.family==='giant'&&!c.selected?yield* assessGiantSite(c,dimension,{progress,forcedId:()=>{forced=nextGiant();return forced?.id;},allowed:(id,box)=>spacingAllows({...c,id},box,records,villages)}):c.id==='mega_fortress'?yield* surveyModularFortress(c,dimension,{progress,coreOnly:true,allowed:box=>spacingAllows({...c,id:'mega_fortress'},box,records,villages)}):yield* surveyLandmark(c,dimension,progress);
+   plan=preparedPlan??(c.family==='giant'&&!c.selected?yield* assessGiantSite(c,dimension,{progress,forcedId:()=>{forced=nextGiant();return forced?.id;},allowed:(id,box)=>spacingAllows({...c,id},box,records,villages)}):c.id==='mega_fortress'?yield* surveyModularFortress(c,dimension,{progress,coreOnly:true,allowed:box=>spacingAllows({...c,id:'mega_fortress'},box,records,villages)}):yield* surveyLandmark(c,dimension,progress));
    if(plan.outcome!=='ready'){
     if(plan.outcome==='unsuitable')reject(c,plan.reason);
     else retries.set(attemptKey(c),system.currentTick+1200);
     status=`${ARENAS[c.id].display_name}: ${plan.reason}.`;recordDiagnostic(c,plan.outcome,plan.reason);return {outcome:plan.outcome};
    }
+   if(requirePlayers&&!players().length){status='Landmark paused: no players remain in the Nether.';return {outcome:'paused'};}
    if(plan.id)c={...c,id:plan.id,selected:true};
    if(!plan.modular&&(!spacingAllows(c,plan.box,landmarkRecords(),villageBoxes())||!playersClear(players(),plan.box,32))){
     retries.set(attemptKey(c),system.currentTick+1200);return;
@@ -104,6 +105,7 @@ export function* generateLandmark(c,dimension){
   }
   let arena=record.modular?{display_name:'Mega Fortress',sections:modularSections(record.modules)}:NATURAL_ARENAS[c.id];
   for(let index=record.next;;index++){
+   if(requirePlayers&&!players().length){status='Landmark paused: no players remain in the Nether; progress saved.';return {outcome:'paused'};}
    if(index>=arena.sections.length){
     if(!record.incremental)break;
     while(record.expansionNext<fortressModuleCount){
@@ -161,9 +163,25 @@ export function* naturalSearch(){
   let seed=world.getDynamicProperty('nether_settlements:terrain_seed');
   if(typeof seed!=='number'){seed=Math.floor(Math.random()*2147483647);world.setDynamicProperty('nether_settlements:terrain_seed',seed);}
   for(let attempt=0;attempt<4;attempt++){
-   const c=naturalCandidates(online,seed)[0];
+   const candidates=naturalCandidates(online,seed,system.currentTick,{sitesPerRegion:3}),c=candidates[0];
    if(!c){status='No unchecked or retry-ready sites currently in range; explore farther.';break;}
-   const result=yield* generateLandmark(c,online[0].dimension);
+   let result;
+   if(c.family==='giant'&&!c.saved){
+    let forced;const records=landmarkRecords(),villages=villageBoxes();
+    const comparison=yield* compareGiantSites(candidates.filter(site=>site.key===c.key),online[0].dimension,{
+     progress:message=>{status=message;},
+     allowed:(site,id,box)=>spacingAllows({...site,id},box,records,villages),
+     canContinue:()=>players().length>0,
+     forcedId:()=>{forced=nextGiant();return forced?.id;},
+     onResult:(site,plan)=>{
+      if(plan.outcome==='unsuitable')reject(site,plan.reason);
+      else if(plan.outcome==='deferred')retries.set(attemptKey(site),system.currentTick+1200);
+      if(plan.outcome!=='ready')recordDiagnostic(site,plan.outcome,plan.reason);
+     }
+    });
+    if(comparison.outcome!=='ready'){status=comparison.outcome==='paused'?'Landmark comparison paused: no players remain in the Nether.':'No confirmed giant fit in this comparison; other sites remain available.';break;}
+    result=yield* generateLandmark(comparison.candidate,online[0].dimension,{preparedPlan:comparison.plan,forcedSelection:forced,requirePlayers:true});
+   }else result=yield* generateLandmark(c,online[0].dimension,{requirePlayers:true});
    if(result?.outcome!=='rejected'&&result?.outcome!=='unsuitable')break;
   }
  }finally{busy=false;}

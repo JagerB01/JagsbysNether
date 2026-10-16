@@ -116,3 +116,9 @@ defeat or update. Containment and progression remain future work.
 ## Choose the next natural giant for testing
 
 Run `/scriptevent jagsby_nether:next_giant mega_fortress` (or `dragon_arena` / `large_arena`). The world remembers this one-shot choice across reloads and failed/deferred surveys. Normal all-three-footprint, spacing and loading requirements still apply; this does not place a structure instantly. It clears once the chosen new natural build reserves its site and starts generating. Existing builds and manual templates do not consume it. Use `status` to inspect or `clear` to restore equal random selection. This adds no recurring checks.
+
+## Bounded giant-site comparison (v0.2.110)
+
+Before reserving a new giant, the natural worker surveys up to three shortlisted sites in its chosen region. Each must still pass all three starting-footprint checks. It selects the best confirmed fit using average lava coverage minus sampled solid-terrain occupancy across those footprints. The occupancy sample is 27 block reads per section, taken while that section's existing survey lease is loaded, with yields between reads. This estimates carving; it does not exhaustively count the whole volume. Higher-quality sites win; ties retain shortlist order. Unavailable sites defer without becoming permanent failures, and a ready site can win despite another site being unavailable. There is no unbounded search or new recurring task, and the existing planning budget is unchanged. The selected plan is reused rather than fully surveyed again; normal placement safety checks remain. Equal type chances and the one-shot next-giant command remain supported.
+
+An active natural build pauses at its next tile checkpoint after the last eligible Nether player leaves, and its saved tile/module progress resumes when a Nether player is in working range. A survey comparison stops at its next site boundary; unfinished surveys are not marked unsuitable.

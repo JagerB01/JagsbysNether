@@ -123,6 +123,18 @@
       "minecraft:damage_sensor": {
         "triggers": [
           {
+            "cause": "lava",
+            "deals_damage": "no"
+          },
+          {
+            "cause": "fire_tick",
+            "deals_damage": "no"
+          },
+          {
+            "cause": "fire",
+            "deals_damage": "no"
+          },
+          {
             "cause": "all",
             "deals_damage": false
           }
@@ -137,7 +149,8 @@
         "is_pushable": false,
         "is_pushable_by_piston": true
       },
-      "minecraft:conditional_bandwidth_optimization": {}
+      "minecraft:conditional_bandwidth_optimization": {},
+      "minecraft:fire_immune": {}
     },
     "events": {
       "dungeons:boss_proxy": {

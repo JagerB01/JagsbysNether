@@ -1,3 +1,4 @@
+import {sampleSiteQuality} from './site_quality.js';
 import {terrainSurvey} from './terrain_survey.js';
 import {BlockVolume} from '@minecraft/server';
 import {ARENAS} from './arena_catalog.js';
@@ -123,6 +124,7 @@ export function* surveyLandmark(candidate,dimension,progress=()=>{},cache=undefi
   }
   const origin={x:candidate.x-Math.floor(arena.size[0]/2),y:ocean?(candidate.id==='mega_fortress'?surface-1:surface+2):surface+1-floor,z:candidate.z-Math.floor(arena.size[2]/2)};
   if(origin.y+arena.size[1]+2>128)return {outcome:'unsuitable',reason:'Insufficient height below Nether ceiling'};
+  const quality={solid:0,total:0};
   const supports=[],lavaBudget=candidate.id==='dragon_arena'?dragonFootprintBudget(origin):footprintBudget(arena.size,MIN_OCEAN_COVERAGE[candidate.id]??1);let totalSamples=0,groundSamples=0;
   lease.release();
   for(let index=0;index<arena.sections.length;index++){
@@ -144,6 +146,7 @@ export function* surveyLandmark(candidate,dimension,progress=()=>{},cache=undefi
     yield;
    }
    if(!(yield* clearVolume(sampling,from,[section.size[0],section.size[1]+2,section.size[2]],surface,ocean,[],carving)))return {outcome:'unsuitable',reason:obstructionReason()};
+   if(candidate.compareQuality)yield* sampleSiteQuality(sampling,from,section.size,quality);
    const sectionSupports=[];
    for(const anchor of FOUNDATIONS[candidate.id])if(anchor[0]>=ox&&anchor[0]<ox+section.size[0]&&anchor[2]>=oz&&anchor[2]<oz+section.size[2]){
     const support=yield* supportFor(sampling,origin,anchor,carving);
@@ -156,7 +159,7 @@ export function* surveyLandmark(candidate,dimension,progress=()=>{},cache=undefi
   const coverage=ocean?1-lavaBudget.missing/lavaBudget.area:1;
   if(small&&groundSamples/totalSamples<.5)return {outcome:'unsuitable',reason:'Less than half the Small Arena footprint has nearby natural ground'};
   if(ocean&&coverage<MIN_OCEAN_COVERAGE[candidate.id])return {outcome:'unsuitable',reason:`Insufficient ocean coverage: ${Math.round(coverage*100)}%`};
-  return {outcome:'ready',origin,surface,ocean,carve:carving,solidFoundation:ocean||carving,coverage,supports,box:{x:origin.x,z:origin.z,sx:arena.size[0],sz:arena.size[2]}};
+  return {outcome:'ready',origin,surface,ocean,carve:carving,solidFoundation:ocean||carving,coverage,carveFraction:quality.total?quality.solid/quality.total:0,supports,box:{x:origin.x,z:origin.z,sx:arena.size[0],sz:arena.size[2]}};
  }finally{lease.release();}
 }
 export function* fillSupports(dimension,supports,guard=()=>true,carve=false){
