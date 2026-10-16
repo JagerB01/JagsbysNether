@@ -28,7 +28,8 @@ export function refreshedEncounterSite(site,layout=site.layout){
  // Existing slots retain their exact saved positions; air/player blocks are
  // still preserved by migrateEncounterSite rather than recreating spawners.
  const positions=new Set(slots.map(s=>[s.position.x,s.position.y,s.position.z].join(',')));
- for(const s of TRIAL_ENCOUNTERS.sites[layout]??[]){
+ const candidates=[...(TRIAL_ENCOUNTERS.sites[layout]??[]),...(site.revision!==TRIAL_ENCOUNTERS.revision?(TRIAL_ENCOUNTERS.legacySites?.[layout]??[]):[])];
+ for(const s of candidates){
   const position={x:site.origin.x+s.offset[0],y:site.origin.y+s.offset[1],z:site.origin.z+s.offset[2]};
   if(!positions.has([position.x,position.y,position.z].join(',')))slots.push({position,profile:s.profile});
  }

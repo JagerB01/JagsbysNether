@@ -1,4 +1,4 @@
-# Infernal Lords — v0.2.113 integration test
+# Infernal Lords — v0.2.114 integration test
 
 This build integrates the three Infernal Lords, Ashen Tower Wraith and Crimson
 Necromancer directly into Underworld. Activate Underworld's BP and RP; disable
@@ -33,7 +33,7 @@ helpers, required minions and enchanted variants; this is not 39 new primary
 mobs. No imported mob has a free-roaming natural spawn rule. Dormant bosses are placed
 once at verified sites in newly generated matching giants and new manual template
 placements. Existing built structures and older partially built structures are
-not backfilled. No terrain policy, layout or trial-spawner role has changed. The unrelated Ancient Terror and other original bosses are
+not backfilled. The unrelated Ancient Terror and other original bosses are
 excluded.
 
 Standalone v0.1.4 supplies Nether recolours, names and decorative boss bars.
@@ -90,7 +90,7 @@ Test the requested enemies' opt-in variants:
 
 The Necromancer variant has 100 HP and the Tower Wraith variant has 72 HP.
 Original enchanted variants of required minions are included as support actors.
-Normal Underworld mobs are not converted or enchanted automatically.
+Necromancers retain their native 10% enchanted spawn roll.
 
 Future trial-spawner code can import `spawnEnchanted(dimension, typeId, location)`
 and `registerEnchantedVariant(typeId)` from
@@ -98,8 +98,7 @@ and `registerEnchantedVariant(typeId)` from
 **existing declared BP variant** into the scoped roster. Its definition must
 include the `enchanted` family and baseline health/scale/knockback changes; it
 also needs a matching client definition with the original glint controller.
-Tags alone cannot change a vanilla mob's maximum health or scale. No existing
-trial encounter has been switched to these variants in this release.
+Tags alone cannot change a vanilla mob's maximum health or scale. Trial pools now include enchanted Tower Wraiths directly; Necromancers retain their native enchanted roll.
 
 Arrow-specific effects need the included `dungeons:enchanted_arrow` projectile
 in a future ranged variant's shooter definition. It isolates the original Growing

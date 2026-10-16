@@ -59,7 +59,7 @@ test('a failed site remains pending for a later world load without starting an i
  }finally{f.restore();}
 });
 
-test('old saved mob roles are reassigned to the new crowded-group roles without moving existing spawners',()=>{
+test('legacy mob roles receive the shared weighted presets without moving existing spawners',()=>{
  const f=fixture(),site=encounterSite('small_arena',{x:100,y:30,z:200});site.revision='old';
  const expected=site.slots.map(s=>({position:{...s.position},preset:TRIAL_ENCOUNTERS.presets[s.profile]}));
  site.slots=site.slots.map(s=>({...s,profile:'small_arena/wither_skeleton'}));delete site.layout;
@@ -67,7 +67,7 @@ test('old saved mob roles are reassigned to the new crowded-group roles without 
  try{
   finish(migrateEncounterSite(site));assert.equal(f.placed.length,site.slots.length);
   for(const wanted of expected){const placed=f.placed.find(p=>p.p.x===wanted.position.x&&p.p.y===wanted.position.y&&p.p.z===wanted.position.z);assert(placed);assert.equal(placed.id,wanted.preset);}
-  assert(f.placed.some(p=>p.id.endsWith('_stray')),'Existing crowded groups must receive their Stray assignments');
+  assert(f.placed.every(p=>p.id.startsWith('jagsby_nether:trial_encounters/small_arena_')),'All legacy roles retain updateable weighted presets');
  }finally{f.restore();}
 });
 
@@ -78,4 +78,15 @@ test('revision migration adds lower-chamber positions to an older five-spawner k
  for(const slot of encounterSite('mega_fortress',site.origin,'minecraft:nether','old_keep',true).slots)f.put(slot.position,'minecraft:mob_spawner');
  try{assert.equal(finish(migrateEncounterSite(site)).updated,9);assert.equal(JSON.parse(world.getDynamicProperty(PREFIX+site.key)).slots.length,9);assert.equal(f.placed.length,9);}
  finally{f.restore();}
+});
+
+test('relocated templates still update legacy spawners at their old recorded positions without creating new ones',()=>{
+ const f=fixture(),site=encounterSite('small_arena',{x:100,y:30,z:200});site.revision='before_relocation';
+ site.slots=TRIAL_ENCOUNTERS.legacySites.small_arena.map(s=>({position:{x:100+s.offset[0],y:30+s.offset[1],z:200+s.offset[2]},profile:'small_arena/brute'}));
+ const old=site.slots.map(s=>({...s.position}));for(const p of old)f.put(p,'minecraft:trial_spawner');
+ try{
+  assert.equal(finish(migrateEncounterSite(site)).updated,8);assert.equal(f.placed.length,8);
+  for(const p of old)assert(f.placed.some(s=>s.p.x===p.x&&s.p.y===p.y&&s.p.z===p.z));
+  assert(f.placed.every(s=>!TRIAL_ENCOUNTERS.sites.small_arena.some(n=>s.p.x===100+n.offset[0]&&s.p.y===30+n.offset[1]&&s.p.z===200+n.offset[2])));
+ }finally{f.restore();}
 });

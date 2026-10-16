@@ -178,16 +178,22 @@ class MoogsArenas(unittest.TestCase):
             self.assertEqual(entity['id'][1],'TrialSpawner');self.assertEqual([entity[k][1] for k in ['x','y','z']],[0,0,0])
             group,role=profile.split('/');mob=config['groups'][group][role]
             if mob:
-                self.assertEqual(entity['spawn_data'][1]['TypeId'][1],mob)
+                self.assertNotIn('spawn_data',entity)
+                self.assertEqual([(p['TypeId'][1],p['Weight'][1]) for p in entity['spawn_potentials'][1][1]],[(p['entity'],p['weight']) for p in config['spawn_pool']])
+                for mode in ['normal_config','ominous_config']:self.assertEqual(entity[mode][1]['spawn_potentials'],entity['spawn_potentials'])
                 self.assertEqual(entity['normal_config'][1]['total_mobs'][1],config['defaults']['total_mobs'])
                 self.assertEqual(entity['required_player_range'][1],config['defaults']['required_player_range'])
             else:self.assertNotIn('spawn_data',entity)
 
-    def test_arena_crowding_is_baked_into_actual_native_trial_spawner_data(self):
-        import math
+    def test_weighted_pool_is_baked_in_every_arena_trial_spawner(self):
         encounters=json.loads((ROOT/'behavior_pack/scripts/trial_encounter_catalog.js').read_text().split(' = ',1)[1].rstrip(';\n'))
         config=json.loads((ROOT/'TRIAL_ENCOUNTERS.json').read_text())
         arenas=json.loads((ROOT/'behavior_pack/scripts/arena_catalog.js').read_text().split(' = ',1)[1].rstrip(';\n'))
+        expected=[(p['entity'],p['weight']) for p in config['spawn_pool']]
+        self.assertEqual(sum(w for _,w in expected),40)
+        self.assertEqual(sum(w for mob,w in expected if 'tower_wraith' in mob),10)
+        self.assertEqual(sum(w for mob,w in expected if 'necromancer' in mob),10)
+        self.assertEqual(dict(expected)['minecraft:piglin_brute'],20)
         for name in ['small_arena','large_arena','dragon_arena']:
             actual={}
             for section in arenas[name]['sections']:
@@ -197,16 +203,9 @@ class MoogsArenas(unittest.TestCase):
                     e=entry[1]['block_entity_data'][1]
                     if e['id'][1]!='TrialSpawner':continue
                     i=int(index);x,rem=divmod(i,sy*sz);y,z=divmod(rem,sz)
-                    actual[x+ox,y+oy,z+oz]=e['spawn_data'][1]['TypeId'][1]
-            prior=[]
-            for slot in sorted(encounters['sites'][name],key=lambda s:s['offset']):
-                nearby=sum(math.dist(slot['offset'],s['offset'])<=16 for s in prior if s['profile'].endswith('/brute'))
-                mob='minecraft:stray' if nearby>=2 else 'minecraft:piglin_brute'
-                self.assertEqual(actual[tuple(slot['offset'])],mob)
-                self.assertEqual(config['groups'][name][slot['profile'].split('/')[1]],mob)
-                prior.append(slot)
-            self.assertTrue(all(mob in ['minecraft:stray','minecraft:piglin_brute'] for mob in actual.values()))
-        self.assertTrue(any(s['profile'].endswith('/stray') for s in encounters['sites']['small_arena']))
+                    actual[x+ox,y+oy,z+oz]=[(p['TypeId'][1],p['Weight'][1]) for p in e['spawn_potentials'][1][1]]
+            self.assertEqual(set(actual),{tuple(s['offset']) for s in encounters['sites'][name]})
+            for pool in actual.values():self.assertEqual(pool,expected)
 
     def test_import_has_no_natural_generation_rules(self):
         for folder in ['features','feature_rules','spawn_rules']:

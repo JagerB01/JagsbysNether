@@ -1,4 +1,4 @@
-# Glowsquito and Glowhusk — v0.2.113
+# Glowsquito and Glowhusk — v0.2.114
 
 Glowsquito imports only the user-supplied Infernal Expansion visual design: the original normal/glow textures and converted ten-part Java model with its constant wing flapping. No Java gameplay, sounds, other mobs, items, structures or biomes are imported. The separate pollen sac is a Bedrock visual extension. Apache-2.0 attribution, hashes and model reference are bundled in `docs/glowsquito/`.
 

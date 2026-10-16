@@ -177,6 +177,7 @@ def main():
     subprocess.run(['python3', 'tools/test_structure_loot.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/test_moogs_arenas.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/test_natural_landmarks.py'], cwd=ROOT, check=True)
+    subprocess.run(['python3', 'tools/test_trial_spawn_positions.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/validate.py'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/validate_infernal_lords.py', '--built'], cwd=ROOT, check=True)
     subprocess.run(['python3', 'tools/validate_boss_sites.py', '--built'], cwd=ROOT, check=True)

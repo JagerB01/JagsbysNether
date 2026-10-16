@@ -1,5 +1,5 @@
 """Bake native TrialSpawner presets and location catalogs; no runtime terrain scanning."""
-import copy,hashlib,json,math
+import copy,hashlib,json
 from pathlib import Path
 from structure_crops import NBT
 ROOT=Path(__file__).resolve().parents[1]
@@ -15,33 +15,18 @@ def trial_entity(profile,config,pos):
     'required_player_range':(3,defaults['required_player_range']),'cooldown_end_at':(4,0),
     'next_mob_spawns_at':(4,0),'total_mobs_spawned':(3,0),'registered_players':(9,(10,[])),'current_mobs':(9,(10,[]))}
  if mob:
-  e['spawn_data']=(10,{'TypeId':(8,mob),'Weight':(3,1)})
+  # Leave spawn_data unselected: the native spawner rolls this pool.
+  e['spawn_potentials']=(9,(10,[{'TypeId':(8,p['entity']),'Weight':(3,p['weight'])} for p in config['spawn_pool']]))
   settings={k:(5,float(v)) if k in ['total_mobs','total_mobs_added_per_player','simultaneous_mobs','simultaneous_mobs_added_per_player'] else (3,v)
             for k,v in defaults.items() if k!='required_player_range'}
+  settings['spawn_potentials']=copy.deepcopy(e['spawn_potentials'])
   e['normal_config']=(10,copy.deepcopy(settings));e['ominous_config']=(10,copy.deepcopy(settings))
  return e
 def profile_for(group,entity):
  # Keep role IDs stable after conversion even when their configured mob changes.
- return group+'/'+entity['EntityIdentifier'][1].split(':')[-1] if entity and 'EntityIdentifier' in entity else group+'/imported_trial'
-def assign_crowding(slots,group,config):
- assigned=[];rule=config['crowding']
- for slot in sorted(slots,key=lambda s:s['offset']):
-  nearby=sum(math.dist(slot['offset'],s['offset'])<=rule['radius'] for s in assigned if s['profile'].endswith('/brute'))
-  assigned.append({'offset':slot['offset'],'profile':group+('/stray' if nearby>=rule['brutes_before_stray'] else '/brute')})
- return assigned
-
+ return group+'/'+entity['EntityIdentifier'][1].split(':')[-1] if entity and 'EntityIdentifier' in entity else group+'/weighted'
 def process(sections,group,config,only=None,prior=None):
  slots=[]
- if config.get('crowding'):
-  discovered=[]
-  for section in sections:
-   path=ROOT/'behavior_pack/structures'/f"{section['id'].replace(':','/')}.mcstructure";_,_,root=read(path);st=root['structure'][1];sx,sy,sz=section['size'];ox,oy,oz=section['offset']
-   palette=st['palette'][1]['default'][1]['block_palette'][1][1]
-   for i,pi in enumerate(st['block_indices'][1][1][0][1]):
-    if pi<0 or palette[pi]['name'][1] not in ['minecraft:mob_spawner','minecraft:trial_spawner']:continue
-    x,rem=divmod(i,sy*sz);y,z=divmod(rem,sz);offset=[x+ox,y+oy,z+oz]
-    if only is None or tuple(offset) in only:discovered.append({'offset':offset})
-  prior=assign_crowding(discovered,group,config)
  prior={tuple(s['offset']):s['profile'] for s in prior or []}
  for section in sections:
   path=ROOT/'behavior_pack/structures'/f"{section['id'].replace(':','/')}.mcstructure";_,name,root=read(path);st=root['structure'][1];sx,sy,sz=section['size'];ox,oy,oz=section['offset']
@@ -64,6 +49,9 @@ def generate():
  config=json.loads(DATA.read_text());arenas=catalog('arena_catalog.js');modules=catalog('modular_fortress_catalog.js');prior={}
  location_file=ROOT/'behavior_pack/scripts/trial_encounter_catalog.js'
  if location_file.exists():prior=json.loads(location_file.read_text().split(' = ',1)[1].rstrip(';\n'))['sites']
+ from relocate_trial_spawners import relocate
+ for name in ['small_arena','large_arena','dragon_arena']:
+  relocate(arenas[name]['sections'],[m for m in config.get('relocations',[]) if m['layout']==name],ROOT,read,write)
  sites={name:process(arenas[name]['sections'],name,config,prior=prior.get(name)) for name in ['small_arena','large_arena','dragon_arena']}
  core=process([s for m in modules[:5] for s in m['sections']],'mega_keep',config,prior=prior.get('mega_modular'))
  sites['mega_modular']=core
@@ -84,8 +72,9 @@ def generate():
    root={'format_version':(3,1),'size':(9,(3,[1,1,1])),
          'structure_world_origin':(9,(3,[0,0,0])),'structure':(10,structure)}
    write(ROOT/'behavior_pack/structures'/f"{identifier.replace(':','/')}.mcstructure",root)
- revision=hashlib.sha256(json.dumps({'config':{'defaults':config['defaults'],'groups':config['groups']},'sites':sites},sort_keys=True).encode()).hexdigest()[:16]
- result={'revision':revision,'presets':presets,'sites':sites}
+ revision=hashlib.sha256(json.dumps({'config':{'defaults':config['defaults'],'groups':config['groups'],'spawn_pool':config['spawn_pool']},'sites':sites},sort_keys=True).encode()).hexdigest()[:16]
+ legacy={name:[{'offset':m['from'],'profile':name+'/weighted'} for m in config.get('relocations',[]) if m['layout']==name] for name in ['small_arena','large_arena','dragon_arena']}
+ result={'revision':revision,'presets':presets,'sites':sites,'legacySites':legacy}
  location_file.write_text('export const TRIAL_ENCOUNTERS = '+json.dumps(result,separators=(',',':'))+';\n')
  from generate_natural_landmarks import generate as natural
  natural()

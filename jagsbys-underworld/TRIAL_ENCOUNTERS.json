@@ -1,5 +1,5 @@
 {
-  "description": "Encounter data is baked into native trial-spawner presets. Change a profile's mob to update that role in new and recorded existing structures, with one migration on the next world load.",
+  "description": "Native weighted trial encounters: 25% Ashen Tower Wraith family, 25% Crimson Necromancer, 50% Piglin Brute. Native selection is per encounter, not a guaranteed split in each wave. Existing recorded encounters receive a finite revision migration; relocated positions apply to new structures.",
   "defaults": {
     "required_player_range": 14,
     "spawn_range": 4,
@@ -12,37 +12,491 @@
   },
   "groups": {
     "small_arena": {
-      "wither_skeleton": "minecraft:piglin_brute",
-      "magma_cube": "minecraft:piglin_brute",
-      "skeleton": "minecraft:piglin_brute",
-      "brute": "minecraft:piglin_brute",
-      "stray": "minecraft:stray"
+      "wither_skeleton": "weighted",
+      "magma_cube": "weighted",
+      "skeleton": "weighted",
+      "brute": "weighted",
+      "stray": "weighted",
+      "weighted": "weighted"
     },
     "large_arena": {
-      "wither_skeleton": "minecraft:piglin_brute",
-      "skeleton": "minecraft:piglin_brute",
-      "imported_trial": "minecraft:piglin_brute",
-      "brute": "minecraft:piglin_brute",
-      "stray": "minecraft:stray"
+      "wither_skeleton": "weighted",
+      "skeleton": "weighted",
+      "imported_trial": "weighted",
+      "brute": "weighted",
+      "stray": "weighted",
+      "weighted": "weighted"
     },
     "dragon_arena": {
-      "wither_skeleton": "minecraft:piglin_brute",
-      "blaze": "minecraft:piglin_brute",
-      "magma_cube": "minecraft:piglin_brute",
-      "imported_trial": "minecraft:piglin_brute",
-      "brute": "minecraft:piglin_brute",
-      "stray": "minecraft:stray"
+      "wither_skeleton": "weighted",
+      "blaze": "weighted",
+      "magma_cube": "weighted",
+      "imported_trial": "weighted",
+      "brute": "weighted",
+      "stray": "weighted",
+      "weighted": "weighted"
     },
     "mega_keep": {
-      "wither_skeleton": "minecraft:piglin_brute",
-      "magma_cube": "minecraft:piglin_brute",
-      "brute": "minecraft:piglin_brute",
-      "stray": "minecraft:stray"
+      "wither_skeleton": "weighted",
+      "magma_cube": "weighted",
+      "brute": "weighted",
+      "stray": "weighted",
+      "weighted": "weighted"
     }
   },
-  "crowding": {
-    "radius": 16,
-    "brutes_before_stray": 2,
-    "order": "Lexicographic local X, Y, Z; count already assigned nearby Piglin Brute spawners in 3D."
-  }
+  "spawn_pool": [
+    {
+      "entity": "dungeons:tower_wraith",
+      "weight": 9
+    },
+    {
+      "entity": "dungeons:enchanted_tower_wraith",
+      "weight": 1
+    },
+    {
+      "entity": "dungeons:necromancer",
+      "weight": 10
+    },
+    {
+      "entity": "minecraft:piglin_brute",
+      "weight": 20
+    }
+  ],
+  "enchanted_note": "10% of wraith selections are the declared enchanted variant. Necromancers retain their native 1-in-10 entity_spawned transformation. Enchanted selections are included within their 25% family share.",
+  "relocations": [
+    {
+      "layout": "small_arena",
+      "from": [
+        22,
+        9,
+        35
+      ],
+      "to": [
+        23,
+        3,
+        35
+      ],
+      "fill": "minecraft:chiseled_deepslate"
+    },
+    {
+      "layout": "small_arena",
+      "from": [
+        26,
+        8,
+        84
+      ],
+      "to": [
+        26,
+        3,
+        85
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "small_arena",
+      "from": [
+        27,
+        10,
+        53
+      ],
+      "to": [
+        27,
+        2,
+        53
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "small_arena",
+      "from": [
+        27,
+        10,
+        67
+      ],
+      "to": [
+        27,
+        2,
+        67
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "small_arena",
+      "from": [
+        28,
+        10,
+        53
+      ],
+      "to": [
+        28,
+        2,
+        53
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "small_arena",
+      "from": [
+        28,
+        10,
+        67
+      ],
+      "to": [
+        28,
+        2,
+        67
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "small_arena",
+      "from": [
+        29,
+        8,
+        84
+      ],
+      "to": [
+        29,
+        3,
+        85
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "small_arena",
+      "from": [
+        33,
+        9,
+        35
+      ],
+      "to": [
+        32,
+        3,
+        35
+      ],
+      "fill": "minecraft:chiseled_deepslate"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        11,
+        8,
+        9
+      ],
+      "to": [
+        11,
+        5,
+        9
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        12,
+        8,
+        8
+      ],
+      "to": [
+        12,
+        5,
+        8
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        27,
+        12,
+        43
+      ],
+      "to": [
+        28,
+        2,
+        43
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        27,
+        13,
+        43
+      ],
+      "to": [
+        27,
+        3,
+        41
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        27,
+        14,
+        43
+      ],
+      "to": [
+        28,
+        3,
+        42
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        28,
+        28,
+        13
+      ],
+      "to": [
+        27,
+        23,
+        13
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        29,
+        28,
+        77
+      ],
+      "to": [
+        29,
+        24,
+        77
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        30,
+        9,
+        88
+      ],
+      "to": [
+        30,
+        2,
+        89
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        31,
+        9,
+        88
+      ],
+      "to": [
+        31,
+        2,
+        89
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        32,
+        28,
+        77
+      ],
+      "to": [
+        32,
+        24,
+        77
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        33,
+        28,
+        13
+      ],
+      "to": [
+        34,
+        23,
+        13
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        34,
+        12,
+        43
+      ],
+      "to": [
+        33,
+        2,
+        43
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        34,
+        13,
+        43
+      ],
+      "to": [
+        34,
+        3,
+        41
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        34,
+        14,
+        43
+      ],
+      "to": [
+        33,
+        3,
+        44
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        49,
+        8,
+        8
+      ],
+      "to": [
+        49,
+        5,
+        8
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        50,
+        8,
+        9
+      ],
+      "to": [
+        50,
+        5,
+        9
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "dragon_arena",
+      "from": [
+        57,
+        14,
+        60
+      ],
+      "to": [
+        57,
+        6,
+        58
+      ],
+      "fill": "minecraft:crimson_stem"
+    },
+    {
+      "layout": "dragon_arena",
+      "from": [
+        48,
+        8,
+        84
+      ],
+      "to": [
+        49,
+        6,
+        60
+      ],
+      "fill": "minecraft:chiseled_deepslate"
+    },
+    {
+      "layout": "dragon_arena",
+      "from": [
+        50,
+        9,
+        17
+      ],
+      "to": [
+        54,
+        6,
+        37
+      ],
+      "fill": "minecraft:chiseled_deepslate"
+    },
+    {
+      "layout": "dragon_arena",
+      "from": [
+        88,
+        8,
+        30
+      ],
+      "to": [
+        65,
+        6,
+        39
+      ],
+      "fill": "minecraft:chiseled_deepslate"
+    },
+    {
+      "layout": "dragon_arena",
+      "from": [
+        110,
+        8,
+        99
+      ],
+      "to": [
+        103,
+        6,
+        67
+      ],
+      "fill": "minecraft:chiseled_deepslate"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        17,
+        21,
+        45
+      ],
+      "to": [
+        12,
+        2,
+        46
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    },
+    {
+      "layout": "large_arena",
+      "from": [
+        37,
+        21,
+        40
+      ],
+      "to": [
+        36,
+        2,
+        42
+      ],
+      "fill": "minecraft:deepslate_bricks"
+    }
+  ]
 }

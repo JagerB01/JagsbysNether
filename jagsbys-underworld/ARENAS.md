@@ -1,4 +1,4 @@
-# Arenas and natural landmarks — current v0.2.103
+# Arenas and natural landmarks — current v0.2.114
 
 Architecture is adapted from the supplied Moogs Nether Structures 3.1.1 Java 1.21 templates. Original selected templates, pools, processors, credits and licenses remain under `docs/moogs_arenas/`; source hashes and conversion notes are in `MOOGS_ARENAS_SOURCE.json`. This is not a port of the Java mod's bosses, custom encounter pools or reward progression.
 
@@ -44,7 +44,7 @@ Ruins use 192-block regions: Grave Yard 8%, Large Blackstone Pillars 6%, Large B
 
 ## Spawners and encounters
 
-All spawners in the three arenas and the Mega Fortress keep and four lower chambers are native trial spawners. Piglin Brute is the default mob. An offline deterministic assignment sorts local X/Y/Z positions and assigns a Stray when two earlier Piglin Brute spawners are within 16 blocks in 3D. No runtime crowding scan is used.
+All spawners in the three arenas and the Mega Fortress keep and four lower chambers are native trial spawners. Every trial spawner uses the same weighted native pool: 25% Ashen Tower Wraith family, 25% Crimson Necromancer, 50% Piglin Brute. This replaces the former Brute/Stray crowding assignment. These are encounter selection weights, not a guaranteed mob split in every wave. Both normal and ominous configurations use the pool. Of the Wraith selections, 10% are the existing enchanted Tower Wraith. Necromancers retain their native 10% enchanted transformation. Neither adds to its family's 25% share. No runtime selection or crowding scan is used.
 
 | Build | Configured trial spawners | Ordinary spawners |
 | --- | --- | --- |
@@ -134,3 +134,9 @@ New Small Arena chests use `loot_tables/chests/small_arena.json`: normal Underwo
 ### v0.2.113 hanging lava
 
 Active carving removes source and flowing lava inside each placement volume above the surveyed ground/ocean level. It preserves the ocean at/below that level and lava outside the volume. Adjacent external sources can still flow in. This uses filtered writes during generation, with no idle fluid scanning, and does not repair existing arenas.
+
+## v0.2.114 spawner positions
+
+31 trial spawners were moved into existing lower decorative blocks: 8 Small Arena, 18 Large Arena, 5 Dragon Arena. The four isolated Dragon Arena pedestal spawners now sit farther away near usable existing floors. Vacated slots use matching deepslate masonry or crimson stem. All relocated positions are checked offline for at least ten conservative floor candidates, three blocks of headroom for 2.1-block casters, and clear centre rays. Ten is an audit threshold, not a native spawn rule; precise native spawning still needs Bedrock acceptance. Counts and dormant boss platforms are unchanged.
+
+Positions change in new templates only. Existing recorded spawners receive the weighted configuration at their existing positions through the finite revision migration; relocation does not overwrite existing terrain/player builds. Legacy coordinates are retained for older sites.
