@@ -178,7 +178,8 @@ class MoogsArenas(unittest.TestCase):
             self.assertEqual(entity['id'][1],'TrialSpawner');self.assertEqual([entity[k][1] for k in ['x','y','z']],[0,0,0])
             group,role=profile.split('/');mob=config['groups'][group][role]
             if mob:
-                self.assertNotIn('spawn_data',entity)
+                self.assertIn(entity['spawn_data'][1]['TypeId'][1],{p['entity'] for p in config['spawn_pool']})
+                if mob!='weighted':self.assertEqual(entity['spawn_data'][1]['TypeId'][1],mob)
                 self.assertEqual([(p['TypeId'][1],p['Weight'][1]) for p in entity['spawn_potentials'][1][1]],[(p['entity'],p['weight']) for p in config['spawn_pool']])
                 for mode in ['normal_config','ominous_config']:self.assertEqual(entity[mode][1]['spawn_potentials'],entity['spawn_potentials'])
                 self.assertEqual(entity['normal_config'][1]['total_mobs'][1],config['defaults']['total_mobs'])
@@ -203,9 +204,23 @@ class MoogsArenas(unittest.TestCase):
                     e=entry[1]['block_entity_data'][1]
                     if e['id'][1]!='TrialSpawner':continue
                     i=int(index);x,rem=divmod(i,sy*sz);y,z=divmod(rem,sz)
+                    self.assertIn(e['spawn_data'][1]['TypeId'][1],{p['entity'] for p in config['spawn_pool']})
                     actual[x+ox,y+oy,z+oz]=[(p['TypeId'][1],p['Weight'][1]) for p in e['spawn_potentials'][1][1]]
             self.assertEqual(set(actual),{tuple(s['offset']) for s in encounters['sites'][name]})
             for pool in actual.values():self.assertEqual(pool,expected)
+
+    def test_every_packaged_trial_spawner_has_an_explicit_nonempty_selected_mob(self):
+        valid={'minecraft:piglin_brute','dungeons:tower_wraith','dungeons:enchanted_tower_wraith','dungeons:necromancer'}
+        count=0
+        for path in (ROOT/'behavior_pack/structures/jagsby_nether').rglob('*.mcstructure'):
+            if not any(part in ('arenas','arenas_natural','trial_encounters','mega_modular') for part in path.parts):continue
+            r=NBT(path.read_bytes());r.read('B');r.string();st=r.payload(10)['structure'][1]
+            default=st['palette'][1]['default'][1];palette=default['block_palette'][1][1];positions=default.get('block_position_data',(10,{}))[1]
+            for i,pi in enumerate(st['block_indices'][1][1][0][1]):
+                if pi<0 or palette[pi]['name'][1]!='minecraft:trial_spawner':continue
+                e=positions[str(i)][1]['block_entity_data'][1]
+                self.assertIn(e['spawn_data'][1]['TypeId'][1],valid,str(path));count+=1
+        self.assertGreater(count,100)
 
     def test_import_has_no_natural_generation_rules(self):
         for folder in ['features','feature_rules','spawn_rules']:

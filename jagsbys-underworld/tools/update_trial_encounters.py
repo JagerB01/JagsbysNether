@@ -9,13 +9,25 @@ def read(path):
 def write(path,root,name=''):
  w=NBT();w.write('B',10);w.put_string(name);w.put(10,root);path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(w.stream.getvalue())
 def catalog(file):return json.loads((ROOT/'behavior_pack/scripts'/file).read_text().split(' = ',1)[1].rstrip(';\n'))
+def initial_mob(profile,config,pos):
+ group,role=profile.split('/');mob=config['groups'][group][role]
+ if mob!='weighted':return mob
+ # Stable per-position first choice; never rely on an empty spawn_data entry.
+ pool=config['spawn_pool'];total=sum(p['weight'] for p in pool)
+ roll=int(hashlib.sha256((profile+str(tuple(pos))).encode()).hexdigest(),16)%total
+ for choice in pool:
+  roll-=choice['weight']
+  if roll<0:return choice['entity']
+ raise AssertionError('Empty weighted encounter pool')
+
 def trial_entity(profile,config,pos):
  group,role=profile.split('/');mob=config['groups'][group][role];defaults=config['defaults']
  e={'id':(8,'TrialSpawner'),'isMovable':(1,0),**{k:(3,v) for k,v in zip(('x','y','z'),pos)},
     'required_player_range':(3,defaults['required_player_range']),'cooldown_end_at':(4,0),
     'next_mob_spawns_at':(4,0),'total_mobs_spawned':(3,0),'registered_players':(9,(10,[])),'current_mobs':(9,(10,[]))}
  if mob:
-  # Leave spawn_data unselected: the native spawner rolls this pool.
+  e['spawn_data']=(10,{'TypeId':(8,initial_mob(profile,config,pos)),'Weight':(3,1)})
+  # Retain potentials, but activation never depends on a native pool reroll.
   e['spawn_potentials']=(9,(10,[{'TypeId':(8,p['entity']),'Weight':(3,p['weight'])} for p in config['spawn_pool']]))
   settings={k:(5,float(v)) if k in ['total_mobs','total_mobs_added_per_player','simultaneous_mobs','simultaneous_mobs_added_per_player'] else (3,v)
             for k,v in defaults.items() if k!='required_player_range'}
@@ -72,9 +84,10 @@ def generate():
    root={'format_version':(3,1),'size':(9,(3,[1,1,1])),
          'structure_world_origin':(9,(3,[0,0,0])),'structure':(10,structure)}
    write(ROOT/'behavior_pack/structures'/f"{identifier.replace(':','/')}.mcstructure",root)
- revision=hashlib.sha256(json.dumps({'config':{'defaults':config['defaults'],'groups':config['groups'],'spawn_pool':config['spawn_pool']},'sites':sites},sort_keys=True).encode()).hexdigest()[:16]
+ revision=hashlib.sha256(json.dumps({'config':{'defaults':config['defaults'],'groups':config['groups'],'spawn_pool':config['spawn_pool'],'native_data_revision':config['native_data_revision']},'sites':sites},sort_keys=True).encode()).hexdigest()[:16]
  legacy={name:[{'offset':m['from'],'profile':name+'/weighted'} for m in config.get('relocations',[]) if m['layout']==name] for name in ['small_arena','large_arena','dragon_arena']}
- result={'revision':revision,'presets':presets,'sites':sites,'legacySites':legacy}
+ choices={group:[{'profile':group+'/selected_'+str(i),'weight':p['weight']} for i,p in enumerate(config['spawn_pool'])] for group in config['groups']}
+ result={'revision':revision,'presets':presets,'sites':sites,'legacySites':legacy,'choices':choices}
  location_file.write_text('export const TRIAL_ENCOUNTERS = '+json.dumps(result,separators=(',',':'))+';\n')
  from generate_natural_landmarks import generate as natural
  natural()

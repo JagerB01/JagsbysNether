@@ -1,5 +1,5 @@
 {
-  "description": "Native weighted trial encounters: 25% Ashen Tower Wraith family, 25% Crimson Necromancer, 50% Piglin Brute. Native selection is per encounter, not a guaranteed split in each wave. Existing recorded encounters receive a finite revision migration; relocated positions apply to new structures.",
+  "description": "Every native trial spawner has an explicit selected mob. Requested weights apply to initial mob selection; native potential-pool rerolls require live verification. Existing recorded structures receive a finite revision repair.",
   "defaults": {
     "required_player_range": 14,
     "spawn_range": 4,
@@ -17,7 +17,11 @@
       "skeleton": "weighted",
       "brute": "weighted",
       "stray": "weighted",
-      "weighted": "weighted"
+      "weighted": "weighted",
+      "selected_0": "dungeons:tower_wraith",
+      "selected_1": "dungeons:enchanted_tower_wraith",
+      "selected_2": "dungeons:necromancer",
+      "selected_3": "minecraft:piglin_brute"
     },
     "large_arena": {
       "wither_skeleton": "weighted",
@@ -25,7 +29,11 @@
       "imported_trial": "weighted",
       "brute": "weighted",
       "stray": "weighted",
-      "weighted": "weighted"
+      "weighted": "weighted",
+      "selected_0": "dungeons:tower_wraith",
+      "selected_1": "dungeons:enchanted_tower_wraith",
+      "selected_2": "dungeons:necromancer",
+      "selected_3": "minecraft:piglin_brute"
     },
     "dragon_arena": {
       "wither_skeleton": "weighted",
@@ -34,14 +42,22 @@
       "imported_trial": "weighted",
       "brute": "weighted",
       "stray": "weighted",
-      "weighted": "weighted"
+      "weighted": "weighted",
+      "selected_0": "dungeons:tower_wraith",
+      "selected_1": "dungeons:enchanted_tower_wraith",
+      "selected_2": "dungeons:necromancer",
+      "selected_3": "minecraft:piglin_brute"
     },
     "mega_keep": {
       "wither_skeleton": "weighted",
       "magma_cube": "weighted",
       "brute": "weighted",
       "stray": "weighted",
-      "weighted": "weighted"
+      "weighted": "weighted",
+      "selected_0": "dungeons:tower_wraith",
+      "selected_1": "dungeons:enchanted_tower_wraith",
+      "selected_2": "dungeons:necromancer",
+      "selected_3": "minecraft:piglin_brute"
     }
   },
   "spawn_pool": [
@@ -498,5 +514,6 @@
       ],
       "fill": "minecraft:deepslate_bricks"
     }
-  ]
+  ],
+  "native_data_revision": 2
 }

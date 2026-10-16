@@ -13,10 +13,22 @@ export function encounterSite(id,origin,dimension='minecraft:nether',key,modular
  return {layout:modular?'mega_modular':id,key:key??`manual_${dimension}_${id}_${origin.x}_${origin.y}_${origin.z}`,id,dimension,
   origin:{...origin},slots:slots.map(s=>({position:{x:origin.x+s.offset[0],y:origin.y+s.offset[1],z:origin.z+s.offset[2]},profile:s.profile}))};
 }
-// Called once when a freshly configured structure completes, never per tick.
+export function chooseEncounterProfile(group,roll=Math.random()){
+ const choices=TRIAL_ENCOUNTERS.choices[group];if(!choices?.length)throw Error(`Unknown encounter group ${group}`);
+ const total=choices.reduce((n,c)=>n+c.weight,0);let remaining=Math.min(1-Number.EPSILON,Math.max(0,roll))*total;
+ for(const choice of choices){remaining-=choice.weight;if(remaining<0)return choice.profile;}
+ return choices.at(-1).profile;
+}
+// One bounded configuration pass at structure completion; no periodic checks.
 export function recordEncounterSite(id,origin,dimension,key,modular=false){
  const site=encounterSite(id,origin,dimension,key,modular);if(!site)return;
- world.setDynamicProperty(siteKey(site.key),JSON.stringify({...site,revision:TRIAL_ENCOUNTERS.revision}));
+ site.layoutRevision=TRIAL_ENCOUNTERS.revision;
+ world.setDynamicProperty(siteKey(site.key),JSON.stringify(site));
+ // A crash before this queued pass finishes must retry on the next world load.
+ world.setDynamicProperty(VERSION,undefined);
+ runGenerationJob((function*(){
+  try{yield* migrateEncounterSite(site);}catch(error){status=`Fresh encounter configuration deferred: ${error.message}`;console.warn('[Underworld encounters] '+status);}
+ })());
 }
 export function refreshedEncounterSite(site,layout=site.layout){
  if(!layout){
@@ -28,7 +40,7 @@ export function refreshedEncounterSite(site,layout=site.layout){
  // Existing slots retain their exact saved positions; air/player blocks are
  // still preserved by migrateEncounterSite rather than recreating spawners.
  const positions=new Set(slots.map(s=>[s.position.x,s.position.y,s.position.z].join(',')));
- const candidates=[...(TRIAL_ENCOUNTERS.sites[layout]??[]),...(site.revision!==TRIAL_ENCOUNTERS.revision?(TRIAL_ENCOUNTERS.legacySites?.[layout]??[]):[])];
+ const candidates=[...(TRIAL_ENCOUNTERS.sites[layout]??[]),...(site.revision!==TRIAL_ENCOUNTERS.revision&&site.layoutRevision!==TRIAL_ENCOUNTERS.revision?(TRIAL_ENCOUNTERS.legacySites?.[layout]??[]):[])];
  for(const s of candidates){
   const position={x:site.origin.x+s.offset[0],y:site.origin.y+s.offset[1],z:site.origin.z+s.offset[2]};
   if(!positions.has([position.x,position.y,position.z].join(',')))slots.push({position,profile:s.profile});
@@ -50,7 +62,7 @@ export function recordedEncounterSites(){
  return [...stored.values()].map(site=>refreshedEncounterSite(site));
 }
 export function* migrateEncounterSite(site){
- if(site.revision===TRIAL_ENCOUNTERS.revision)return {updated:0};
+ if(site.revision===TRIAL_ENCOUNTERS.revision||read(siteKey(site.key))?.revision===TRIAL_ENCOUNTERS.revision)return {updated:0};
  site=refreshedEncounterSite(site);
  const dimension=world.getDimension(site.dimension),chunks=new Map();let updated=0,lease;
  // Save stable positions before the first update so later template edits do
@@ -58,9 +70,14 @@ export function* migrateEncounterSite(site){
  world.setDynamicProperty(siteKey(site.key),JSON.stringify(site));
  for(const slot of site.slots){
   if(!TRIAL_ENCOUNTERS.presets[slot.profile])throw Error(`Unknown encounter profile ${slot.profile}`);
+  if(slot.selectionRevision!==TRIAL_ENCOUNTERS.revision||!TRIAL_ENCOUNTERS.presets[slot.selectedProfile]){
+   slot.selectedProfile=chooseEncounterProfile(slot.profile.split('/')[0]);slot.selectionRevision=TRIAL_ENCOUNTERS.revision;
+  }
   const key=`${Math.floor(slot.position.x/16)},${Math.floor(slot.position.z/16)}`;
   if(!chunks.has(key))chunks.set(key,[]);chunks.get(key).push(slot);
  }
+ // Persist weighted choices before writing, so retries cannot reroll repaired slots.
+ world.setDynamicProperty(siteKey(site.key),JSON.stringify(site));
  try{
   for(const [key,slots] of chunks){
    const [x,z]=key.split(',').map(Number);lease=chunkLease(dimension,'encounter_update');
@@ -69,7 +86,7 @@ export function* migrateEncounterSite(site){
     const block=dimension.getBlock(slot.position);if(!block)throw Error('Encounter block is unloaded');
     // Preserve mined spawners and any player construction in their old place.
     if(['minecraft:mob_spawner','minecraft:trial_spawner'].includes(block.typeId)){
-     world.structureManager.place(TRIAL_ENCOUNTERS.presets[slot.profile],dimension,slot.position,{includeEntities:false,includeBlocks:true});updated++;
+     world.structureManager.place(TRIAL_ENCOUNTERS.presets[slot.selectedProfile],dimension,slot.position,{includeEntities:false,includeBlocks:true});updated++;
     }
     yield;
    }

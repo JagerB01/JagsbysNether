@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {world,system,intervals,timeouts} from './mock-server.mjs';
 import {TRIAL_ENCOUNTERS} from '../behavior_pack/scripts/trial_encounter_catalog.js';
-import {encounterSite,recordEncounterSite,recordedEncounterSites,migrateEncounterSite,migrateRecordedEncounters,scheduleEncounterUpdate} from '../behavior_pack/scripts/trial_encounters.js';
+import {encounterSite,recordEncounterSite,recordedEncounterSites,migrateEncounterSite,migrateRecordedEncounters,scheduleEncounterUpdate,chooseEncounterProfile} from '../behavior_pack/scripts/trial_encounters.js';
 const PREFIX='underworld_encounters:site_',VERSION='underworld_encounters:revision';
 function finish(job){for(let i=0;i<10000;i++){const r=job.next();system.currentTick++;if(r.done)return r.value;}assert.fail('Migration stalled');}
 function clean(){for(const key of world.getDynamicPropertyIds())world.setDynamicProperty(key,undefined);}
@@ -40,12 +40,12 @@ test('native presets update existing spawners once, without restoring mined spaw
   assert(f.commands.some(c=>c.startsWith('tickingarea remove')));
  }finally{f.restore();}
 });
-test('fresh manual structures record stable positions without scanning or triggering migration',()=>{
+test('fresh structures record stable positions and queue finite weighted configuration without scans',()=>{
  clean();const d=world.getDimension,start=timeouts.length;world.getDimension=()=>assert.fail('Recording must not load chunks');
  try{
   recordEncounterSite('dragon_arena',{x:100,y:30,z:200},'minecraft:nether');const sites=recordedEncounterSites();
-  assert.equal(sites.length,1);assert.equal(sites[0].slots.length,13);assert.equal(sites[0].revision,TRIAL_ENCOUNTERS.revision);
-  assert.equal(timeouts.length,start);assert.equal(intervals.length,0);
+  assert.equal(sites.length,1);assert.equal(sites[0].slots.length,13);assert.equal(sites[0].layoutRevision,TRIAL_ENCOUNTERS.revision);assert.equal(sites[0].revision,undefined);assert.equal(world.getDynamicProperty(VERSION),undefined);
+  assert.equal(timeouts.length,start+1);assert.equal(intervals.length,0);
  }finally{world.getDimension=d;clean();}
 });
 test('a failed site remains pending for a later world load without starting an idle retry loop',()=>{
@@ -61,12 +61,12 @@ test('a failed site remains pending for a later world load without starting an i
 
 test('legacy mob roles receive the shared weighted presets without moving existing spawners',()=>{
  const f=fixture(),site=encounterSite('small_arena',{x:100,y:30,z:200});site.revision='old';
- const expected=site.slots.map(s=>({position:{...s.position},preset:TRIAL_ENCOUNTERS.presets[s.profile]}));
+ const expected=site.slots.map(s=>({position:{...s.position},presetPrefix:"jagsby_nether:trial_encounters/small_arena_selected_"}));
  site.slots=site.slots.map(s=>({...s,profile:'small_arena/wither_skeleton'}));delete site.layout;
  for(const s of site.slots)f.put(s.position,'minecraft:trial_spawner');
  try{
   finish(migrateEncounterSite(site));assert.equal(f.placed.length,site.slots.length);
-  for(const wanted of expected){const placed=f.placed.find(p=>p.p.x===wanted.position.x&&p.p.y===wanted.position.y&&p.p.z===wanted.position.z);assert(placed);assert.equal(placed.id,wanted.preset);}
+  for(const wanted of expected){const placed=f.placed.find(p=>p.p.x===wanted.position.x&&p.p.y===wanted.position.y&&p.p.z===wanted.position.z);assert(placed);assert(placed.id.startsWith(wanted.presetPrefix));}
   assert(f.placed.every(p=>p.id.startsWith('jagsby_nether:trial_encounters/small_arena_')),'All legacy roles retain updateable weighted presets');
  }finally{f.restore();}
 });
@@ -89,4 +89,31 @@ test('relocated templates still update legacy spawners at their old recorded pos
   for(const p of old)assert(f.placed.some(s=>s.p.x===p.x&&s.p.y===p.y&&s.p.z===p.z));
   assert(f.placed.every(s=>!TRIAL_ENCOUNTERS.sites.small_arena.some(n=>s.p.x===100+n.offset[0]&&s.p.y===30+n.offset[1]&&s.p.z===200+n.offset[2])));
  }finally{f.restore();}
+});
+
+test('explicit repair presets follow the requested weights including enchanted Wraith share',()=>{
+ for(const group of ['small_arena','large_arena','dragon_arena','mega_keep']){
+  for(const [roll,index] of [[0,0],[.22499,0],[.225,1],[.24999,1],[.25,2],[.49999,2],[.5,3],[.99999,3]]){
+   assert.equal(chooseEncounterProfile(group,roll),group+'/selected_'+index);
+  }
+ }
+});
+test('an interrupted repair persists selected mobs and reuses them instead of rerolling on retry',()=>{
+ const f=fixture(),site=encounterSite('dragon_arena',{x:100,y:30,z:200});site.slots=site.slots.slice(0,1);site.revision='empty_weighted_data';
+ const original=f.dimension.getBlock,random=Math.random;f.dimension.getBlock=()=>undefined;Math.random=()=>.23;
+ try{
+  assert.throws(()=>finish(migrateEncounterSite(site)),/Chunk loading timed out/);
+  const saved=JSON.parse(world.getDynamicProperty(PREFIX+site.key));assert.equal(saved.slots[0].selectedProfile,'dragon_arena/selected_1');
+  f.dimension.getBlock=original;f.put(saved.slots[0].position,'minecraft:trial_spawner');Math.random=()=>.99;
+  assert.equal(finish(migrateEncounterSite(saved)).updated,1);assert(f.placed[0].id.endsWith('dragon_arena_selected_1'));
+ }finally{Math.random=random;f.restore();}
+});
+
+test('a fresh Dragon Arena configures its thirteen real spawners using explicit presets without adding legacy positions',()=>{
+ const f=fixture(),site=encounterSite('dragon_arena',{x:100,y:30,z:200}),random=Math.random;site.layoutRevision=TRIAL_ENCOUNTERS.revision;
+ for(const slot of site.slots)f.put(slot.position,'minecraft:trial_spawner');Math.random=()=>.23;
+ try{
+  assert.equal(finish(migrateEncounterSite(site)).updated,13);assert.equal(f.placed.length,13);assert(f.placed.every(p=>p.id.endsWith('dragon_arena_selected_1')));
+  const saved=JSON.parse(world.getDynamicProperty(PREFIX+site.key));assert.equal(saved.slots.length,13);assert.equal(saved.revision,TRIAL_ENCOUNTERS.revision);
+ }finally{Math.random=random;f.restore();}
 });

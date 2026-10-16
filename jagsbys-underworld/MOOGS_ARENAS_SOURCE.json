@@ -4097,9 +4097,9 @@
     "change": "replace zombie_pigman spawners; source reference NBT retained"
   },
   "underworld_trial_spawner_override": {
-    "version": "0.2.114",
+    "version": "0.2.116",
     "scope": "All arena trial spawners and Mega Fortress keep/four basement chambers; optional modules retain regular spawners.",
-    "pool": "25% Tower Wraith family / 25% Necromancer / 50% Piglin Brute; weighted native potentials, normal and ominous. Wraith family includes 10% enchanted; Necromancers retain native 10% enchanted roll.",
+    "pool": "Explicit selected mob is mandatory. Initial weights: 25% Tower Wraith family / 25% Necromancer / 50% Brute. Potential pools retained but native reroll behavior remains unverified. Finite upgrade repair chooses and checkpoints explicit presets; no activation dependence on empty spawn_data.",
     "relocations": "31 new-template positions: Small 8, Large 18, Dragon 5; source Java files and hashes remain unchanged; current bedrock edits are recorded in TRIAL_ENCOUNTERS.json.",
     "migration": "Finite revision migration updates existing indexed positions; legacy coordinates retained. No periodic scans."
   },

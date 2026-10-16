@@ -1,6 +1,6 @@
-Jagsby's Underworld v0.2.115 — current Bedrock checklist
+Jagsby's Underworld v0.2.116 — current Bedrock checklist
 
-Status: the v0.2.115 gameplay build passed 490 automated checks. These cover
+Status: the v0.2.116 gameplay build passed 494 automated checks. These cover
 asset/reference integrity and mocked script behavior, not Bedrock client
 rendering, native trial activation/rewards, natural encounter frequency or FPS.
 There is no Bedrock client in the development workspace. Record actual results
@@ -8,7 +8,7 @@ and Content Log messages rather than treating every item below as unverified
 or already proven by automation.
 
 1. Installation and upgrades
-   Import Jagsbys_Underworld_v0.2.115.mcaddon and activate both Underworld packs.
+   Import Jagsbys_Underworld_v0.2.116.mcaddon and activate both Underworld packs.
    Use Bedrock 26.52 with cheats for commands; Beta APIs are not required.
    Disable the separate Nether Settlements/Agriculture packs. Test upgrades on
    a world copy. Normal Underworld updates retain their UUIDs/world records;
@@ -144,14 +144,14 @@ capacity, five-deposit shearing, campfires, blocked exits, world/chunk reloads,
 destruction and the optional MineScape collection XP hook. Native behavior is
 unverified here. Dispenser shearing/occupied Silk Touch relocation are unsupported.
 
-Structure chest loot (v0.2.115):
+Structure chest loot (v0.2.116):
    Check new single/double chests, including rotated village templates and
    double chests crossing a 16-block arena tile edge. Both halves must roll
    native loot and use the full 54-slot inventory. Verify Wither Bones,
    Fire Resistance potions, rare scrap/diamonds/gold blocks/golden apples,
    and ominous bottle tiers I–V. Reopening must not refill an emptied chest.
 
-Infernal Lords integration (v0.2.115, live acceptance pending):
+Infernal Lords integration (v0.2.116, live acceptance pending):
 Follow INFERNAL_LORDS.md. Disable both Dungeons source packs and test all five
 primary mobs, dormant awakenings, complete boss phases/deaths, custom bars,
 Baelgor brightness/audio, direct and bonus loot, enchanted combinations and
@@ -193,8 +193,9 @@ V0.2.114 TRIAL ENCOUNTERS:
 - Generate fresh Small/Large/Dragon Arenas. Verify 8/26/13 trial spawners,
   lower positions and masonry/stem infill; bosses must retain clear platforms.
 - Activate both normal and ominous encounters. Check native weighted potential
-  selection works with no fixed initial spawn_data. Across many encounters
-  expect 25% Wraith family, 25% Necromancer and 50% Brute, not exact wave quotas.
+  selection works with an explicit selected spawn_data mob. The initial mob
+  selection weights are 25% Wraith family, 25% Necromancer and 50% Brute.
+  Native potential-pool rerolls after cooldown still need live confirmation.
 - Verify enchanted Wraiths and Necromancers appear (10% of their family), have
   glint/enchanted abilities, and deaths/transformations allow trial completion.
 - Upgrade a world copy: weighted presets must update old spawner coordinates,
@@ -214,3 +215,16 @@ V0.2.115 INFERNAL LORDS DAMAGE — NATIVE ACCEPTANCE STILL UNRUN:
   shields, shockwaves and summons Blazes, including with another boss nearby.
 - /scriptevent jagsby_nether:lords_status reports actual bridge/teleport events.
   These in-game checks were NOT run by the automated model tests.
+
+V0.2.116 EMPTY TRIAL REPAIR:
+- Fresh Dragon Arena: all 13 trial spawners must display a mob and activate
+  in Survival within 14 blocks. Finish a wave, inspect cooldown and repeat.
+- Upgrade a copy of a v0.2.114/115 world with an empty recorded arena: wait for
+  the finite migration. Use encounters_status, or encounters_update to retry.
+  Unknown older manual arenas still need encounters_register with their origin.
+- Confirm all supported arenas receive explicit selected mobs and that the
+  repair leaves missing/replaced spawners and player construction alone.
+- New structures receive one finite randomized configuration pass so different
+  copies can receive different mobs, including enchanted Wraith selections.
+- No native runtime is available here; activation and complete waves remain
+  pending live acceptance. Automated tests reject every empty selected entry.
