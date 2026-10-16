@@ -163,7 +163,13 @@
       }
     },
     "events": {
-      "dungeons:despawn": {}
+      "dungeons:despawn": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:despawn"
+          ]
+        }
+      }
     }
   }
 }

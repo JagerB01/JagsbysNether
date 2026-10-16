@@ -37,7 +37,7 @@
         ],
         "on_hit": {
           "impact_damage": {
-            "damage": 10,
+            "damage": 96,
             "knockback": false,
             "semi_random_diff_damage": false
           },

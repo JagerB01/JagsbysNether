@@ -40,6 +40,12 @@ def validate(bp, rp):
     for identifier, hp in [('nameless_one',600),('wretched_wraith',500),('boss_wildfire',500),('tower_wraith',36),('necromancer',50)]:
         entity = actors['dungeons:'+identifier]
         assert entity['components']['minecraft:health'] == {'value': hp, 'max': hp}
+    routes = json.loads((bp / 'scripts/infernal_lords/boss_event_routes.js').read_text().split(' = ',1)[1].rstrip(';\n'))
+    for identifier, events in routes.items():
+        for event in events:
+            command = 'scriptevent jagsby_nether:boss_event ' + event
+            commands = actors[identifier]['events'][event]['queue_command']['command']
+            assert commands.count(command) == 1, f'{identifier}: missing/duplicate native command bridge for {event}'
     server_animations = set()
     for folder, key in [('animations','animations'), ('animation_controllers','animation_controllers')]:
         for path in (bp / folder).rglob('*.json'):

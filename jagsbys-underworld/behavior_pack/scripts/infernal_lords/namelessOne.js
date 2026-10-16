@@ -1,3 +1,4 @@
+import {bossDamage,BOSS_DAMAGE} from './boss_damage.js';
 import {teleportDestination} from './teleport.js';
 import { EntityDamageCause } from "@minecraft/server";
 import { world,recordBossAction } from "./runtime.js";
@@ -13,11 +14,11 @@ function multiply(a, b) {
 }
 
 world.afterEvents.entitySpawn.subscribe((e) => {
+    if(e.entity?.typeId!=="dungeons:nameless_one_projectile")return;
+    system.run(()=>{
     const entity = e.entity;
     if (!entity) return;
     if (!entity.isValid) return;
-    const cause = e.cause;
-    if (cause !== "Spawned") return;
     if (entity.typeId == "dungeons:nameless_one_projectile" && !entity.hasTag("dungeons:chud_projectile")) {
 
         const proj = entity.getComponent("projectile")
@@ -60,6 +61,7 @@ world.afterEvents.entitySpawn.subscribe((e) => {
             return;
         }
     }
+    });
 })
 
 // Native on_hit applies impact damage and removes the projectile. This also
@@ -75,8 +77,7 @@ world.beforeEvents.entityHurt.subscribe((e) => {
     const cause = e.damageSource.cause;
     if (cause !== EntityDamageCause.projectile) return;
 
-    const base=world.getDifficulty()==="Hard"?9:world.getDifficulty()==="Easy"?4:6;
-    e.damage*=base/6;
+    e.damage*=bossDamage("standard",world.getDifficulty())/BOSS_DAMAGE.standard;
     if (hurt.matches({ families: ["undead"] }) || hurt.matches({ families: ["monster"] })) {
         e.cancel = true;
         e.damage = 0
@@ -201,8 +202,6 @@ world.afterEvents.entitySpawn.subscribe((e) => {
     const entity = e.entity;
     if (!entity) return;
     if (!entity.isValid) return;
-    const cause = e.cause;
-    if (cause !== "Spawned") return;
     if (entity.typeId == "dungeons:nameless_one_illusion") {
         const loc = entity.location;
         const dim = entity.dimension;

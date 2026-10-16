@@ -464,13 +464,23 @@
     },
     "events": {
       "minecraft:entity_transformed": {
-        "trigger": "minecraft:entity_spawned"
+        "trigger": "minecraft:entity_spawned",
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event minecraft:entity_transformed"
+          ]
+        }
       },
       "minecraft:entity_spawned": {
         "add": {
           "component_groups": [
             "dungeons:ranged_attacking",
             "dungeons:able_to_summon"
+          ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event minecraft:entity_spawned"
           ]
         }
       },
@@ -483,11 +493,34 @@
           {
             "weight": 4
           }
-        ]
+        ],
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:wretched_wraith_hurt"
+          ]
+        }
       },
-      "dungeons:wretched_wraith_teleport": {},
-      "dungeons:bullethell_projectile": {},
-      "dungeons:bullethell_update": {},
+      "dungeons:wretched_wraith_teleport": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:wretched_wraith_teleport"
+          ]
+        }
+      },
+      "dungeons:bullethell_projectile": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:bullethell_projectile"
+          ]
+        }
+      },
+      "dungeons:bullethell_update": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:bullethell_update"
+          ]
+        }
+      },
       "dungeons:begin_bullethell_center": {
         "remove": {
           "component_groups": [
@@ -502,11 +535,21 @@
         },
         "set_property": {
           "dungeons:bullethell": true
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:begin_bullethell_center"
+          ]
         }
       },
       "dungeons:melee_attack": {
         "set_property": {
           "dungeons:can_melee_attack": true
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:melee_attack"
+          ]
         }
       },
       "dungeons:can_melee_attack": {
@@ -517,6 +560,11 @@
         },
         "set_property": {
           "dungeons:can_melee_attack": true
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:can_melee_attack"
+          ]
         }
       },
       "dungeons:bullethell_start": {
@@ -534,6 +582,11 @@
         },
         "set_property": {
           "dungeons:bullethell": true
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:bullethell_start"
+          ]
         }
       },
       "dungeons:bullethell_end": {
@@ -553,6 +606,11 @@
         "set_property": {
           "dungeons:bullethell": false,
           "dungeons:can_melee_attack": true
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:bullethell_end"
+          ]
         }
       }
     }

@@ -1,3 +1,4 @@
+import {shockwaveDamage,bossDamage,BOSS_DAMAGE} from './boss_damage.js';
 import { EntityDamageCause, DimensionTypes } from "@minecraft/server";
 import { world } from "./runtime.js";
 import { scopedSystem } from "./runtime.js";
@@ -17,8 +18,8 @@ function wildfireBlast(entity) {
     });
     for (const target of damageRange) {
         if (target.isValid && (isValidTarget(target) || target.matches({ families: ["player"] }))) {
-            var distanceBetween = Math.round(Math.hypot(loc.x - target.location.x, loc.y - target.location.y, loc.z - target.location.z) * 3)
-            const damage = target.applyDamage(20 - distanceBetween, { cause: EntityDamageCause.entityExplosion, damagingEntity: entity });
+            const distanceBetween = Math.hypot(loc.x - target.location.x, loc.y - target.location.y, loc.z - target.location.z)
+            const damage = target.applyDamage(shockwaveDamage(distanceBetween,world.getDifficulty()), { cause: EntityDamageCause.entityExplosion, damagingEntity: entity });
             if (damage) {
                 if (target.typeId == "minecraft:player") {
                     target.runCommand("camerashake add @s 0.1 2")
@@ -44,12 +45,12 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
         const loc = entity.location;
         const dim = entity.dimension;
         wildfireBlast(entity)
-        const blazes = dim.getEntities({ tags: ["dungeons:hovering_inferno_minion"] })
+        const blazes = dim.getEntities({location:loc,maxDistance:32,tags:["dungeons:hovering_inferno_minion"]}).filter(m=>!m.getDynamicProperty("jagsby_nether:boss_owner")||m.getDynamicProperty("jagsby_nether:boss_owner")===entity.id)
         if (blazes.length < 1) {
-            spawnBlaze(dim, { x: loc.x + 2, y: loc.y, z: loc.z + 2 })
-            spawnBlaze(dim, { x: loc.x - 2, y: loc.y, z: loc.z - 2 })
+            spawnBlaze(dim, { x: loc.x + 2, y: loc.y, z: loc.z + 2 },entity)
+            spawnBlaze(dim, { x: loc.x - 2, y: loc.y, z: loc.z - 2 },entity)
         } else if (blazes.length < 2) {
-            spawnBlaze(dim, { x: loc.x + 2, y: loc.y, z: loc.z + 2 })
+            spawnBlaze(dim, { x: loc.x + 2, y: loc.y, z: loc.z + 2 },entity)
 
         }
     }
@@ -57,16 +58,17 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
 
 
 //minions
-function spawnBlaze(dim, loc) {
+function spawnBlaze(dim, loc, owner) {
     dim.spawnParticle("dungeons:wildfire_flames", loc)
     dim.spawnParticle("dungeons:wildfire_flames", { x: loc.x, y: loc.y + 0.75, z: loc.z })
     dim.playSound("mob.evocation_illager.prepare_summon", loc, { volume: 0.5, pitch: 2 + Math.random() })
-    spawned("minecraft:blaze", loc, dim)
+    spawned("minecraft:blaze", loc, dim, owner)
 }
 
-function spawned(id, loc, dim) {
+function spawned(id, loc, dim, owner) {
     const entity = dim.spawnEntity(id, loc, { initialPersistence: true })
     entity.addTag("dungeons:hovering_inferno_minion")
+    entity.setDynamicProperty("jagsby_nether:boss_owner",owner.id)
 }
 
 system.runInterval(() => {
@@ -86,3 +88,9 @@ system.runInterval(() => {
         }
     }
 })
+// Scale only this boss projectile; native armour/Protection/Fire Resistance
+// behavior is retained (Fire Resistance stops burning, not impact damage).
+world.beforeEvents.entityHurt.subscribe(event=>{
+ if(event.damageSource.cause!==EntityDamageCause.projectile||event.damageSource.damagingProjectile?.typeId!=='dungeons:boss_wildfire_fireball')return;
+ event.damage*=bossDamage('standard',world.getDifficulty())/BOSS_DAMAGE.standard;
+});

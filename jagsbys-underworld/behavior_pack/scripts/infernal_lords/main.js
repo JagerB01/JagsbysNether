@@ -14,3 +14,5 @@ import './gearGlaive.js';
 import './gearDurability.js';
 
 import './combat_recovery.js';
+
+import './boss_damage_watch.js';

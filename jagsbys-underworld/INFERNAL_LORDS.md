@@ -1,4 +1,4 @@
-# Infernal Lords — v0.2.114 integration test
+# Infernal Lords — v0.2.115 integration test
 
 This build integrates the three Infernal Lords, Ashen Tower Wraith and Crimson
 Necromancer directly into Underworld. Activate Underworld's BP and RP; disable
@@ -209,3 +209,11 @@ Nerezhal and Malzareth projectiles now deal native projectile impact damage rath
 Baelgor slam/recovery/cooldown and Malzareth summon cooldowns use native component timers. Malzareth detects remaining vanguards through its native entity sensor. Load events recover interrupted phases without resetting health or Baelgor shield progress. No new periodic world scans were added. `/scriptevent jagsby_nether:lords_status` reports phase events, successful teleports and delivered projectile damage for loaded bosses.
 
 Automated sequence tests execute the configured events and timers. Actual AI navigation, animation timing and complete fights remain pending Bedrock acceptance.
+
+## v0.2.115 delivery and damage candidate
+
+Stable `dataDrivenEntityTrigger` documents component-definition changes, so empty/property-only source events cannot be treated as guaranteed notifications. Original scripted boss actions now use queued `scriptevent jagsby_nether:boss_event` responses and one validated dispatcher. Those routed events ignore native notifications to avoid duplicate volleys or shield breaks. The old test fixture incorrectly notified every empty event; it now models component changes and queued-command delivery separately.
+
+Malzareth spread initialization waits for native projectile ownership and accepts Event-cause spawns. Illusion removal uses the same reliable command route. Nerezhal storm origins are fixed relative to feet, avoiding the original head-height-minus-1.4 offset intersecting floors on native runtimes with a low eye height. Floor hazards retain their 20-second lifespan and half-second hits but no longer disappear because a collisionless helper reports not being on ground. Baelgor keeps his original two-Blaze cap scoped to the summoning boss. No boss health, movement speed, phase duration, projectile count/spread, attack cadence, invulnerability, shield values, awakening, animation, particle or sound resource was redesigned.
+
+See [INFERNAL_LORDS_DAMAGE.md](INFERNAL_LORDS_DAMAGE.md) for raw native damage inputs and the explicitly unverified Hard mitigation targets. Actual health-loss logging is opt-in and event-driven, with no interval, inventory edits or health subtraction.

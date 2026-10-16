@@ -16,11 +16,11 @@ test('Nerezhal transformed spawn naturally progresses from ranged through windup
  f.advance(22*20);assert(f.events.filter(id=>id==='dungeons:begin_bullethell_center').length>=2);assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);f.entity.isValid=false;
 });
 test('native Nerezhal and Malzareth projectile impacts damage a fire-resistant player without scripted after-hit damage',()=>{
- for(const [name,path,base] of [['wretched_wraith','wretched_wraith/projectile',10],['nameless_one','nameless_one/nameless_one_projectile',6]]){
+ for(const [name,path,base] of [['wretched_wraith','wretched_wraith/projectile',96],['nameless_one','nameless_one/nameless_one_projectile',96]]){
   const f=bossFixture(name);const spec=JSON.parse(readFileSync(new URL(`../behavior_pack/entities/new/boss/${path}.json`,import.meta.url)))['minecraft:entity'].components['minecraft:projectile'];assert.equal(spec.on_hit.impact_damage.damage,base);assert('remove_on_hit' in spec.on_hit);
   const p=f.dimension.spawnEntity(`dungeons:${name}_projectile`,{x:0,y:66,z:0});p.getComponent('projectile').owner=f.entity;
-  f.nativeHit(p,spec.on_hit.impact_damage.damage);assert.equal(f.player.hits[0].amount,base);assert.equal(f.player.hits[0].cause,'projectile');
-  if(name==='wretched_wraith'){p.addTag('dungeons:chud_projectile');assert.equal(f.nativeHit(p,base).damage,7.5);}
+  f.nativeHit(p,spec.on_hit.impact_damage.damage);assert.equal(f.player.hits[0].amount,64);assert.equal(f.player.hits[0].cause,'projectile');
+  if(name==='wretched_wraith'){p.addTag('dungeons:chud_projectile');assert(Math.abs(f.nativeHit(p,base).damage-160*2/3)<1e-9);}
   f.entity.isValid=false;
  }
  assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);
@@ -29,7 +29,7 @@ test('Baelgor native slam timer inflicts its shockwave, summons blazes, recovers
  const f=bossFixture('boss_wildfire');f.entity.triggerEvent('minecraft:entity_spawned');f.entity.triggerEvent('dungeons:begin_shockwave');f.advance(11);
  assert(f.events.includes('dungeons:shockwave_damage'));assert(f.player.hits.length>0);assert(f.spawned.some(e=>e.typeId==='minecraft:blaze'));assert(f.groups.has('dungeons:shockwave_recovery'));
  f.advance(10);assert(f.groups.has('dungeons:shockwave_cooldown'));f.advance(15*20);assert(f.groups.has('dungeons:shockwave_ready'));assert(!f.groups.has('dungeons:shockwave_action'));
- const shields=f.props.get('dungeons:shields');f.entity.triggerEvent('dungeons:destroy_shield');assert.equal(f.props.get('dungeons:shields'),shields-1);assert(f.groups.has('dungeons:shockwave_action'));assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);f.entity.isValid=false;
+ const shields=f.props.get('dungeons:shields');f.entity.triggerEvent('dungeons:destroy_shield');f.advance(1);assert.equal(f.props.get('dungeons:shields'),shields-1);assert(f.groups.has('dungeons:shockwave_action'));assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);f.entity.isValid=false;
 });
 test('Malzareth casting cooldown is a native timer, clears, and vanguard sensors do not depend on AI flags',()=>{
  const f=bossFixture('nameless_one');f.entity.triggerEvent('minecraft:entity_transformed');f.entity.triggerEvent('dungeons:begin_casting');assert.equal(f.props.get('dungeons:casting'),true);
@@ -59,9 +59,9 @@ test('loaded bosses reset transient combat phases without changing health or shi
 
 test('Malzareth changes actual summon groups when living vanguards appear and disappear',()=>{
  const f=bossFixture('nameless_one');f.entity.triggerEvent('minecraft:entity_transformed');assert(f.groups.has('dungeons:vanguard_mode'));
- f.dimension.getEntities=()=>[{typeId:'dungeons:vanguard'}];f.entity.triggerEvent('dungeons:detect_vanguards');assert(f.groups.has('dungeons:illusion_mode'));assert(!f.groups.has('dungeons:vanguard_mode'));
+ f.dimension.getEntities=()=>[{typeId:'dungeons:vanguard'}];f.entity.triggerEvent('dungeons:detect_vanguards');f.advance(1);assert(f.groups.has('dungeons:illusion_mode'));assert(!f.groups.has('dungeons:vanguard_mode'));
  const summons=f.components()['minecraft:behavior.summon_entity'].summon_choices;assert(summons.some(c=>c.sequence.some(s=>s.entity_type.includes('illusion'))));
- f.dimension.getEntities=()=>[];f.entity.triggerEvent('dungeons:detect_vanguards');assert(f.groups.has('dungeons:vanguard_mode'));assert(!f.groups.has('dungeons:illusion_mode'));f.entity.isValid=false;
+ f.dimension.getEntities=()=>[];f.entity.triggerEvent('dungeons:detect_vanguards');f.advance(1);assert(f.groups.has('dungeons:vanguard_mode'));assert(!f.groups.has('dungeons:illusion_mode'));f.entity.isValid=false;
  assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);
 });
 test('Baelgor shields wear through actual damage-sensor responses, all four break, then health becomes vulnerable',()=>{
@@ -74,12 +74,12 @@ test('Baelgor shields wear through actual damage-sensor responses, all four brea
  assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);
 });
 test('Nerezhal ranged phase retains hurt-triggered teleport instead of overriding away its base damage sensor',()=>{
- const f=bossFixture('wretched_wraith');f.entity.triggerEvent('minecraft:entity_spawned');f.receiveHit(1);assert(f.events.includes('dungeons:wretched_wraith_hurt'));assert(f.moves.length>0);assert.equal(f.health.currentValue,499);f.entity.isValid=false;
+ const f=bossFixture('wretched_wraith');f.entity.triggerEvent('minecraft:entity_spawned');f.receiveHit(1);f.advance(1);assert(f.events.includes('dungeons:wretched_wraith_hurt'));assert(f.moves.length>0);assert.equal(f.health.currentValue,499);f.entity.isValid=false;
  assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);
 });
 
 test('on-demand lords status includes actual phase events, successful teleports and delivered projectile damage',()=>{
- const f=bossFixture('wretched_wraith');world.afterEvents.entityLoad.emit({entity:f.entity});f.entity.triggerEvent('dungeons:wretched_wraith_teleport');
+ const f=bossFixture('wretched_wraith');world.afterEvents.entityLoad.emit({entity:f.entity});f.entity.triggerEvent('dungeons:wretched_wraith_teleport');f.advance(1);
  world.afterEvents.entityHurt.emit({hurtEntity:f.player,damage:10,damageSource:{cause:'projectile',damagingEntity:f.entity}});
  const snapshot=runtimeStatus().bosses.find(b=>b.id===f.entity.id);assert(snapshot);assert.equal(snapshot.phase,'ranged');assert.equal(snapshot.events.teleport_success,1);assert.equal(snapshot.events.projectile_damage,10);
  f.entity.isValid=false;world.afterEvents.entityRemove.emit({removedEntityId:f.entity.id});assert(!runtimeStatus().bosses.some(b=>b.id===f.entity.id));

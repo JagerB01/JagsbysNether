@@ -478,7 +478,12 @@
             "weight": 1,
             "trigger": "dungeons:harm_shield_2"
           }
-        ]
+        ],
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:harm_shield"
+          ]
+        }
       },
       "dungeons:harm_shield_1": {
         "set_property": {
@@ -487,7 +492,8 @@
         "queue_command": {
           "command": [
             "particle minecraft:lava_particle ~~1~",
-            "playsound mob.wildfire.shield_impact @a ~~~ 1.0 0.8"
+            "playsound mob.wildfire.shield_impact @a ~~~ 1.0 0.8",
+            "scriptevent jagsby_nether:boss_event dungeons:harm_shield_1"
           ]
         }
       },
@@ -498,7 +504,8 @@
         "queue_command": {
           "command": [
             "particle minecraft:lava_particle ~~1~",
-            "playsound mob.wildfire.shield_impact @a ~~~ 1.0 0.8"
+            "playsound mob.wildfire.shield_impact @a ~~~ 1.0 0.8",
+            "scriptevent jagsby_nether:boss_event dungeons:harm_shield_2"
           ]
         }
       },
@@ -510,7 +517,8 @@
         "queue_command": {
           "command": [
             "particle dungeons:wildfire_flames ~~1~",
-            "playsound mob.wildfire.shield_break @a ~~~ 1.0 1.5"
+            "playsound mob.wildfire.shield_break @a ~~~ 1.0 1.5",
+            "scriptevent jagsby_nether:boss_event dungeons:destroy_shield"
           ]
         }
       },
@@ -524,6 +532,11 @@
           "component_groups": [
             "dungeons:no_shield"
           ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:shields_down"
+          ]
         }
       },
       "dungeons:shields_up": {
@@ -536,6 +549,11 @@
           "component_groups": [
             "dungeons:no_shield"
           ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:shields_up"
+          ]
         }
       },
       "dungeons:shockwave_damage": {
@@ -547,6 +565,11 @@
         "add": {
           "component_groups": [
             "dungeons:shockwave_recovery"
+          ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:shockwave_damage"
           ]
         }
       },
@@ -561,6 +584,11 @@
             "dungeons:shockwave_action",
             "dungeons:shockwave_recovery"
           ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:shockwave_end"
+          ]
         }
       },
       "dungeons:end_cooldown": {
@@ -572,6 +600,11 @@
         "remove": {
           "component_groups": [
             "dungeons:shockwave_cooldown"
+          ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:end_cooldown"
           ]
         }
       },
@@ -597,7 +630,8 @@
             "effect @s slowness 1 9 true",
             "effect @s resistance 1 9 true",
             "effect @s regeneration 2 4 true",
-            "playanimation @s animation.wildfire2.slam"
+            "playanimation @s animation.wildfire2.slam",
+            "scriptevent jagsby_nether:boss_event dungeons:begin_shockwave"
           ]
         }
       },
@@ -607,6 +641,11 @@
             "dungeons:shielded",
             "dungeons:shockwave_ready"
           ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event minecraft:entity_transformed"
+          ]
         }
       },
       "minecraft:entity_spawned": {
@@ -614,6 +653,11 @@
           "component_groups": [
             "dungeons:shielded",
             "dungeons:shockwave_ready"
+          ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event minecraft:entity_spawned"
           ]
         }
       },
@@ -628,6 +672,11 @@
         "add": {
           "component_groups": [
             "dungeons:shockwave_ready"
+          ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event jagsby_nether:resume_combat"
           ]
         }
       }

@@ -41,7 +41,7 @@ test('original 1.5x baseline, Double Damage and Protection compose in native bef
 });
 test('Baelgor shield-break event retains the original shockwave transition',()=>{
  const boss=mob('baelgor','dungeons:boss_wildfire',['boss','monster','mob']);const triggered=[];boss.triggerEvent=id=>triggered.push(id);
- world.afterEvents.dataDrivenEntityTrigger.emit({entity:boss,eventId:'dungeons:destroy_shield'});flush();assert.deepEqual(triggered,['dungeons:begin_shockwave']);
+ system.afterEvents.scriptEventReceive.emit({id:'jagsby_nether:boss_event',sourceEntity:boss,message:'dungeons:destroy_shield'});flush();assert.deepEqual(triggered,['dungeons:begin_shockwave']);
  assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);
 });
 test('future trial-spawner API rejects tag-only conversions and accepts explicitly registered definitions',()=>{

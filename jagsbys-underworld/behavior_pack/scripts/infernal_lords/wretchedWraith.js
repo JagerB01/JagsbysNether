@@ -1,3 +1,4 @@
+import {bossDamage,BOSS_DAMAGE} from './boss_damage.js';
 import {teleportDestination,landingAt,solidFloor,readBlock} from './teleport.js';
 import { EntityDamageCause } from "@minecraft/server";
 import { world,recordBossAction } from "./runtime.js";
@@ -23,7 +24,7 @@ world.beforeEvents.entityHurt.subscribe((e) => {
     const cause = e.damageSource.cause;
     if (cause !== EntityDamageCause.projectile) return;
 
-    if (projectile.hasTag("dungeons:chud_projectile")) e.damage*=.75;
+    e.damage*=bossDamage(projectile.hasTag("dungeons:chud_projectile")?"powerful":"standard",world.getDifficulty())/BOSS_DAMAGE.standard;
     if (hurt.matches({ families: ["undead"] }) || hurt.matches({ families: ["monster"] })) {
         e.cancel = true;
         e.damage = 0
@@ -120,7 +121,7 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
                 var damage = false
                 if (target.isValid && (isValidTarget(target) || target.matches({ families: ["player"] }))) {
                     if (target.matches({ families: ["monster"] })) continue;
-                    damage = target.applyDamage(10, { cause: EntityDamageCause.entityAttack });
+                    damage = target.applyDamage(bossDamage("standard",world.getDifficulty()), { cause: EntityDamageCause.entityAttack, damagingEntity:entity });
                     if (damage) {
                         if (target.typeId == "minecraft:player") {
                             target.runCommand("camerashake add @s 0.1 1.67")
@@ -178,9 +179,9 @@ function shoot(entity, amount) {
         angle = angle * 2.15
         const radians = angle * (Math.PI / 180)
         //if (angle == 0) continue;
-        const hd = entity.getHeadLocation();
+        const hd = {...entity.location,y:entity.location.y+1.2};
         const vd = entity.getViewDirection();
-        const projectile = dim.spawnEntity("dungeons:wretched_wraith_projectile", { x: hd.x + vd.x, y: hd.y + vd.y - 1.4, z: vd.z + hd.z })
+        const projectile = dim.spawnEntity("dungeons:wretched_wraith_projectile", { x: hd.x + vd.x, y: hd.y, z: vd.z + hd.z })
         const comp = projectile.getComponent('projectile');
         let cosTheta = Math.cos(radians);
         let sinTheta = Math.sin(radians);
@@ -263,9 +264,7 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
         if (damageRange.length < 1) return;
         var targets = []
 
-        var damage = 7
-        if (world.getDifficulty() == "Hard") damage += 4
-        if (world.getDifficulty() == "Easy") damage -= 2
+        const damage = bossDamage("groundFire",world.getDifficulty())
         for (const damaged of damageRange) {
             if (targets.includes(damaged)) continue;
             if (damaged.matches({ families: ["undead"] })) continue;
@@ -278,7 +277,9 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
         }
         if (targets.length < 1) return;
         for (const target of targets) {
-            const didDamage = target.applyDamage(damage, { cause: EntityDamageCause.fire })
+            const ownerId=entity.getDynamicProperty("jagsby_nether:boss_owner");
+            const owner=ownerId?world.getEntity(ownerId):undefined;
+            const didDamage = target.applyDamage(damage, { cause: EntityDamageCause.fire,...(owner?.isValid?{damagingEntity:owner}:{}) })
             if (didDamage && damage > 3) {
                 target.setOnFire(1.5)
             }
@@ -317,7 +318,7 @@ function fireArea(loc, dim, owner) {
                 const nether=dim.id==='minecraft:nether'||dim.id==='nether';
                 if ((nether&&solidFloor(floor))||floor?.typeId.includes('ice')) {
                     if (!dim.getEntities({location:p,families:['dungeons_fire'],maxDistance:.1}).length)
-                        dim.spawnEntity('dungeons:wretched_wraith_fire',p);
+                        dim.spawnEntity('dungeons:wretched_wraith_fire',p).setDynamicProperty('jagsby_nether:boss_owner',owner.id);
                 }
             }
             yield;

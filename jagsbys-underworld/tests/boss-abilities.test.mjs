@@ -17,7 +17,7 @@ function fixture(type='dungeons:nameless_one'){
   applyDamage:(...a)=>{damage.push(a);return true;},getHeadLocation:()=>({...entity.location,y:entity.location.y+2}),getViewDirection:()=>({x:0,y:0,z:1}),lookAt(){}};
  return {entity,dim,moves,sounds,particles,spawned,events,damage,props};
 }
-function emit(entity,eventId){world.afterEvents.dataDrivenEntityTrigger.emit({entity,eventId});flush();assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);}
+function emit(entity,eventId){system.afterEvents.scriptEventReceive.emit({id:"jagsby_nether:boss_event",sourceEntity:entity,message:eventId});flush();assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);}
 function dueThrough(tick,start){for(let i=start;i<timeouts.length;i++)if(timeouts[i].due<=tick){system.currentTick=timeouts[i].due;timeouts[i].callback();}flush();assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);}
 world.getDifficulty=()=> 'Normal';
 test('Malzareth teleports without transformation-only tag, including existing untagged saves',()=>{
@@ -77,4 +77,8 @@ test('Malzareth retains the three-shot spell fan and vanguard-driven illusion sw
  world.afterEvents.entitySpawn.emit({entity:projectile,cause:'Spawned'});flush();assert.equal(shots.length,2); // Original center shot plus two side shots.
  f.dim.getEntities=()=>[{typeId:'dungeons:vanguard'}];f.props.set('dungeons:vanguards',false);emit(f.entity,'dungeons:detect_vanguards');assert.equal(f.props.get('dungeons:vanguards'),true);assert(f.events.includes('dungeons:vanguards_in_range'));
  f.dim.getEntities=()=>[];emit(f.entity,'dungeons:detect_vanguards');assert.equal(f.props.get('dungeons:vanguards'),false);assert(f.events.includes('dungeons:no_vanguards_in_range'));
+});
+
+test('Malzareth illusion despawn is delivered even though its original event has no component changes',()=>{
+ const f=fixture('dungeons:nameless_one_illusion');emit(f.entity,'dungeons:despawn');assert.equal(f.entity.isValid,false);assert(f.particles.some(([id])=>id==='dungeons:nameless_teleport_out'));
 });

@@ -1,6 +1,7 @@
 /** Event-maintained roster. Original combat/effect intervals sleep when no relevant actors are loaded. */
 import {world as nativeWorld, system as nativeSystem} from '@minecraft/server';
 import {ENTITY_IDS} from './entity_ids.js';
+import {BOSS_EVENT_ROUTES} from './boss_event_routes.js';
 const roster=new Map(), jobs=new Map(),bossTrace=new Map();
 const BOSSES=new Set(['dungeons:nameless_one','dungeons:wretched_wraith','dungeons:boss_wildfire']);
 export function recordBossAction(entity,action,value=1){
@@ -66,7 +67,12 @@ function signals(kind){return new Proxy({},{get(_,name){return {subscribe(callba
   if(!signal)throw new Error('Missing stable API signal: '+kind+'.'+String(name));
   signal.subscribe(event=>{
    if(name==='playerInteractWithBlock'){if(!active('actors'))return;}else if(name!=='worldLoad'&&!eventRelevant(event))return;
-   if(name==='dataDrivenEntityTrigger')recordBossAction(event.entity,event.eventId);
+   if(name==='dataDrivenEntityTrigger'){
+    // Empty/property-only boss events are not guaranteed native notifications.
+    // Queued script events below are the single authoritative delivery route.
+    if(BOSS_EVENT_ROUTES[event.entity?.typeId]?.includes(event.eventId))return;
+    recordBossAction(event.entity,event.eventId);
+   }
    for(const cb of list.get(name))safely(cb,event);
   });
  }
@@ -105,6 +111,13 @@ nativeWorld.afterEvents.worldLoad.subscribe(()=>{
   for(const type of ENTITY_IDS)for(const entity of dim.getEntities({type}))remember(entity);
   for(const tag of minionTags)for(const entity of dim.getEntities({tags:[tag]}))remember(entity);
  }
+});
+nativeSystem.afterEvents.scriptEventReceive.subscribe(event=>{
+ if(event.id!=='jagsby_nether:boss_event')return;
+ const entity=event.sourceEntity,eventId=event.message;
+ if(!valid(entity)||!BOSS_EVENT_ROUTES[entity.typeId]?.includes(eventId))return;
+ remember(entity);recordBossAction(entity,eventId);
+ for(const callback of subscriptions.after.get('dataDrivenEntityTrigger')??[])safely(callback,{entity,eventId});
 });
 nativeSystem.afterEvents.scriptEventReceive.subscribe(event=>{
  if(event.id!=='jagsby_nether:lords_status')return;

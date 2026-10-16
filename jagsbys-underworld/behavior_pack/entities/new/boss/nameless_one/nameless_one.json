@@ -413,6 +413,11 @@
           "component_groups": [
             "dungeons:illusion_mode"
           ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:vanguards_in_range"
+          ]
         }
       },
       "dungeons:no_vanguards_in_range": {
@@ -426,11 +431,34 @@
           "component_groups": [
             "dungeons:illusion_mode"
           ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:no_vanguards_in_range"
+          ]
         }
       },
-      "dungeons:detect_vanguards": {},
-      "dungeons:nameless_one_teleport": {},
-      "dungeons:nameless_one_teleport_to_player": {},
+      "dungeons:detect_vanguards": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:detect_vanguards"
+          ]
+        }
+      },
+      "dungeons:nameless_one_teleport": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:nameless_one_teleport"
+          ]
+        }
+      },
+      "dungeons:nameless_one_teleport_to_player": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:nameless_one_teleport_to_player"
+          ]
+        }
+      },
       "dungeons:begin_casting": {
         "set_property": {
           "dungeons:casting": true
@@ -439,7 +467,8 @@
           "command": [
             "particle dungeons:nameless_one_cast ~~~",
             "execute as @s[has_property={dungeons:vanguards=true}] at @s run playsound mob.nameless_one.charge_long @a ~~~",
-            "execute as @s[has_property={dungeons:vanguards=false}] at @s run playsound mob.nameless_one.charge @a ~~~"
+            "execute as @s[has_property={dungeons:vanguards=false}] at @s run playsound mob.nameless_one.charge @a ~~~",
+            "scriptevent jagsby_nether:boss_event dungeons:begin_casting"
           ]
         }
       },
@@ -451,6 +480,11 @@
           "component_groups": [
             "dungeons:summon_cooldown"
           ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:complete_casting"
+          ]
         }
       },
       "dungeons:summon_cooldown_complete": {
@@ -459,12 +493,22 @@
             "dungeons:summon_cooldown",
             "dungeons:summon_cooldown_short"
           ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:summon_cooldown_complete"
+          ]
         }
       },
       "minecraft:entity_spawned": {
         "add": {
           "component_groups": [
             "dungeons:vanguard_mode"
+          ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event minecraft:entity_spawned"
           ]
         }
       },
@@ -473,13 +517,19 @@
           "component_groups": [
             "dungeons:vanguard_mode"
           ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event minecraft:entity_transformed"
+          ]
         }
       },
       "dungeons:start_death": {
         "queue_command": {
           "command": [
             "particle dungeons:nameless_death ~~~",
-            "particle dungeons:nameless_death2 ~~1.5~"
+            "particle dungeons:nameless_death2 ~~1.5~",
+            "scriptevent jagsby_nether:boss_event dungeons:start_death"
           ]
         }
       }
