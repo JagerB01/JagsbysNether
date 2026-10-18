@@ -2,13 +2,10 @@ import {surveyModularFortress,modularCoreBox} from './modular_fortress.js';
 import {ARENAS} from './arena_catalog.js';
 import {surveyLandmark} from './landmark_terrain.js';
 export const GIANT_WEIGHTS={large_arena:1,dragon_arena:1,mega_fortress:1};
-// Natural selection restored for all three giants.
-export const TEST_ONLY_GIANT=null;
 export const FIT_ORDER=['dragon_arena','large_arena','mega_fortress'];
 export function chooseFittingGiant(ids,roll,forcedId){
  if(!FIT_ORDER.every(id=>ids.includes(id)))return undefined;
  if(FIT_ORDER.includes(forcedId))return forcedId;
- if(TEST_ONLY_GIANT)return TEST_ONLY_GIANT;
  const entries=Object.entries(GIANT_WEIGHTS).filter(([id])=>ids.includes(id));
  if(!entries.length)return undefined;
  let pick=roll*entries.reduce((n,[,weight])=>n+weight,0);

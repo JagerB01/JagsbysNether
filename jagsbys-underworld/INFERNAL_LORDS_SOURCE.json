@@ -2362,7 +2362,7 @@
     },
     "BP/scripts/infernal_lords/runtime.js": {
       "source": "Underworld integration",
-      "integrated_sha256": "573d1fb915f65dd30e41fc6b723fdc211b1f85417956e1264c756289e8f35cd8"
+      "integrated_sha256": "5c13c7ac9aa6555fd632a7206818e5935c33cda09c7ec744580eed1e1ea99092"
     },
     "BP/scripts/infernal_lords/helpers.js": {
       "source": "Underworld integration",
@@ -3082,7 +3082,7 @@
     "BP/scripts/infernal_lords/boss_damage_watch.js": {
       "source": "Underworld stable-API combat delivery / damage adaptation",
       "source_pack": "Underworld",
-      "integrated_sha256": "aa382397f930afa2ad216208546a433da79288ac2f48129ebe6d43fab67a46ea"
+      "integrated_sha256": "6b6e0d5999908fa42aee04f3228b6e169321ee4b1ea0ae49a1964e9a91770ba1"
     },
     "BP/entities/infernal_lords/trial_tower_wraith.json": {
       "source": "Underworld scoped trial spawn adaptation",
@@ -3208,7 +3208,8 @@
     "v0.2.114: native trial encounter pools select Tower Wraith family 25%, Necromancer 25%, Piglin Brute 50%. Tower Wraith share includes 10% declared enchanted variants; Necromancer retains its original native 1:9 enchanted spawn event. Core imported resources are unchanged.",
     "v0.2.115: reliable queued boss event bridge replaces assumed empty/property-only native notifications, with native duplicates suppressed. Deferred projectile ownership, floor-clear storm origin, illusion despawn, ground-hazard lifetime/pulses, and owner-scoped Blaze cap repair existing attacks. Hard raw native damage 96 standard, 160 powerful, 208 point-blank shockwave preserving rounded distance falloff, 32 armour-ignoring floor fire. Native defences retained; actual Bedrock health-loss acceptance pending. Opt-in actual-health telemetry uses hurt events only.",
     "v0.2.118: audited arena casters. Reliable queued delivery for Necromancer summon markers, Tower Wraith poison creation and shared Wraith fire initialization/hits; native half-second entity-sensor fire pulses replace AI timer flags, with collisionless off-ground despawn removed. Local floor searches prevent upper-storey/Nether roof placement, self-duplicate removal and missing-neighbor spread aborts. Regular/enchanted support Wraith teleports use bounded safe local floors; missing biome data falls back to normal zombie summons. Base damage, enchanted chances, projectile cadence and summon limits retained. Automated BP event-pipeline models pass; native AI/aim/render acceptance pending.",
-    "v0.2.119: Nerezhal always summons declared enchanted Frozen Zombies; Baelgor always summons the original scoped enchanted Blaze (40 HP, 1.1 scale, +0.2 knockback resistance, native fire immunity and original enchant handlers). Blaze initializes ranged mode alongside its mode sensor. Trial-only Wraith/Necromancer definitions roll 33/67 per entity through native spawn events, bypassing the ordinary Necromancer 10% roll; real declared enchanted variants supply stats, glint and perks. Encounter family weights stay 25/25/50. Recorded existing trial spawners receive the normal finite revision migration. No polling or new Nerezhal attack was added. Native spawner tracking through transformation still needs in-game acceptance. Enchanted Frozen Zombie health corrected from its upstream 20 HP to the existing 2x baseline (40 HP); the boss-minion spawn event no longer references the missing minecraft:on_foot group."
+    "v0.2.119: Nerezhal always summons declared enchanted Frozen Zombies; Baelgor always summons the original scoped enchanted Blaze (40 HP, 1.1 scale, +0.2 knockback resistance, native fire immunity and original enchant handlers). Blaze initializes ranged mode alongside its mode sensor. Trial-only Wraith/Necromancer definitions roll 33/67 per entity through native spawn events, bypassing the ordinary Necromancer 10% roll; real declared enchanted variants supply stats, glint and perks. Encounter family weights stay 25/25/50. Recorded existing trial spawners receive the normal finite revision migration. No polling or new Nerezhal attack was added. Native spawner tracking through transformation still needs in-game acceptance. Enchanted Frozen Zombie health corrected from its upstream 20 HP to the existing 2x baseline (40 HP); the boss-minion spawn event no longer references the missing minecraft:on_foot group.",
+    "v1.0.0 Realm release cleanup: combat trace counters and their native hurt listener are opt-in via lords_trace; actual-health watchers attach/detach diagnostic listeners with observer lifetime. Gameplay event bridge, damage, AI, lifecycle guards and error reporting are unchanged. Current operator/test docs are kept, development history is repository-only."
   ],
   "native_loot_tables": [
     "loot_tables/entities/zombie.json",

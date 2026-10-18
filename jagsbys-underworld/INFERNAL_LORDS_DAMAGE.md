@@ -1,4 +1,4 @@
-# Infernal Lords damage candidate — v0.2.115
+# Infernal Lords damage candidate — v1.0.0
 
 **Status: calculated targets and automated contract/model tests, NOT measured Bedrock combat results.** No Bedrock client/server is available in this workspace. The requested live health-loss matrix below is unrun. Do not treat raw NBT values or model test passes as proof of native damage or complete boss behavior.
 

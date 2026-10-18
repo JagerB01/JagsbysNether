@@ -166,9 +166,9 @@ def main():
     # Loose documents in a .mcaddon are treated as failed pack imports.
     docs = BUILD / 'behavior_pack/docs/underworld'
     docs.mkdir(parents=True, exist_ok=True)
-    for name in ('TESTING.txt', 'GLOWSQUITO.md', 'INFERNAL_LORDS.md', 'INFERNAL_LORDS_DAMAGE.md', 'INFERNAL_LORDS_SOURCE.json', 'BOSS_PLACEMENTS.json', 'TRIAL_ENCOUNTERS.json', 'FOOD_BUFFS.md', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md', 'GENERATION.md', 'VILLAGER_FOOD.md', 'CONQUEST_COMPATIBILITY.json', 'ARENAS.md', 'MOOGS_ARENAS_SOURCE.json', 'PERFORMANCE.md'):
+    for name in ('OPERATIONS.md', 'TESTING.txt', 'GLOWSQUITO.md', 'INFERNAL_LORDS.md', 'INFERNAL_LORDS_DAMAGE.md', 'INFERNAL_LORDS_SOURCE.json', 'BOSS_PLACEMENTS.json', 'TRIAL_ENCOUNTERS.json', 'FOOD_BUFFS.md', 'FISHING.md', 'HONGOS.md', 'HONGOS_SOURCE.json', 'SOUL_LIGHTS.md', 'GENERATION.md', 'VILLAGER_FOOD.md', 'CONQUEST_COMPATIBILITY.json', 'ARENAS.md', 'MOOGS_ARENAS_SOURCE.json', 'PERFORMANCE.md'):
         (docs / name).write_bytes((ROOT / name).read_bytes())
-    shutil.copytree(ROOT / 'history', docs / 'history', dirs_exist_ok=True)
+    # Development history remains in the repository; ship current operator docs only.
     (docs / 'SKITTERCHESTS.md').write_bytes((ROOT / 'SKITTERCHESTS.md').read_bytes())
     (docs / 'STRUCTURE_BLOCK_CONVERSIONS.json').write_text(json.dumps(block_conversions, indent=2) + '\n')
     assert not (BUILD / 'behavior_pack/entities/villager_v2.json').exists(), 'Food integration must not override C&C villagers'
@@ -200,6 +200,10 @@ def main():
         pack = files(check[f'Jagsbys_Underworld_{suffix}.mcpack'])
         assert pack['pack_icon.png'] == icon
         assert json.loads(pack['manifest.json'])['header']['version'] == version
+        assert not any(name.startswith(('tests/', 'tools/')) for name in pack), 'Development tools belong outside playable packs'
+        if suffix == 'BP':
+            assert 'docs/underworld/OPERATIONS.md' in pack
+            assert not any(name.startswith('docs/underworld/history/') for name in pack), 'Underworld development history stays in the repository'
     print(f'Preserved all {len(expected)-len(overrides)-len(changed_structures)-len(source_edits)} original behavior assets/scripts byte-for-byte (population/generation overridden; large farms removed; wart/lighting/jigsaw/loot conversion applied to {len(changed_structures)} structures); built {output} ({output.stat().st_size:,} bytes)')
     if placeholder:
         print('LOCAL VERIFICATION ONLY: user cover PNG still required; no release download was produced.')

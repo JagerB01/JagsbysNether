@@ -1,4 +1,4 @@
-# Lava fishing — current v0.2.102
+# Lava fishing — v1.0.0
 
 Adapted from the supplied **Lava Fishing 1.3.1** Java mod by TeamSunset.
 Enable both Jagsby's Underworld packs on Bedrock 26.50 or newer. No Beta APIs.
@@ -132,4 +132,4 @@ The original fish loot tables and rod recipe are included under
 AGPLv3 license are bundled and attributed. Other subsystem licenses are retained.
 
 
-See [historical fishing revisions](history/FISHING.md) for earlier animation, input and asset changes.
+See [historical fishing revisions](https://github.com/JagerB01/JagsbysNether/blob/lava-fishing-v0.2.0/jagsbys-underworld/history/FISHING.md) for earlier animation, input and asset changes.

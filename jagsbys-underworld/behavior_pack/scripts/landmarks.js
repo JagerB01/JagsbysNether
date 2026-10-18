@@ -11,7 +11,7 @@ import {candidateAt,GIANTS,landmarkRecords,villageBoxes,spacingAllows,LANDMARK_P
 import {surveyLandmark,clearVolume,fillSupports,fillSolidFoundation,megaFoundationMaterial,carveTile,obstructionReason} from './landmark_terrain.js';
 import {terrainSurvey} from './terrain_survey.js';
 import {giantSearch,giantSites,smallSites,attemptKey} from './giant_search.js';
-import {TEST_ONLY_GIANT,FIT_ORDER,giantStartingBox,assessGiantSite,compareGiantSites} from './giant_fit.js';
+import {FIT_ORDER,giantStartingBox,assessGiantSite,compareGiantSites} from './giant_fit.js';
 import {surveyModularFortress,modularSections,modularCoreBox,pendingModuleBox,surveyFortressModule,fortressModuleCount,fortressParent,fortressModuleRequired,extendFortressBox,fortressBuildVolumes} from './modular_fortress.js';
 const retries=new Map();let busy=false;
 const state={text:'Waiting for unchecked landmark sites.',tick:system.currentTick,wall:Date.now(),get message(){return this.text;},set message(value){this.text=value;this.tick=system.currentTick;this.wall=Date.now();}};
@@ -59,11 +59,10 @@ export function naturalCandidates(online,seed,tick=system.currentTick,{sitesPerR
     if((retries.get(attemptKey(c))??0)>tick||(!c.saved&&['giant','small'].includes(family)&&giantSearch.failed(c)))continue;
     const distance=Math.min(...online.map(p=>Math.hypot(c.x-p.location.x,c.z-p.location.z)));
     if(distance>768)continue;
-    const selected=c.family==='giant'&&!c.saved?{...c,id:TEST_ONLY_GIANT??c.id}:c;
-    const box=(c.saved?.modular?pendingModuleBox(c,c.saved):c.saved?.box)??(selected.id==='mega_fortress'?modularCoreBox(selected):boxFor(selected));
+    const box=(c.saved?.modular?pendingModuleBox(c,c.saved):c.saved?.box)??(c.id==='mega_fortress'?modularCoreBox(c):boxFor(c));
     // Spacing is eligibility, not failed terrain. Do not queue the site or
     // permanently reject its search cell; another eligible point may fit.
-    const boxes=!c.saved&&c.family==='giant'?FIT_ORDER.map(id=>({candidate:{...c,id},box:giantStartingBox(c,id)})):[{candidate:selected,box}];
+    const boxes=!c.saved&&c.family==='giant'?FIT_ORDER.map(id=>({candidate:{...c,id},box:giantStartingBox(c,id)})):[{candidate:c,box}];
     if(!c.saved&&boxes.some(s=>!spacingAllows(s.candidate,s.box,records,villages)))continue;
     if(boxes.some(s=>!playersClear(online,s.box,32)))continue;
     eligible.push({...c,distance,priority:c.saved?0:c.observed?1:family==='giant'?3:2});
@@ -84,7 +83,6 @@ export function* generateLandmark(c,dimension,{preparedPlan,forcedSelection,requ
   let record=c.saved,plan;
   let forced=forcedSelection;
   if(record)c={...c,id:record.id};
-  else if(c.family==='giant'&&!c.selected&&TEST_ONLY_GIANT)c={...c,id:TEST_ONLY_GIANT,selected:true};
   if(!record){
    const records=landmarkRecords(),villages=villageBoxes();
    const starting=c.family==='giant'&&!c.selected?FIT_ORDER:[c.id];

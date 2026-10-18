@@ -1,4 +1,4 @@
-# Skitterchests — current v0.2.101
+# Skitterchests — v1.0.0
 
 This build removes the custom ActionForm storage menu entirely. Standing
 interaction with a tamed Crimson/Warped opens a real native 27-slot container;

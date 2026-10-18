@@ -1,6 +1,6 @@
-# Villages, camps and structure loot — current v0.2.101
+# Villages, camps and structure loot — v1.0.0
 
-For arenas, ruins and Mega Fortress generation, see [ARENAS.md](ARENAS.md). This page describes the current village and original camp/outpost systems. Earlier generation revisions are preserved in [history/GENERATION.md](history/GENERATION.md).
+For arenas, ruins and Mega Fortress generation, see [ARENAS.md](ARENAS.md). This page describes the current village and original camp/outpost systems. Earlier generation revisions are preserved in [history/GENERATION.md](https://github.com/JagerB01/JagsbysNether/blob/lava-fishing-v0.2.0/jagsbys-underworld/history/GENERATION.md).
 
 ## Village eligibility and size
 

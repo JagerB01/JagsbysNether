@@ -79,10 +79,12 @@ test('Nerezhal ranged phase retains hurt-triggered teleport instead of overridin
 });
 
 test('on-demand lords status includes actual phase events, successful teleports and delivered projectile damage',()=>{
+ system.afterEvents.scriptEventReceive.emit({id:'jagsby_nether:lords_trace',message:'on',sourceEntity:{typeId:'minecraft:player',sendMessage(){}}});
  const f=bossFixture('wretched_wraith');world.afterEvents.entityLoad.emit({entity:f.entity});f.entity.triggerEvent('dungeons:wretched_wraith_teleport');f.advance(1);
  world.afterEvents.entityHurt.emit({hurtEntity:f.player,damage:10,damageSource:{cause:'projectile',damagingEntity:f.entity}});
  const snapshot=runtimeStatus().bosses.find(b=>b.id===f.entity.id);assert(snapshot);assert.equal(snapshot.phase,'ranged');assert.equal(snapshot.events.teleport_success,1);assert.equal(snapshot.events.projectile_damage,10);
  f.entity.isValid=false;world.afterEvents.entityRemove.emit({removedEntityId:f.entity.id});assert(!runtimeStatus().bosses.some(b=>b.id===f.entity.id));
+ system.afterEvents.scriptEventReceive.emit({id:'jagsby_nether:lords_trace',message:'off',sourceEntity:{typeId:'minecraft:player',sendMessage(){}}});
 });
 
 test('world-load recovery reaches previously loaded bosses through the facade and preserved roster',()=>{

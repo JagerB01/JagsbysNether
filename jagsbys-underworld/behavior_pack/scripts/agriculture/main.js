@@ -178,5 +178,3 @@ system.afterEvents.scriptEventReceive.subscribe(({id: eventId, sourceEntity}) =>
     ['minecraft:lava_bucket', 1], ['minecraft:shears', 1]]) give(player, name, count);
   player.sendMessage('Nether Agriculture kit received. Till soul soil in the Nether. Nearby lava speeds up growth.');
 }));
-
-console.warn('[Nether Agriculture] v0.1.6 loaded. Starter kit: /scriptevent jagsby_nether:kit');

@@ -1,8 +1,8 @@
-# Arenas and natural landmarks — current v0.2.116
+# Arenas and natural landmarks — v1.0.0
 
 Architecture is adapted from the supplied Moogs Nether Structures 3.1.1 Java 1.21 templates. Original selected templates, pools, processors, credits and licenses remain under `docs/moogs_arenas/`; source hashes and conversion notes are in `MOOGS_ARENAS_SOURCE.json`. This is not a port of the Java mod's bosses, custom encounter pools or reward progression.
 
-Earlier policies, test-only selections and release notes are preserved in [history/ARENAS.md](history/ARENAS.md). They do not describe current eligibility or weights.
+Earlier policies, test-only selections and release notes are preserved in [history/ARENAS.md](https://github.com/JagerB01/JagsbysNether/blob/lava-fishing-v0.2.0/jagsbys-underworld/history/ARENAS.md). They do not describe current eligibility or weights.
 
 ## Natural giant selection
 

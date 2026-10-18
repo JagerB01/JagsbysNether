@@ -1,7 +1,7 @@
 function signal(maxArgs=2) {
   const callbacks = [];
-  return {subscribe(callback,...options) { if(options.length+1>maxArgs)throw new TypeError(`subscribe accepts ${maxArgs} argument(s)`);callbacks.push(callback); }, emit(event) {
-    for (const callback of callbacks) callback(event);
+  return {get subscriberCount(){return callbacks.length;},unsubscribe(callback){const index=callbacks.indexOf(callback);if(index>=0)callbacks.splice(index,1);},subscribe(callback,...options) { if(options.length+1>maxArgs)throw new TypeError(`subscribe accepts ${maxArgs} argument(s)`);callbacks.push(callback); }, emit(event) {
+    for (const callback of [...callbacks]) callback(event);
   }};
 }
 export const GameMode = {Survival: 'Survival', Creative: 'Creative', Adventure: 'Adventure', Spectator: 'Spectator'};

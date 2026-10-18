@@ -1,4 +1,4 @@
-# Custom villager breeding food — current v0.2.101
+# Custom villager breeding food — v1.0.0
 
 Drop raw Sorgum (`jagsby_nether:rye`) or Polyps (`jagsby_nether:polyp`) within
 1.5 blocks of an adult villager. Twelve crops provide that villager’s normal

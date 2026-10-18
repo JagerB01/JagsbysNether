@@ -3,9 +3,10 @@ import {world as nativeWorld, system as nativeSystem} from '@minecraft/server';
 import {ENTITY_IDS} from './entity_ids.js';
 import {BOSS_EVENT_ROUTES} from './boss_event_routes.js';
 const roster=new Map(), jobs=new Map(),bossTrace=new Map();
+let tracing=false;
 const BOSSES=new Set(['dungeons:nameless_one','dungeons:wretched_wraith','dungeons:boss_wildfire']);
 export function recordBossAction(entity,action,value=1){
- if(!entity||!BOSSES.has(entity.typeId))return;
+ if(!tracing||!entity||!BOSSES.has(entity.typeId))return;
  if(!bossTrace.has(entity.id)){if(bossTrace.size>=64)bossTrace.delete(bossTrace.keys().next().value);bossTrace.set(entity.id,{counts:{},last:''});}
  const trace=bossTrace.get(entity.id);trace.counts[action]=(trace.counts[action]??0)+value;trace.last=action;
 }
@@ -44,7 +45,7 @@ function wake(){if(runner===undefined&&[...jobs.values()].some(job=>active(job.s
 export function remember(entity){if(valid(entity)&&isImported(entity)){roster.set(entity.id,entity);wake();}}
 function forget(id){roster.delete(id);bossTrace.delete(id);stopIfIdle();}
 export function loadedImportedActors(){return [...roster.values()].filter(valid);}
-export function runtimeStatus(){return {loaded:roster.size,enchanted:[...roster.values()].filter(enchanted).length,ticking:runner!==undefined,failures,lastError,bosses:[...roster.values()].filter(e=>valid(e)&&BOSSES.has(e.typeId)).slice(0,6).map(bossSnapshot)};}
+export function runtimeStatus(){return {tracing,loaded:roster.size,enchanted:[...roster.values()].filter(enchanted).length,ticking:runner!==undefined,failures,lastError,bosses:[...roster.values()].filter(e=>valid(e)&&BOSSES.has(e.typeId)).slice(0,6).map(bossSnapshot)};}
 // Local combat queries stay native. Only unbounded roster queries use the maintained set.
 function dimensionFacade(id){
  const dim=nativeWorld.getDimension(id);
@@ -120,9 +121,15 @@ nativeSystem.afterEvents.scriptEventReceive.subscribe(event=>{
  for(const callback of subscriptions.after.get('dataDrivenEntityTrigger')??[])safely(callback,{entity,eventId});
 });
 nativeSystem.afterEvents.scriptEventReceive.subscribe(event=>{
- if(event.id!=='jagsby_nether:lords_status')return;
- const message='[Underworld Infernal Lords] '+JSON.stringify(runtimeStatus());
- if(event.sourceEntity?.typeId==='minecraft:player')event.sourceEntity.sendMessage(message);else nativeWorld.sendMessage(message);
+ if(!['jagsby_nether:lords_status','jagsby_nether:lords_trace'].includes(event.id))return;
+ const reply=message=>event.sourceEntity?.typeId==='minecraft:player'?event.sourceEntity.sendMessage(message):nativeWorld.sendMessage(message);
+ if(event.id==='jagsby_nether:lords_trace'){
+  const mode=(event.message??'').trim().toLowerCase();
+  if(mode==='on'||mode==='off')setBossTracing(mode==='on');
+  else if(mode&&mode!=='status'){reply('Use /scriptevent jagsby_nether:lords_trace on | off | status');return;}
+  reply(`[Underworld Infernal Lords] Combat tracing ${tracing?'on':'off'}. Counters collect only while enabled and reset when disabled or the world reloads.`);return;
+ }
+ reply('[Underworld Infernal Lords] '+JSON.stringify(runtimeStatus()));
 });
 // Health/scale/KB require a declared BP variant. Tags alone are not a conversion API.
 export function registerEnchantedVariant(typeId){variantIds.add(typeId);}
@@ -137,10 +144,16 @@ scopedSystem('aura').runInterval(()=>{
  }
 },20);
 
-// Damage telemetry runs only on actual hurt events and never changes damage.
-nativeWorld.afterEvents.entityHurt.subscribe(event=>{
+// Diagnostic-only listener: absent during ordinary play, never changes damage.
+function traceProjectileDamage(event){
  try{
   const owner=event.damageSource.damagingEntity??event.damageSource.damagingProjectile?.getComponent('projectile')?.owner;
   if(event.damageSource.cause==='projectile'&&BOSSES.has(owner?.typeId))recordBossAction(owner,'projectile_damage',event.damage);
  }catch{} // A removed projectile may no longer expose its owner.
-});
+}
+export function setBossTracing(enabled){
+ enabled=!!enabled;if(enabled===tracing)return;
+ tracing=enabled;
+ if(enabled)nativeWorld.afterEvents.entityHurt.subscribe(traceProjectileDamage);
+ else {nativeWorld.afterEvents.entityHurt.unsubscribe(traceProjectileDamage);bossTrace.clear();}
+}

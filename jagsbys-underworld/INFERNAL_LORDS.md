@@ -1,4 +1,4 @@
-# Infernal Lords — v0.2.119 integration test
+# Infernal Lords — v1.0.0
 
 This build integrates the three Infernal Lords, Ashen Tower Wraith and Crimson
 Necromancer directly into Underworld. Activate Underworld's BP and RP; disable
@@ -206,7 +206,7 @@ The Hard opening hit is slightly below an armed Bedrock Piglin Brute (roughly 15
 
 Nerezhal and Malzareth projectiles now deal native projectile impact damage rather than script fire damage. Fire Resistance no longer cancels their ordinary bolts. Nerezhal uses a 22–32-second ranged timer, a 1.25-second windup and a 13-second special phase with finite scheduled volleys. Retreat no longer depends on its melee cooldown; hurt and nearby-target teleport triggers are restored. Teleport landing checks accept structural floors and do not require a straight unobstructed flight path.
 
-Baelgor slam/recovery/cooldown and Malzareth summon cooldowns use native component timers. Malzareth detects remaining vanguards through its native entity sensor. Load events recover interrupted phases without resetting health or Baelgor shield progress. No new periodic world scans were added. `/scriptevent jagsby_nether:lords_status` reports phase events, successful teleports and delivered projectile damage for loaded bosses.
+Baelgor slam/recovery/cooldown and Malzareth summon cooldowns use native component timers. Malzareth detects remaining vanguards through its native entity sensor. Load events recover interrupted phases without resetting health or Baelgor shield progress. No new periodic world scans were added. `/scriptevent jagsby_nether:lords_status` reports current phase and errors. Enable `/scriptevent jagsby_nether:lords_trace on` to collect phase events, successful teleports and delivered projectile damage, then use `lords_trace off` to remove collection and clear counters.
 
 Automated sequence tests execute the configured events and timers. Actual AI navigation, animation timing and complete fights remain pending Bedrock acceptance.
 
@@ -246,3 +246,5 @@ Declared enchanted variants supply health, visuals and original perks; Brutes st
 normal. Trial family selection remains 25/25/50. Recorded spawners update through
 the finite revision repair. Native spawning, transformation tracking, trial completion
 and rendering remain live acceptance items. No additional recurring checks exist.
+
+Release diagnostics: combat event counters and the native projectile-damage listener are disabled until lords_trace on. Health-measurement hurt listeners exist only while boss_damage_watch has observers; they detach after the last observer disables measurements or leaves. Gameplay event routing and unload recovery remain active. See OPERATIONS.md.
