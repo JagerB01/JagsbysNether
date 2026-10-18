@@ -7,7 +7,7 @@
       "source": "BP/entities/enchanted/new/enchanted_frozen_zombie.json",
       "source_sha256": "923a91df457917b57cfda6af4ea2e4ca29413e10cb09b49982f285dec58fe9f7",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "b9932721d2baa5047dac1f9e0545250b347c644a79928c2bd4d6f3a468237c8a"
+      "integrated_sha256": "e2b95037e57fa90e85e5ee1c844622218ba91bbd26e38f1c4746be8f9ee8ecbe"
     },
     "BP/entities/enchanted/new/enchanted_jungle_zombie.json": {
       "source": "BP/entities/enchanted/new/enchanted_jungle_zombie.json",
@@ -85,7 +85,7 @@
       "source": "BP/entities/new/boss/wretched_wraith/wretched_wraith.json",
       "source_sha256": "bc860fede9b6b1d6c62e501490801889bd3c15634466736f02cd5c919ea5d985",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "d356a17267d4f1384afb6582411a73c77bd74be2539280249f51120b8f910bcf"
+      "integrated_sha256": "c4c937d98ebb23c114dcf205560863c882ccbc882d8f3d71bb0a4413dedb62f8"
     },
     "BP/entities/new/boss/wretched_wraith/wretched_wraith_fire.json": {
       "source": "BP/entities/new/boss/wretched_wraith/wretched_wraith_fire.json",
@@ -97,7 +97,7 @@
       "source": "BP/entities/new/frozen_zombie/frozen_zombie.json",
       "source_sha256": "6c468220f87774d8f28a775483f6dcad82406150ef6860a77e748b08df7d8450",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "7568643877230d38606c3b61753aefc7e9cf8b2fb7f203ff8a3f5a9bd757a6c2"
+      "integrated_sha256": "f7166511f4de673823b86462e1bb24f9ef3a7aaccf8036956144ad162e16c292"
     },
     "BP/entities/new/frozen_zombie/snowball.json": {
       "source": "BP/entities/new/frozen_zombie/snowball.json",
@@ -246,7 +246,7 @@
       "source": "BP/scripts/misc/entityBehaviour/hoveringInferno.js",
       "source_sha256": "cad8ec692be35e1b70aebbc85d5250edca953e17d1c6009d10ce8bd0071e5334",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "5defbfd6540544d605c7994f4afc2041b47029e6afc71d93cbd8d53f7b14dd0b"
+      "integrated_sha256": "0f613809fbb1f663d199073a68a8a8bc68466b981e73478ae059f3b06fcd3d81"
     },
     "BP/scripts/infernal_lords/towerWraith.js": {
       "source": "BP/scripts/misc/entityBehaviour/towerWraith.js",
@@ -2350,7 +2350,7 @@
     },
     "BP/scripts/infernal_lords/entity_ids.js": {
       "source": "Underworld integration",
-      "integrated_sha256": "4e50bd3723892761a05fcae64f1078b1e26acfe099884c32366dd9ea609cca59"
+      "integrated_sha256": "7363404967b262c91b42c507b24c15d8e24808f1729a873b04e82c9c7c5a165b"
     },
     "BP/scripts/infernal_lords/main.js": {
       "source": "Underworld integration",
@@ -2358,7 +2358,7 @@
     },
     "BP/scripts/infernal_lords/entity_ids.json": {
       "source": "Underworld integration",
-      "integrated_sha256": "d205a15ceba6a249921f6d3c9810c2aac019c101c99e9f6d1039ddda4a01c7ac"
+      "integrated_sha256": "8615cf2833ddb666f72715417f7ea9e91c5045f073fed5fe834a7ab29dc37010"
     },
     "BP/scripts/infernal_lords/runtime.js": {
       "source": "Underworld integration",
@@ -3077,12 +3077,58 @@
     "BP/scripts/infernal_lords/boss_event_routes.js": {
       "source": "Underworld stable-API combat delivery / damage adaptation",
       "source_pack": "Underworld",
-      "integrated_sha256": "7f750a0f7a97f805cad2498bd36965f94dd49f9bb936e4140902650d30ca861f"
+      "integrated_sha256": "451a3493ce6d5b945205050df97e79cdd0e9ea235bd0f4314dcc88e3374328e6"
     },
     "BP/scripts/infernal_lords/boss_damage_watch.js": {
       "source": "Underworld stable-API combat delivery / damage adaptation",
       "source_pack": "Underworld",
       "integrated_sha256": "aa382397f930afa2ad216208546a433da79288ac2f48129ebe6d43fab67a46ea"
+    },
+    "BP/entities/infernal_lords/trial_tower_wraith.json": {
+      "source": "Underworld scoped trial spawn adaptation",
+      "integrated_sha256": "ac010d169b273fcff3250f4134e85affbda8322739c0f492a746bf5aeba45071"
+    },
+    "RP/entity/underworld/trial_tower_wraith.json": {
+      "source": "Underworld scoped trial spawn adaptation",
+      "integrated_sha256": "88db00ccd176616dcc0d884a12de4979e04a447272586a28fc7bb4c0c359e109"
+    },
+    "BP/entities/infernal_lords/trial_necromancer.json": {
+      "source": "Underworld scoped trial spawn adaptation",
+      "integrated_sha256": "e6ca7e163b6e5e950b20938a49ccde33dabac54c0ae2874fffef46a1488d273d"
+    },
+    "RP/entity/underworld/trial_necromancer.json": {
+      "source": "Underworld scoped trial spawn adaptation",
+      "integrated_sha256": "5363a0d330e53c8b6044b40e124521f98b09434c7fa4906a213402a1bcff888f"
+    },
+    "BP/entities/enchanted/vanilla/enchanted_blaze.json": {
+      "source": "BP/entities/enchanted/vanilla/enchanted_blaze.json",
+      "integrated_sha256": "6f8ca105b3875fbcb70dc5360eb8648f28dfe893d01fe151361d7d3fce08b3e6",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "source_sha256": "af7fca62f3fe8538d88dbd8c266a175d12c3f2e7fe7845cbbc45a0038567bb0a"
+    },
+    "RP/entity/enchanted/vanilla/enchanted_blaze.entity.json": {
+      "source": "RP/entity/enchanted/vanilla/enchanted_blaze.entity.json",
+      "integrated_sha256": "ddac1d029c9a3a714a5538180bbd599a1f965ba86cb24e8a812c4108585d7b0b",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "source_sha256": "c36de67c010d42fd0a1460c3130c57739c455289579b7506d2375f18b63771ba"
+    },
+    "RP/textures/entity/enchanted_mob/blaze.texture_set.json": {
+      "source": "RP/textures/entity/enchanted_mob/blaze.texture_set.json",
+      "integrated_sha256": "ba5dbf3378791812c589572f13d64ae2c7a4f7287060c67084f74f4e443da7f1",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "source_sha256": "ba5dbf3378791812c589572f13d64ae2c7a4f7287060c67084f74f4e443da7f1"
+    },
+    "RP/textures/entity/enchanted_mob/blaze.png": {
+      "source": "RP/textures/entity/enchanted_mob/blaze.tga",
+      "integrated_sha256": "54c9d9c9338d8aabbe2fee31f4b17cbb28d23fad956ad546750595fa35118125",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "source_sha256": "67e0e8cf7857940098d960b1ba4bfbe41debf783f7ccefad91879777497ab6e2"
+    },
+    "RP/textures/entity/enchanted_mob/blaze_mer.png": {
+      "source": "RP/textures/entity/enchanted_mob/blaze_mer.tga",
+      "integrated_sha256": "bcb563cfb445c2ff3fe9fa74048aa4fdca85e93f45a72b24b4c50d681f04f18f",
+      "source_pack": "Alylica’s Dungeons 2.1.3",
+      "source_sha256": "e32edd387d6c9fad7ed4d15d9c83646c5d83aba92b63dc37ff37c04042c24cf2"
     }
   },
   "dynamic_particles": [
@@ -3161,13 +3207,15 @@
     "v0.2.113: native boss projectile impact damage, non-AI phase/cooldown timers, Nerezhal retreat and hurt/close-range teleport restoration, bounded pillar-aware teleport landings, reload phase recovery without health reset, and event-driven lords_status combat telemetry. Automated JSON sequence models do not replace Bedrock combat acceptance.",
     "v0.2.114: native trial encounter pools select Tower Wraith family 25%, Necromancer 25%, Piglin Brute 50%. Tower Wraith share includes 10% declared enchanted variants; Necromancer retains its original native 1:9 enchanted spawn event. Core imported resources are unchanged.",
     "v0.2.115: reliable queued boss event bridge replaces assumed empty/property-only native notifications, with native duplicates suppressed. Deferred projectile ownership, floor-clear storm origin, illusion despawn, ground-hazard lifetime/pulses, and owner-scoped Blaze cap repair existing attacks. Hard raw native damage 96 standard, 160 powerful, 208 point-blank shockwave preserving rounded distance falloff, 32 armour-ignoring floor fire. Native defences retained; actual Bedrock health-loss acceptance pending. Opt-in actual-health telemetry uses hurt events only.",
-    "v0.2.118: audited arena casters. Reliable queued delivery for Necromancer summon markers, Tower Wraith poison creation and shared Wraith fire initialization/hits; native half-second entity-sensor fire pulses replace AI timer flags, with collisionless off-ground despawn removed. Local floor searches prevent upper-storey/Nether roof placement, self-duplicate removal and missing-neighbor spread aborts. Regular/enchanted support Wraith teleports use bounded safe local floors; missing biome data falls back to normal zombie summons. Base damage, enchanted chances, projectile cadence and summon limits retained. Automated BP event-pipeline models pass; native AI/aim/render acceptance pending."
+    "v0.2.118: audited arena casters. Reliable queued delivery for Necromancer summon markers, Tower Wraith poison creation and shared Wraith fire initialization/hits; native half-second entity-sensor fire pulses replace AI timer flags, with collisionless off-ground despawn removed. Local floor searches prevent upper-storey/Nether roof placement, self-duplicate removal and missing-neighbor spread aborts. Regular/enchanted support Wraith teleports use bounded safe local floors; missing biome data falls back to normal zombie summons. Base damage, enchanted chances, projectile cadence and summon limits retained. Automated BP event-pipeline models pass; native AI/aim/render acceptance pending.",
+    "v0.2.119: Nerezhal always summons declared enchanted Frozen Zombies; Baelgor always summons the original scoped enchanted Blaze (40 HP, 1.1 scale, +0.2 knockback resistance, native fire immunity and original enchant handlers). Blaze initializes ranged mode alongside its mode sensor. Trial-only Wraith/Necromancer definitions roll 33/67 per entity through native spawn events, bypassing the ordinary Necromancer 10% roll; real declared enchanted variants supply stats, glint and perks. Encounter family weights stay 25/25/50. Recorded existing trial spawners receive the normal finite revision migration. No polling or new Nerezhal attack was added. Native spawner tracking through transformation still needs in-game acceptance. Enchanted Frozen Zombie health corrected from its upstream 20 HP to the existing 2x baseline (40 HP); the boss-minion spawn event no longer references the missing minecraft:on_foot group."
   ],
   "native_loot_tables": [
     "loot_tables/entities/zombie.json",
     "loot_tables/entities/zombie_equipment.json",
     "loot_tables/entities/zombie_rider.json",
-    "loot_tables/entities/zombie_rider_equipment.json"
+    "loot_tables/entities/zombie_rider_equipment.json",
+    "loot_tables/entities/blaze.json"
   ],
   "source_archives": {
     "Dungeons2.1.3.mcaddon": "2b5057bdecb7b2641ff55e20d95cc4675e632305c83b9d1e7f85858d91ab50e8",

@@ -216,8 +216,8 @@
         ]
       },
       "minecraft:health": {
-        "max": 20,
-        "value": 20
+        "max": 40,
+        "value": 40
       },
       "minecraft:hurt_on_condition": {
         "damage_conditions": [
@@ -899,16 +899,26 @@
       }
     },
     "events": {
-      "dungeons:despawn_wretched_wraith_minion": {},
+      "dungeons:despawn_wretched_wraith_minion": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:despawn_wretched_wraith_minion"
+          ]
+        }
+      },
       "dungeons:spawn_wretched_wraith_minion": {
         "add": {
           "component_groups": [
             "dungeons:melee_mode",
             "minecraft:zombie_default",
             "minecraft:zombie_adult",
-            "minecraft:on_foot",
             "minecraft:not_on_zombie_horse",
             "dungeons:wretched_wraith_minion"
+          ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:spawn_wretched_wraith_minion"
           ]
         }
       },

@@ -60,7 +60,7 @@ test('boss projectile friendly-fire prevention does not throw or cancel player h
 test('Baelgor shockwave damages nearby players, summons blazes and retains shield-break transition',()=>{
  const f=fixture('dungeons:boss_wildfire'),hits=[];
  const target={isValid:true,typeId:'minecraft:player',location:{x:1,y:64,z:0},getGameMode:()=> 'Survival',matches:q=>q.families?.includes('player')??false,applyDamage:(...a)=>{hits.push(a);return true;},runCommand(){},applyKnockback(){}};
- f.dim.getEntities=q=>q.tags?[]:[target];emit(f.entity,'dungeons:destroy_shield');assert.deepEqual(f.events,['dungeons:begin_shockwave']);emit(f.entity,'dungeons:shockwave_damage');assert.equal(hits.length,1);assert.equal(f.spawned.length,2);assert(f.spawned.every(e=>e.hasTag('dungeons:hovering_inferno_minion')));
+ f.dim.getEntities=q=>q.tags?[]:[target];emit(f.entity,'dungeons:destroy_shield');assert.deepEqual(f.events,['dungeons:begin_shockwave']);emit(f.entity,'dungeons:shockwave_damage');assert.equal(hits.length,1);assert.equal(f.spawned.length,2);assert(f.spawned.every(e=>e.typeId==='dungeons:enchanted_blaze'&&e.hasTag('dungeons:hovering_inferno_minion')));
 });
 test('all active and dormant bosses use native fire immunity and preserve it across damage-sensor phases',()=>{
  for(const path of ['nameless_one/nameless_one','nameless_one/resting_one','wretched_wraith/wretched_wraith','wretched_wraith/resting_wraith','wildfire/wildfire','wildfire/wildfire_resting']){

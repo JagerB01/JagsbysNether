@@ -91,16 +91,16 @@ test('relocated templates still update legacy spawners at their old recorded pos
  }finally{f.restore();}
 });
 
-test('explicit repair presets follow the requested weights including enchanted Wraith share',()=>{
+test('explicit repair presets retain family weights; caster definitions own the per-mob enchanted roll',()=>{
  for(const group of ['small_arena','large_arena','dragon_arena','mega_keep']){
-  for(const [roll,index] of [[0,0],[.22499,0],[.225,1],[.24999,1],[.25,2],[.49999,2],[.5,3],[.99999,3]]){
+  for(const [roll,index] of [[0,0],[.24999,0],[.25,1],[.49999,1],[.5,2],[.99999,2]]){
    assert.equal(chooseEncounterProfile(group,roll),group+'/selected_'+index);
   }
  }
 });
 test('an interrupted repair persists selected mobs and reuses them instead of rerolling on retry',()=>{
  const f=fixture(),site=encounterSite('dragon_arena',{x:100,y:30,z:200});site.slots=site.slots.slice(0,1);site.revision='empty_weighted_data';
- const original=f.dimension.getBlock,random=Math.random;f.dimension.getBlock=()=>undefined;Math.random=()=>.23;
+ const original=f.dimension.getBlock,random=Math.random;f.dimension.getBlock=()=>undefined;Math.random=()=>.3;
  try{
   assert.throws(()=>finish(migrateEncounterSite(site)),/Chunk loading timed out/);
   const saved=JSON.parse(world.getDynamicProperty(PREFIX+site.key));assert.equal(saved.slots[0].selectedProfile,'dragon_arena/selected_1');
@@ -111,7 +111,7 @@ test('an interrupted repair persists selected mobs and reuses them instead of re
 
 test('a fresh Dragon Arena configures its thirteen real spawners using explicit presets without adding legacy positions',()=>{
  const f=fixture(),site=encounterSite('dragon_arena',{x:100,y:30,z:200}),random=Math.random;site.layoutRevision=TRIAL_ENCOUNTERS.revision;
- for(const slot of site.slots)f.put(slot.position,'minecraft:trial_spawner');Math.random=()=>.23;
+ for(const slot of site.slots)f.put(slot.position,'minecraft:trial_spawner');Math.random=()=>.3;
  try{
   assert.equal(finish(migrateEncounterSite(site)).updated,13);assert.equal(f.placed.length,13);assert(f.placed.every(p=>p.id.endsWith('dragon_arena_selected_1')));
   const saved=JSON.parse(world.getDynamicProperty(PREFIX+site.key));assert.equal(saved.slots.length,13);assert.equal(saved.revision,TRIAL_ENCOUNTERS.revision);

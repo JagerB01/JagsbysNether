@@ -210,7 +210,7 @@ class MoogsArenas(unittest.TestCase):
             for pool in actual.values():self.assertEqual(pool,expected)
 
     def test_every_packaged_trial_spawner_has_an_explicit_nonempty_selected_mob(self):
-        valid={'minecraft:piglin_brute','dungeons:tower_wraith','dungeons:enchanted_tower_wraith','dungeons:necromancer'}
+        valid={'minecraft:piglin_brute','dungeons:trial_tower_wraith','dungeons:trial_necromancer'}
         count=0
         for path in (ROOT/'behavior_pack/structures/jagsby_nether').rglob('*.mcstructure'):
             if not any(part in ('arenas','arenas_natural','trial_encounters','mega_modular') for part in path.parts):continue

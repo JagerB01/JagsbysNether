@@ -68,7 +68,7 @@
                 {
                   "base_delay": 1,
                   "delay_per_summon": 0,
-                  "entity_type": "dungeons:frozen_zombie<dungeons:spawn_wretched_wraith_minion>",
+                  "entity_type": "dungeons:enchanted_frozen_zombie<dungeons:spawn_wretched_wraith_minion>",
                   "num_entities_spawned": 2,
                   "shape": "circle",
                   "size": 3,

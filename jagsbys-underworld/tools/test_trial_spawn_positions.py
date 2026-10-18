@@ -31,9 +31,14 @@ class TrialPositions(unittest.TestCase):
             self.assertEqual(w.stream.getvalue(),path.read_bytes())
         for name in ['small_arena','large_arena','dragon_arena']:
             relocate(arenas[name]['sections'],[m for m in config['relocations'] if m['layout']==name],ROOT,read,check)
-    def test_enchanted_choices_keep_the_declared_variants_and_necromancer_ten_percent_roll(self):
+    def test_trial_casters_roll_thirty_three_percent_and_ordinary_necromancer_keeps_ten_percent(self):
         conf=json.loads((ROOT/'TRIAL_ENCOUNTERS.json').read_text());weights={p['entity']:p['weight'] for p in conf['spawn_pool']}
-        self.assertEqual(weights['dungeons:enchanted_tower_wraith']/(weights['dungeons:tower_wraith']+weights['dungeons:enchanted_tower_wraith']),.1)
+        self.assertEqual(weights,{'dungeons:trial_tower_wraith':10,'dungeons:trial_necromancer':10,'minecraft:piglin_brute':20})
+        for name in ['tower_wraith','necromancer']:
+            trial=json.loads((ROOT/f'behavior_pack/entities/infernal_lords/trial_{name}.json').read_text())['minecraft:entity']
+            rolls=trial['events']['minecraft:entity_spawned']['randomize']
+            self.assertEqual([r['weight'] for r in rolls],[33,67])
+            self.assertEqual(trial['component_groups']['jagsby_nether:trial_enchanted']['minecraft:transformation']['into'],f'dungeons:enchanted_{name}<minecraft:entity_spawned>')
         mob=json.loads((ROOT/'behavior_pack/entities/new/necromancer/necromancer.json').read_text())['minecraft:entity']
         rolls=mob['events']['minecraft:entity_spawned']['randomize'];self.assertEqual(sum(r['weight'] for r in rolls),10)
         self.assertEqual(next(r['weight'] for r in rolls if r.get('trigger')=='dungeons:become_enchanted'),1)

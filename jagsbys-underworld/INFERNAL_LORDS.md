@@ -1,4 +1,4 @@
-# Infernal Lords — v0.2.118 integration test
+# Infernal Lords — v0.2.119 integration test
 
 This build integrates the three Infernal Lords, Ashen Tower Wraith and Crimson
 Necromancer directly into Underworld. Activate Underworld's BP and RP; disable
@@ -28,8 +28,8 @@ reports the loaded roster, scheduler state and any caught handler error.
 
 The original six combat modules, entity state machines, summoning helpers,
 projectiles, fire/poison fields, death effects and loot helpers are retained.
-There are 39 scoped entity definitions, including dormant forms, transient
-helpers, required minions and enchanted variants; this is not 39 new primary
+There are 42 scoped entity definitions, including dormant forms, transient
+helpers, required minions and enchanted variants; this is not 42 new primary
 mobs. No imported mob has a free-roaming natural spawn rule. Dormant bosses are placed
 once at verified sites in newly generated matching giants and new manual template
 placements. Existing built structures and older partially built structures are
@@ -90,7 +90,7 @@ Test the requested enemies' opt-in variants:
 
 The Necromancer variant has 100 HP and the Tower Wraith variant has 72 HP.
 Original enchanted variants of required minions are included as support actors.
-Necromancers retain their native 10% enchanted spawn roll.
+Ordinary Necromancers retain their native 10% enchanted spawn roll; trial-only caster definitions independently roll 33% for each Wraith or Necromancer spawned.
 
 Future trial-spawner code can import `spawnEnchanted(dimension, typeId, location)`
 and `registerEnchantedVariant(typeId)` from
@@ -98,7 +98,7 @@ and `registerEnchantedVariant(typeId)` from
 **existing declared BP variant** into the scoped roster. Its definition must
 include the `enchanted` family and baseline health/scale/knockback changes; it
 also needs a matching client definition with the original glint controller.
-Tags alone cannot change a vanilla mob's maximum health or scale. Trial pools now include enchanted Tower Wraiths directly; Necromancers retain their native enchanted roll.
+Tags alone cannot change a vanilla mob's maximum health or scale. Trial pools use dedicated caster spawn definitions with a native 33/67 roll into the declared enchanted variant. The ordinary Necromancer spawn event keeps its original 10% chance.
 
 Arrow-specific effects need the included `dungeons:enchanted_arrow` projectile
 in a future ranged variant's shooter definition. It isolates the original Growing
@@ -232,3 +232,17 @@ spell spread counts and summon limits are retained. Eight added BP-event pipelin
 checks cover these repairs; they do not execute native AI goals, pathfinding,
 projectile aim, client rendering or actual armor mitigation. Live acceptance remains
 required for both caster variants in their arenas and after save/reload.
+
+Enchanted summons and encounters (v0.2.119): Nerezhal's existing two-Frozen-Zombie
+spell selects the 40-HP enchanted Frozen Zombie directly, preserving its four-minion cap,
+cast timing and minion initialization. Baelgor's existing Blaze summons select the
+original Dungeons enchanted Blaze, retain the owner-scoped two-minion cap and
+cleanup, and initialize its ranged mode. It has 40 HP, 1.1 scale, +0.2 knockback
+resistance, native fire immunity, glint and the original randomized enchant perks.
+Only the Blaze and its required visual assets were imported; its native loot resolves
+from Bedrock. Trial Wraiths and Necromancers have a separate 33% enchanted / 67%
+normal native roll per entity, without the ordinary Necromancer's extra 10% roll.
+Declared enchanted variants supply health, visuals and original perks; Brutes stay
+normal. Trial family selection remains 25/25/50. Recorded spawners update through
+the finite revision repair. Native spawning, transformation tracking, trial completion
+and rendering remain live acceptance items. No additional recurring checks exist.

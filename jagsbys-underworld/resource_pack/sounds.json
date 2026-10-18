@@ -368,6 +368,66 @@
           1
         ],
         "volume": 1
+      },
+      "dungeons:enchanted_blaze": {
+        "events": {
+          "ambient": "mob.blaze.breathe",
+          "death": "mob.blaze.death",
+          "hurt": "mob.blaze.hit",
+          "shoot": "mob.blaze.shoot"
+        },
+        "pitch": [
+          0.8,
+          1.2
+        ],
+        "volume": 1
+      },
+      "dungeons:trial_tower_wraith": {
+        "events": {
+          "ambient": "mob.wraith.idle",
+          "death": "mob.wraith.death",
+          "hurt": "mob.wraith.hurt",
+          "cast.spell": {
+            "pitch": 0.8,
+            "sound": "mob.wraith.attack",
+            "volume": 1.2
+          }
+        },
+        "pitch": [
+          0.5,
+          1
+        ],
+        "volume": 1
+      },
+      "dungeons:trial_necromancer": {
+        "events": {
+          "ambient": "mob.skeleton.say",
+          "death": "mob.skeleton.death",
+          "hurt": {
+            "sound": "mob.skeleton.hurt",
+            "volume": 0.7
+          },
+          "cast.spell": {
+            "pitch": 1,
+            "sound": "mob.evocation_illager.cast_spell",
+            "volume": 1
+          },
+          "step": {
+            "pitch": 1,
+            "sound": "mob.skeleton.step",
+            "volume": 1
+          },
+          "shoot": {
+            "pitch": 1.2,
+            "sound": "mob.nameless_one.attack",
+            "volume": 0.66
+          }
+        },
+        "pitch": [
+          0.4,
+          0.8
+        ],
+        "volume": 1
       }
     }
   }

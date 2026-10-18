@@ -218,3 +218,7 @@ item.jagsby_nether:withered_heart.name=Withered Heart
 item.jagsby_nether:weeping_soul.name=Weeping Soul
 
 item.jagsby_nether:ruinous_ember.name=Ruinous Ember
+
+entity.dungeons:trial_tower_wraith.name=Ashen Tower Wraith
+entity.dungeons:trial_necromancer.name=Crimson Necromancer
+entity.dungeons:enchanted_blaze.name=Enchanted Blaze

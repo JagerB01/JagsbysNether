@@ -62,7 +62,7 @@ function spawnBlaze(dim, loc, owner) {
     dim.spawnParticle("dungeons:wildfire_flames", loc)
     dim.spawnParticle("dungeons:wildfire_flames", { x: loc.x, y: loc.y + 0.75, z: loc.z })
     dim.playSound("mob.evocation_illager.prepare_summon", loc, { volume: 0.5, pitch: 2 + Math.random() })
-    spawned("minecraft:blaze", loc, dim, owner)
+    spawned("dungeons:enchanted_blaze", loc, dim, owner)
 }
 
 function spawned(id, loc, dim, owner) {

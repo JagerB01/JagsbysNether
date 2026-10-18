@@ -42,7 +42,7 @@ test('empty teleport events execute through queued commands without fictitious n
 });
 test('property-only shield break reaches shockwave and Blaze summoning through the command bridge',()=>{
  const f=bossFixture('boss_wildfire');world.getDifficulty=()=> 'Hard';f.entity.triggerEvent('minecraft:entity_spawned');f.entity.triggerEvent('dungeons:destroy_shield');f.advance(12);
- assert(f.events.includes('dungeons:shockwave_damage'));assert.equal(f.spawned.filter(e=>e.typeId==='minecraft:blaze').length,2);assert(f.player.hits.length);f.entity.isValid=false;
+ assert(f.events.includes('dungeons:shockwave_damage'));assert.equal(f.spawned.filter(e=>e.typeId==='dungeons:enchanted_blaze').length,2);assert(f.player.hits.length);f.entity.isValid=false;
 });
 test('Malzareth spread works when native Event-cause projectile ownership is assigned after entitySpawn',()=>{
  const f=bossFixture('nameless_one');f.dimension.spawnCause='Event';const projectile=f.dimension.spawnEntity('dungeons:nameless_one_projectile',{x:0,y:66,z:1});projectile.getComponent('projectile').owner=f.entity;flush();
@@ -76,7 +76,7 @@ test('opt-in damage measurements read actual health deltas and install no pollin
 test('another Baelgor’s Blazes cannot suppress this boss’s original two-minion summon',()=>{
  const f=bossFixture('boss_wildfire'),foreign={getDynamicProperty:()=> 'another-boss'};
  f.dimension.getEntities=q=>q.tags?[foreign]:[f.player];f.entity.triggerEvent('dungeons:shockwave_damage');f.advance(1);
- const blazes=f.spawned.filter(e=>e.typeId==='minecraft:blaze');assert.equal(blazes.length,2);assert(blazes.every(e=>e.getDynamicProperty('jagsby_nether:boss_owner')===f.entity.id));f.entity.isValid=false;
+ const blazes=f.spawned.filter(e=>e.typeId==='dungeons:enchanted_blaze');assert.equal(blazes.length,2);assert(blazes.every(e=>e.getDynamicProperty('jagsby_nether:boss_owner')===f.entity.id));f.entity.isValid=false;
 });
 test('Nerezhal retains invulnerability during the special and becomes damageable after recovery',()=>{
  const f=bossFixture('wretched_wraith');f.entity.triggerEvent('dungeons:bullethell_start');f.advance(1);f.receiveHit(100,'projectile');assert.equal(f.health.currentValue,500);

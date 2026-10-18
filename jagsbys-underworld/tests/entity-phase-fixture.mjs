@@ -2,9 +2,9 @@
 // It models those contracts, not Bedrock pathfinding, rendering or AI goal execution.
 import {readFileSync} from 'node:fs';
 import {world,system,timeouts,flush} from './mock-server.mjs';
-const paths={nameless_one:'new/boss/nameless_one/nameless_one',wretched_wraith:'new/boss/wretched_wraith/wretched_wraith',boss_wildfire:'new/boss/wildfire/wildfire',tower_wraith:'new/tower_wraith',enchanted_tower_wraith:'enchanted/new/enchanted_tower_wraith',necromancer:'new/necromancer/necromancer',enchanted_necromancer:'enchanted/new/enchanted_necromancer',necromancer_spawnpoint:'new/necromancer/necromancer_spawnpoint',wraith_fire:'new/wraith/wraith_fire',tower_wraith_poison:'utility/tower_wraith_poison',wraith:'new/wraith/wraith',enchanted_wraith:'enchanted/new/enchanted_wraith'};
+const paths={nameless_one:'new/boss/nameless_one/nameless_one',wretched_wraith:'new/boss/wretched_wraith/wretched_wraith',boss_wildfire:'new/boss/wildfire/wildfire',tower_wraith:'new/tower_wraith',enchanted_tower_wraith:'enchanted/new/enchanted_tower_wraith',necromancer:'new/necromancer/necromancer',enchanted_necromancer:'enchanted/new/enchanted_necromancer',necromancer_spawnpoint:'new/necromancer/necromancer_spawnpoint',wraith_fire:'new/wraith/wraith_fire',tower_wraith_poison:'utility/tower_wraith_poison',wraith:'new/wraith/wraith',enchanted_wraith:'enchanted/new/enchanted_wraith',trial_tower_wraith:'infernal_lords/trial_tower_wraith',trial_necromancer:'infernal_lords/trial_necromancer',enchanted_blaze:'enchanted/vanilla/enchanted_blaze',enchanted_frozen_zombie:'enchanted/new/enchanted_frozen_zombie'};
 let serial=0;
-export function actorFixture(name){
+export function actorFixture(name,{roll=()=>0}={}){
  const definition=JSON.parse(readFileSync(new URL(`../behavior_pack/entities/${paths[name]}.json`,import.meta.url)))['minecraft:entity'];
  const groups=new Set(),props=new Map(Object.entries(definition.description.properties??{}).map(([k,v])=>[k,v.default])),dynamic=new Map(),tags=new Set(),events=[],moves=[],spawned=[],shots=[];
  let timer,left=0,definitionChanges=0;const health={currentValue:definition.components['minecraft:health'].max,defaultValue:definition.components['minecraft:health'].max};
@@ -20,7 +20,7 @@ export function actorFixture(name){
  function response(node){
   if(!filter(node.filters))return;
   if(node.sequence)for(const n of node.sequence)response(n);
-  if(node.randomize)response(node.randomize[0]);
+  if(node.randomize){let pick=roll()*node.randomize.reduce((n,r)=>n+(r.weight??1),0);for(const entry of node.randomize){pick-=entry.weight??1;if(pick<0){response(entry);break;}}}
   for(const g of node.remove?.component_groups??[])if(groups.delete(g))definitionChanges++;
   for(const g of node.add?.component_groups??[])if(!groups.has(g)){groups.add(g);definitionChanges++;}
   for(let [k,v] of Object.entries(node.set_property??{})){

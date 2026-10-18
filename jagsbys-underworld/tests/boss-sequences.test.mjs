@@ -27,7 +27,7 @@ test('native Nerezhal and Malzareth projectile impacts damage a fire-resistant p
 });
 test('Baelgor native slam timer inflicts its shockwave, summons blazes, recovers, cools down and returns to ready',()=>{
  const f=bossFixture('boss_wildfire');f.entity.triggerEvent('minecraft:entity_spawned');f.entity.triggerEvent('dungeons:begin_shockwave');f.advance(11);
- assert(f.events.includes('dungeons:shockwave_damage'));assert(f.player.hits.length>0);assert(f.spawned.some(e=>e.typeId==='minecraft:blaze'));assert(f.groups.has('dungeons:shockwave_recovery'));
+ assert(f.events.includes('dungeons:shockwave_damage'));assert(f.player.hits.length>0);assert(f.spawned.some(e=>e.typeId==='dungeons:enchanted_blaze'));assert(f.groups.has('dungeons:shockwave_recovery'));
  f.advance(10);assert(f.groups.has('dungeons:shockwave_cooldown'));f.advance(15*20);assert(f.groups.has('dungeons:shockwave_ready'));assert(!f.groups.has('dungeons:shockwave_action'));
  const shields=f.props.get('dungeons:shields');f.entity.triggerEvent('dungeons:destroy_shield');f.advance(1);assert.equal(f.props.get('dungeons:shields'),shields-1);assert(f.groups.has('dungeons:shockwave_action'));assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);f.entity.isValid=false;
 });

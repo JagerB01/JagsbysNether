@@ -18,9 +18,9 @@
       "brute": "weighted",
       "stray": "weighted",
       "weighted": "weighted",
-      "selected_0": "dungeons:tower_wraith",
-      "selected_1": "dungeons:enchanted_tower_wraith",
-      "selected_2": "dungeons:necromancer",
+      "selected_0": "dungeons:trial_tower_wraith",
+      "selected_1": "dungeons:trial_necromancer",
+      "selected_2": "minecraft:piglin_brute",
       "selected_3": "minecraft:piglin_brute"
     },
     "large_arena": {
@@ -30,9 +30,9 @@
       "brute": "weighted",
       "stray": "weighted",
       "weighted": "weighted",
-      "selected_0": "dungeons:tower_wraith",
-      "selected_1": "dungeons:enchanted_tower_wraith",
-      "selected_2": "dungeons:necromancer",
+      "selected_0": "dungeons:trial_tower_wraith",
+      "selected_1": "dungeons:trial_necromancer",
+      "selected_2": "minecraft:piglin_brute",
       "selected_3": "minecraft:piglin_brute"
     },
     "dragon_arena": {
@@ -43,9 +43,9 @@
       "brute": "weighted",
       "stray": "weighted",
       "weighted": "weighted",
-      "selected_0": "dungeons:tower_wraith",
-      "selected_1": "dungeons:enchanted_tower_wraith",
-      "selected_2": "dungeons:necromancer",
+      "selected_0": "dungeons:trial_tower_wraith",
+      "selected_1": "dungeons:trial_necromancer",
+      "selected_2": "minecraft:piglin_brute",
       "selected_3": "minecraft:piglin_brute"
     },
     "mega_keep": {
@@ -54,23 +54,19 @@
       "brute": "weighted",
       "stray": "weighted",
       "weighted": "weighted",
-      "selected_0": "dungeons:tower_wraith",
-      "selected_1": "dungeons:enchanted_tower_wraith",
-      "selected_2": "dungeons:necromancer",
+      "selected_0": "dungeons:trial_tower_wraith",
+      "selected_1": "dungeons:trial_necromancer",
+      "selected_2": "minecraft:piglin_brute",
       "selected_3": "minecraft:piglin_brute"
     }
   },
   "spawn_pool": [
     {
-      "entity": "dungeons:tower_wraith",
-      "weight": 9
+      "entity": "dungeons:trial_tower_wraith",
+      "weight": 10
     },
     {
-      "entity": "dungeons:enchanted_tower_wraith",
-      "weight": 1
-    },
-    {
-      "entity": "dungeons:necromancer",
+      "entity": "dungeons:trial_necromancer",
       "weight": 10
     },
     {
@@ -78,7 +74,7 @@
       "weight": 20
     }
   ],
-  "enchanted_note": "10% of wraith selections are the declared enchanted variant. Necromancers retain their native 1-in-10 entity_spawned transformation. Enchanted selections are included within their 25% family share.",
+  "enchanted_note": "Trial-only caster definitions roll 33% enchanted / 67% normal for each entity spawned. Wraith and Necromancer families each retain 25% of the encounter pool; Piglin Brutes retain 50% and are never enchanted by this system. Ordinary Necromancers retain their separate native 10% roll.",
   "relocations": [
     {
       "layout": "small_arena",
@@ -515,5 +511,5 @@
       "fill": "minecraft:deepslate_bricks"
     }
   ],
-  "native_data_revision": 2
+  "native_data_revision": 3
 }

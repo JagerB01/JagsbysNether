@@ -8,12 +8,12 @@ function setup(name,action){try{action();}catch(error){setupErrors.push(`${name}
 system.afterEvents.scriptEventReceive.subscribe(({id,sourceEntity:player})=>{
  if(id!=='jagsby_nether:glowhusk_status'||player?.typeId!=='minecraft:player')return;
  try{
-  if(setupErrors.length){player.sendMessage(`[Underworld v0.2.118] Glowsquito setup error: ${setupErrors.join('; ')}`);return;}
+  if(setupErrors.length){player.sendMessage(`[Underworld v0.2.119] Glowsquito setup error: ${setupErrors.join('; ')}`);return;}
   const hit=player.getBlockFromViewDirection({maxDistance:8})?.block;
-  if(hit?.typeId!==HIVE){player.sendMessage('[Underworld v0.2.118] Command received. Look directly at a Glowhusk within 8 blocks.');return;}
+  if(hit?.typeId!==HIVE){player.sendMessage('[Underworld v0.2.119] Command received. Look directly at a Glowhusk within 8 blocks.');return;}
   const record=colony.ensureHive(hit);
-  player.sendMessage(`[Underworld v0.2.118] Glowhusk: ${hit.permutation.getState('jagsby_nether:wax_level')}/5 wax, ${record.occupants.length}/3 assigned Glowsquitos.`);
- }catch(error){player.sendMessage(`[Underworld v0.2.118] Glowhusk status failed: ${error}`);console.warn(`[Underworld Glowsquito] Status: ${error}`);}
+  player.sendMessage(`[Underworld v0.2.119] Glowhusk: ${hit.permutation.getState('jagsby_nether:wax_level')}/5 wax, ${record.occupants.length}/3 assigned Glowsquitos.`);
+ }catch(error){player.sendMessage(`[Underworld v0.2.119] Glowhusk status failed: ${error}`);console.warn(`[Underworld Glowsquito] Status: ${error}`);}
 });
 
 system.beforeEvents.startup.subscribe(({blockComponentRegistry})=>setup('Glowhusk component',()=>{

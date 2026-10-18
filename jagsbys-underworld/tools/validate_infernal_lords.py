@@ -77,7 +77,7 @@ def validate(bp, rp):
             group = actors['dungeons:'+name]['component_groups']['dungeons:'+phase]
             assert 'minecraft:timer' in group, f'{name}/{phase}: needs AI-independent phase timer'
             assert not any(k.startswith('minecraft:behavior.timer_flag_') for k in group), f'{name}/{phase}: AI goal timer reintroduced'
-    for identifier in ('necromancer','tower_wraith'):
+    for identifier in ('necromancer','tower_wraith','frozen_zombie'):
         base = actors['dungeons:'+identifier]['components']
         enchanted = actors['dungeons:enchanted_'+identifier]['components']
         assert enchanted['minecraft:health']['max'] == base['minecraft:health']['max'] * 2
@@ -110,8 +110,8 @@ def validate(bp, rp):
         if 'particle_effect' in doc:
             definitions.add(doc['particle_effect']['description']['identifier'])
     # Vanilla humanoid/arrow resources intentionally resolve from Bedrock itself.
-    native_prefixes = ('animation.humanoid.', 'controller.animation.humanoid.', 'animation.common.', 'animation.skeleton.', 'animation.zombie.', 'controller.animation.zombie.', 'animation.spear.')
-    native = {'controller.render.default','controller.render.arrow','geometry.arrow','geometry.zombie.v1.8','geometry.zombie.baby','geometry.spear','geometry.fireball','geometry.default','controller.render.armor','controller.render.fireball','controller.render.item_default','controller.render.zombie.v2','animation.actor.billboard'}
+    native_prefixes = ('animation.humanoid.', 'controller.animation.humanoid.', 'animation.common.', 'animation.skeleton.', 'animation.zombie.', 'controller.animation.zombie.', 'animation.spear.', 'animation.blaze.', 'controller.animation.blaze.')
+    native = {'controller.render.default','controller.render.arrow','geometry.arrow','geometry.zombie.v1.8','geometry.zombie.baby','geometry.spear','geometry.fireball','geometry.default','controller.render.armor','controller.render.fireball','controller.render.item_default','controller.render.zombie.v2','animation.actor.billboard','geometry.blaze','controller.render.blaze'}
     for key, doc in documents:
         values = list(strings(doc))
         for value in values:

@@ -44,7 +44,7 @@ Ruins use 192-block regions: Grave Yard 8%, Large Blackstone Pillars 6%, Large B
 
 ## Spawners and encounters
 
-All spawners in the three arenas and the Mega Fortress keep and four lower chambers are native trial spawners. Every trial spawner has an explicit selected mob. Initial selection weights are 25% Ashen Tower Wraith family, 25% Crimson Necromancer, 50% Piglin Brute. Wraith selections include 10% declared enchanted variants; Necromancers retain their native 10% enchanted transformation. New template entries contain a valid weighted fallback; one finite pass at structure completion selects weighted explicit presets independently for each new structure. Upgrades repair saved positions using the same presets. Choices are persisted before writing and unfinished fresh passes retry on world load. Native potential pools are retained, but automatic per-encounter rerolls are unverified and are not required for initial activation. There is no periodic selection or crowding scan.
+All spawners in the three arenas and the Mega Fortress keep and four lower chambers are native trial spawners. Every trial spawner has an explicit selected mob. Initial selection weights are 25% Ashen Tower Wraith family, 25% Crimson Necromancer, 50% Piglin Brute. Each trial-spawned Wraith and Necromancer independently rolls 33% enchanted / 67% normal through a trial-only native spawn definition. Declared enchanted variants provide real stats, glint and perks. Piglin Brutes never receive this roll. Ordinary Necromancers outside trial encounters retain their separate 10% roll. New template entries contain a valid weighted fallback; one finite pass at structure completion selects weighted explicit presets independently for each new structure. Upgrades repair saved positions using the same presets. Choices are persisted before writing and unfinished fresh passes retry on world load. Native potential pools are retained, but automatic per-encounter rerolls are unverified and are not required for initial activation. There is no periodic selection or crowding scan.
 
 | Build | Configured trial spawners | Ordinary spawners |
 | --- | --- | --- |
@@ -152,3 +152,5 @@ Both backends release their owned areas; timeout messages include location and
 requested size. structures_status reports live load details and latest-stage age
 on demand. No periodic diagnostic worker is added. Native Realm acceptance remains
 pending; coverage, spacing, comparison and placement requirements are unchanged.
+
+The v0.2.119 encounter revision migrates recorded existing trial spawners to the caster spawn definitions in one finite update pass. The 33% per-mob roll does not depend on native potential-pool rerolls. Native trial tracking through the caster transformation needs live acceptance; no idle conversion checks were added.
