@@ -59,7 +59,8 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
         dim.playSound("mob.evocation_illager.prepare_summon", loc, { volume: 0.5, pitch: 2 + Math.random() })
 
         var zombieId = "minecraft:zombie"
-        const biome = dim.getBiome(loc).id
+        let biome;
+        try{biome=dim.getBiome(loc)?.id;}catch{} // Missing biome data must not cancel a Nether summon.
         if (huskBiomes.includes(biome)) zombieId = "minecraft:husk"
         if (frozenZombieBiomes.includes(biome)) zombieId = "dungeons:frozen_zombie"
         if (jungleZombieBiomes.includes(biome)) zombieId = "dungeons:jungle_zombie"

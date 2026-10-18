@@ -121,7 +121,7 @@
       "source": "BP/entities/new/necromancer/necromancer_spawnpoint.json",
       "source_sha256": "88cf2cc71baeecd402453285cd861797feee08508e0ad342c72ba6b668ea5abe",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "8484aa4c241e4c0ec8def0599ccc4b83ef6bdcdf24d38f8dd14ea056f4472490"
+      "integrated_sha256": "74dc0a3b6df2fa9986e4fd7d61bee3d0805de6226a4b9f79e56378e12134d618"
     },
     "BP/entities/new/tower_wraith.json": {
       "source": "BP/entities/new/tower_wraith.json",
@@ -145,7 +145,7 @@
       "source": "BP/entities/new/wraith/wraith_fire.json",
       "source_sha256": "2735704d51a7a5002f44f8d2d1df996cea9e3579ba8b193b35a6c94e2ab94f84",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "be307b91d7d86c161c044cbb57924dcc91865056d2086c4e534f8d2ddeaac5ec"
+      "integrated_sha256": "603173a30e028b9d8154f7c2aa1a6eaa373e8c11b9dec42c123b46587ac8caab"
     },
     "BP/entities/utility/chest/diamond/boss_wildfire.json": {
       "source": "BP/entities/utility/chest/diamond/boss_wildfire.json",
@@ -193,7 +193,7 @@
       "source": "BP/entities/utility/tower_wraith_poison.json",
       "source_sha256": "7f487f0b08437c6d8b1b0dcb881b41fa1d1ab5f9a3db96fa2792914bdeaafac6",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "6974525fba3ce688d20eb523684a1ff62bf0bbaa7411c849e1c3aad544102d64"
+      "integrated_sha256": "f65a1dd550b44b136678f66bd9e4400b283ea4d7926491df942d982ff7f955f3"
     },
     "BP/entities/utility/wildfire_awaken_boom.json": {
       "source": "BP/entities/utility/wildfire_awaken_boom.json",
@@ -252,19 +252,19 @@
       "source": "BP/scripts/misc/entityBehaviour/towerWraith.js",
       "source_sha256": "f559613f2a912f33c8305021666d9fb5480ee33396a1ac97094e243b58e2b4b6",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "b184c858144fe4a74dee0574043b1712ba044dd5caf5d141fd882c4b8937340d"
+      "integrated_sha256": "6b9196baced201e3d01f5c62ad200bc653384356386fb3f1902b079b5b9394db"
     },
     "BP/scripts/infernal_lords/wraith.js": {
       "source": "BP/scripts/misc/entityBehaviour/wraith.js",
       "source_sha256": "cd4dc86cd9f4f5f36cd88d57d038ece13d4320b1599d074e560a710b91ad5e23",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "91c78d57471fa34444504891bc201d5360452990530cbdf4c7440a17ba323c90"
+      "integrated_sha256": "96787d354befbacb6e0bd508922e74b881e759102e8a05de68a2c77b5c745f9c"
     },
     "BP/scripts/infernal_lords/necromancer.js": {
       "source": "BP/scripts/misc/entityBehaviour/necromancer.js",
       "source_sha256": "af968d4b51652d0e35c361d46e08dc420b6a14915002fbcf04f970d04cd860c6",
       "source_pack": "standalone v0.1.4 AUDIO FIX",
-      "integrated_sha256": "1cd6198c70233c887067edf706275b2f24f1fa37e2183f4b6cb7c8d78b81be60"
+      "integrated_sha256": "503144dc8148fb95ab0abeb085cd0b008e1affdfed5d8b9608331179568d03ae"
     },
     "BP/scripts/infernal_lords/enchantedMobs.js": {
       "source": "BP/scripts/misc/entityBehaviour/enchantedMobs.js",
@@ -2362,7 +2362,7 @@
     },
     "BP/scripts/infernal_lords/runtime.js": {
       "source": "Underworld integration",
-      "integrated_sha256": "66321a2112d113705236a2f00fa0f7c5b39724eddcdf0af9f3047835a68f4dd4"
+      "integrated_sha256": "573d1fb915f65dd30e41fc6b723fdc211b1f85417956e1264c756289e8f35cd8"
     },
     "BP/scripts/infernal_lords/helpers.js": {
       "source": "Underworld integration",
@@ -3077,7 +3077,7 @@
     "BP/scripts/infernal_lords/boss_event_routes.js": {
       "source": "Underworld stable-API combat delivery / damage adaptation",
       "source_pack": "Underworld",
-      "integrated_sha256": "21fd9323390fbde6be7fa6c3d6c3040783f829bbee28674731b9ccc7df9e24e7"
+      "integrated_sha256": "7f750a0f7a97f805cad2498bd36965f94dd49f9bb936e4140902650d30ca861f"
     },
     "BP/scripts/infernal_lords/boss_damage_watch.js": {
       "source": "Underworld stable-API combat delivery / damage adaptation",
@@ -3160,7 +3160,8 @@
     "v0.2.111: requested near-Brute base hits: necromancer projectiles and Tower Wraith spell opening hits use 6/10/14 raw damage on Easy/Normal/Hard; lingering Tower Wraith pulses use 1/1.5/2. Fire patches share per-cast hit history; no new idle polling. Necromancer enchanted/upstream damage multipliers preserved. Other wraith and boss hazards unchanged.",
     "v0.2.113: native boss projectile impact damage, non-AI phase/cooldown timers, Nerezhal retreat and hurt/close-range teleport restoration, bounded pillar-aware teleport landings, reload phase recovery without health reset, and event-driven lords_status combat telemetry. Automated JSON sequence models do not replace Bedrock combat acceptance.",
     "v0.2.114: native trial encounter pools select Tower Wraith family 25%, Necromancer 25%, Piglin Brute 50%. Tower Wraith share includes 10% declared enchanted variants; Necromancer retains its original native 1:9 enchanted spawn event. Core imported resources are unchanged.",
-    "v0.2.115: reliable queued boss event bridge replaces assumed empty/property-only native notifications, with native duplicates suppressed. Deferred projectile ownership, floor-clear storm origin, illusion despawn, ground-hazard lifetime/pulses, and owner-scoped Blaze cap repair existing attacks. Hard raw native damage 96 standard, 160 powerful, 208 point-blank shockwave preserving rounded distance falloff, 32 armour-ignoring floor fire. Native defences retained; actual Bedrock health-loss acceptance pending. Opt-in actual-health telemetry uses hurt events only."
+    "v0.2.115: reliable queued boss event bridge replaces assumed empty/property-only native notifications, with native duplicates suppressed. Deferred projectile ownership, floor-clear storm origin, illusion despawn, ground-hazard lifetime/pulses, and owner-scoped Blaze cap repair existing attacks. Hard raw native damage 96 standard, 160 powerful, 208 point-blank shockwave preserving rounded distance falloff, 32 armour-ignoring floor fire. Native defences retained; actual Bedrock health-loss acceptance pending. Opt-in actual-health telemetry uses hurt events only.",
+    "v0.2.118: audited arena casters. Reliable queued delivery for Necromancer summon markers, Tower Wraith poison creation and shared Wraith fire initialization/hits; native half-second entity-sensor fire pulses replace AI timer flags, with collisionless off-ground despawn removed. Local floor searches prevent upper-storey/Nether roof placement, self-duplicate removal and missing-neighbor spread aborts. Regular/enchanted support Wraith teleports use bounded safe local floors; missing biome data falls back to normal zombie summons. Base damage, enchanted chances, projectile cadence and summon limits retained. Automated BP event-pipeline models pass; native AI/aim/render acceptance pending."
   ],
   "native_loot_tables": [
     "loot_tables/entities/zombie.json",

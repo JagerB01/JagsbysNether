@@ -7,7 +7,7 @@ const system = scopedSystem("actors");
 
 //cloud
 function createPoisonCloud(timeLeft, dim, loc, hitPlayers=new Set()) {
-    if (timeLeft <= 0) return;
+    if (timeLeft <= 0 || dim.isChunkLoaded?.(loc)===false) return;
     if (timeLeft > 1) {
         dim.spawnParticle("dungeons:enemy_poison_cloud_smoke", loc)
         dim.spawnParticle("dungeons:enemy_poison_cloud_swirls", loc)
@@ -18,6 +18,7 @@ function createPoisonCloud(timeLeft, dim, loc, hitPlayers=new Set()) {
         families: ["player"]
     });
     for (const target of damageRange) {
+        if(!target.isValid || ["Creative","Spectator"].includes(target.getGameMode?.()))continue;
         const damage = hitPlayers.has(target.id)?casterLinger(world.getDifficulty()):casterHit(world.getDifficulty());
         const damageDone = target.applyDamage(damage, { cause: "magic" })
         if (damageDone) {

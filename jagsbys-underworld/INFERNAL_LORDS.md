@@ -1,4 +1,4 @@
-# Infernal Lords — v0.2.117 integration test
+# Infernal Lords — v0.2.118 integration test
 
 This build integrates the three Infernal Lords, Ashen Tower Wraith and Crimson
 Necromancer directly into Underworld. Activate Underworld's BP and RP; disable
@@ -217,3 +217,18 @@ Stable `dataDrivenEntityTrigger` documents component-definition changes, so empt
 Malzareth spread initialization waits for native projectile ownership and accepts Event-cause spawns. Illusion removal uses the same reliable command route. Nerezhal storm origins are fixed relative to feet, avoiding the original head-height-minus-1.4 offset intersecting floors on native runtimes with a low eye height. Floor hazards retain their 20-second lifespan and half-second hits but no longer disappear because a collisionless helper reports not being on ground. Baelgor keeps his original two-Blaze cap scoped to the summoning boss. No boss health, movement speed, phase duration, projectile count/spread, attack cadence, invulnerability, shield values, awakening, animation, particle or sound resource was redesigned.
 
 See [INFERNAL_LORDS_DAMAGE.md](INFERNAL_LORDS_DAMAGE.md) for raw native damage inputs and the explicitly unverified Hard mitigation targets. Actual health-loss logging is opt-in and event-driven, with no interval, inventory edits or health subtraction.
+
+Arena caster audit (v0.2.118): Necromancer summon markers, Tower Wraith poison
+creation and shared Wraith fire initialization/hits now use queued event delivery;
+native notifications are suppressed for those routes to prevent duplicate hits.
+The collisionless fire actor no longer despawns for lacking ground contact and
+uses native nearby-entity sensors for its original half-second hit cadence.
+Fire placement/spread resolves local floors, excludes itself from duplicate checks,
+skips unloaded neighbors and retains one opening-hit history across each cast.
+Normal/enchanted support Wraith teleports no longer query above the Nether roof.
+Unavailable biome data falls back to the regular zombie instead of aborting summons.
+Health, damage values, spell types, enchanted spawn weights, projectile cadence,
+spell spread counts and summon limits are retained. Eight added BP-event pipeline
+checks cover these repairs; they do not execute native AI goals, pathfinding,
+projectile aim, client rendering or actual armor mitigation. Live acceptance remains
+required for both caster variants in their arenas and after save/reload.

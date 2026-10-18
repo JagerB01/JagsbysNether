@@ -69,7 +69,13 @@
       }
     },
     "events": {
-      "dungeons:zombie": {},
+      "dungeons:zombie": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:zombie"
+          ]
+        }
+      },
       "minecraft:entity_spawned": {},
       "dungeons:despawn": {
         "add": {

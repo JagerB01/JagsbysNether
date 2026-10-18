@@ -2,14 +2,14 @@
 // It models those contracts, not Bedrock pathfinding, rendering or AI goal execution.
 import {readFileSync} from 'node:fs';
 import {world,system,timeouts,flush} from './mock-server.mjs';
-const paths={nameless_one:'nameless_one/nameless_one',wretched_wraith:'wretched_wraith/wretched_wraith',boss_wildfire:'wildfire/wildfire'};
+const paths={nameless_one:'new/boss/nameless_one/nameless_one',wretched_wraith:'new/boss/wretched_wraith/wretched_wraith',boss_wildfire:'new/boss/wildfire/wildfire',tower_wraith:'new/tower_wraith',enchanted_tower_wraith:'enchanted/new/enchanted_tower_wraith',necromancer:'new/necromancer/necromancer',enchanted_necromancer:'enchanted/new/enchanted_necromancer',necromancer_spawnpoint:'new/necromancer/necromancer_spawnpoint',wraith_fire:'new/wraith/wraith_fire',tower_wraith_poison:'utility/tower_wraith_poison',wraith:'new/wraith/wraith',enchanted_wraith:'enchanted/new/enchanted_wraith'};
 let serial=0;
-export function bossFixture(name){
- const definition=JSON.parse(readFileSync(new URL(`../behavior_pack/entities/new/boss/${paths[name]}.json`,import.meta.url)))['minecraft:entity'];
+export function actorFixture(name){
+ const definition=JSON.parse(readFileSync(new URL(`../behavior_pack/entities/${paths[name]}.json`,import.meta.url)))['minecraft:entity'];
  const groups=new Set(),props=new Map(Object.entries(definition.description.properties??{}).map(([k,v])=>[k,v.default])),dynamic=new Map(),tags=new Set(),events=[],moves=[],spawned=[],shots=[];
  let timer,left=0,definitionChanges=0;const health={currentValue:definition.components['minecraft:health'].max,defaultValue:definition.components['minecraft:health'].max};
  const player={id:'player',typeId:'minecraft:player',isValid:true,location:{x:3,y:64,z:3},hits:[],matches:q=>q.families?.every(f=>f==='player')??false,getEffect:id=>id==='fire_resistance'?{amplifier:0}:undefined,getGameMode:()=> 'Survival',getComponent:id=>id.includes('health')?{currentValue:20,defaultValue:20}:id.includes('equippable')?{getEquipment(){}}:undefined,applyDamage(amount,{cause}={}){if(cause==='fire'||cause==='fireTick')return false;this.hits.push({amount,cause});return true;},applyKnockback(){},addEffect(){},runCommand(){},setOnFire(){}};
- const dimension={id:'minecraft:nether',isChunkLoaded:()=>true,getBlock:({x,y,z})=>({typeId:y<64?'minecraft:purple_stained_glass':'minecraft:air',isSolid:y<64,isAir:y>=64,isLiquid:false,location:{x,y,z}}),getPlayers:()=>[player],getEntities:q=>q?.excludeFamilies||q?.families?.includes('player')?[player]:[],spawnParticle(){},playSound(){},spawnEntity(typeId,location){
+ const dimension={id:'minecraft:nether',isChunkLoaded:()=>true,getBlock(p){const {x,y,z}=Object.fromEntries(Object.entries(p).map(([k,v])=>[k,Math.floor(v)]));return {x,y,z,typeId:y<64?'minecraft:purple_stained_glass':'minecraft:air',isSolid:y<64,isAir:y>=64,isLiquid:false,location:{x,y,z},above:()=>this.getBlock({x,y:y+1,z}),below:()=>this.getBlock({x,y:y-1,z}),bottomCenter:()=>({x:x+.5,y,z:z+.5})};},getEntitiesAtBlockLocation:()=>[player],getPlayers:()=>[player],getEntities:q=>q?.excludeFamilies||q?.families?.includes('player')?[player]:[],spawnParticle(){},playSound(){},spawnEntity(typeId,location){
   const own=new Map(),ptags=new Set();const comp={owner:undefined,shoot(v){shots.push({entity:p,vector:v});}};
   const p={id:`effect-${serial++}`,typeId,location:{...location},dimension,isValid:true,getComponent:id=>id.includes('projectile')?comp:undefined,getDynamicProperty:k=>own.get(k),setDynamicProperty:(k,v)=>own.set(k,v),hasTag:t=>ptags.has(t),matches:q=>(!q.type||q.type===typeId)&&!q.families?.length&&(!q.tags||q.tags.every(t=>ptags.has(t))),addTag:t=>ptags.add(t),addEffect(){},remove(){p.isValid=false;},triggerEvent(){},applyImpulse(){}};
   spawned.push(p);world.afterEvents.entitySpawn.emit({entity:p,cause:this.spawnCause??'Spawned'});return p;
@@ -38,7 +38,7 @@ export function bossFixture(name){
  }
  const entity={id:`native-boss-${serial++}`,typeId:`dungeons:${name}`,isValid:true,location:{x:0,y:64,z:0},dimension,
   getProperty:k=>props.get(k),setProperty:(k,v)=>props.set(k,v),getDynamicProperty:k=>dynamic.get(k),setDynamicProperty:(k,v)=>dynamic.set(k,v),hasTag:t=>tags.has(t),addTag:t=>tags.add(t),getTags:()=>[...tags],
-  getEffect(){},removeEffect(){},addEffect(){},playAnimation(){},getComponent:id=>id.includes('health')?health:undefined,
+  getEffect(){},removeEffect(){},addEffect(){},extinguishFire(){},playAnimation(){},getComponent:id=>id.includes('health')?health:undefined,
   matches:q=>(!q.type||q.type===entity.typeId)&&(!q.families||q.families.every(f=>components()['minecraft:type_family'].family.includes(f)))&&(!q.excludeFamilies||!q.excludeFamilies.some(f=>components()['minecraft:type_family'].family.includes(f)))&&(!q.tags||q.tags.every(t=>tags.has(t)))&&(!q.excludeTags||!q.excludeTags.some(t=>tags.has(t))),
   triggerEvent(id){if(!entity.isValid)return;events.push(id);const node=definition.events[id],before=definitionChanges;if(node)response(node);if(definitionChanges!==before)world.afterEvents.dataDrivenEntityTrigger.emit({entity,eventId:id});},
   tryTeleport(p){moves.push({...p});entity.location={...p};return true;},getHeadLocation:()=>({...entity.location,y:entity.location.y+1.62}),getViewDirection:()=>({x:0,y:0,z:1}),lookAt(){},remove(){entity.isValid=false;},runCommand(){}};
@@ -58,3 +58,5 @@ export function bossFixture(name){
  }
  return {entity,definition,groups,props,events,moves,spawned,shots,health,player,dimension,components,advance,nativeHit,receiveHit};
 }
+
+export {actorFixture as bossFixture};

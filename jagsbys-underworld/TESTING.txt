@@ -1,6 +1,6 @@
-Jagsby's Underworld v0.2.117 — current Bedrock checklist
+Jagsby's Underworld v0.2.118 — current Bedrock checklist
 
-Status: the v0.2.117 gameplay build passed 501 automated checks. These cover
+Status: the v0.2.118 gameplay build passed 509 automated checks. These cover
 asset/reference integrity and mocked script behavior, not Bedrock client
 rendering, native trial activation/rewards, natural encounter frequency or FPS.
 There is no Bedrock client in the development workspace. Record actual results
@@ -8,7 +8,7 @@ and Content Log messages rather than treating every item below as unverified
 or already proven by automation.
 
 1. Installation and upgrades
-   Import Jagsbys_Underworld_v0.2.117.mcaddon and activate both Underworld packs.
+   Import Jagsbys_Underworld_v0.2.118.mcaddon and activate both Underworld packs.
    Use Bedrock 26.52 with cheats for commands; Beta APIs are not required.
    Disable the separate Nether Settlements/Agriculture packs. Test upgrades on
    a world copy. Normal Underworld updates retain their UUIDs/world records;
@@ -241,3 +241,21 @@ V0.2.117 CHUNK LOADING RECOVERY (live acceptance pending):
 - Confirm surveys resume and temporary ticking areas are released after success,
   failure and cancellation. Automated fixtures exercise these paths; they do not
   establish why the reported Realm load stalled or guarantee native chunk loading.
+
+V0.2.118 ARENA CASTER ACCEPTANCE (native tests pending):
+- On Hard in Survival, test /summon dungeons:necromancer and
+  /summon dungeons:enchanted_necromancer. Confirm target acquisition, movement,
+  native projectile attacks and the two-zombie summon spell; verify the local
+  minion cap still works. Normal Necromancers retain 10% enchanted conversion.
+- Test /summon dungeons:tower_wraith and
+  /summon dungeons:enchanted_tower_wraith. Confirm black/pink phase changes,
+  fire patches, poison clouds and close-range teleport behavior. Test stairs,
+  balconies, low roofs and actual arena floors. Fire must not disappear solely
+  because its collisionless actor has no ground contact, and must use the target's
+  local floor rather than an upper storey. Check water extinguishing and expiry.
+- Repeat after reload and from trial-spawner encounters. Verify enchanted perks
+  and the existing 25% Wraith family / 25% Necromancer / 50% Brute weighting.
+- /scriptevent jagsby_nether:lords_status reports runtime failures; capture errors.
+  Opening raw caster hits remain 6/10/14 on Easy/Normal/Hard, with native defenses;
+  enchanted Necromancer baseline multiplier remains 1.5. Tower lingering pulses
+  remain 1/1.5/2. No automated fixture establishes actual native health loss.

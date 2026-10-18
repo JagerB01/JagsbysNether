@@ -1,3 +1,4 @@
+import {landingAt,teleportDestination} from './teleport.js';
 import {casterHit,casterLinger,fireCastHits} from './arena_damage.js';
 import { EntityDamageCause } from "@minecraft/server";
 import { world } from "./runtime.js";
@@ -10,8 +11,6 @@ world.afterEvents.entitySpawn.subscribe((e) => {
     const entity = e.entity;
     if (!entity) return;
     if (!entity.isValid) return;
-    const cause = e.cause;
-    if (cause !== "Spawned") return;
     if (entity.matches({families:["wraith"]})) {
         if (!entity.dimension.isChunkLoaded(entity.location)) return;
         entity.dimension.spawnParticle("dungeons:tower_wraith_black", entity.location)
@@ -26,45 +25,8 @@ function teleport(entity, loc) {
     if (loc == undefined) loc = entity.location;
     const entityLoc = entity.location;
     const dim = entity.dimension;
-    var validTeleport = false
-    var teleportAttempts = 20
-    for (let i = 0; i < teleportAttempts && validTeleport == false; i++) {
-        var xMod = (Math.random() * 30) - 15
-        var zMod = (Math.random() * 30) - 15
-        if (xMod < 0 && xMod > -5) xMod = -5
-        if (xMod > 0 && xMod < 5) xMod = 5
-        if (zMod < 0 && zMod > -5) zMod = -5
-        if (zMod > 0 && zMod < 5) zMod = 5
-        var teleportLoc = { x: loc.x + xMod, y: loc.y, z: loc.z + zMod }
-        if (dim.getTopmostBlock({ x: teleportLoc.x, z: teleportLoc.z }, 200) == undefined) {
-            break
-        } else {
-            const top = dim.getTopmostBlock({ x: teleportLoc.x, z: teleportLoc.z }, teleportLoc.y)
-            if (!top) break;
-            teleportLoc.y = dim.getTopmostBlock({ x: teleportLoc.x, z: teleportLoc.z }, teleportLoc.y).y + 1
-        }
-        if (teleportLoc.y < loc.y - 3 || teleportLoc.y > loc.y + 1) continue;
-
-        const baseDist = Math.hypot(teleportLoc.x - loc.x, teleportLoc.y - loc.y, teleportLoc.z - loc.z)
-        const xDif = loc.x - teleportLoc.x
-        const yDif = loc.y - teleportLoc.y
-        const zDif = loc.z - teleportLoc.z
-        var isWalled = false;
-        for (let i = 1; i < baseDist; i++) {
-            const checkBlock = dim.getBlock({ x: teleportLoc.x + (xDif * (i / baseDist)), y: 1 + teleportLoc.y + (yDif * (i / baseDist)), z: teleportLoc.z + (zDif * (i / baseDist)) })
-            if (!checkBlock) break;
-            if (checkBlock.isAir == false) {
-                isWalled = true;
-            }
-        }
-        if (isWalled) continue;
-        if (!dim.getBlock(teleportLoc)) continue;
-        if (dim.getBlock(teleportLoc).above().isAir == false || dim.getBlock(teleportLoc).above().above().isAir == false) continue;
-
-        if (teleportLoc) validTeleport = true
-    }
-    if (validTeleport == false) return;
-    entity.tryTeleport(teleportLoc)
+    const teleportLoc=teleportDestination(entity,loc,{requireSight:true});
+    if(!teleportLoc||!entity.tryTeleport(teleportLoc))return;
     dim.playSound("mob.wraith.teleport", entityLoc, { pitch: 1 })
     dim.spawnParticle("dungeons:wraith_teleport_out", entityLoc)
     system.runTimeout(() => {
@@ -80,7 +42,7 @@ function connectLine(player, baseLoc, baseDim) {
     const baseDist = Math.hypot(baseLoc.x - player.location.x, baseLoc.y - player.location.y, baseLoc.z - player.location.z)
     for (let i = 1; i < teleportHiddenTime; i += teleportHiddenTime / baseDist) {
         system.runTimeout(() => {
-            if (player.dimension !== baseDim) return;
+            if (!player.isValid || player.dimension !== baseDim) return;
             const targetLoc = player.location;
             const xDif = targetLoc.x - baseLoc.x
             const yDif = targetLoc.y - baseLoc.y
@@ -135,7 +97,7 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
             if (damaged.matches({ families: ["monster"] })) continue;
             if (damaged.getEffect("fire_resistance")) continue;
             if (damaged.typeId == "minecraft:player") {
-                if (damaged.getGameMode() == "Creative") continue;
+                if (["Creative","Spectator"].includes(damaged.getGameMode())) continue;
             }
             if (damaged.matches({ families: ["player"] }) || damaged.matches({ families: ["mob"] }) || damaged.matches({ families: ["animal"] })) targets.push(damaged)
         }
@@ -149,19 +111,26 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
     }
 })
 
+// Resolve the target's local floor, not an upper storey or the Nether ceiling.
+function fireBlock(d,loc){
+ const p=landingAt(d,loc.x,loc.z,loc.y,{height:1,halfWidth:0,maxDrop:4,maxRise:1});
+ return p?d.getBlock(p):undefined;
+}
+
 //spawn fire
 world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
     const entity = e.entity;
+    if(!entity.isValid || entity.typeId!=="dungeons:wraith_fire")return;
+    const sourceId=entity.id;
     const id = e.eventId;
     if (id === 'dungeons:spawn_wraith_fire' && entity.typeId == "dungeons:wraith_fire") {
         const dim = entity.dimension;
         const loc = entity.location;
-       const topMost = dim.getTopmostBlock({ x: loc.x, z: loc.z }, loc.y + 4)
-        if(!topMost) return entity.remove()
-        const block = topMost.above()
+        const block=fireBlock(dim,loc);
+        if(!block)return entity.remove();
         entity.addEffect("invisibility", 3, { showParticles: false })
         if (block.below().isAir == false) {
-            const isFire = dim.getEntities({ location: block.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 })
+            const isFire = dim.getEntities({ location: block.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 }).filter(other=>other.id!==sourceId)
             if (isFire.length >= 1) {
                 entity.remove()
             } else {
@@ -183,10 +152,11 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
         ]
         system.runTimeout(() => {
             for (const offset of offsets) {
-                const newSpawnLoc = { x: block.x + offset.x, y: block.y + 4, z: block.z + offset.z }
-                const newblock = dim.getTopmostBlock({ x: newSpawnLoc.x, z: newSpawnLoc.z }, newSpawnLoc.y).above()
+                const newSpawnLoc = { x: block.x + offset.x, y: block.y, z: block.z + offset.z }
+                const newblock=fireBlock(dim,newSpawnLoc);
+                if(!newblock)continue;
                 if (newblock.below().isAir == false) {
-                    const isFire = dim.getEntities({ location: newblock.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 })
+                    const isFire = dim.getEntities({ location: newblock.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 }).filter(other=>other.id!==sourceId)
                     if (isFire.length >= 1) continue;
                     const newFire = dim.spawnEntity(entity.typeId, newblock.bottomCenter())
                     newFire.setDynamicProperty("dungeons:fire_type", "wraith")
@@ -197,12 +167,11 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
     } else if (id === 'dungeons:spawn_enchanted_wraith_fire' && entity.typeId == "dungeons:wraith_fire") {
         const dim = entity.dimension;
         const loc = entity.location;
-       const topMost = dim.getTopmostBlock({ x: loc.x, z: loc.z }, loc.y + 4)
-        if(!topMost) return entity.remove()
-        const block = topMost.above()
+        const block=fireBlock(dim,loc);
+        if(!block)return entity.remove();
         entity.addEffect("invisibility", 3, { showParticles: false })
         if (block.below().isAir == false) {
-            const isFire = dim.getEntities({ location: block.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 })
+            const isFire = dim.getEntities({ location: block.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 }).filter(other=>other.id!==sourceId)
             if (isFire.length >= 1) {
                 entity.remove()
             } else {
@@ -224,10 +193,11 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
         ]
         system.runTimeout(() => {
             for (const offset of offsets) {
-                const newSpawnLoc = { x: block.x + offset.x, y: block.y + 4, z: block.z + offset.z }
-                const newblock = dim.getTopmostBlock({ x: newSpawnLoc.x, z: newSpawnLoc.z }, newSpawnLoc.y).above()
+                const newSpawnLoc = { x: block.x + offset.x, y: block.y, z: block.z + offset.z }
+                const newblock=fireBlock(dim,newSpawnLoc);
+                if(!newblock)continue;
                 if (newblock.below().isAir == false) {
-                    const isFire = dim.getEntities({ location: newblock.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 })
+                    const isFire = dim.getEntities({ location: newblock.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 }).filter(other=>other.id!==sourceId)
                     if (isFire.length >= 1) continue;
                     const newFire = dim.spawnEntity(entity.typeId, newblock.bottomCenter())
                     newFire.setDynamicProperty("dungeons:fire_type", "enchanted_wraith")
@@ -238,12 +208,11 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
     } else if (id === 'dungeons:spawn_ancient_wraith_fire' && entity.typeId == "dungeons:wraith_fire") {
         const dim = entity.dimension;
         const loc = entity.location;
-       const topMost = dim.getTopmostBlock({ x: loc.x, z: loc.z }, loc.y + 4)
-        if(!topMost) return entity.remove()
-        const block = topMost.above()
+        const block=fireBlock(dim,loc);
+        if(!block)return entity.remove();
         entity.addEffect("invisibility", 3, { showParticles: false })
         if (block.below().isAir == false) {
-            const isFire = dim.getEntities({ location: block.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 })
+            const isFire = dim.getEntities({ location: block.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 }).filter(other=>other.id!==sourceId)
             if (isFire.length >= 1) {
                 entity.remove()
             } else {
@@ -265,10 +234,11 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
         ]
         system.runTimeout(() => {
             for (const offset of offsets) {
-                const newSpawnLoc = { x: block.x + offset.x, y: block.y + 4, z: block.z + offset.z }
-                const newblock = dim.getTopmostBlock({ x: newSpawnLoc.x, z: newSpawnLoc.z }, newSpawnLoc.y).above()
+                const newSpawnLoc = { x: block.x + offset.x, y: block.y, z: block.z + offset.z }
+                const newblock=fireBlock(dim,newSpawnLoc);
+                if(!newblock)continue;
                 if (newblock.below().isAir == false) {
-                    const isFire = dim.getEntities({ location: newblock.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 })
+                    const isFire = dim.getEntities({ location: newblock.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 }).filter(other=>other.id!==sourceId)
                     if (isFire.length >= 1) continue;
                     const newFire = dim.spawnEntity(entity.typeId, newblock.bottomCenter())
                     newFire.setDynamicProperty("dungeons:fire_type", "ancient_wraith")
@@ -279,12 +249,11 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
     } else if (id === 'dungeons:spawn_tower_wraith_fire' && entity.typeId == "dungeons:wraith_fire") {
         const dim = entity.dimension;
         const loc = entity.location;
-       const topMost = dim.getTopmostBlock({ x: loc.x, z: loc.z }, loc.y + 4)
-        if(!topMost) return entity.remove()
-        const block = topMost.above()
+        const block=fireBlock(dim,loc);
+        if(!block)return entity.remove();
         entity.addEffect("invisibility", 3, { showParticles: false })
         if (block.below().isAir == false) {
-            const isFire = dim.getEntities({ location: block.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 })
+            const isFire = dim.getEntities({ location: block.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 }).filter(other=>other.id!==sourceId)
             if (isFire.length >= 1) {
                 entity.remove()
             } else {
@@ -293,7 +262,8 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
         }
         if (!entity.isValid) return;
         entity.setDynamicProperty("dungeons:fire_type", "tower_wraith")
-        entity.setDynamicProperty("jagsby_nether:fire_cast", entity.id)
+        const castId=entity.id;
+        entity.setDynamicProperty("jagsby_nether:fire_cast", castId)
         dim.playSound("mob.wraith.fire", block.bottomCenter())
         const offsets = [
             { x: 2, z: 1 },
@@ -319,14 +289,15 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
         ]
         system.runTimeout(() => {
             for (const offset of offsets) {
-                const newSpawnLoc = { x: block.x + offset.x, y: block.y + 4, z: block.z + offset.z }
-                const newblock = dim.getTopmostBlock({ x: newSpawnLoc.x, z: newSpawnLoc.z }, newSpawnLoc.y).above()
+                const newSpawnLoc = { x: block.x + offset.x, y: block.y, z: block.z + offset.z }
+                const newblock=fireBlock(dim,newSpawnLoc);
+                if(!newblock)continue;
                 if (newblock.below().isAir == false) {
-                    const isFire = dim.getEntities({ location: newblock.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 })
+                    const isFire = dim.getEntities({ location: newblock.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 }).filter(other=>other.id!==sourceId)
                     if (isFire.length >= 1) continue;
                     const newFire = dim.spawnEntity(entity.typeId, newblock.bottomCenter())
                     newFire.setDynamicProperty("dungeons:fire_type", "tower_wraith")
-                    newFire.setDynamicProperty("jagsby_nether:fire_cast", entity.id)
+                    newFire.setDynamicProperty("jagsby_nether:fire_cast", castId)
                     newFire.addEffect("invisibility", 3, { showParticles: false })
                 }
             }
@@ -334,12 +305,11 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
     } else if (entity.typeId == "dungeons:wraith_fire" && id == "dungeons:spawn_rolling_flame_fire") {
         const dim = entity.dimension;
         const loc = entity.location;
-        const topMost = dim.getTopmostBlock({ x: loc.x, z: loc.z }, loc.y + 4)
-        if(!topMost) return entity.remove()
-        const block = topMost.above()
+        const block=fireBlock(dim,loc);
+        if(!block)return entity.remove();
         entity.addEffect("invisibility", 3, { showParticles: false })
         if (block.below().isAir == false) {
-            const isFire = dim.getEntities({ location: block.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 })
+            const isFire = dim.getEntities({ location: block.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 }).filter(other=>other.id!==sourceId)
             if (isFire.length >= 1) {
                 entity.remove()
             } else {
@@ -352,12 +322,11 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((e) => {
     } else if (entity.typeId == "dungeons:wraith_fire" && id == "minecraft:entity_spawned") {
         const dim = entity.dimension;
         const loc = entity.location;
-       const topMost = dim.getTopmostBlock({ x: loc.x, z: loc.z }, loc.y + 4)
-        if(!topMost) return entity.remove()
-        const block = topMost.above()
+        const block=fireBlock(dim,loc);
+        if(!block)return entity.remove();
         entity.addEffect("invisibility", 3, { showParticles: false })
         if (block.below().isAir == false) {
-            const isFire = dim.getEntities({ location: block.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 })
+            const isFire = dim.getEntities({ location: block.bottomCenter(), families: ["dungeons_fire"], maxDistance: 0.1 }).filter(other=>other.id!==sourceId)
             if (isFire.length >= 1) {
                 entity.remove()
             } else {

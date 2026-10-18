@@ -68,7 +68,7 @@ function signals(kind){return new Proxy({},{get(_,name){return {subscribe(callba
   signal.subscribe(event=>{
    if(name==='playerInteractWithBlock'){if(!active('actors'))return;}else if(name!=='worldLoad'&&!eventRelevant(event))return;
    if(name==='dataDrivenEntityTrigger'){
-    // Empty/property-only boss events are not guaranteed native notifications.
+    // Empty/property-only combat events are not guaranteed native notifications.
     // Queued script events below are the single authoritative delivery route.
     if(BOSS_EVENT_ROUTES[event.entity?.typeId]?.includes(event.eventId))return;
     recordBossAction(event.entity,event.eventId);

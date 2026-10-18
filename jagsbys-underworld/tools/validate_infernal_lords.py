@@ -46,6 +46,12 @@ def validate(bp, rp):
             command = 'scriptevent jagsby_nether:boss_event ' + event
             commands = actors[identifier]['events'][event]['queue_command']['command']
             assert commands.count(command) == 1, f'{identifier}: missing/duplicate native command bridge for {event}'
+    for actor, event in [('necromancer_spawnpoint', 'dungeons:zombie'), ('tower_wraith_poison', 'minecraft:entity_spawned'), ('wraith_fire', 'dungeons:spawn_tower_wraith_fire'), ('wraith_fire', 'dungeons:wraith_fire_hit')]:
+        assert event in routes['dungeons:'+actor], f'{actor}: missing reliable ability event bridge'
+    fire = actors['dungeons:wraith_fire']['components']
+    assert 'minecraft:behavior.timer_flag_1' not in fire
+    assert fire['minecraft:entity_sensor']['subsensors'][0]['event'] == 'dungeons:wraith_fire_hit'
+    assert 'on_ground' not in json.dumps(fire['minecraft:environment_sensor']), 'Collisionless fire must not despawn for lacking ground contact'
     server_animations = set()
     for folder, key in [('animations','animations'), ('animation_controllers','animation_controllers')]:
         for path in (bp / folder).rglob('*.json'):

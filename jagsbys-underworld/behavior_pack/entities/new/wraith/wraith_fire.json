@@ -79,40 +79,91 @@
         "triggers": [
           {
             "filters": {
-              "any_of": [
-                {
-                  "test": "on_ground",
-                  "subject": "self",
-                  "value": false
-                },
-                {
-                  "test": "in_water",
-                  "subject": "self",
-                  "operator": "==",
-                  "value": true
-                }
-              ]
+              "test": "in_water",
+              "subject": "self",
+              "operator": "==",
+              "value": true
             },
             "event": "dungeons:despawn"
           }
         ]
       },
-      "minecraft:behavior.timer_flag_1": {
-        "duration_range": 0.5,
-        "cooldown_range": 0,
-        "on_end": {
-          "event": "dungeons:wraith_fire_hit"
-        },
-        "priority": 0
+      "minecraft:entity_sensor": {
+        "subsensors": [
+          {
+            "cooldown": 0.5,
+            "range": [
+              0.8,
+              2
+            ],
+            "minimum_count": 1,
+            "event_filters": {
+              "any_of": [
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "mob"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "animal"
+                }
+              ]
+            },
+            "event": "dungeons:wraith_fire_hit"
+          }
+        ]
       }
     },
     "events": {
-      "dungeons:spawn_rolling_flame_fire": {},
-      "dungeons:spawn_wraith_fire": {},
-      "dungeons:spawn_enchanted_wraith_fire": {},
-      "dungeons:spawn_ancient_wraith_fire": {},
-      "dungeons:spawn_tower_wraith_fire": {},
-      "dungeons:wraith_fire_hit": {},
+      "dungeons:spawn_rolling_flame_fire": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:spawn_rolling_flame_fire"
+          ]
+        }
+      },
+      "dungeons:spawn_wraith_fire": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:spawn_wraith_fire"
+          ]
+        }
+      },
+      "dungeons:spawn_enchanted_wraith_fire": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:spawn_enchanted_wraith_fire"
+          ]
+        }
+      },
+      "dungeons:spawn_ancient_wraith_fire": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:spawn_ancient_wraith_fire"
+          ]
+        }
+      },
+      "dungeons:spawn_tower_wraith_fire": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:spawn_tower_wraith_fire"
+          ]
+        }
+      },
+      "dungeons:wraith_fire_hit": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event dungeons:wraith_fire_hit"
+          ]
+        }
+      },
       "dungeons:despawn": {
         "add": {
           "component_groups": [

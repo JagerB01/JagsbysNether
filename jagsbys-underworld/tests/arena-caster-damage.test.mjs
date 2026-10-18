@@ -10,7 +10,7 @@ function fire(id,cast,player,type='tower_wraith'){
  const dim={id:'minecraft:nether',getEntitiesAtBlockLocation:()=>[player],spawnParticle(){}};
  return {id,typeId:'dungeons:wraith_fire',isValid:true,dimension:dim,location:player.location,getDynamicProperty:key=>key==='dungeons:fire_type'?type:cast,hasTag:()=>false,getComponent(){}};
 }
-function emit(entity,id){world.afterEvents.dataDrivenEntityTrigger.emit({entity,eventId:id});flush();assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);}
+function emit(entity,id){system.afterEvents.scriptEventReceive.emit({id:'jagsby_nether:boss_event',sourceEntity:entity,message:id});flush();assert.equal(runtimeStatus().failures,0,runtimeStatus().lastError);}
 test('necromancer projectile base hits scale to 6/10/14 and preserve upstream modifiers and enchanted multiplier',()=>{
  const projectile={typeId:'dungeons:necromancer_shot',hasTag:()=>false};
  for(const [difficulty,expected] of [['Easy',6],['Normal',10],['Hard',14]]){

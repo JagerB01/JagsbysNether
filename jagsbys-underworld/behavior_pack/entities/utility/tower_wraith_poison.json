@@ -68,7 +68,13 @@
       }
     },
     "events": {
-      "minecraft:entity_spawned": {},
+      "minecraft:entity_spawned": {
+        "queue_command": {
+          "command": [
+            "scriptevent jagsby_nether:boss_event minecraft:entity_spawned"
+          ]
+        }
+      },
       "dungeons:despawn": {
         "add": {
           "component_groups": [
