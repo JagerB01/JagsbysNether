@@ -5,7 +5,7 @@ import {recordEncounterSite} from './trial_encounters.js';
 import {world,system} from '@minecraft/server';
 import {ARENAS} from './arena_catalog.js';
 import {NATURAL_ARENAS} from './natural_arena_catalog.js';
-import {chunkLease} from './chunk_loading.js';
+import {chunkLease,chunkLoadingStatus} from './chunk_loading.js';
 import {runGenerationJob} from './generation_queue.js';
 import {candidateAt,GIANTS,landmarkRecords,villageBoxes,spacingAllows,LANDMARK_PREFIX} from './landmark_sites.js';
 import {surveyLandmark,clearVolume,fillSupports,fillSolidFoundation,megaFoundationMaterial,carveTile,obstructionReason} from './landmark_terrain.js';
@@ -13,8 +13,17 @@ import {terrainSurvey} from './terrain_survey.js';
 import {giantSearch,giantSites,smallSites,attemptKey} from './giant_search.js';
 import {TEST_ONLY_GIANT,FIT_ORDER,giantStartingBox,assessGiantSite,compareGiantSites} from './giant_fit.js';
 import {surveyModularFortress,modularSections,modularCoreBox,pendingModuleBox,surveyFortressModule,fortressModuleCount,fortressParent,fortressModuleRequired,extendFortressBox,fortressBuildVolumes} from './modular_fortress.js';
-const retries=new Map();let busy=false,status='Waiting for unchecked landmark sites.';
+const retries=new Map();let busy=false;
+const state={text:'Waiting for unchecked landmark sites.',tick:system.currentTick,wall:Date.now(),get message(){return this.text;},set message(value){this.text=value;this.tick=system.currentTick;this.wall=Date.now();}};
 let diagnostics;
+function liveStatus(){
+ const loading=chunkLoadingStatus();
+ if(loading)return `${loading}. Latest stage: ${state.message}`;
+ const seconds=Math.floor(Math.max((system.currentTick-state.tick)*50,Date.now()-state.wall)/1000);
+ const waits=[...retries.values()].filter(t=>t>system.currentTick);
+ const retry=waits.length?`; next site retry in ${Math.ceil((Math.min(...waits)-system.currentTick)/20)}s`:'';
+ return `${busy?'Generation job queued or working':'No landmark job active'}${retry}. Latest stage: ${state.message} (updated ${seconds}s ago).`;
+}
 function pauseForPlayer(c){
  retries.set(attemptKey(c),system.currentTick+200);
  // A one-shot retry exists only after an active build pauses for a player.
@@ -70,7 +79,7 @@ function reject(c,reason){if(['giant','small'].includes(c.family))giantSearch.re
 function supportKey(c,index){return `${SUPPORT_PREFIX}${c.family}_${c.gx}_${c.gz}_${index}`;}
 export function* generateLandmark(c,dimension,{preparedPlan,forcedSelection,requirePlayers=false}={}){
  let lease;const started=system.currentTick;
- const progress=message=>{status=`${c.family==='giant'&&!c.saved&&!c.selected?'Giant site':ARENAS[c.id].display_name}: ${message} (${Math.floor((system.currentTick-started)/20)}s).`;};
+ const progress=message=>{state.message=`${c.family==='giant'&&!c.saved&&!c.selected?'Giant site':ARENAS[c.id].display_name}: ${message} (${Math.floor((system.currentTick-started)/20)}s).`;};
  try{
   let record=c.saved,plan;
   let forced=forcedSelection;
@@ -81,16 +90,16 @@ export function* generateLandmark(c,dimension,{preparedPlan,forcedSelection,requ
    const starting=c.family==='giant'&&!c.selected?FIT_ORDER:[c.id];
    if(starting.some(id=>!spacingAllows({...c,id},c.family==='giant'?giantStartingBox(c,id):boxFor(c),records,villages))){
     // A build may have reserved space since selection. Skip before loading.
-    status='Landmark skipped: spacing changed since candidate selection.';return {outcome:'skipped'};
+    state.message='Landmark skipped: spacing changed since candidate selection.';return {outcome:'skipped'};
    }
-   status=`Surveying ${ARENAS[c.id].display_name} at ${c.x}, ${c.z}.`;
+   state.message=`Surveying ${ARENAS[c.id].display_name} at ${c.x}, ${c.z}.`;
    plan=preparedPlan??(c.family==='giant'&&!c.selected?yield* assessGiantSite(c,dimension,{progress,forcedId:()=>{forced=nextGiant();return forced?.id;},allowed:(id,box)=>spacingAllows({...c,id},box,records,villages)}):c.id==='mega_fortress'?yield* surveyModularFortress(c,dimension,{progress,coreOnly:true,allowed:box=>spacingAllows({...c,id:'mega_fortress'},box,records,villages)}):yield* surveyLandmark(c,dimension,progress));
    if(plan.outcome!=='ready'){
     if(plan.outcome==='unsuitable')reject(c,plan.reason);
     else retries.set(attemptKey(c),system.currentTick+1200);
-    status=`${ARENAS[c.id].display_name}: ${plan.reason}.`;recordDiagnostic(c,plan.outcome,plan.reason);return {outcome:plan.outcome};
+    state.message=`${ARENAS[c.id].display_name}: ${plan.reason}.`;recordDiagnostic(c,plan.outcome,plan.reason);return {outcome:plan.outcome};
    }
-   if(requirePlayers&&!players().length){status='Landmark paused: no players remain in the Nether.';return {outcome:'paused'};}
+   if(requirePlayers&&!players().length){state.message='Landmark paused: no players remain in the Nether.';return {outcome:'paused'};}
    if(plan.id)c={...c,id:plan.id,selected:true};
    if(!plan.modular&&(!spacingAllows(c,plan.box,landmarkRecords(),villageBoxes())||!playersClear(players(),plan.box,32))){
     retries.set(attemptKey(c),system.currentTick+1200);return;
@@ -106,17 +115,17 @@ export function* generateLandmark(c,dimension,{preparedPlan,forcedSelection,requ
   }
   let arena=record.modular?{display_name:'Mega Fortress',sections:modularSections(record.modules)}:NATURAL_ARENAS[c.id];
   for(let index=record.next;;index++){
-   if(requirePlayers&&!players().length){status='Landmark paused: no players remain in the Nether; progress saved.';return {outcome:'paused'};}
+   if(requirePlayers&&!players().length){state.message='Landmark paused: no players remain in the Nether; progress saved.';return {outcome:'paused'};}
    if(index>=arena.sections.length){
     if(!record.incremental)break;
     while(record.expansionNext<fortressModuleCount){
      const next=record.expansionNext;
      if(!record.modules.includes(fortressParent(next))||(record.carvingStops??[]).includes(fortressParent(next))){record.expansionNext++;save(c,record);continue;}
      const box=pendingModuleBox(c,record);
-     if(!playersClear(players(),box,32)){pauseForPlayer(c);status='Landmark paused: player approached the next module.';return;}
+     if(!playersClear(players(),box,32)){pauseForPlayer(c);state.message='Landmark paused: player approached the next module.';return;}
      const result=yield* surveyFortressModule(c,dimension,record,next,{progress,allowed:box=>spacingAllows(c,box,landmarkRecords(),villageBoxes())});
-     if(result.outcome==='deferred'){retries.set(attemptKey(c),system.currentTick+1200);status=`Landmark deferred: ${result.reason}`;return;}
-     if(result.outcome==='unsuitable'&&fortressModuleRequired(next)){retries.set(attemptKey(c),system.currentTick+1200);status=`Landmark paused: required lower chamber ${next} is blocked: ${result.reason}`;return;}
+     if(result.outcome==='deferred'){retries.set(attemptKey(c),system.currentTick+1200);state.message=`Landmark deferred: ${result.reason}`;return;}
+     if(result.outcome==='unsuitable'&&fortressModuleRequired(next)){retries.set(attemptKey(c),system.currentTick+1200);state.message=`Landmark paused: required lower chamber ${next} is blocked: ${result.reason}`;return;}
      record.expansionNext++;
      if(result.outcome==='ready'){record.modules.push(next);if(result.stopExpansion){record.carvingStops??=[];record.carvingStops.push(next);}record.box=extendFortressBox(record.box,result.box);save(c,record);break;}
      save(c,record);
@@ -132,11 +141,11 @@ export function* generateLandmark(c,dimension,{preparedPlan,forcedSelection,requ
    progress(`Loading placement tile ${index+1}/${arena.sections.length}`);
    lease=chunkLease(dimension,'landmark');yield* lease.load(pos,section.size);
    progress(`Placing tile ${index+1}/${arena.sections.length}`);
-   if(!playersClear(players(),activeBox,32)){pauseForPlayer(c);status='Landmark paused: player approached its footprint.';return;}
+   if(!playersClear(players(),activeBox,32)){pauseForPlayer(c);state.message='Landmark paused: player approached its footprint.';return;}
    const supports=JSON.parse(world.getDynamicProperty(supportKey(c,index))??'[]');
    if(!record.tilePlaced){
     const volumes=(record.modular||record.id==='small_arena')?fortressBuildVolumes(section,pos):[{pos,size:section.size}];
-    for(const v of volumes)if(!(yield* clearVolume(dimension,v.pos,v.size,record.surface,record.ocean,record.supporting?['minecraft:polished_blackstone']:[],tileCarve))){status=`Landmark paused: ${obstructionReason()}`;retries.set(attemptKey(c),system.currentTick+1200);return;}
+    for(const v of volumes)if(!(yield* clearVolume(dimension,v.pos,v.size,record.surface,record.ocean,record.supporting?['minecraft:polished_blackstone']:[],tileCarve))){state.message=`Landmark paused: ${obstructionReason()}`;retries.set(attemptKey(c),system.currentTick+1200);return;}
     record.supporting=true;save(c,record);
     if(tileCarve)for(const v of volumes){
      if(!playersClear(players(),activeBox,32)){pauseForPlayer(c);return;}
@@ -154,8 +163,8 @@ export function* generateLandmark(c,dimension,{preparedPlan,forcedSelection,requ
    lease.release();lease=undefined;yield {waitTicks:2};
   }
   yield* placePlannedStructureBoss(record,dimension);
-  record.state='built';save(c,record);recordEncounterSite(record.id,record.origin,dimension.id,c.key,record.modular);status=`${arena.display_name} generated at ${record.origin.x}, ${record.origin.y}, ${record.origin.z}.`;if(record.modular)status+=` (${record.modules.length} connected modules).`;recordDiagnostic(c,'built',status);return {outcome:'built'};
- }catch(error){if(error.message==='Player approached the foundation')pauseForPlayer(c);else retries.set(attemptKey(c),system.currentTick+1200);status=`Landmark deferred: ${error.message}`;console.warn(`[Underworld landmarks] ${status}`);recordDiagnostic(c,'deferred',error.message);return {outcome:'deferred'};}
+  record.state='built';save(c,record);recordEncounterSite(record.id,record.origin,dimension.id,c.key,record.modular);state.message=`${arena.display_name} generated at ${record.origin.x}, ${record.origin.y}, ${record.origin.z}.`;if(record.modular)state.message+=` (${record.modules.length} connected modules).`;recordDiagnostic(c,'built',state.message);return {outcome:'built'};
+ }catch(error){if(error.message==='Player approached the foundation')pauseForPlayer(c);else retries.set(attemptKey(c),system.currentTick+1200);state.message=`Landmark deferred: ${error.message}`;console.warn(`[Underworld landmarks] ${state.message}`);recordDiagnostic(c,'deferred',error.message);return {outcome:'deferred'};}
  finally{lease?.release();}
 }
 export function* naturalSearch(){
@@ -165,12 +174,12 @@ export function* naturalSearch(){
   if(typeof seed!=='number'){seed=Math.floor(Math.random()*2147483647);world.setDynamicProperty('nether_settlements:terrain_seed',seed);}
   for(let attempt=0;attempt<4;attempt++){
    const candidates=naturalCandidates(online,seed,system.currentTick,{sitesPerRegion:3}),c=candidates[0];
-   if(!c){status='No unchecked or retry-ready sites currently in range; explore farther.';break;}
+   if(!c){state.message='No unchecked or retry-ready sites currently in range; explore farther.';break;}
    let result;
    if(c.family==='giant'&&!c.saved){
     let forced;const records=landmarkRecords(),villages=villageBoxes();
     const comparison=yield* compareGiantSites(candidates.filter(site=>site.key===c.key),online[0].dimension,{
-     progress:message=>{status=message;},
+     progress:message=>{state.message=message;},
      allowed:(site,id,box)=>spacingAllows({...site,id},box,records,villages),
      canContinue:()=>players().length>0,
      forcedId:()=>{forced=nextGiant();return forced?.id;},
@@ -180,7 +189,7 @@ export function* naturalSearch(){
       if(plan.outcome!=='ready')recordDiagnostic(site,plan.outcome,plan.reason);
      }
     });
-    if(comparison.outcome!=='ready'){status=comparison.outcome==='paused'?'Landmark comparison paused: no players remain in the Nether.':'No confirmed giant fit in this comparison; other sites remain available.';break;}
+    if(comparison.outcome!=='ready'){state.message=comparison.outcome==='paused'?'Landmark comparison paused: no players remain in the Nether.':'No confirmed giant fit in this comparison; other sites remain available.';break;}
     result=yield* generateLandmark(comparison.candidate,online[0].dimension,{preparedPlan:comparison.plan,forcedSelection:forced,requirePlayers:true});
    }else result=yield* generateLandmark(c,online[0].dimension,{requirePlayers:true});
    if(result?.outcome!=='rejected'&&result?.outcome!=='unsuitable')break;
@@ -200,7 +209,7 @@ system.afterEvents.scriptEventReceive.subscribe(({id,message,sourceEntity:player
   let history;try{history=JSON.parse(world.getDynamicProperty('underworld_landmarks:diagnostics')??'[]');}catch{history=[];}
   player.sendMessage(history.length?history.slice(-4).map(r=>`${r.id} at ${r.x}, ${r.z}: ${r.outcome} — ${r.reason}`).join('\n'):'No completed landmark assessments recorded yet.');
  }
- if(id==='jagsby_nether:structures_status')player.sendMessage(`[Underworld structures] ${status}`);
+ if(id==='jagsby_nether:structures_status')player.sendMessage(`[Underworld structures] ${liveStatus()}`);
  if(id==='jagsby_nether:structures_find'){
   const records=landmarkRecords().filter(r=>r.state==='built').sort((a,b)=>Math.hypot(a.x-player.location.x,a.z-player.location.z)-Math.hypot(b.x-player.location.x,b.z-player.location.z));
   const r=records[0];player.sendMessage(r?`${ARENAS[r.id].display_name}: ${r.origin.x}, ${r.origin.y}, ${r.origin.z}`:'No completed natural landmarks recorded yet.');

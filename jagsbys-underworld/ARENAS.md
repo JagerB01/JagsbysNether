@@ -144,3 +144,11 @@ Positions change in new templates only. Existing recorded spawners receive the w
 ## v0.2.116 empty-spawner repair
 
 The v0.2.114 weighted update omitted `spawn_data`, relying on the native potential pool to initialize it. That produced empty cages in live testing. Every template and one-block repair preset now contains a non-empty `spawn_data.TypeId`, matching the earlier working native format. All recorded arenas receive a new finite revision migration; selected repair mobs are saved before placement so retrying cannot reroll partial results. Old manual placements without records need encounters_register. Air and player replacement blocks remain untouched; placement locations, counts, activation distance and cooldown settings are unchanged.
+
+Chunk-loading recovery (v0.2.117): native load promise completion is sufficient
+under the stable API contract. A pending native request falls back once to command
+preload after 100 ticks or five real seconds (earlier on rejection), retaining the 600-tick / 30-real-second total deadline.
+Both backends release their owned areas; timeout messages include location and
+requested size. structures_status reports live load details and latest-stage age
+on demand. No periodic diagnostic worker is added. Native Realm acceptance remains
+pending; coverage, spacing, comparison and placement requirements are unchanged.
