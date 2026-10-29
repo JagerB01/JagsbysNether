@@ -109,7 +109,7 @@ def main():
                 source_edits[name] = content
             if name.endswith('.mcstructure'):
                 content, positions = strip_wart(content)
-                content, conversion = convert_structure_blocks(content, '/villages/' in name, '/villages/' in name and '_farm_' in name)
+                content, conversion = convert_structure_blocks(content, '/villages/' in name, '/villages/' in name and '_farm_' in name, repair_mounts=True)
                 content, _ = populate_structure_containers(content)
                 if any(conversion.values()):
                     block_conversions[name] = conversion
@@ -154,7 +154,7 @@ def main():
             continue
         if name in changed_structures:
             rebuilt, _ = strip_wart(content)
-            rebuilt, _ = convert_structure_blocks(rebuilt, '/villages/' in name, '/villages/' in name and '_farm_' in name)
+            rebuilt, _ = convert_structure_blocks(rebuilt, '/villages/' in name, '/villages/' in name and '_farm_' in name, repair_mounts=True)
             rebuilt, _ = populate_structure_containers(rebuilt)
             assert (BUILD / 'behavior_pack' / name).read_bytes() == rebuilt, name
             continue

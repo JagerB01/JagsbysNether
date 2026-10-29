@@ -26,6 +26,18 @@ def marker(final):
 
 
 class StructureBlocks(unittest.TestCase):
+    def test_open_trapdoor_faces_its_support_and_repair_is_idempotent(self):
+        source=encoded([block('minecraft:warped_stem'),block('minecraft:warped_trapdoor',
+            {'direction': (3, 0), 'open_bit': (1, 1), 'upside_down_bit': (1, 1)})],[0,1,-1])
+        result,stats=convert_structure_blocks(source,True,repair_mounts=True)
+        root=decoded(result);structure=root['structure'][1]
+        index=structure['block_indices'][1][1][0][1][1]
+        palette=structure['palette'][1]['default'][1]['block_palette'][1][1]
+        self.assertEqual(palette[index]['states'][1]['direction'][1],1)
+        self.assertEqual(palette[index]['states'][1]['upside_down_bit'][1],1)
+        self.assertEqual(stats['trapdoor_mounts'],1)
+        self.assertEqual(convert_structure_blocks(result,True,repair_mounts=True)[0],result)
+
     def test_village_torch_keeps_mounting_direction_and_entities(self):
         source=encoded([block('minecraft:redstone_torch', {'torch_facing_direction': (8, 'east')})], [0])
         result,stats=convert_structure_blocks(source,True)

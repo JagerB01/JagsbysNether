@@ -3,6 +3,8 @@ import {NS, AGE, CROPS, FARMLAND, read, offset, updateFarmland,
   randomTick, fertilize, pickBerries} from './crops.js';
 import {TILLABLE_SOIL, isVanillaHoe, updateTillingTargets, restoreUnusedTillingTarget} from './tilling.js';
 
+import {spreadNylium} from './nylium.js';
+
 const id = name => `${NS}:${name}`;
 function guard(action) {
   try { action(); } catch (error) { console.warn(`[Nether Agriculture] ${error}`); }
@@ -111,11 +113,12 @@ world.beforeEvents.playerInteractWithBlock.subscribe(event => {
   const till = ['minecraft:soul_soil', TILLABLE_SOIL].includes(type) && hoe && event.blockFace === 'Up';
   // Let the crop's native onPlayerInteract handle fertilizer, including ripe bushes.
   if (CROPS[type] && held === id('wither_bone_meal')) return;
+  const nylium = type === 'minecraft:netherrack' && held === id('wither_bone_meal') && event.blockFace === 'Up';
   const harvest = !player.isSneaking && type === id('scarberry_bush') && block.permutation.getState(AGE) >= 2;
   const carve = type === id('murky_gourd') && held === 'minecraft:shears';
-  if (!(till || harvest || carve) || !editable(player)) return;
+  if (!(till || harvest || carve || nylium) || !editable(player)) return;
   // A vanilla hoe has no competing vanilla action on soul soil.
-  if (harvest || carve) event.cancel = true;
+  if (harvest || carve || nylium) event.cancel = true;
   if (!event.isFirstEvent) return;
   const dimension = block.dimension, location = {...block.location}, slot = player.selectedSlotIndex;
   system.run(() => guard(() => {
@@ -124,7 +127,9 @@ world.beforeEvents.playerInteractWithBlock.subscribe(event => {
         (target.typeId !== type && !(till && ['minecraft:soul_soil', TILLABLE_SOIL].includes(target.typeId))) ||
         player.dimension.id !== dimension.id ||
         player.selectedSlotIndex !== slot || stack?.typeId !== held) return;
-    if (till) {
+    if (nylium) {
+      if (spreadNylium(target)) { consume(player, slot, stack); farmingFeedback(target, true); }
+    } else if (till) {
       if (dimension.id !== 'minecraft:nether') {
         player.sendMessage('Soul Soil Farmland needs the Nether.'); return;
       }

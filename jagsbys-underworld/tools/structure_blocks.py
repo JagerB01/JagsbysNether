@@ -27,7 +27,7 @@ def final_block(value):
     return name, states
 
 
-def convert_structure_blocks(data, village=False, farm=False):
+def convert_structure_blocks(data, village=False, farm=False, repair_mounts=False):
     reader = NBT(data)
     kind, name = reader.read('B'), reader.string()
     assert kind == 10
@@ -44,6 +44,39 @@ def convert_structure_blocks(data, village=False, farm=False):
     farm_soil = {i for i, b in enumerate(palette) if farm and b['name'][1] == 'minecraft:soul_sand'}
     stats = {'jigsaw_markers': 0, 'redstone_torches': 0, 'farm_soil': 0}
     changed = bool(markers or torches or farm_soil)
+    # Bedrock open trapdoors occupy the edge indicated by direction. Repair
+    # only unambiguous mounting errors, using the actual neighbouring blocks.
+    sx, sy, sz = root['size'][1][1]
+    offsets = {0: (1, 0), 1: (-1, 0), 2: (0, 1), 3: (0, -1)}
+    def support(x, y, z):
+        if not (0 <= x < sx and 0 <= y < sy and 0 <= z < sz): return False
+        index = layers[0][1][x * sy * sz + y * sz + z]
+        if index < 0: return False
+        name = palette[index]['name'][1].removeprefix('minecraft:')
+        return name in {'netherrack', 'blackstone', 'polished_blackstone', 'polished_blackstone_bricks',
+                        'nether_brick', 'red_nether_brick', 'warped_planks', 'crimson_planks',
+                        'warped_stem', 'crimson_stem', 'stripped_warped_stem', 'stripped_crimson_stem',
+                        'warped_hyphae', 'crimson_hyphae', 'stripped_warped_hyphae', 'stripped_crimson_hyphae',
+                        'warped_nylium', 'crimson_nylium', 'soul_soil', 'soul_sand'}
+    stats['trapdoor_mounts'] = 0
+    for _, indices in (layers if repair_mounts else []):
+        for index, block_index in enumerate(indices):
+            if block_index < 0: continue
+            original = palette[block_index]
+            name = original['name'][1]
+            states = original['states'][1]
+            if not (name.endswith('_trapdoor') or name == 'minecraft:trapdoor') or not states.get('open_bit', (1, 0))[1]: continue
+            direction = states.get('direction', (3, -1))[1]
+            if direction not in offsets: continue
+            x, rest = divmod(index, sy * sz); y, z = divmod(rest, sz)
+            dx, dz = offsets[direction]
+            if support(x + dx, y, z + dz) or not support(x - dx, y, z - dz): continue
+            replacement = dict(original)
+            replacement['states'] = (10, dict(states, direction=(3, direction ^ 1)))
+            if replacement not in palette: palette.append(replacement)
+            indices[index] = palette.index(replacement)
+            stats['trapdoor_mounts'] += 1
+            changed = True
     for _, indices in layers:
         for index, block_index in enumerate(indices):
             if block_index in farm_soil:
