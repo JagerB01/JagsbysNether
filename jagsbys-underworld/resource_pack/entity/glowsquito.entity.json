@@ -9,7 +9,8 @@
       },
       "textures": {
         "default": "textures/entity/glowsquito/glowsquitoid",
-        "glow": "textures/entity/glowsquito/glowsquitoid_glow"
+        "glow": "textures/entity/glowsquito/glowsquitoid_glow",
+        "carrying": "textures/entity/glowsquito/glowsquitoid_shroomlight"
       },
       "geometry": {
         "default": "geometry.jagsby_nether.glowsquito"

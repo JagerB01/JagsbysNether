@@ -1,4 +1,4 @@
-# Jagsby's Underworld v1.0.3
+# Jagsby's Underworld v1.0.4
 
 Underworld combines Nether villages and structures, agriculture, lava fishing,
 Skitterchests, Hongos, Glowsquitos, food buffs and Infernal Lords in one `.mcaddon`
@@ -8,7 +8,7 @@ are required.
 
 ## Realm installation and upgrades
 
-Activate **Jagsby's Underworld v1.0.3 Behavior** and **Resources** together.
+Activate **Jagsby's Underworld v1.0.4 Behavior** and **Resources** together.
 Pack UUIDs, item/entity identifiers and saved world records are unchanged. Existing
 structures are not rebuilt. In-progress generation and storage records remain.
 A leftover forced giant test choice is cleared once on the first v1.0.0 load.
@@ -61,20 +61,22 @@ PYTHONDONTWRITEBYTECODE=1 python3 tools/build.py
 ```
 
 The builder validates assets and runs Python/Node checks before producing
-`../downloads/Jagsbys_Underworld_v1.0.3.mcaddon`. Source inspection files are under
+`../downloads/Jagsbys_Underworld_v1.0.4.mcaddon`. Source inspection files are under
 ignored `.build/`. The original `pack_icon.png` is required for release builds.
 Automated tests and build tools stay in the repository, outside the playable packs.
 Original source references, credits and licenses remain bundled; see [CREDITS.txt](CREDITS.txt).
 
-The release has **525 automated checks**. Native trial completion, actual combat
+The release has **526 automated checks**. Native trial completion, actual combat
 health loss, rendering and Realm performance still require in-game verification;
 no Bedrock client is available in this workspace. [TESTING.txt](TESTING.txt) keeps
 the regression checklist, and [PERFORMANCE.md](PERFORMANCE.md) describes scheduling.
 
-## v1.0.3
+## v1.0.4
 
 Wither Bone Meal spreads a small surface patch of biome-matched nylium on exposed netherrack in Crimson and Warped Forests. It consumes one item only when terrain changes, and adds no background scans. Imported structure trapdoors with an unambiguous reversed mounting are corrected during the build; existing world structures are unchanged.
 
 ## Mooring I
 
 Hold an Obsidian Fishing Rod in the main hand and a Mooring I book in the offhand, then crouch-interact with an anvil. Survival consumes the book; rod durability, name and native enchantments are retained. The custom enchantment is stored on the rod, not the player. While held, it sets native knockback resistance to 1 and restores the saved value when unequipped. Work runs only while equipped; no player entity override or damage cancellation is used. `/scriptevent jagsby_nether:mooring_status` reports native attribute availability and value. Native in-game behavior and MineScape interaction still need Bedrock testing. The book uses the supplied NetherBook.png texture, copied unchanged from NetherBook.zip. No loot distribution has been added.
+
+Glowsquitos use the original Infernal Expansion shroomlight appearance while carrying pollen back to a Glowhusk, returning to their normal appearance after depositing. The existing client-synced pollen property drives the texture; no additional timers or scans are added.

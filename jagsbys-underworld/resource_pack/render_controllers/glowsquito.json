@@ -9,7 +9,7 @@
         }
       ],
       "textures": [
-        "Texture.default"
+        "Array.appearance[query.property('jagsby_nether:pollen')]"
       ],
       "part_visibility": [
         {
@@ -18,7 +18,15 @@
         {
           "pollen": "!query.property('jagsby_nether:inside') && query.property('jagsby_nether:pollen')"
         }
-      ]
+      ],
+      "arrays": {
+        "textures": {
+          "Array.appearance": [
+            "Texture.default",
+            "Texture.carrying"
+          ]
+        }
+      }
     },
     "controller.render.jagsby_nether.glowsquito_glow": {
       "geometry": "Geometry.default",

@@ -24,7 +24,7 @@ function fixture({baby=false,litCampfire=false,full=false}={}){
 }
 function deposit(f,bee=f.b,block=f.block){f.colony.pollinated(bee);assert(f.colony.reach(block,bee));}
 test('only the supplied Glowsquito design is imported, with animated original model parts',()=>{
- const meta=json('behavior_pack/docs/glowsquito/SOURCE_METADATA.json');assert.equal(Object.keys(meta.assets).length,2);
+ const meta=json('behavior_pack/docs/glowsquito/SOURCE_METADATA.json');assert.equal(Object.keys(meta.assets).length,3);
  assert(Object.keys(meta.assets).every(p=>p.includes('/textures/entity/glowsquitoid')));
  for(const asset of Object.values(meta.assets))assert.equal(createHash('sha256').update(readFileSync(new URL('../'+asset.target,import.meta.url))).digest('hex'),asset.sha256);
  const g=json('resource_pack/models/entity/glowsquito.geo.json')['minecraft:geometry'][0];
@@ -153,4 +153,17 @@ test('stuck pollen return waits twenty seconds then deposits once without replac
  f.system.currentTick=399;f.timers.shift().callback();assert.equal(f.block.permutation.getState(LEVEL),0);
  f.system.currentTick=400;f.timers.shift().callback();assert.equal(f.block.permutation.getState(LEVEL),1);assert.equal(f.b.getDynamicProperty(INSIDE),true);assert.equal(f.entities.get(f.b.id),f.b);
  f.colony.enter(f.block,f.b);assert.equal(f.block.permutation.getState(LEVEL),1);
+});
+
+test('carrying appearance uses the original shroomlight texture and resets with the pollen state',()=>{
+ const entity=json('behavior_pack/entities/glowsquito.json')['minecraft:entity'];
+ assert.equal(entity.description.properties['jagsby_nether:pollen'].client_sync,true);
+ assert.equal(entity.events['jagsby_nether:pollinated'].set_property['jagsby_nether:pollen'],true);
+ assert.equal(entity.events['jagsby_nether:forage'].set_property['jagsby_nether:pollen'],false);
+ for(const event of ['enter','exit'])assert.equal(entity.events[`jagsby_nether:${event}`].set_property['jagsby_nether:pollen'],false);
+ const client=json('resource_pack/entity/glowsquito.entity.json')['minecraft:client_entity'].description;
+ assert.equal(client.textures.carrying,'textures/entity/glowsquito/glowsquitoid_shroomlight');
+ const render=json('resource_pack/render_controllers/glowsquito.json').render_controllers['controller.render.jagsby_nether.glowsquito'];
+ assert.deepEqual(render.arrays.textures['Array.appearance'],['Texture.default','Texture.carrying']);
+ assert.deepEqual(render.textures,["Array.appearance[query.property('jagsby_nether:pollen')]"]);
 });

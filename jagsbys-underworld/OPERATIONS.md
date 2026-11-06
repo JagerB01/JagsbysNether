@@ -1,6 +1,6 @@
-# Underworld v1.0.3 — Realm operations and future testing
+# Underworld v1.0.4 — Realm operations and future testing
 
-Activate the v1.0.3 behavior and resource packs together. Pack UUIDs, item/entity
+Activate the v1.0.4 behavior and resource packs together. Pack UUIDs, item/entity
 identifiers and saved structure/storage records are unchanged. Existing buildings
 are not rebuilt. The first v1.0.0 world load clears a leftover `next_giant` test
 choice once; in-progress construction is preserved. Later explicit admin choices

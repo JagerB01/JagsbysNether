@@ -1,12 +1,12 @@
-Jagsby's Underworld v1.0.3 — release and regression checklist
+Jagsby's Underworld v1.0.4 — release and regression checklist
 
-Automated validation: 525 checks. These cover assets, reference integrity, actual
+Automated validation: 526 checks. These cover assets, reference integrity, actual
 BP-event pipeline models, scripted state and scheduling. They do not execute a
 Bedrock client, native trial encounters, pathfinding, rendering or Realm profiling.
 Use OPERATIONS.md for commands. Retain tests and build tools in the repository.
 
 1. Realm upgrade and idle operation
-   Import Jagsbys_Underworld_v1.0.3.mcaddon; activate its BP and RP together.
+   Import Jagsbys_Underworld_v1.0.4.mcaddon; activate its BP and RP together.
    Verify existing builds, player items, Skitterchest inventories and MineScape
    progression persist. Confirm a saved build resumes after load. Startup test-kit
    messages should be absent. lords_status should report tracing:false by default.
@@ -63,7 +63,9 @@ Use OPERATIONS.md for commands. Retain tests and build tools in the repository.
    Diagnostic tools must be off in the normal-play baseline. A version bump and
    automated checks alone do not prove native Realm performance or completion.
 
-Nylium and trapdoors (v1.0.3)
+Nylium and trapdoors (v1.0.4)
 Use Wither Bone Meal on exposed netherrack in both forest biomes; verify a patch, one-item survival consumption, and no consumption in other biomes. Check new village trapdoors against their supports. Existing builds are not retroactively edited.
 
 Mooring I: apply at anvil with rod main hand/book offhand; verify survival consumes one book, creative retains it, and durability/native enchantments persist. Test melee, arrows and explosions while held, switching slots, armor changes, logout/rejoin, death, Mercury Seed and Combat Poise. mooring_status must report native=1 while held. Confirm damage remains normal and previous resistance returns on unequip. Native attribute access is not verified by the automated mock.
+
+Glowsquito carrying appearance: pollinate a fungus, confirm the orange shroomlight appearance while returning, then verify the normal appearance after depositing and exiting the Glowhusk.
