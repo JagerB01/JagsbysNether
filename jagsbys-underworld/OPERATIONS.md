@@ -1,6 +1,6 @@
-# Underworld v1.0.1 — Realm operations and future testing
+# Underworld v1.0.2 — Realm operations and future testing
 
-Activate the v1.0.1 behavior and resource packs together. Pack UUIDs, item/entity
+Activate the v1.0.2 behavior and resource packs together. Pack UUIDs, item/entity
 identifiers and saved structure/storage records are unchanged. Existing buildings
 are not rebuilt. The first v1.0.0 world load clears a leftover `next_giant` test
 choice once; in-progress construction is preserved. Later explicit admin choices
@@ -78,3 +78,5 @@ Keep automated tests/build tools in the repository for future changes. The
 `.mcaddon` contains the two playable packs, current reference documents, credits
 and licenses. Native trial completion, combat/rendering and Realm performance
 require in-game checks; see [TESTING.txt](TESTING.txt).
+
+Mooring test item: `/give @s jagsby_nether:mooring_book`. Inspect held state and native knockback resistance with `/scriptevent jagsby_nether:mooring_status`.

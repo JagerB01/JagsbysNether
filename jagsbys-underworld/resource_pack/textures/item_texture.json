@@ -166,6 +166,9 @@
     },
     "jagsby_nether_ruinous_ember": {
       "textures": "textures/items/key/hovering_inferno"
+    },
+    "jagsby_mooring_book": {
+      "textures": "textures/items/mooring_book"
     }
   }
 }

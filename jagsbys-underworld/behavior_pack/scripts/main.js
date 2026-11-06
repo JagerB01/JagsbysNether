@@ -23,3 +23,5 @@ import './trial_spawner_protection.js';
 import './glowsquito/main.js';
 
 import './infernal_lords/main.js';
+
+import './lava_fishing/mooring.js';
