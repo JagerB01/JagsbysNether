@@ -19,6 +19,31 @@
           ]
         }
       }
+    },
+    "animation.jagsby_nether.glowsquito.gather": {
+      "loop": true,
+      "animation_length": 2.4,
+      "bones": {
+        "root": {
+          "position": [
+            "math.sin(query.anim_time * 150) * 0.7",
+            "math.sin(query.anim_time * 300) * 0.65",
+            0
+          ],
+          "rotation": [
+            "8 + math.sin(query.anim_time * 150) * 4",
+            0,
+            "math.sin(query.anim_time * 150) * 3"
+          ]
+        },
+        "head": {
+          "rotation": [
+            "math.sin(query.anim_time * 300) * 4",
+            0,
+            0
+          ]
+        }
+      }
     }
   }
 }

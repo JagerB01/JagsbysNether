@@ -167,3 +167,20 @@ test('carrying appearance uses the original shroomlight texture and resets with 
  assert.deepEqual(render.arrays.textures['Array.appearance'],['Texture.default','Texture.carrying']);
  assert.deepEqual(render.textures,["Array.appearance[query.property('jagsby_nether:pollen')]"]);
 });
+
+test('fungus arrival starts a bounded gathering bob, interrupted by collection, retreat or housing',()=>{
+ const e=json('behavior_pack/entities/glowsquito.json')['minecraft:entity'];
+ assert.equal(e.description.properties['jagsby_nether:gathering'].client_sync,true);
+ assert.equal(e.component_groups.forage['minecraft:behavior.move_to_block'].on_reach[0].event,'jagsby_nether:start_gathering');
+ assert.equal(e.component_groups.gathering_animation['minecraft:timer'].time,e.component_groups.forage['minecraft:behavior.move_to_block'].stay_duration);
+ assert.equal(e.events['jagsby_nether:start_gathering'].set_property['jagsby_nether:gathering'],true);
+ for(const event of ['stop_gathering','pollinated','forage','enter','exit','homeless','defend','retry','reject_home']){
+  assert.equal(e.events[`jagsby_nether:${event}`].set_property['jagsby_nether:gathering'],false);
+  assert(e.events[`jagsby_nether:${event}`].remove.component_groups.includes('gathering_animation'));
+ }
+ const c=json('resource_pack/entity/glowsquito.entity.json')['minecraft:client_entity'].description;
+ assert(c.scripts.animate[1].gather.includes('query.modified_move_speed < 0.05'));
+ const animations=json('resource_pack/animations/glowsquito.animation.json').animations;
+ assert(animations[c.animations.gather].bones.root.position);
+ assert(animations[c.animations.flight].bones.left_wing);
+});

@@ -19,6 +19,11 @@
         "jagsby_nether:wake_cycle": {
           "type": "bool",
           "default": false
+        },
+        "jagsby_nether:gathering": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
         }
       }
     },
@@ -159,6 +164,12 @@
               "event": "jagsby_nether:pollinated",
               "target": "self"
             }
+          ],
+          "on_reach": [
+            {
+              "event": "jagsby_nether:start_gathering",
+              "target": "self"
+            }
           ]
         }
       },
@@ -265,6 +276,16 @@
       },
       "bred": {
         "minecraft:persistent": {}
+      },
+      "gathering_animation": {
+        "minecraft:timer": {
+          "time": 20,
+          "looping": false,
+          "time_down_event": {
+            "event": "jagsby_nether:stop_gathering",
+            "target": "self"
+          }
+        }
       }
     },
     "components": {
@@ -367,11 +388,13 @@
         "remove": {
           "component_groups": [
             "forage",
-            "discover"
+            "discover",
+            "gathering_animation"
           ]
         },
         "set_property": {
-          "jagsby_nether:pollen": true
+          "jagsby_nether:pollen": true,
+          "jagsby_nether:gathering": false
         }
       },
       "jagsby_nether:forage": {
@@ -383,12 +406,14 @@
         "remove": {
           "component_groups": [
             "return",
-            "inside"
+            "inside",
+            "gathering_animation"
           ]
         },
         "set_property": {
           "jagsby_nether:inside": false,
-          "jagsby_nether:pollen": false
+          "jagsby_nether:pollen": false,
+          "jagsby_nether:gathering": false
         }
       },
       "jagsby_nether:claim_home": {
@@ -417,12 +442,14 @@
             "return",
             "discover",
             "retry",
-            "angry"
+            "angry",
+            "gathering_animation"
           ]
         },
         "set_property": {
           "jagsby_nether:inside": true,
-          "jagsby_nether:pollen": false
+          "jagsby_nether:pollen": false,
+          "jagsby_nether:gathering": false
         }
       },
       "jagsby_nether:exit": {
@@ -436,12 +463,14 @@
           "component_groups": [
             "inside",
             "return",
-            "retry"
+            "retry",
+            "gathering_animation"
           ]
         },
         "set_property": {
           "jagsby_nether:inside": false,
-          "jagsby_nether:pollen": false
+          "jagsby_nether:pollen": false,
+          "jagsby_nether:gathering": false
         }
       },
       "jagsby_nether:homeless": {
@@ -457,17 +486,27 @@
             "assigned",
             "inside",
             "return",
-            "retry"
+            "retry",
+            "gathering_animation"
           ]
         },
         "set_property": {
-          "jagsby_nether:inside": false
+          "jagsby_nether:inside": false,
+          "jagsby_nether:gathering": false
         }
       },
       "jagsby_nether:defend": {
         "add": {
           "component_groups": [
             "angry"
+          ]
+        },
+        "set_property": {
+          "jagsby_nether:gathering": false
+        },
+        "remove": {
+          "component_groups": [
+            "gathering_animation"
           ]
         }
       },
@@ -486,8 +525,12 @@
         },
         "remove": {
           "component_groups": [
-            "discover"
+            "discover",
+            "gathering_animation"
           ]
+        },
+        "set_property": {
+          "jagsby_nether:gathering": false
         }
       },
       "jagsby_nether:discover": {
@@ -517,11 +560,33 @@
         "remove": {
           "component_groups": [
             "discover",
-            "return"
+            "return",
+            "gathering_animation"
           ]
         },
         "set_property": {
-          "jagsby_nether:pollen": false
+          "jagsby_nether:pollen": false,
+          "jagsby_nether:gathering": false
+        }
+      },
+      "jagsby_nether:start_gathering": {
+        "set_property": {
+          "jagsby_nether:gathering": true
+        },
+        "add": {
+          "component_groups": [
+            "gathering_animation"
+          ]
+        }
+      },
+      "jagsby_nether:stop_gathering": {
+        "set_property": {
+          "jagsby_nether:gathering": false
+        },
+        "remove": {
+          "component_groups": [
+            "gathering_animation"
+          ]
         }
       }
     }

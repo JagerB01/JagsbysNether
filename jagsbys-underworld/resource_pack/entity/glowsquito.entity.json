@@ -16,11 +16,15 @@
         "default": "geometry.jagsby_nether.glowsquito"
       },
       "animations": {
-        "flight": "animation.jagsby_nether.glowsquito.flight"
+        "flight": "animation.jagsby_nether.glowsquito.flight",
+        "gather": "animation.jagsby_nether.glowsquito.gather"
       },
       "scripts": {
         "animate": [
-          "flight"
+          "flight",
+          {
+            "gather": "query.property('jagsby_nether:gathering') && !query.property('jagsby_nether:pollen') && !query.property('jagsby_nether:inside') && query.modified_move_speed < 0.05"
+          }
         ]
       },
       "render_controllers": [

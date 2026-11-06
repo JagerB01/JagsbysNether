@@ -18,5 +18,6 @@
     }
   },
   "model_source": "https://github.com/infernalexp/Infernal-Expansion/blob/5d9ecd72b51de70efea7b6550752fc58c6322c6f/src/main/java/org/infernalstudios/infernalexp/client/entity/model/GlowsquitoModel.java",
-  "model_class_sha256": "9f3d6e485d08b7948577d8b5f367de5d7fbd923374b5a2b92095cf7cd4e6228e"
+  "model_class_sha256": "9f3d6e485d08b7948577d8b5f367de5d7fbd923374b5a2b92095cf7cd4e6228e",
+  "gathering_animation_adaptation": "Underworld adds a client-side root bob/sway and head dip during native fungus gathering. Original imported textures, model and wing animation are retained."
 }
