@@ -60,4 +60,4 @@ is documented in INFERNAL_LORDS.md. No separate license/credits files were found
 in the two supplied Dungeons source archives; existing subsystem notices remain
 unchanged. This integration does not relicense the original Dungeons content.
 
-Mooring book temporary icon: Mojang bedrock-samples resource_pack/textures/items/book_enchanted.png (vanilla Minecraft asset); supplied custom artwork pending accessible PNG.
+Mooring book icon: user-supplied NetherBook.png from NetherBook.zip; original PNG preserved unchanged.
