@@ -5,7 +5,7 @@ export const SOUL_LIGHT_RANGES=Object.freeze({
  'minecraft:soul_lantern':16,
  'minecraft:soul_campfire':20,
 });
-// Monster-family add-on mobs are covered automatically. The explicit vanilla
+// Monster/hostile-family add-on mobs are covered automatically. The explicit vanilla
 // list also covers hostile mobs such as hoglins that do not use that family.
 const VANILLA_HOSTILES=new Set([
  'blaze','bogged','breeze','cave_spider','creeper','drowned','elder_guardian',
@@ -15,12 +15,19 @@ const VANILLA_HOSTILES=new Set([
  'vex','vindication_illager','vindicator','warden','witch','wither',
  'wither_skeleton','zoglin','zombie','zombie_pigman','zombified_piglin',
 ].map(type=>'minecraft:'+type));
+// Verified in MineScape 1.5.58 Eternal End Slayer and hunt compatibility data.
+// Explicit compatibility covers hostile mobs with custom/non-monster families.
+const ADDON_HOSTILES=new Set(['panascais_end:gilded_golem']);
 const WILD_HOSTILE_CHESTS=new Set(['jagsby_nether:crimson_skitterchest','jagsby_nether:warped_skitterchest']);
 export function isHostileSpawn(entity){
  if(entity.isValid===false)return false;
- if(entity.hasComponent('minecraft:is_tamed')||entity.getProperty('jagsby_nether:tamed')===true)return false;
- return VANILLA_HOSTILES.has(entity.typeId)||WILD_HOSTILE_CHESTS.has(entity.typeId)
-  ||entity.getComponent('minecraft:type_family')?.hasTypeFamily?.('monster')===true;
+ if(entity.hasComponent('minecraft:is_tamed'))return false;
+ // This property belongs only to our tameable Skitterchests. Foreign entity
+ // definitions need not declare it and may reject the property lookup.
+ if(WILD_HOSTILE_CHESTS.has(entity.typeId)&&entity.getProperty('jagsby_nether:tamed')===true)return false;
+ if(VANILLA_HOSTILES.has(entity.typeId)||ADDON_HOSTILES.has(entity.typeId)||WILD_HOSTILE_CHESTS.has(entity.typeId))return true;
+ const family=entity.getComponent('minecraft:type_family');
+ return family?.hasTypeFamily?.('monster')===true||family?.hasTypeFamily?.('hostile')===true;
 }
 export function protectedBySoulLight(entity){
  const {dimension,location}=entity;

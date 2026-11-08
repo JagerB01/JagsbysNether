@@ -74,3 +74,32 @@ test('extinguished soul campfires provide no protection until relit',()=>{
  assert.equal(suppressHostileSpawn(f.entity),false);assert.equal(f.removed(),0);
  extinguished=false;assert.equal(suppressHostileSpawn(f.entity),true);
 });
+
+test('foreign hostiles do not read an undeclared Underworld tame property',()=>{
+ for(const family of ['monster','hostile']){
+  const f=fixture('other:hostile_mob',undefined,[family]);f.light();
+  f.entity.getProperty=()=>{throw Error('Unknown entity property');};
+  world.afterEvents.entitySpawn.emit({entity:f.entity});
+  assert.equal(f.removed(),1);assert.equal(f.queries(),1);
+ }
+});
+test('foreign passive golems remain allowed without an undeclared property lookup',()=>{
+ const f=fixture('other:friendly_golem',undefined,['irongolem','mob']);f.light();
+ f.entity.getProperty=()=>{throw Error('Unknown entity property');};
+ assert.equal(suppressHostileSpawn(f.entity),false);assert.equal(f.queries(),0);
+});
+test('custom-tamed Skitterchests remain protected from spawn suppression',()=>{
+ const f=fixture('jagsby_nether:crimson_skitterchest',undefined,['monster']);f.light();
+ f.entity.getProperty=()=>true;
+ assert.equal(suppressHostileSpawn(f.entity),false);assert.equal(f.queries(),0);
+});
+
+test('Eternal End Gilded Golems are suppressed without relying on monster families',()=>{
+ const f=fixture('panascais_end:gilded_golem',undefined,['gilded_golem','mob']);f.light();
+ f.entity.getProperty=()=>{throw Error('Unknown entity property');};
+ world.afterEvents.entitySpawn.emit({entity:f.entity});assert.equal(f.removed(),1);assert.equal(f.queries(),1);
+ const tamed=fixture('panascais_end:gilded_golem',undefined,['gilded_golem'],true);tamed.light();
+ assert.equal(suppressHostileSpawn(tamed.entity),false);assert.equal(tamed.queries(),0);
+ const distant=fixture('panascais_end:gilded_golem',{x:13.5,y:64.5,z:.5},['gilded_golem']);distant.light();
+ assert.equal(suppressHostileSpawn(distant.entity),false);
+});

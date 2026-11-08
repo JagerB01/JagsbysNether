@@ -1,4 +1,4 @@
-# Jagsby's Underworld v1.0.5
+# Jagsby's Underworld v1.0.6
 
 Underworld combines Nether villages and structures, agriculture, lava fishing,
 Skitterchests, Hongos, Glowsquitos, food buffs and Infernal Lords in one `.mcaddon`
@@ -8,7 +8,7 @@ are required.
 
 ## Realm installation and upgrades
 
-Activate **Jagsby's Underworld v1.0.5 Behavior** and **Resources** together.
+Activate **Jagsby's Underworld v1.0.6 Behavior** and **Resources** together.
 Pack UUIDs, item/entity identifiers and saved world records are unchanged. Existing
 structures are not rebuilt. In-progress generation and storage records remain.
 A leftover forced giant test choice is cleared once on the first v1.0.0 load.
@@ -61,17 +61,17 @@ PYTHONDONTWRITEBYTECODE=1 python3 tools/build.py
 ```
 
 The builder validates assets and runs Python/Node checks before producing
-`../downloads/Jagsbys_Underworld_v1.0.5.mcaddon`. Source inspection files are under
+`../downloads/Jagsbys_Underworld_v1.0.6.mcaddon`. Source inspection files are under
 ignored `.build/`. The original `pack_icon.png` is required for release builds.
 Automated tests and build tools stay in the repository, outside the playable packs.
 Original source references, credits and licenses remain bundled; see [CREDITS.txt](CREDITS.txt).
 
-The release has **527 automated checks**. Native trial completion, actual combat
+The release has **531 automated checks**. Native trial completion, actual combat
 health loss, rendering and Realm performance still require in-game verification;
 no Bedrock client is available in this workspace. [TESTING.txt](TESTING.txt) keeps
 the regression checklist, and [PERFORMANCE.md](PERFORMANCE.md) describes scheduling.
 
-## v1.0.5
+## v1.0.6
 
 Wither Bone Meal spreads a small surface patch of biome-matched nylium on exposed netherrack in Crimson and Warped Forests. It consumes one item only when terrain changes, and adds no background scans. Imported structure trapdoors with an unambiguous reversed mounting are corrected during the build; existing world structures are unchanged.
 
@@ -82,3 +82,5 @@ Hold an Obsidian Fishing Rod in the main hand and a Mooring I book in the offhan
 Glowsquitos use the original Infernal Expansion shroomlight appearance while carrying pollen back to a Glowhusk, returning to their normal appearance after depositing. The existing client-synced pollen property drives the texture; no additional timers or scans are added.
 
 Glowsquitos gently bob, sway and dip their heads while gathering at fungus. Native arrival events and a bounded native timer drive a client-side animation; no new script scans or polling are added.
+
+Soul lights recognize both monster and hostile families, plus Eternal End’s verified panascais_end:gilded_golem identifier. Underworld-only taming properties are queried only on Skitterchests. Torch/lantern/lit campfire ranges remain 12/16/20 blocks; suppression is spawn-triggered with no recurring scan, loot or XP. Existing mobs are unaffected. Other add-on hostiles without either family require explicit compatibility IDs.
