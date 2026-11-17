@@ -1,0 +1,11 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "murky_gourd_top",
+    "metalness_emissive_roughness": [
+      0,
+      0,
+      230
+    ]
+  }
+}

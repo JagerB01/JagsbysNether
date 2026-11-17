@@ -18,10 +18,10 @@
       }
     },
     "components": {
-      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:geometry": "geometry.glowhusk_empty",
       "minecraft:material_instances": {
         "*": {
-          "texture": "shroomlight",
+          "texture": "jagsby_glowhusk_empty",
           "render_method": "opaque"
         }
       },
@@ -36,6 +36,20 @@
       "minecraft:movable": {
         "movement_type": "immovable"
       }
-    }
+    },
+    "permutations": [
+      {
+        "condition": "query.block_state('jagsby_nether:wax_level') == 5",
+        "components": {
+          "minecraft:geometry": "geometry.glowhusk_full",
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "jagsby_glowhusk_full",
+              "render_method": "opaque"
+            }
+          }
+        }
+      }
+    ]
   }
 }

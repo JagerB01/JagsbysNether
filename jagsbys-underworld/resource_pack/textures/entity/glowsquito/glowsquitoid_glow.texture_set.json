@@ -1,0 +1,7 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:texture_set": {
+    "color": "glowsquitoid_glow",
+    "metalness_emissive_roughness": "glowsquitoid_glow_mer"
+  }
+}

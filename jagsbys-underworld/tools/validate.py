@@ -42,6 +42,8 @@ def main():
     scripts = [m for m in manifests[0]["modules"] if m["type"] == "script"]
     assert len(scripts) == 1 and scripts[0]["entry"] == "scripts/main.js"
     assert (BP / "pack_icon.png").read_bytes() == (RP / "pack_icon.png").read_bytes()
+    assert struct.unpack(">II", (RP / "pack_icon.png").read_bytes()[16:24]) == (256, 256)
+    assert "pbr" in manifests[1].get("capabilities", [])
     for path in [BP / "docs/settlements/LICENSE.txt", BP / "docs/agriculture/ORIGINAL_LICENSE.txt"]:
         assert path.is_file(), path
     assert manifests[0]["dependencies"][0]["uuid"] == manifests[1]["header"]["uuid"]
@@ -122,7 +124,7 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
     for atlas in [terrain, icons]:
         for texture in atlas.values():
             assert (RP / (texture["textures"] + ".png")).is_file(), texture
-    geometry = {g["description"]["identifier"] for g in load(RP / "models/blocks/nether_agriculture.geo.json")["minecraft:geometry"]}
+    geometry = {g["description"]["identifier"] for path in (RP / "models/blocks").rglob("*.json") for g in load(path).get("minecraft:geometry", [])}
     registered = {"jagsby_nether:crop", "jagsby_nether:farmland", "jagsby_nether:tillable_soil", "jagsby_nether:glowhusk"}
     identifiers = set()
     blocks = {}
@@ -142,7 +144,7 @@ console.log(`Resolved ${Object.keys(catalog).length} settlement assets, ${Object
             if "minecraft:geometry" in group:
                 assert group["minecraft:geometry"] in geometry | {"minecraft:geometry.full_block"}
             for material in group.get("minecraft:material_instances", {}).values():
-                assert material["texture"] in terrain or material["texture"] == "soul_soil" or (name == "jagsby_nether:glowhusk" and material["texture"] == "shroomlight"), material
+                assert material["texture"] in terrain or material["texture"] == "soul_soil", material
     for path in (BP / "items").rglob("*.json"):
         item = load(path)["minecraft:item"]
         name = item["description"]["identifier"]

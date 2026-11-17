@@ -1,4 +1,4 @@
-# Jagsby's Underworld v1.0.6
+# Jagsby's Underworld v1.0.7
 
 Underworld combines Nether villages and structures, agriculture, lava fishing,
 Skitterchests, Hongos, Glowsquitos, food buffs and Infernal Lords in one `.mcaddon`
@@ -8,7 +8,7 @@ are required.
 
 ## Realm installation and upgrades
 
-Activate **Jagsby's Underworld v1.0.6 Behavior** and **Resources** together.
+Activate **Jagsby's Underworld v1.0.7 Behavior** and **Resources** together.
 Pack UUIDs, item/entity identifiers and saved world records are unchanged. Existing
 structures are not rebuilt. In-progress generation and storage records remain.
 A leftover forced giant test choice is cleared once on the first v1.0.0 load.
@@ -40,7 +40,7 @@ transfer; ordinary Underworld updates preserve Underworld records.
   Raw fish restore hunger/saturation without scripted food effects.
 - Tamed Crimson/Warped Skitterchests open native storage while standing; crouching
   toggles sitting. Matching tamed Hongos deposit nuggets into sitting chests.
-- Glowsquitos use Glowhusks to produce Glow Wax. Hive/wax artwork remains temporary;
+- Glowsquitos use Glowhusks to produce Glow Wax. Hives use the supplied empty/full Glowhusk artwork; wax uses a temporary icon;
   dispenser shearing and occupied Silk Touch relocation are unsupported.
 - Five crafted foods stack to 16 and double selected MineScape primary skill bonuses
   for 20 minutes, with one active food buff at a time.
@@ -61,8 +61,8 @@ PYTHONDONTWRITEBYTECODE=1 python3 tools/build.py
 ```
 
 The builder validates assets and runs Python/Node checks before producing
-`../downloads/Jagsbys_Underworld_v1.0.6.mcaddon`. Source inspection files are under
-ignored `.build/`. The original `pack_icon.png` is required for release builds.
+`../downloads/Jagsbys_Underworld_v1.0.7.mcaddon`. Source inspection files are under
+ignored `.build/`. The supplied Underworld artwork is stored at 256×256 in `pack_icon.png` and is required for release builds; the builder copies it into both packs.
 Automated tests and build tools stay in the repository, outside the playable packs.
 Original source references, credits and licenses remain bundled; see [CREDITS.txt](CREDITS.txt).
 
@@ -84,3 +84,9 @@ Glowsquitos use the original Infernal Expansion shroomlight appearance while car
 Glowsquitos gently bob, sway and dip their heads while gathering at fungus. Native arrival events and a bounded native timer drive a client-side animation; no new script scans or polling are added.
 
 Soul lights recognize both monster and hostile families, plus Eternal End’s verified panascais_end:gilded_golem identifier. Underworld-only taming properties are queried only on Skitterchests. Torch/lantern/lit campfire ranges remain 12/16/20 blocks; suppression is spawn-triggered with no recurring scan, loot or XP. Existing mobs are unaffected. Other add-on hostiles without either family require explicit compatibility IDs.
+
+The resource pack supports Vibrant Visuals through its `pbr` capability and texture sets. See [GLOWSQUITO.md](GLOWSQUITO.md) for Glowhusk crafting, artwork states and remaining live checks.
+
+## v1.0.7
+
+Adds the supplied empty/full Glowhusk models, confirms the crafting-bench recipes and recipe-book unlocks, enables Vibrant Visuals PBR resources, and replaces the pack selection icon with the supplied Underworld artwork resized to 256×256. Pack UUIDs and saved wax levels are unchanged.

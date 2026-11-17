@@ -53,7 +53,7 @@ test('wild spawn rules use only forest biomes, relative weights 3:1, and bounded
 test('all 64 mixed Nether-plank combinations craft one hive; wax and redstone craft two gunpowder',()=>{
  const files=readdirSync(new URL('../behavior_pack/recipes/glowhusk',import.meta.url));assert.equal(files.length,64);
  const patterns=new Set();
- for(const filename of files){const r=json(`behavior_pack/recipes/glowhusk/${filename}`)['minecraft:recipe_shaped'];patterns.add(r.pattern[0]+r.pattern[2]);assert.deepEqual(r.result,{item:HIVE,count:1});assert.equal(r.pattern[1],'DSD');assert(Object.values(r.key).every(k=>['minecraft:crimson_planks','minecraft:warped_planks','minecraft:glowstone_dust','minecraft:shroomlight'].includes(k.item)));}
+ for(const filename of files){const r=json(`behavior_pack/recipes/glowhusk/${filename}`)['minecraft:recipe_shaped'];patterns.add(r.pattern[0]+r.pattern[2]);assert.deepEqual(r.result,{item:HIVE,count:1});assert.equal(r.pattern[1],'DSD');assert.deepEqual(r.tags,['crafting_table']);assert.deepEqual(r.unlock,{context:'AlwaysUnlocked'});assert(Object.values(r.key).every(k=>['minecraft:crimson_planks','minecraft:warped_planks','minecraft:glowstone_dust','minecraft:shroomlight'].includes(k.item)));}
  assert.equal(patterns.size,64);
  const r=json('behavior_pack/recipes/glow_wax_gunpowder.json')['minecraft:recipe_shapeless'];assert.deepEqual(r.ingredients,[{item:WAX},{item:'minecraft:redstone'}]);assert.deepEqual(r.result,{item:'minecraft:gunpowder',count:2});
 });

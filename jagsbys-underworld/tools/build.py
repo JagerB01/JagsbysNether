@@ -60,6 +60,7 @@ def main():
     assert icon[:8] == b'\x89PNG\r\n\x1a\n', 'Pack cover must be a PNG'
     width, height = struct.unpack('>II', icon[16:24])
     assert width == height and width > 0, 'Pack cover must be square'
+    assert placeholder or (width, height) == (256, 256), 'Release pack icon must be 256 x 256'
     if BUILD.exists():
         shutil.rmtree(BUILD)
     for directory in ('behavior_pack', 'resource_pack'):

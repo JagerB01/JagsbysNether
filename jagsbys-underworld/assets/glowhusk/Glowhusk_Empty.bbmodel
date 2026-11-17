@@ -1,0 +1,134 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "bedrock",
+    "box_uv": false
+  },
+  "name": "Glowhusk Empty",
+  "model_identifier": "geometry.glowhusk_empty",
+  "resolution": {
+    "width": 64,
+    "height": 64
+  },
+  "textures": [
+    {
+      "name": "Glowhusk_Empty.png",
+      "id": "0",
+      "uuid": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEQUlEQVR4nO2YXU/bVhiAH4dESUwhKSGQjIQG2BI2hU2DbWL9QNpu9nf6U/oPdrM/UGna1bRpUzd1FWOjYlVDBQ0EBISPYmiCY0tkF8aunTgQMCJQnUdCiv2+j9+Tg9/j40jp6ft1f1HhIlRUheD4MDfZlz5O5+v9vXHr5HTG+Py0uN1SNHN+fP6CaDBAqi9hxTLxHgCK24ctfTPnSeEV+zUdL/UBT7704WC2fvtWrGXyaWzGuxjc2CcZiZ+d7MK/sk7wdRkv9b36UiyarsuhCL33JpBmFx0JSq0GQCQYbJKVWo2qatx6N9mXBqLD9e5QpCmhHSonA7jJvn+sP0aqL9F279rja3t+euQQowND9AR9ABzWjlv6jTnL5XUOq2rb9RvHsLbnB/Dk+3VdR1VVHidHAQiEuuibnmSrUCT3zFhkCl99wmAuw3yhSK70bnHRdR1d86GqKr9k7hj+mz3Lv/tyBYA/x+8wmMuwVSha7t2XK+iaxnnqbxWKzAMk4+SevUDXdQBPvpSOj9Yj8m1rYEqtxsOZrOvsPfp9kYczWb7/y/hiSvUNAI0+tO47e+w6+K5rQKW2T1VXHefkQIjuYNSZdw162Kvv/3osRTaRcvTuD09/cxW+y+ccx8vldcIBiWwixfp+1RGbT/Tw2abRa0NRGaApp7S7QV930KpvrhEAP4W6eKAYt3ir9cVe/6K+/6BSY1txDkwOhJruADB6zY6uaShvdbrYa8rNFVXM7KXN5msBaJrOAVj17Zf/UsHyVXfdWEM0b76Ujo/W6TL+Q2ZvlA/KrsJA74DjeEMpIwcCNPp2TuvJ6+C7rgG9cqApGeCgqjuO2+lB+V6e6h8LrrHr4EsPxqfq6VgSMHrV3qetetektLvBTqXm2IvbOWtfvnOwTX93ELN+I+3UBzz5fk0znsMLn+eYBUhC/p8CAI+TxrOdJI7nuBnXNB1d01BVFeWbSevCkV/nTvyTiUnGHb4Z1zUNLeCz6pucpz7gyW/aB4B739S/yCLNLjpibs/hm+ZLH8x8W5eXdnAjFup2PQ+wq1Z4e6Tgy4/hxd/cW5FaJl0B/uOFJbKpEQCWPh1l7PmyFYyE3RdDgNhRkLk1Ba9+p/GbH0ZiYUbWNyAWBuDnoST3i6WWonLkPPbqdwq//WBr/92oJvaXWVWNRWZ1Ksfw3wUrNhyTXS/m1e8EvsYTiqpbfyb2wa9O5RqVS/WvmqYJOAv7l/Hlx85d0Kt/2Zx7AuwcLyx5Ku7Vvww8TcD7gJiATg+g0/jA2MB4wavfSXyAY/d2kceUV7+TNLXAxH/LREIBIqHAhb6MV/+qcewEB6NhRzBSLMHJru1JJn3q1vYy/E5gTcDr3ebNuf1lZvJVCfNnhbmP0o7b/jL8TiEl+u7Ub4Xdf1Jq53UWwIvf6ddhgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgE7z//A2Fe+9Ggu/SVAAAAAElFTkSuQmCC"
+    }
+  ],
+  "elements": [
+    {
+      "name": "Glowhusk 16x16x16 nest block",
+      "type": "cube",
+      "uuid": "28abc54f-d0c5-46b7-b4a5-0d7654d30022",
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3"
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3"
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3"
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            64,
+            16
+          ],
+          "texture": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3"
+        },
+        "up": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3"
+        },
+        "down": {
+          "uv": [
+            16,
+            16,
+            32,
+            32
+          ],
+          "texture": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3"
+        }
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "Bee Nest \u2014 single 16x16x16 block",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "color": 0,
+      "uuid": "f064fc10-da37-43b0-b176-d500ba8707f9",
+      "children": [
+        "28abc54f-d0c5-46b7-b4a5-0d7654d30022"
+      ]
+    }
+  ],
+  "outliner": [
+    {
+      "name": "Glowhusk \u2014 full cube",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "color": 0,
+      "uuid": "f064fc10-da37-43b0-b176-d500ba8707f9",
+      "children": [
+        "28abc54f-d0c5-46b7-b4a5-0d7654d30022"
+      ]
+    }
+  ]
+}

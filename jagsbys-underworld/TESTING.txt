@@ -1,12 +1,12 @@
-Jagsby's Underworld v1.0.6 — release and regression checklist
+Jagsby's Underworld v1.0.7 — release and regression checklist
 
-Automated validation: 531 checks. These cover assets, reference integrity, actual
+Automated validation: 534 checks (495 JavaScript tests and 39 structure tests). These cover assets, reference integrity, actual
 BP-event pipeline models, scripted state and scheduling. They do not execute a
 Bedrock client, native trial encounters, pathfinding, rendering or Realm profiling.
 Use OPERATIONS.md for commands. Retain tests and build tools in the repository.
 
 1. Realm upgrade and idle operation
-   Import Jagsbys_Underworld_v1.0.6.mcaddon; activate its BP and RP together.
+   Import Jagsbys_Underworld_v1.0.7.mcaddon; activate its BP and RP together.
    Verify existing builds, player items, Skitterchest inventories and MineScape
    progression persist. Confirm a saved build resumes after load. Startup test-kit
    messages should be absent. lords_status should report tracing:false by default.
@@ -73,3 +73,17 @@ Glowsquito carrying appearance: pollinate a fungus, confirm the orange shroomlig
 Gathering motion: watch arrival at both fungus variants; confirm subtle body bob/sway and head dip alongside wing flutter. Verify the motion stops during return flight, on attack/retreat, and after hive entry. Native animation appearance requires a Bedrock client.
 
 Soul light compatibility: with Eternal End active, spawn Gilded Golems inside and just outside soul torch (12), lantern (16), and lit campfire (20) ranges. Confirm no loot/XP from rejected spawns and existing mobs remain. Inspect Content Log for errors. Check tamed pets and passive golems remain unaffected.
+
+Glowhusk artwork and Vibrant Visuals
+- At a crafting bench, carry six Crimson/Warped planks (any mix), two Glowstone
+  Dust and one Shroomlight. Enable the recipe book's craftable filter and verify
+  one Glowhusk is offered. Top/bottom rows: planks; middle: Dust/Shroomlight/Dust.
+- Place a hive and check all six faces against the supplied empty model. After
+  five pollen deposits it must use the full artwork; shearing resets to empty.
+- Repeat in Classic and Vibrant Visuals on a supported device. Check full wax
+  emission, Glowsquito eyes/glow while normal/carrying, crops and existing mobs.
+  Check the Content Log for missing geometry, textures and invalid texture sets.
+
+Pack selection icon
+- Confirm both BP and RP use the supplied gold/red Underworld logo at 256×256.
+  The former pixel-art logo is replaced in the active add-on.

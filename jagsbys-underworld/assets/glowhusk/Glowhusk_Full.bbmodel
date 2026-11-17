@@ -1,0 +1,134 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "bedrock",
+    "box_uv": false
+  },
+  "name": "Glowhusk Full",
+  "model_identifier": "geometry.glowhusk_full",
+  "resolution": {
+    "width": 64,
+    "height": 64
+  },
+  "textures": [
+    {
+      "name": "Glowhusk_Full.png",
+      "id": "0",
+      "uuid": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFWUlEQVR4nO2ZS2wTRxjHf3bs2nFIHeIY22AHkzR2gPBuCpRHS6UKiUqohx4qpPbMpaKvC71U7aFVD62K6KGXqpWoqh6qikiUSxAIRCveUJoi4jTBeZEXptmAw3qXxj2sd+P1IwnZKE7Q/k6zM99/vpnxzDffri2hbTvTtrjAbEiKAo7GWhaz3rI61JSuedarVW4LK+UL8ZGiQtXmxM1bVDnsBKv9WlvYWwlAfORBUb1qc769g9GUjBH/gCG95TlfJL10iaeo8VQMesvwDYwScHunNy7ADZeM484wRvwb1Vs8VaG0y+nm2R3rsFyJ6QyEVAoAt8ORJxZSKcZFZestZr1lWVVtusLpzjOYCcnMABaz3lZf4yFY7eetNR26xmO3GvIEuTafn/dQ6XJSt2wFlQ4ru7zXZuT4ZN9GALqG+3kwLhKs9hP2Vs5Yr46t774NwJDeJssyoiiycW0lodd20Pvb7wB8aKsjekkJMu0vrMEXDfNqw3+6jj49cxdZsiKKIqfDK2lhL6eif+j6ycbb4GXDiQYIw4u3u5ElCdV/S6Bu5vr1EL10C1mWAQzpLSFvXdrtWsrlI0ogiRy8y7u7IwVX7utzMXpOv4wYi9F8KIEw/i8AbtdSzUZIpYh9u1x7bj6U0MqXj3iIHLyrncmFoLel5MckU5JmZMPCF62XGZdF3eRddicVjirEmBJokimJlPxYK2fr1xwcyF+9rHbVfiHobdvrg0T8Qd77ZoJ9wRvsbdrIjxfOFhTvbYoCY1q5a7ifcruFiD9I/+i4zvZPfyUbBpVcYEWVK1M7yvb6lZpNb2KA6goHEX+QB6kJKh1Wre2ks4xdgrLFJ+tHM2NQyPY/W71tLJliRJgc/L7gDfa94ebAL/nZlSiKtB7v4td/GgERWZIQHsqUcT/PNhoXUfdQ56BSaj0eRxTDmo0kyYyB5l/M2nTNApperW893oUoNmo2siQhS8b0lpC3Lk2Z8gupZ2N4bDhvQt3fr9Y9Nx9KMCAM47LbydZ/tmf6tPSjM8q1tRD0eXnA2Q9sOuPciPrSl4+18lT3cG4/2bqFpLfsatySDnkCgHJW1bP8ZsNtnfHPHY15HfQmBriXTOly8Wymy8vvjY1QU+FA9Z+LGjty40u2f8CQ3iZJyj3ctinKFYAANF1v54e/wrRtmgwYvtfDDLXHAaUdlDMsSxKiKCLs2azZus8oCUlLILMwAS++6KRebZclCclu1fyrqP23BDIBM4BOn+0fMKTX8oBsCuXQ6ecjWK7EdG2F7uHFprcs3/1K2tV5j0J4nBUF6wESYpKHjwSsTfUY0Q/e77YUNZoHbBNtnUSCqwDoXF9H/c0urdFdbi8q9DxycK1PwKi+1GihcpWnnFX9A+ApB+DUigA7471FhcIj/bNRfanQ3RVDo5OjWjfaRY+oBJmeLVFqr7ZrbbUeF4Uwqi8FttyKtzf0FTAbgq1w9KJPmcxUv2xm0tlkT346/XyjW4CvDgiA8r2u0Cvld2vHget8Eq8BwNpUz0Rb5xM5rL3aDpkdYG2qh3Pdsxz63KBbgPd/cnPs42cAEGMxvA35Cc7+w0lqM5/gnnTyuRjVzwV5R2D/4SQA72wd0tUfveibnxHNM3kLoPK0TjgX6/QmTzdWUBIYIxjVlxIroMveerZEixoXw6i+lOQdgXV/d+F22nE77bOajFH9fKMLgr6qcl2jO96r3dnnw6EpU9u50JcCbQHuJPKT8+yXmc0dvaifFa41hHTbfi70pcLir16ZXlJe+K+lmbzOAhjRl/p12MTExMTExMTExMTExMTExMTExMTExMTExMTExMTExOTp538K3De0AW7uqQAAAABJRU5ErkJggg=="
+    }
+  ],
+  "elements": [
+    {
+      "name": "Glowhusk 16x16x16 nest block",
+      "type": "cube",
+      "uuid": "28abc54f-d0c5-46b7-b4a5-0d7654d30022",
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3"
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3"
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3"
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            64,
+            16
+          ],
+          "texture": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3"
+        },
+        "up": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3"
+        },
+        "down": {
+          "uv": [
+            16,
+            16,
+            32,
+            32
+          ],
+          "texture": "1174ae7d-a4f1-478c-a5e9-b53d08c55bc3"
+        }
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "Bee Nest \u2014 single 16x16x16 block",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "color": 0,
+      "uuid": "f064fc10-da37-43b0-b176-d500ba8707f9",
+      "children": [
+        "28abc54f-d0c5-46b7-b4a5-0d7654d30022"
+      ]
+    }
+  ],
+  "outliner": [
+    {
+      "name": "Glowhusk \u2014 full cube",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "color": 0,
+      "uuid": "f064fc10-da37-43b0-b176-d500ba8707f9",
+      "children": [
+        "28abc54f-d0c5-46b7-b4a5-0d7654d30022"
+      ]
+    }
+  ]
+}
